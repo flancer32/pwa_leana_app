@@ -55,17 +55,17 @@ export default class Fl32_Leana_Back_Route_App_Sw_FilesToCache_Pub {
             }
 
             // define paths to scan
-            const pathWeb = $path.join(pathRoot, 'web/pub');
-            const pathSrcRealm = $path.join(pathRoot, 'src/Realm/Pub');
-            const pathSrcRealmShared = $path.join(pathRoot, 'src/Realm/Shared');
-            const pathSrcShared = $path.join(pathRoot, 'src/Shared');
+            const pathWeb = $path.join(pathRoot, 'node_modules/@flancer32/pwa_leana_app/web/pub');
+            const pathSrcFront = $path.join(pathRoot, 'node_modules/@flancer32/pwa_leana_app/src/Front/Pub');
+            const pathSrcFrontShared = $path.join(pathRoot, 'node_modules/@flancer32/pwa_leana_app/src/Front/Shared');
+            const pathSrcShared = $path.join(pathRoot, 'node_modules/@flancer32/pwa_leana_app/src/Shared');
 
             // scan paths and compose one array with URLs to cache
             const urlWeb = scanOneFolder(pathWeb, '.');
-            const urlSrcRealm = scanOneFolder(pathSrcRealm, './src/leana/Realm/Pub');
-            const urlSrcRealmShared = scanOneFolder(pathSrcRealmShared, './src/leana/Realm/Shared');
+            const urlSrcFront = scanOneFolder(pathSrcFront, './src/leana/Front/Pub');
+            const urlSrcFrontShared = scanOneFolder(pathSrcFrontShared, './src/leana/Front/Shared');
             const urlSrcShared = scanOneFolder(pathSrcShared, './src/leana/Shared');
-            const urls = [].concat(urlWeb, urlSrcRealm, urlSrcRealmShared, urlSrcShared);
+            const urls = [].concat(urlWeb, urlSrcFront, urlSrcFrontShared, urlSrcShared);
 
             // manually add files from the root & parent
             urls.push('.');

@@ -77,7 +77,7 @@
                 self.teqfw.router = initRouter();
                 self.teqfw.i18next = await initI18n(self.teqfw.app);
                 // load root component and mount frontend application to DOM
-                const appRoot = await container.get('Fl32_Leana_Realm_Pub_App$$');
+                const appRoot = await container.get('Fl32_Leana_Front_Pub_App$$');
                 self.teqfw.app.component('appRoot', appRoot);
                 self.teqfw.app.mount('BODY > DIV');
             } catch (e) {

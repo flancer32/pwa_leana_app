@@ -1,5 +1,5 @@
 /**
- * Service worker for default frontend realm.
+ * Service worker for 'desk' frontend realm.
  *
  * @type {ServiceWorkerGlobalScope} self
  */
