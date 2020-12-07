@@ -1,0 +1,22 @@
+{
+  "name": "@flancer32/pwa_leana_app",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Main module for 'Leana' PWA.",
+  "homepage": "http://leanafrizetava.lv/",
+  "bugs": {
+    "url": "https://github.com/flancer32/pwa_leana_app/issues",
+    "email": "alex@flancer32.com"
+  },
+  "license": "GPL-3.0",
+  "author": {
+    "name": "Alex Gusev",
+    "email": "alex@flancer64.com",
+    "url": "https://github.com/flancer64"
+  },
+  "repository": "github:flancer32/pwa_leana_app",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "teqfw": {}
+}

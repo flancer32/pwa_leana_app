@@ -1,2 +1,2 @@
-# pwa_leana_app
-Main module for 'Leana' PWA
+# Main module for 'Leana' PWA
+
