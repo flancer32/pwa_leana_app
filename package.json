@@ -16,7 +16,9 @@
   },
   "repository": "github:flancer32/pwa_leana_app",
   "scripts": {},
-  "dependencies": {},
+  "dependencies": {
+    "@teqfw/core-app": "github:teqfw/core-app"
+  },
   "devDependencies": {},
   "teqfw": {}
 }
