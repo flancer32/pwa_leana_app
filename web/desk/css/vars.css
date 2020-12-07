@@ -1,0 +1,17 @@
+/* Define default values for CSS variables */
+:root {
+    --color-back-main: #f9efed;
+    --color-back-top: #f1e7e4;
+    --color-bright: #c1433b;
+    --color-front-light: #f1e7e4;
+    --font-size-large: 20px;
+    --grid-gap: 10px;
+    --icon-size-l: 120px;
+    --icon-size-m: 60px;
+    --icon-size-s: 30px;
+    --input-height: 40px;
+    --layout-actions-bar-height: 50px;
+    --layout-status-bar-height: 70px;
+    --table-gap: 5px;
+    --table-row-height: 40px;
+}

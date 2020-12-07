@@ -1,0 +1,43 @@
+:root {
+    --booking-col-time-width: 60px;
+    --booking-padding: 5px;
+    --booking-row-height: 60px;
+    --booking-task-color-bg: peachpuff;
+}
+
+.book_panel {
+    display: grid;
+    grid-auto-rows: var(--booking-row-height);
+}
+
+.book_panel_entry {
+    border-bottom: 1px solid #c1807c;
+    display: grid;
+    grid-template-columns: var(--booking-col-time-width) 1fr;
+    grid-auto-rows: var(--booking-row-height);
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.panel_entry_tasks {
+    position: relative;
+}
+
+.panel_entry_tasks_item {
+    position: absolute;
+    background-color: var(--booking-task-color-bg);
+    border: 1px solid #c1433b;
+    border-radius: var(--booking-padding);
+    overflow: hidden;
+}
+
+.panel_entry_time {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 5px;
+}
+
+.panel_entry_tasks {
+    height: 100%;
+    border-left: 1px solid #c1807c;
+}

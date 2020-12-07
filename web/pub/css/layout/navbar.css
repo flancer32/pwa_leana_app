@@ -1,0 +1,43 @@
+/* Navigation bar */
+
+#nav_bar {
+    font-size: var(--font-size-large);
+    /* content alignment */
+    align-items: center;
+    justify-items: center;
+    /* nested grid in navigator (3 columns) */
+    display: grid;
+    grid-template-columns: var(--layout-navbar-height) 1fr var(--layout-navbar-height);
+    grid-template-rows: var(--layout-navbar-height);
+    grid-template-areas:
+        "left" "center" "right";
+}
+
+
+#nav_bar_center {
+}
+
+#nav_bar_right {
+}
+
+
+#menu_left, #menu_right {
+    position: fixed;
+    top: var(--layout-navbar-height);
+    max-width: 50%;
+    max-height: calc(100% - var(--layout-navbar-height));
+    background-color: var(--color-back-top);
+    padding: 20px;
+}
+
+#menu_left {
+    left: 0;
+}
+
+#menu_right {
+    right: 0;
+}
+
+#menu_left DIV, #menu_right DIV {
+    margin: 20px;
+}

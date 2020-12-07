@@ -1,0 +1,39 @@
+.timepicker .inputs {
+    /* define grid */
+    display: grid;
+    grid-template-columns: auto  1fr;
+    grid-gap: var(--grid-gap);
+}
+
+.timepicker .entries INPUT[type="radio"] {
+    width: auto;
+}
+
+.timepicker .entries {
+    /* content alignment */
+    align-items: center;
+    justify-items: stretch;
+    /* grid configuration */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5px;
+    row-gap: 5px;
+}
+
+.timepicker .entries DIV {
+    border: 2px solid var(--color-back-light);
+    border-radius: 5px;
+    /*background-color: #fff4e6;*/
+
+    /* content alignment */
+    align-items: center;
+    justify-items: center;
+    /* grid configuration */
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.timepicker .entries DIV LABEL {
+    width: 100%;
+    text-align: center;
+}

@@ -1,0 +1,24 @@
+/* Data edit forms  */
+
+.edit {
+    display: grid;
+    grid-template-columns:  1fr;
+    grid-gap: var(--grid-gap);
+}
+
+.edit .row {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: var(--grid-gap);
+    align-items: center;
+    /*justify-items: center;*/
+}
+
+.edit .row .field.editable {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-gap: var(--grid-gap);
+    align-items: center;
+    /*justify-items: center;*/
+}
+

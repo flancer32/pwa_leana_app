@@ -1,0 +1,60 @@
+BODY {
+    /*background-color: #f1e7e4;*/
+}
+
+.icon {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    background-color: peachpuff;
+}
+
+.icon-bike {
+    background-image: url(icon/bootstrap-icons.svg#heart-fill);
+    /*color: grey;*/
+    width: 32px;
+    height: 32px;
+}
+
+
+.bi::before {
+    display: inline-block;
+    content: "aaaaa";
+}
+
+.color-red {
+    color: red;
+    fill: #FF9E2C;
+}
+
+.filter-green {
+    filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);
+}
+
+.filter-green:hover, .filter-red {
+    filter: invert(80%) sepia(31%) saturate(4865%) hue-rotate(336deg) brightness(101%) contrast(101%);
+}
+
+.icon-size-72 {
+    /*width: 72px;*/
+    /*height: 72px;*/
+    /*background-size: 72px 72px*/
+}
+
+.icon {
+    display: block;
+}
+
+.logo-s {
+    width: 32px;
+    height: 32px;
+    background: url(icon/list.svg);
+    background-size: 32px 32px;
+}
+
+.logo-l {
+    width: 72px;
+    height: 72px;
+    background: url(icon/list.svg);
+    background-size: 72px 72px;
+}

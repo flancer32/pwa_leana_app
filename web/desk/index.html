@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Dashboard for Leana Hairdresser Salon.">
+    <title>Leana Desk</title>
+    <link rel="manifest" href="pwa.webmanifest">
+    <script>
+        async function bootstrap() {
+
+            // DEFINE INNER FUNCTIONS
+            /**
+             * Import code, create and setup Dependency Injection container for frontend.
+             *
+             * @returns {Promise<TeqFw_Di_Container>}
+             */
+            async function initDiContainer() {
+                const baseUrl = location.origin;
+                // create and setup DI Container
+                const modContainer = await import('../src/@teqfw/di/Container.mjs');
+                /** @type {TeqFw_Di_Container} */
+                const result = new modContainer.default();
+                result.addSourceMapping('Fl32_Leana', baseUrl + '/src/leana', true, 'mjs');
+                return result;
+            }
+
+            /**
+             * Load frontend configuration from API using simple 'fetch'.
+             *
+             * @returns {Promise<{}>}
+             */
+            async function loadConfig() {
+                // load frontend configuration and user profile
+                const res = await fetch('../api/app/config/get');
+                const json = await res.json();
+                return json.response.config;
+            }
+
+            /**
+             * Initialize 'i18next' library to use internationalization.
+             *
+             * @param {Object} app
+             * @returns {Promise<i18n>}
+             */
+            async function initI18n(app) {
+                self.i18next.use(self.i18nextBrowserLanguageDetector);
+                await self.i18next.init({});
+                const appProps = app.config.globalProperties;
+                // arrow function uses current scope with 'self'
+                appProps.$t = (key, options) => {
+                    return self.i18next.t(key, options);
+                };
+                return self.i18next;
+            }
+
+            /**
+             * Create and initialize Vue3 router.
+             *
+             * @returns {*}
+             */
+            function initRouter() {
+                return self.VueRouter.createRouter({
+                    history: self.VueRouter.createWebHashHistory(),
+                    routes: []
+                });
+            }
+
+            // MAIN FUNCTIONALITY
+            try {
+                // initialize objects loader (Dependency Injection container)
+                const container = await initDiContainer();
+                // create 'teqfw' object in global scope and populate it with old-style loaded objects
+                self.teqfw = {};
+                self.teqfw.lib = {Vue: self.Vue, Vuex: self.Vuex, VueRouter: self.VueRouter};
+                // create vue application, load config, init router and i18n
+                self.teqfw.app = self.Vue.createApp({});
+                self.teqfw.config = await loadConfig();
+                self.teqfw.router = initRouter();
+                self.teqfw.i18next = await initI18n(self.teqfw.app);
+                // load root component and mount frontend application to DOM
+                const appRoot = await container.get('Fl32_Leana_Realm_Desk_App$$');
+                self.teqfw.app.component('appRoot', appRoot);
+                self.teqfw.app.mount('BODY > DIV');
+            } catch (e) {
+                console.error("Error in bootstrap: " + e + "\n" + e.stack);
+            }
+        }
+
+        if ("serviceWorker" in navigator) { // if browser supports service workers
+            // ... then add event handler to run script after window will be loaded
+            // (https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event)
+            self.addEventListener("load", async () => {
+                const container = navigator.serviceWorker;
+                if (container.controller === null) {
+                    // ... to load "sw.js" script and register service worker in navigator
+                    try {
+                        const reg = await container.register("sw.js");
+                        if (reg.active) {
+                            console.log("SW is registered and is active.", reg);
+                            await bootstrap();
+                        } else {
+                            console.log("SW is registered but is not activated yet.", reg);
+                            // wait for `controllerchange` (see `clients.claim()` in SW code on `activate` event)
+                            container.addEventListener("controllerchange", async () => {
+                                // SW just installed (page's first load).
+                                await bootstrap();
+                            });
+                        }
+                    } catch (e) {
+                        console.error("SW registration is failed: " + e + "\n" + e.stack)
+                    }
+                } else {
+                    // SW already installed before (repeated loading of the page).
+                    console.log("SW is already running for this app.");
+                    await bootstrap();
+                }
+
+            });
+        }
+    </script>
+</head>
+<body>
+<div style="height: 100%;">
+    <app-root></app-root>
+</div>
+<!-- load application styles -->
+<link rel="stylesheet" href="styles.css">
+<!-- These scripts are not ESM ready for loading with ES6 'import'. Use old style loading.  -->
+<script type="application/javascript" src="../node/vue/vue.global.js"></script>
+<script type="application/javascript" src="../node/vue-router/vue-router.global.js"></script>
+<script type="application/javascript" src="../node/vuex/vuex.global.js"></script>
+<script type="application/javascript" src="../node/i18next/i18next.min.js"></script>
+<script type="application/javascript" src="../node/i18next-bld/i18nextBrowserLanguageDetector.js"></script>
+<link rel="stylesheet" href="../node/js-datepicker/datepicker.min.css">
+<script type="application/javascript" src="../node/js-datepicker/datepicker.min.js"></script>
+<script type="application/javascript" src="../lib/all.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+/* common styles for all modes (portrait, landscape & tablet) */
+BUTTON {
+    min-height: var(--input-height);
+    min-width: var(--input-height);
+}
+
+#layer_base {
+    position: relative;
+    top: var(--layout-status-bar-height);
+    width: 100%;
+    will-change: transform;
+    z-index: 0;
+}
+
+#layer_status_bar {
+    background-color: var(--color-back-top);
+    height: var(--layout-status-bar-height);
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    will-change: transform;
+    z-index: 1000;
+}
+
+
+#status_bar {
+    align-items: center;
+    display: grid;
+    grid-auto-flow: column;
+    height: 100%;
+    justify-items: center;
+}
+
+#layer_side_bar {
+    background-color: var(--color-back-top);
+    height: var(--layout-navbar-height);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1500;
+}
+
+#layer_overlay {
+    /*align-items: center;*/
+    /*justify-items: center;*/
+    background-color: var(--color-back-main);
+    display: grid;
+    grid-gap: var(--grid-gap);
+    grid-template-columns:1fr;
+    grid-template-rows:  auto 1fr;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    transition: opacity 500ms;
+    visibility: hidden;
+    width: 100%;
+    z-index: 2000;
+}
+
+.layer_overlay_close {
+    /*align-self: center;*/
+    justify-self: end;
+}
+
+.layer_overlay_content {
+    justify-self: center;
+    overflow: scroll;
+}
+
+#layer_notification {
+    display: none;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    will-change: transform;
+    z-index: 3000;
+}
+

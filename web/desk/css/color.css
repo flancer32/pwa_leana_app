@@ -1,0 +1,11 @@
+/* Filter generator: https://codepen.io/sosuke/pen/Pjoqqp */
+
+/* #A0807E */
+.filter-top-fg {
+    filter: invert(52%) sepia(3%) saturate(2695%) hue-rotate(315deg) brightness(102%) contrast(81%);
+}
+
+BUTTON {
+    background-color: var(--color-bright);
+    color: var(--color-front-light);
+}

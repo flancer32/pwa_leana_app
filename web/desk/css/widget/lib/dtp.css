@@ -1,0 +1,25 @@
+.teq_ui_dtp {
+    --actions-height: 40px;
+    display: grid;
+    grid-row-gap: var(--grid-gap);
+    grid-template-rows: var(--actions-height) 1fr;
+    height: 100%;
+    margin: auto;
+    width: 100%;
+}
+
+.teq_ui_dtp_actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.teq_ui_dtp_content {
+    /*height: 100%;*/
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr repeat(4, fit-content(10px) 1fr);
+    grid-auto-flow: column;
+    align-items: center;
+}

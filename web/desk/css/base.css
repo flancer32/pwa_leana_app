@@ -1,0 +1,19 @@
+/* base rules according to SMACSS (http://smacss.com/) */
+HTML, BODY {
+    box-sizing: border-box;
+    height: 100%;
+    margin: 0;
+    width: 100%;
+}
+
+INPUT, TEXTAREA, BUTTON {
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+}
+
+
+INPUT {
+    height: var(--input-height);
+    width: 100%;
+}

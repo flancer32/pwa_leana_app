@@ -1,0 +1,16 @@
+.action_bar {
+    /*width: 100%;*/
+    /*height: var(--layout-actions-bar-height);*/
+    background-color: var(--color-back-main);
+    /* grid */
+    display: grid;
+    grid-template-rows:  var(--layout-actions-bar-height);
+    grid-auto-columns: auto;
+    grid-auto-flow: column;
+    grid-gap: var(--grid-gap);
+    align-items: center;
+    justify-items: center;
+}
+
+
+

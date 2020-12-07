@@ -1,0 +1,46 @@
+.icon {
+    display: block;
+}
+
+
+.i-size-s {
+    width: var(--icon-size-s);
+    height: var(--icon-size-s);
+    background-size: var(--icon-size-s) var(--icon-size-s);
+}
+
+
+.i-size-m {
+    width: var(--icon-size-m);
+    height: var(--icon-size-m);
+    background-size: var(--icon-size-m) var(--icon-size-m);
+}
+
+
+.i-size-l {
+    width: var(--icon-size-l);
+    height: var(--icon-size-l);
+    background-size: var(--icon-size-l) var(--icon-size-l);
+}
+
+
+.i-list-s {
+    width: 32px;
+    height: 32px;
+    background: url(icon/list.svg);
+    background-size: 32px 32px;
+}
+
+.i-list-l {
+    width: 72px;
+    height: 72px;
+    background: url(icon/list.svg);
+    background-size: 72px 72px;
+}
+
+
+.i-calendar {
+    background: url(icon/calendar.svg) no-repeat;
+}
+
+

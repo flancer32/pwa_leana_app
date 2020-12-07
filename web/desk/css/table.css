@@ -1,0 +1,51 @@
+/* Table/grid related styles */
+
+.table {
+    color: #422c2a;
+    display: grid;
+    grid-auto-flow: row;
+    grid-gap: var(--table-gap);
+}
+
+.table-actions {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: min-content;
+    align-self: center;
+    justify-self: end;
+}
+
+.table-filters {
+    display: none;
+}
+
+.table-head {
+    background-color: var(--color-back-top);
+    /* alignment*/
+    min-height: var(--table-row-height);
+    align-items: center;
+    justify-items: center;
+    /* grid */
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: var(--table-gap);
+}
+
+.table-body {
+    display: grid;
+    grid-auto-flow: row;
+    grid-gap: var(--table-gap);
+}
+
+.table-row {
+    /* alignment*/
+    min-height: var(--table-row-height);
+    align-items: center;
+    justify-items: center;
+    /* grid */
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: var(--table-gap);
+    border: 2px solid var(--color-back-top);
+    border-radius: 5px;
+}
