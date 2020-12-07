@@ -3,14 +3,14 @@ import {describe, it} from 'mocha';
 import devEnv from '../../../DevEnv.mjs';
 
 
-describe('Fl32_Leana_App_Server_Route_Static:', () => {
+describe('TeqFw_Core_App_Server_Route_Static:', () => {
 
     it('is available in Dev environment', async () => {
         /** @type {TeqFw_Di_Container} */
         const container = await devEnv();
-        /** @type {Fl32_Leana_App_Server_Route_Static} */
-        const obj = await container.get('Fl32_Leana_App_Server_Route_Static$');
-        assert.strictEqual(obj.constructor.name, 'Fl32_Leana_App_Server_Route_Static');
+        /** @type {TeqFw_Core_App_Server_Route_Static} */
+        const obj = await container.get('TeqFw_Core_App_Server_Route_Static$');
+        assert.strictEqual(obj.constructor.name, 'TeqFw_Core_App_Server_Route_Static');
 
         describe('handle HTTP requests:', () => {
 

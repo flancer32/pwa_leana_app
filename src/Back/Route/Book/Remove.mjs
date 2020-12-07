@@ -5,8 +5,8 @@ export default class Fl32_Leana_Back_Route_Book_Remove {
 
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
-        /** @type {Fl32_Leana_App_Db_Connector} */
-        const _db = spec.Fl32_Leana_App_Db_Connector$;
+        /** @type {TeqFw_Core_App_Db_Connector} */
+        const _db = spec.TeqFw_Core_App_Db_Connector$;
         /** @type {Fl32_Leana_Back_Service_Book_Remove} */
         const srvRemove = spec.Fl32_Leana_Back_Service_Book_Remove$;
         const ApiRequest = spec['Fl32_Leana_Shared_Api_Route_Book_Remove#Request'];
@@ -19,7 +19,7 @@ export default class Fl32_Leana_Back_Route_Book_Remove {
          * @param req
          * @param res
          * @returns {Promise<void>}
-         * @see Fl32_Leana_App_Server.addApiRoute
+         * @see TeqFw_Core_App_Server.addApiRoute
          */
         this.handle = async function (req, res) {
             // PARSE INPUT & DEFINE WORKING VARS

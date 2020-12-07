@@ -6,8 +6,8 @@ export default class Fl32_Leana_Back_Route_Book_State_Get {
     constructor(spec) {
         /** @type {TeqFw_Di_Container} */
         const _container = spec.TeqFw_Di_Container$;
-        /** @type {Fl32_Leana_App_Db_Connector} */
-        const _db = spec.Fl32_Leana_App_Db_Connector$;
+        /** @type {TeqFw_Core_App_Db_Connector} */
+        const _db = spec.TeqFw_Core_App_Db_Connector$;
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
         /**
@@ -16,7 +16,7 @@ export default class Fl32_Leana_Back_Route_Book_State_Get {
          * @param req
          * @param res
          * @returns {Promise<void>}
-         * @see Fl32_Leana_App_Server.addApiRoute
+         * @see TeqFw_Core_App_Server.addApiRoute
          */
         this.handle = async function (req, res) {
             // PARSE INPUT & DEFINE WORKING VARS

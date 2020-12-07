@@ -6,7 +6,7 @@ import $fs from 'fs';
 
 // MODULE'S EXPORT
 export default class Fl32_Leana_Back_Cli_Start {
-    // these 4 props are used in the base class 'Fl32_Leana_App_Cli_Command'
+    // these 4 props are used in the base class 'TeqFw_Core_App_Cli_Command'
     action
     description = 'Start web server.'
     name = 'start'
@@ -14,18 +14,18 @@ export default class Fl32_Leana_Back_Cli_Start {
 
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
-        /** @type {Fl32_Leana_App_Defaults} */
-        const _defaults = spec.Fl32_Leana_App_Defaults$;
+        /** @type {TeqFw_Core_App_Defaults} */
+        const _defaults = spec.TeqFw_Core_App_Defaults$;
         /** @type {TeqFw_Core_App_Logger} */
         const _logger = spec.TeqFw_Core_App_Logger$;
         /** @type {TeqFw_Core_App_Config} */
         const _config = spec.TeqFw_Core_App_Config$;
-        /** @type {Fl32_Leana_App_Server} */
-        const _server = spec.Fl32_Leana_App_Server$;
-        /** @type {Fl32_Leana_App_Obj_Factory} */
-        const objFactory = spec.Fl32_Leana_App_Obj_Factory$;
-        /** @type {Fl32_Leana_App_Cli_Command} */
-        const base = spec.Fl32_Leana_App_Cli_Command$;
+        /** @type {Fl32_Leana_Server} */
+        const _server = spec.Fl32_Leana_Server$;
+        /** @type {TeqFw_Core_App_Obj_Factory} */
+        const objFactory = spec.TeqFw_Core_App_Obj_Factory$;
+        /** @type {TeqFw_Core_App_Cli_Command} */
+        const base = spec.TeqFw_Core_App_Cli_Command$;
 
         // POPULATE CURRENT INSTANCE WITH BASE CLASSES METHODS (COMPOSITION INSTEAD OF INHERITANCE)
         objFactory.assignPrototypeMethods(this, base);

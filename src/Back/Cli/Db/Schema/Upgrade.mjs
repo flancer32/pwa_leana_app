@@ -2,7 +2,7 @@
  * CLI action to upgrade RDB schema.
  */
 export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
-    // these 4 props are used in the base class 'Fl32_Leana_App_Cli_Command'
+    // these 4 props are used in the base class 'TeqFw_Core_App_Cli_Command'
     action
     description = 'Upgrade RDB schema.'
     name = 'upgrade'
@@ -12,14 +12,14 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
         /** @type {TeqFw_Core_App_Logger} */
         const _logger = spec.TeqFw_Core_App_Logger$;
-        /** @type {Fl32_Leana_App_Db_Connector} */
-        const _connector = spec.Fl32_Leana_App_Db_Connector$;
+        /** @type {TeqFw_Core_App_Db_Connector} */
+        const _connector = spec.TeqFw_Core_App_Db_Connector$;
         /** @type {Fl32_Leana_Shared_Util_DateTime} */
         const _util = spec.Fl32_Leana_Shared_Util_DateTime$;
-        /** @type {Fl32_Leana_App_Obj_Factory} */
-        const _objFactory = spec.Fl32_Leana_App_Obj_Factory$;
-        /** @type {Fl32_Leana_App_Cli_Command} */
-        const _base = spec.Fl32_Leana_App_Cli_Command$;
+        /** @type {TeqFw_Core_App_Obj_Factory} */
+        const _objFactory = spec.TeqFw_Core_App_Obj_Factory$;
+        /** @type {TeqFw_Core_App_Cli_Command} */
+        const _base = spec.TeqFw_Core_App_Cli_Command$;
 
         // POPULATE CURRENT INSTANCE WITH BASE CLASSES METHODS (COMPOSITION INSTEAD OF INHERITANCE)
         _objFactory.assignPrototypeMethods(this, _base);

@@ -4,8 +4,8 @@
 export default class Fl32_Leana_Back_Route_Desk_Calendar_Get {
 
     constructor(spec) {
-        /** @type {Fl32_Leana_App_Db_Connector} */
-        const _db = spec.Fl32_Leana_App_Db_Connector$;
+        /** @type {TeqFw_Core_App_Db_Connector} */
+        const _db = spec.TeqFw_Core_App_Db_Connector$;
         const Employee = spec['Fl32_Leana_Shared_Api_Data_Desk_Employee#'];
         const Response = spec['Fl32_Leana_Shared_Api_Route_Desk_Calendar_Get_Response#'];
         const Service = spec['Fl32_Leana_Shared_Api_Data_Service#'];
@@ -18,7 +18,7 @@ export default class Fl32_Leana_Back_Route_Desk_Calendar_Get {
          * @param req
          * @param res
          * @returns {Promise<void>}
-         * @see Fl32_Leana_App_Server.addApiRoute
+         * @see TeqFw_Core_App_Server.addApiRoute
          */
         this.handle = async function (req, res) {
             // PARSE INPUT & DEFINE WORKING VARS

@@ -8,16 +8,16 @@ import $path from 'path';
 import $serveStatic from 'serve-static';
 
 // MODULE'S EXPORT
-export default class Fl32_Leana_App_Server {
+export default class Fl32_Leana_Server {
     /** @type {TeqFw_Di_Container} */
     _container
     /** @type {TeqFw_Core_App_Config} */
     _config
     /** @type {TeqFw_Core_App_Logger} */
     _logger
-    /** @type {Fl32_Leana_App_Server_Log} */
+    /** @type {TeqFw_Core_App_Server_Log} */
     _serverLog
-    /** @type {Fl32_Leana_App_Server_Route_Static} */
+    /** @type {TeqFw_Core_App_Server_Route_Static} */
     _routeStatic
 
     _server = $express();
@@ -27,8 +27,8 @@ export default class Fl32_Leana_App_Server {
         this._container = spec.TeqFw_Di_Container$;
         this._config = spec.TeqFw_Core_App_Config$;
         this._logger = spec.TeqFw_Core_App_Logger$;
-        this._serverLog = spec.Fl32_Leana_App_Server_Log$;
-        this._routeStatic = spec.Fl32_Leana_App_Server_Route_Static$;
+        this._serverLog = spec.TeqFw_Core_App_Server_Log$;
+        this._routeStatic = spec.TeqFw_Core_App_Server_Route_Static$;
     }
 
     async addApiRoute(route, dependencyId) {

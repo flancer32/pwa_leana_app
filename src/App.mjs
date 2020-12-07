@@ -24,7 +24,7 @@ export default class Fl32_Leana_App {
     _container
     /** @type {TeqFw_Core_App_Config} */
     _config
-    /** @type {Fl32_Leana_App_Db_Connector} */
+    /** @type {TeqFw_Core_App_Db_Connector} */
     _db
     /** @type {TeqFw_Core_App_Logger} */
     _logger
@@ -34,7 +34,7 @@ export default class Fl32_Leana_App {
         this._bootCfg = spec.bootstrap;   // use bootstrap configuration manually defined in '../bin/tequila.js'
         this._container = spec.container; // use DI container manually defined in 'TeqFw_Di_Container'
         this._config = spec.TeqFw_Core_App_Config$;
-        this._db = spec.Fl32_Leana_App_Db_Connector$;
+        this._db = spec.TeqFw_Core_App_Db_Connector$;
         this._logger = spec.TeqFw_Core_App_Logger$;     // singleton
         const logTransport = spec.TeqFw_Core_App_Logger_Transport_Console$; // singleton
         // INIT OWN PROPERTIES AND DEFINE WORKING VARS
@@ -49,7 +49,7 @@ export default class Fl32_Leana_App {
      * @returns {Promise<void>}
      */
     async addCommand(className) {
-        /** @type {Fl32_Leana_App_Cli_Command} */
+        /** @type {TeqFw_Core_App_Cli_Command} */
         const cmd = await this._container.get(className);
         const {ns, name, desc, action} = cmd.getCommandData();
         const fullName = (ns) ? `${ns}-${name}` : name;
