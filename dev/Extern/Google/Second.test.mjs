@@ -8,9 +8,9 @@ describe('Second Test Unit', () => {
     it('config is available in Dev environment', async () => {
         /** @type {TeqFw_Di_Container} */
         const container = await devEnv();
-        /** @type {Fl32_Leana_App_Config} */
-        const config = await container.get('Fl32_Leana_App_Config$');
-        assert.strictEqual(config.constructor.name, 'Fl32_Leana_App_Config');
+        /** @type {TeqFw_Core_App_Config} */
+        const config = await container.get('TeqFw_Core_App_Config$');
+        assert.strictEqual(config.constructor.name, 'TeqFw_Core_App_Config');
         assert(true);
     });
 });

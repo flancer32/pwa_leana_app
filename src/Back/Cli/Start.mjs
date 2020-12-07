@@ -16,10 +16,10 @@ export default class Fl32_Leana_Back_Cli_Start {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
         /** @type {Fl32_Leana_App_Defaults} */
         const _defaults = spec.Fl32_Leana_App_Defaults$;
-        /** @type {Fl32_Leana_App_Logger} */
-        const _logger = spec.Fl32_Leana_App_Logger$;
-        /** @type {Fl32_Leana_App_Config} */
-        const _config = spec.Fl32_Leana_App_Config$;
+        /** @type {TeqFw_Core_App_Logger} */
+        const _logger = spec.TeqFw_Core_App_Logger$;
+        /** @type {TeqFw_Core_App_Config} */
+        const _config = spec.TeqFw_Core_App_Config$;
         /** @type {Fl32_Leana_App_Server} */
         const _server = spec.Fl32_Leana_App_Server$;
         /** @type {Fl32_Leana_App_Obj_Factory} */

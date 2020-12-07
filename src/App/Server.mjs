@@ -11,9 +11,9 @@ import $serveStatic from 'serve-static';
 export default class Fl32_Leana_App_Server {
     /** @type {TeqFw_Di_Container} */
     _container
-    /** @type {Fl32_Leana_App_Config} */
+    /** @type {TeqFw_Core_App_Config} */
     _config
-    /** @type {Fl32_Leana_App_Logger} */
+    /** @type {TeqFw_Core_App_Logger} */
     _logger
     /** @type {Fl32_Leana_App_Server_Log} */
     _serverLog
@@ -25,8 +25,8 @@ export default class Fl32_Leana_App_Server {
 
     constructor(spec) {
         this._container = spec.TeqFw_Di_Container$;
-        this._config = spec.Fl32_Leana_App_Config$;
-        this._logger = spec.Fl32_Leana_App_Logger$;
+        this._config = spec.TeqFw_Core_App_Config$;
+        this._logger = spec.TeqFw_Core_App_Logger$;
         this._serverLog = spec.Fl32_Leana_App_Server_Log$;
         this._routeStatic = spec.Fl32_Leana_App_Server_Route_Static$;
     }

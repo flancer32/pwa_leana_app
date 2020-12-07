@@ -4,16 +4,16 @@ import $knex from 'knex';
  * 'knex' based connector to relational database.
  */
 export default class Fl32_Leana_App_Db_Connector {
-    /** @type {Fl32_Leana_App_Config} */
+    /** @type {TeqFw_Core_App_Config} */
     _config
-    /** @type {Fl32_Leana_App_Logger} */
+    /** @type {TeqFw_Core_App_Logger} */
     _logger
     _knex
 
     /**  @param {Object} spec */
     constructor(spec) {
-        this._config = spec.Fl32_Leana_App_Config$;
-        this._logger = spec.Fl32_Leana_App_Logger$;
+        this._config = spec.TeqFw_Core_App_Config$;
+        this._logger = spec.TeqFw_Core_App_Logger$;
     }
 
     /**

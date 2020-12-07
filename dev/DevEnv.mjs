@@ -24,15 +24,15 @@ container.addSourceMapping('Fl32_Leana', pathSrc, true, 'mjs');
  * @returns {Promise<TeqFw_Di_Container>}
  */
 export default async function init() {
-    /** @type {Fl32_Leana_App_Config} */
-    const config = await container.get('Fl32_Leana_App_Config$');
+    /** @type {TeqFw_Core_App_Config} */
+    const config = await container.get('TeqFw_Core_App_Config$');
     if (!config.get()) {
         // load local configuration if has not been loaded before
         config.load({rootPath: pathRoot});
-        /** @type {Fl32_Leana_App_Logger} */
-        const logger = await container.get('Fl32_Leana_App_Logger$');
-        /** @type {Fl32_Leana_App_Logger_Transport_Console} */
-        const logTransport = await container.get('Fl32_Leana_App_Logger_Transport_Console$');
+        /** @type {TeqFw_Core_App_Logger} */
+        const logger = await container.get('TeqFw_Core_App_Logger$');
+        /** @type {TeqFw_Core_App_Logger_Transport_Console} */
+        const logTransport = await container.get('TeqFw_Core_App_Logger_Transport_Console$');
         logger.addTransport(logTransport);
     }
     return container;

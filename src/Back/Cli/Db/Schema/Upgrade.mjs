@@ -10,8 +10,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
 
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
-        /** @type {Fl32_Leana_App_Logger} */
-        const _logger = spec.Fl32_Leana_App_Logger$;
+        /** @type {TeqFw_Core_App_Logger} */
+        const _logger = spec.TeqFw_Core_App_Logger$;
         /** @type {Fl32_Leana_App_Db_Connector} */
         const _connector = spec.Fl32_Leana_App_Db_Connector$;
         /** @type {Fl32_Leana_Shared_Util_DateTime} */

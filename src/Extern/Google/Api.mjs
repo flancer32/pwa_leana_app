@@ -24,13 +24,13 @@ async function $authorize(email, key) {
 }
 
 export default class Fl32_Leana_Extern_Google_Api {
-    /** @type {Fl32_Leana_App_Logger} */
+    /** @type {TeqFw_Core_App_Logger} */
     _logger
     _calendar
 
     /**  @param {Object} spec */
     constructor(spec) {
-        this._config = spec.Fl32_Leana_App_Config$;
+        this._config = spec.TeqFw_Core_App_Config$;
         this._calendar = google.calendar('v3');
     }
 

@@ -24,7 +24,7 @@ export default class Fl32_Leana_App_Server_Route_Static {
 
     constructor(spec) {
         // dependencies
-        const config = spec.Fl32_Leana_App_Config$;
+        const config = spec.TeqFw_Core_App_Config$;
         const pathMap = spec['Fl32_Leana_App_Server_Route_Static_PathMap#'];
 
         // instance's internal vars

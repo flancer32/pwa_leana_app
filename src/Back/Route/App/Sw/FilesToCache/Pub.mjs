@@ -36,7 +36,7 @@ export default class Fl32_Leana_Back_Route_App_Sw_FilesToCache_Pub {
 
     constructor(spec) {
         // dependencies
-        const config = spec.Fl32_Leana_App_Config$;
+        const config = spec.TeqFw_Core_App_Config$;
 
         // instance's internal vars
         const pathRoot = config.get('/path/root');

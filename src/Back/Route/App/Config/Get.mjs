@@ -3,11 +3,11 @@
  */
 // MODULE'S EXPORT
 export default class Fl32_Leana_Back_Route_App_Config_Get {
-    /** @type {Fl32_Leana_App_Config} */
+    /** @type {TeqFw_Core_App_Config} */
     _config
 
     constructor(spec) {
-        this._config = spec.Fl32_Leana_App_Config$;
+        this._config = spec.TeqFw_Core_App_Config$;
         const me = this;
 
         this.handle = function (req, res) {

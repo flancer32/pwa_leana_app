@@ -22,21 +22,21 @@ export default class Fl32_Leana_App {
     _commander
     /** @type {TeqFw_Di_Container} */
     _container
-    /** @type {Fl32_Leana_App_Config} */
+    /** @type {TeqFw_Core_App_Config} */
     _config
     /** @type {Fl32_Leana_App_Db_Connector} */
     _db
-    /** @type {Fl32_Leana_App_Logger} */
+    /** @type {TeqFw_Core_App_Logger} */
     _logger
 
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE
         this._bootCfg = spec.bootstrap;   // use bootstrap configuration manually defined in '../bin/tequila.js'
         this._container = spec.container; // use DI container manually defined in 'TeqFw_Di_Container'
-        this._config = spec.Fl32_Leana_App_Config$;
+        this._config = spec.TeqFw_Core_App_Config$;
         this._db = spec.Fl32_Leana_App_Db_Connector$;
-        this._logger = spec.Fl32_Leana_App_Logger$;
-        const logTransport = spec.Fl32_Leana_App_Logger_Transport_Console$;
+        this._logger = spec.TeqFw_Core_App_Logger$;     // singleton
+        const logTransport = spec.TeqFw_Core_App_Logger_Transport_Console$; // singleton
         // INIT OWN PROPERTIES AND DEFINE WORKING VARS
         this._logger.addTransport(logTransport);
         this._commander = new $commander.Command();

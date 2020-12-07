@@ -3,11 +3,11 @@
  */
 // MODULE'S EXPORT
 export default class Fl32_Leana_App_Server_Log {
-    /** @type {Fl32_Leana_App_Logger} */
+    /** @type {TeqFw_Core_App_Logger} */
     _logger
 
     constructor(spec) {
-        this._logger = spec.Fl32_Leana_App_Logger$;
+        this._logger = spec.TeqFw_Core_App_Logger$;
 
         const me = this;
 
