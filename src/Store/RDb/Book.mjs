@@ -1,4 +1,4 @@
-export default class Fl32_Leana_Back_Db_Book {
+export default class Fl32_Leana_Store_RDb_Book {
 
     /**
      * Репо-объекты должны порождаться Контейнером в рамках обработки сервером отдельного API-запроса.
