@@ -52,7 +52,7 @@ export default class Fl32_Leana_Server {
         await this.addApiRoute('/api/desk/calendar/get', 'Fl32_Leana_Back_Route_Desk_Calendar_Get$');
         // static resources in project
         const pathRoot = this._config.get('path/root');
-        const pathPub = $path.join(pathRoot, 'web');
+        const pathPub = $path.join(pathRoot, 'node_modules/@flancer32/pwa_leana_app/web');
         this._server.use($serveStatic(pathPub));
         // static resources in modules
         this._server.get('*', this._routeStatic.handle);
