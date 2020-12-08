@@ -4,10 +4,23 @@
 export default class Fl32_Leana_Back_Route_Book_State_Get {
 
     constructor(spec) {
-        /** @type {TeqFw_Di_Container} */
-        const _container = spec.TeqFw_Di_Container$;
         /** @type {TeqFw_Core_App_Db_Connector} */
         const _db = spec.TeqFw_Core_App_Db_Connector$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
+        const eEmpl = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Service} */
+        const eEmplSrv = spec.Fl32_Leana_Store_RDb_Schema_Employee_Service$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Time_Work} */
+        const eEmplTimeWork = spec.Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
+        const eSrv = spec.Fl32_Leana_Store_RDb_Schema_Service$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
+        const eTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
+        const Employee = spec['Fl32_Leana_Shared_Api_Data_Employee#'];
+        const Service = spec['Fl32_Leana_Shared_Api_Data_Service#'];
+        const BookedTime = spec['Fl32_Leana_Shared_Api_Data_Employee_BookedTime#'];
+        const Response = spec['Fl32_Leana_Shared_Api_Route_Book_State_Get_Response#'];
+
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
         /**
@@ -26,10 +39,11 @@ export default class Fl32_Leana_Back_Route_Book_State_Get {
             async function _getEmployees(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from('employee');
+                query.from(eEmpl.TABLE);
                 const rs = await query;
                 for (const one of rs) {
-                    const target = await _container.get('Fl32_Leana_Shared_Api_Data_Employee$$');
+                    /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
+                    const target = new Employee();
                     result.push(Object.assign(target, one));
                 }
                 return result;
@@ -44,11 +58,11 @@ export default class Fl32_Leana_Back_Route_Book_State_Get {
             async function _getServices(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from('service');
-                query.where('public', true);
+                query.from(eSrv.TABLE);
+                query.where(eSrv.A_PUBLIC, true);
                 const rs = await query;
                 for (const one of rs) {
-                    const target = await _container.get('Fl32_Leana_Shared_Api_Data_Service$$');
+                    const target = new Service();
                     result.push(Object.assign(target, one));
                 }
                 return result;
@@ -57,7 +71,7 @@ export default class Fl32_Leana_Back_Route_Book_State_Get {
             async function _getServicesMap(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from('employee_service');
+                query.from(eEmplSrv.TABLE);
                 const rs = await query;
                 for (const one of rs) {
                     result.push(Object.assign({}, one));
@@ -68,7 +82,7 @@ export default class Fl32_Leana_Back_Route_Book_State_Get {
             async function _getWorkTime(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from('employee_time_work');
+                query.from(eEmplTimeWork.TABLE);
                 const rs = await query;
                 for (const one of rs) {
                     result.push(Object.assign({}, one));
@@ -79,7 +93,7 @@ export default class Fl32_Leana_Back_Route_Book_State_Get {
             async function _getBookedTime(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from('book_detail');
+                query.from(eTaskDet.TABLE);
                 const rs = await query;
                 for (const one of rs) {
                     result.push(Object.assign({}, one));
@@ -137,16 +151,17 @@ export default class Fl32_Leana_Back_Route_Book_State_Get {
             async function _populateWithBookedTime(result, map) {
                 const mapped = {};
                 for (const one of map) {
-                    const bookRef = one.book_ref;
-                    const employeeRef = one.employee_ref;
-                    const serviceRef = one.service_ref;
-                    const date = one.date;
-                    const from = one.from;
-                    const to = one.to;
+                    const taskRef = one[eTaskDet.A_TASK_REF];
+                    const employeeRef = one[eTaskDet.A_EMPLOYEE_REF];
+                    const serviceRef = one[eTaskDet.A_SERVICE_REF];
+                    const date = one[eTaskDet.A_DATE];
+                    const from = one[eTaskDet.A_FROM];
+                    const to = one[eTaskDet.A_TO];
                     if (!mapped[employeeRef]) mapped[employeeRef] = {};
                     if (!mapped[employeeRef][date]) mapped[employeeRef][date] = {};
-                    const item = await _container.get('Fl32_Leana_Shared_Api_Data_Employee_BookedTime$$'); // create
-                    mapped[employeeRef][date][from] = Object.assign(item, {bookRef, serviceRef, to});
+                    /** @type {Fl32_Leana_Shared_Api_Data_Employee_BookedTime} */
+                    const item = new BookedTime();
+                    mapped[employeeRef][date][from] = Object.assign(item, {taskRef, serviceRef, to, date, from});
                 }
                 for (const one of result) {
                     const id = one.id;
@@ -157,7 +172,7 @@ export default class Fl32_Leana_Back_Route_Book_State_Get {
 
             // MAIN FUNCTIONALITY
             /** @type {Fl32_Leana_Shared_Api_Route_Book_State_Get_Response} */
-            const data = await _container.get('Fl32_Leana_Shared_Api_Route_Book_State_Get_Response$$');
+            const data = new Response();
             const trx = await _db.startTransaction();
             try {
                 const workTime = await _getWorkTime(trx);

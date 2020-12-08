@@ -97,7 +97,7 @@ export default class Fl32_Leana_Back_Service_Book_Save {
                     [me.eTaskDet.A_NOTE]: note,
                     [me.eTaskDet.A_LANG]: lang,
                 })
-                .where({book_ref: req.id,});
+                .where({[me.eTaskDet.A_TASK_REF]: req.id,});
             return req.id;
         }
 

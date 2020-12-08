@@ -6,7 +6,7 @@ export default class Fl32_Leana_Shared_Api_Data_Employee_BookedTime {
      * Reference to the related booking entry.
      * @type {number}
      */
-    bookRef
+    taskRef
     /**
      * Reference to the employee.
      * Optional if substructure of Employee.
