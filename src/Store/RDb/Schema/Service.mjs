@@ -1,7 +1,7 @@
 /**
  *  'service' entity attributes (table and columns names)
  */
-export default class Fl32_Leana_Store_RDb_Service {
+export default class Fl32_Leana_Store_RDb_Schema_Service {
 
     A_CODE = 'code'
     A_DURATION = 'duration'

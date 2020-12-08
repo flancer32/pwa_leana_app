@@ -20,18 +20,18 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         const objFactory = spec.TeqFw_Core_App_Obj_Factory$;
         /** @type {TeqFw_Core_App_Cli_Command} */
         const base = spec.TeqFw_Core_App_Cli_Command$;
-        /** @type {Fl32_Leana_Store_RDb_Employee} */
-        const aEmployee = spec.Fl32_Leana_Store_RDb_Employee$;
-        /** @type {Fl32_Leana_Store_RDb_Employee_Service} */
-        const aEmplSrv = spec.Fl32_Leana_Store_RDb_Employee_Service$;
-        /** @type {Fl32_Leana_Store_RDb_Employee_Time_Work} */
-        const aEmplTimeWork = spec.Fl32_Leana_Store_RDb_Employee_Time_Work$;
-        /** @type {Fl32_Leana_Store_RDb_Service} */
-        const aService = spec.Fl32_Leana_Store_RDb_Service$;
-        /** @type {Fl32_Leana_Store_RDb_Task} */
-        const aTask = spec.Fl32_Leana_Store_RDb_Task$;
-        /** @type {Fl32_Leana_Store_RDb_Task_Detail} */
-        const aTaskDet = spec.Fl32_Leana_Store_RDb_Task_Detail$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
+        const aEmployee = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Service} */
+        const aEmplSrv = spec.Fl32_Leana_Store_RDb_Schema_Employee_Service$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Time_Work} */
+        const aEmplTimeWork = spec.Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
+        const aService = spec.Fl32_Leana_Store_RDb_Schema_Service$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
+        const aTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
+        const aTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
 
         // POPULATE CURRENT INSTANCE WITH BASE CLASSES METHODS (COMPOSITION INSTEAD OF INHERITANCE)
         objFactory.assignPrototypeMethods(this, base);

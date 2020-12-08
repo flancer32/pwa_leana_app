@@ -1,7 +1,7 @@
 /**
  *  'task_detail' entity attributes (table and columns names)
  */
-export default class Fl32_Leana_Store_RDb_Task_Detail {
+export default class Fl32_Leana_Store_RDb_Schema_Task_Detail {
 
     A_CUSTOMER = 'customer'
     A_DATE = 'date'
