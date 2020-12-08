@@ -1,7 +1,7 @@
 /**
  * Get booking state (categories, services, masters, ...).
  */
-export default class Fl32_Leana_Back_Route_Book_State_Get {
+export default class Fl32_Leana_Back_Service_Task_State_Get {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */

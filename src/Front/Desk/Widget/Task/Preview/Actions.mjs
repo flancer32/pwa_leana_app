@@ -66,7 +66,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
                      * @return {Promise<any>}
                      */
                     async function removeTask(taskId) {
-                        const res = await fetch('../api/book/remove', {
+                        const res = await fetch('../api/task/remove', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'

@@ -1,7 +1,7 @@
 /**
  * Get calendar state for desktop.
  */
-export default class Fl32_Leana_Back_Route_Desk_Calendar_Get {
+export default class Fl32_Leana_Back_Service_Desk_Calendar_Get {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */

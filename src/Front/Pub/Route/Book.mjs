@@ -326,7 +326,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 data.name = this.name;
                 data.phone = this.phone;
                 data.serviceId = this.service;
-                const res = await fetch('../api/book/save', {
+                const res = await fetch('../api/task/save', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -349,7 +349,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
         async mounted() {
             // DEFINE INNER FUNCTIONS
             async function _loadData() {
-                const res = await fetch('../api/book/state/get', {
+                const res = await fetch('../api/task/state/get', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'

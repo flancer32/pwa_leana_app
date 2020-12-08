@@ -222,7 +222,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 data.serviceId = this.service.id;
                 data.note = this.item.note;
                 data.lang = this.item.lang;
-                const res = await fetch('../api/book/save', {
+                const res = await fetch('../api/task/save', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

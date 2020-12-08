@@ -1,4 +1,4 @@
-export default class Fl32_Leana_Back_Service_Book_Remove {
+export default class Fl32_Leana_Back_Process_Book_Remove {
     /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
     eTask
 

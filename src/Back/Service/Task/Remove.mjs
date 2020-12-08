@@ -1,14 +1,14 @@
 /**
  * API handler to remove single task.
  */
-export default class Fl32_Leana_Back_Route_Book_Remove {
+export default class Fl32_Leana_Back_Service_Task_Remove {
 
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
         /** @type {TeqFw_Core_App_Db_Connector} */
         const _db = spec.TeqFw_Core_App_Db_Connector$;
-        /** @type {Fl32_Leana_Back_Service_Book_Remove} */
-        const srvRemove = spec.Fl32_Leana_Back_Service_Book_Remove$;
+        /** @type {Fl32_Leana_Back_Process_Book_Remove} */
+        const srvRemove = spec.Fl32_Leana_Back_Process_Book_Remove$;
         const ApiRequest = spec['Fl32_Leana_Shared_Api_Route_Book_Remove#Request'];
         const ApiResponse = spec['Fl32_Leana_Shared_Api_Route_Book_Remove#Response'];
 

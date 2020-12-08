@@ -1,14 +1,14 @@
 /**
  * Save single task.
  */
-export default class Fl32_Leana_Back_Route_Book_Save {
+export default class Fl32_Leana_Back_Service_Task_Save {
 
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
         /** @type {TeqFw_Core_App_Db_Connector} */
         const _db = spec.TeqFw_Core_App_Db_Connector$;
-        /** @type {Fl32_Leana_Back_Service_Book_Save} */
-        const _srvSave = spec.Fl32_Leana_Back_Service_Book_Save$;
+        /** @type {Fl32_Leana_Back_Process_Book_Save} */
+        const _srvSave = spec.Fl32_Leana_Back_Process_Book_Save$;
         const ServiceRequest = spec['Fl32_Leana_Shared_Api_Route_Book_Save_Request#'];  // class
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)

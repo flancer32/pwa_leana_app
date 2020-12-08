@@ -1,4 +1,4 @@
-export default class Fl32_Leana_Back_Service_Book_Save {
+export default class Fl32_Leana_Back_Process_Book_Save {
     /** @type {Fl32_Leana_Extern_Google_Api} */
     #googleApi
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
