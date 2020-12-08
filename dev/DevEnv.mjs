@@ -8,15 +8,20 @@ import Container from '@teqfw/di';
 /* Resolve paths to main folders */
 const {path: currentScript} = $url.parse(import.meta.url);
 const pathScript = $path.dirname(currentScript);
-const pathRoot = $path.join(pathScript, '..');
-const pathSrc = $path.join(pathRoot, 'src');
-
+const pathMod = $path.join(pathScript, '..');
+const pathPrj = $path.join(pathScript, '../../../../');
+const pathNode = $path.join(pathPrj, 'node_modules');
+const srcMod = $path.join(pathMod, 'src');
+const srcTeqFwCore = $path.join(pathNode, '@teqfw/core-app/src');
+const srcTeqFwDi = $path.join(pathNode, '@teqfw/di/src');
 /* Create and setup DI container (once per all imports) */
 
 /** @type {TeqFw_Di_Container} */
 const container = new Container();
 // add backend sources to map
-container.addSourceMapping('Fl32_Leana', pathSrc, true, 'mjs');
+container.addSourceMapping('Fl32_Leana', srcMod, true, 'mjs');
+container.addSourceMapping('TeqFw_Core_App', srcTeqFwCore, true, 'mjs');
+container.addSourceMapping('TeqFw_Di', srcTeqFwDi, true, 'mjs');
 
 /**
  * Setup development environment (if not set before) and return DI container.
@@ -28,7 +33,7 @@ export default async function init() {
     const config = await container.get('TeqFw_Core_App_Config$');
     if (!config.get()) {
         // load local configuration if has not been loaded before
-        config.load({rootPath: pathRoot});
+        config.load({rootPath: pathPrj});
         /** @type {TeqFw_Core_App_Logger} */
         const logger = await container.get('TeqFw_Core_App_Logger$');
         /** @type {TeqFw_Core_App_Logger_Transport_Console} */

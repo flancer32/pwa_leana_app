@@ -11,18 +11,30 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
         /** @type {TeqFw_Core_App_Logger} */
-        const _logger = spec.TeqFw_Core_App_Logger$;
+        const logger = spec.TeqFw_Core_App_Logger$;
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const _connector = spec.TeqFw_Core_App_Db_Connector$;
+        const connector = spec.TeqFw_Core_App_Db_Connector$;
         /** @type {Fl32_Leana_Shared_Util_DateTime} */
-        const _util = spec.Fl32_Leana_Shared_Util_DateTime$;
+        const util = spec.Fl32_Leana_Shared_Util_DateTime$;
         /** @type {TeqFw_Core_App_Obj_Factory} */
-        const _objFactory = spec.TeqFw_Core_App_Obj_Factory$;
+        const objFactory = spec.TeqFw_Core_App_Obj_Factory$;
         /** @type {TeqFw_Core_App_Cli_Command} */
-        const _base = spec.TeqFw_Core_App_Cli_Command$;
+        const base = spec.TeqFw_Core_App_Cli_Command$;
+        /** @type {Fl32_Leana_Store_RDb_Employee} */
+        const aEmployee = spec.Fl32_Leana_Store_RDb_Employee$;
+        /** @type {Fl32_Leana_Store_RDb_Employee_Service} */
+        const aEmplSrv = spec.Fl32_Leana_Store_RDb_Employee_Service$;
+        /** @type {Fl32_Leana_Store_RDb_Employee_Time_Work} */
+        const aEmplTimeWork = spec.Fl32_Leana_Store_RDb_Employee_Time_Work$;
+        /** @type {Fl32_Leana_Store_RDb_Service} */
+        const aService = spec.Fl32_Leana_Store_RDb_Service$;
+        /** @type {Fl32_Leana_Store_RDb_Task} */
+        const aTask = spec.Fl32_Leana_Store_RDb_Task$;
+        /** @type {Fl32_Leana_Store_RDb_Task_Detail} */
+        const aTaskDet = spec.Fl32_Leana_Store_RDb_Task_Detail$;
 
         // POPULATE CURRENT INSTANCE WITH BASE CLASSES METHODS (COMPOSITION INSTEAD OF INHERITANCE)
-        _objFactory.assignPrototypeMethods(this, _base);
+        objFactory.assignPrototypeMethods(this, base);
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
         this.action = async function () {
@@ -44,216 +56,260 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
             // }
 
             async function dropTables(schema) {
-                // drop related tables (foreign keys)
-                schema.dropTableIfExists('employee_service');
-                schema.dropTableIfExists('employee_time_work');
-                schema.dropTableIfExists('book_detail');
-                // drop registries
-                schema.dropTableIfExists('employee');
-                schema.dropTableIfExists('service');
+                /* drop related tables (foreign keys) */
+                // deprecated tables
+                schema.dropTableIfExists('book_details');
+                // actual tables
+                schema.dropTableIfExists(aEmplSrv.TABLE);
+                schema.dropTableIfExists(aEmplTimeWork.TABLE);
+                schema.dropTableIfExists(aTaskDet.TABLE);
+
+                /* drop registries */
+                // deprecated tables
                 schema.dropTableIfExists('book');
+                // actual tables
+                schema.dropTableIfExists(aEmployee.TABLE);
+                schema.dropTableIfExists(aService.TABLE);
+                schema.dropTableIfExists(aTask.TABLE);
             }
 
             async function composeRegistries(schema, knex) {
                 // EMPLOYEE
-                schema.createTable('employee', (table) => {
-                    table.increments('id');
-                    table.string('code').notNullable().comment('Short unique name for employee.');
-                    table.unique(['code'], 'UQ_employee__code');
+                schema.createTable(aEmployee.TABLE, (table) => {
+                    table.increments(aEmployee.A_ID);
+                    table.string(aEmployee.A_CODE).notNullable().comment('Short unique name for employee.');
+                    table.unique([aEmployee.A_CODE], 'UQ_employee__code');
                     table.comment('Register for employees.');
                 });
                 // SERVICE
-                schema.createTable('service', (table) => {
-                    table.increments('id');
-                    table.string('code').notNullable()
+                schema.createTable(aService.TABLE, (table) => {
+                    table.increments(aService.A_ID);
+                    table.string(aService.A_CODE).notNullable()
                         .comment('Short unique name for service.');
-                    table.integer('duration').unsigned().notNullable().defaultTo(0)
+                    table.integer(aService.A_DURATION).unsigned().notNullable().defaultTo(0)
                         .comment('Service duration in minutes.');
-                    table.boolean('public').notNullable().defaultTo(false)
+                    table.boolean(aService.A_PUBLIC).notNullable().defaultTo(false)
                         .comment('Does this service available on front or only through admin UI.');
-                    table.unique(['code'], 'UQ_employee__code');
+                    table.unique([aService.A_CODE], 'UQ_employee__code');
                     table.comment('Register for services.');
                 });
-                // BOOKING
-                schema.createTable('book', (table) => {
-                    table.increments('id');
-                    table.dateTime('created').notNullable().defaultTo(knex.fn.now());
-                    table.comment('Register for appointments (booking).');
+                // TASK
+                schema.createTable(aTask.TABLE, (table) => {
+                    table.increments(aTask.A_ID);
+                    table.dateTime(aTask.A_CREATED).notNullable().defaultTo(knex.fn.now());
+                    table.comment('Register for tasks (appointments, bookings).');
                 });
             }
 
             async function composeEmployee(schema) {
                 // EMPLOYEE_SERVICE
-                schema.createTable('employee_service', (table) => {
-                    table.integer('employee_ref').unsigned().notNullable();
-                    table.integer('service_ref').unsigned().notNullable();
-                    table.primary(['employee_ref', 'service_ref']);
-                    table.foreign('employee_ref').references('id').inTable('employee')
+                schema.createTable(aEmplSrv.TABLE, (table) => {
+                    table.integer(aEmplSrv.A_EMPLOYEE_REF).unsigned().notNullable();
+                    table.integer(aEmplSrv.A_SERVICE_REF).unsigned().notNullable();
+                    table.primary([aEmplSrv.A_EMPLOYEE_REF, aEmplSrv.A_SERVICE_REF]);
+                    table.foreign(aEmplSrv.A_EMPLOYEE_REF).references(aEmployee.A_ID).inTable(aEmployee.TABLE)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName('FK_employee_service__employee');
-                    table.foreign('service_ref').references('id').inTable('service')
+                    table.foreign(aEmplSrv.A_SERVICE_REF).references(aService.A_ID).inTable(aService.TABLE)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName('FK_employee_service__service');
                     table.comment('Employee provides services.');
                 });
                 // EMPLOYEE_TIME_WORK
-                schema.createTable('employee_time_work', (table) => {
-                    table.integer('employee_ref').unsigned().notNullable();
-                    table.string('date', 8).comment('Date as "YYYYMMDD".');
-                    table.string('from', 4).defaultTo('0900').comment('Time starting: 0900.');
-                    table.string('to', 4).defaultTo('2000').comment('Finish time: 2000.');
-                    table.primary(['employee_ref', 'date', 'from']);
-                    table.foreign('employee_ref').references('id').inTable('employee')
+                schema.createTable(aEmplTimeWork.TABLE, (table) => {
+                    table.integer(aEmplTimeWork.A_EMPLOYEE_REF).unsigned().notNullable();
+                    table.string(aEmplTimeWork.A_DATE, 8).comment('Date as "YYYYMMDD".');
+                    table.string(aEmplTimeWork.A_FROM, 4).defaultTo('0900')
+                        .comment('Time starting: 0900.');
+                    table.string(aEmplTimeWork.A_TO, 4).defaultTo('2000')
+                        .comment('Finish time: 2000.');
+                    table.primary(
+                        [aEmplTimeWork.A_EMPLOYEE_REF, aEmplTimeWork.A_DATE, aEmplTimeWork.A_FROM]
+                    );
+                    table.foreign(aEmplTimeWork.A_EMPLOYEE_REF).references(aEmployee.A_ID).inTable(aEmployee.TABLE)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName('FK_employee_time_work__employee');
                     table.comment('Working time for employees.');
                 });
             }
 
-            async function composeBook(schema) {
-                schema.createTable('book_detail', (table) => {
-                    table.integer('book_ref').unsigned().notNullable();
-                    table.integer('employee_ref').unsigned().notNullable();
-                    table.integer('service_ref').unsigned().notNullable();
-                    table.string('date', 8).comment('Date as "YYYYMMDD".');
-                    table.string('from', 4).notNullable().comment('Time starting: 0900.');
-                    table.string('to', 4).notNullable().comment('Finish time: 2000.');
-                    table.string('customer', 255).notNullable().comment('Customer name.');
-                    table.string('phone', 255).nullable().comment('Customer phone.');
-                    table.string('email', 255).nullable().comment('Customer email.');
-                    table.string('lang', 255).nullable().comment('Customer language (locale).');
-                    table.string('note', 255).nullable().comment('Task notes.');
-                    table.primary(['book_ref']);
-                    table.foreign('book_ref').references('id').inTable('book')
+            async function composeTaskDetails(schema) {
+                schema.createTable(aTaskDet.TABLE, (table) => {
+                    table.integer(aTaskDet.A_TASK_REF).unsigned().notNullable();
+                    table.integer(aTaskDet.A_EMPLOYEE_REF).unsigned().notNullable();
+                    table.integer(aTaskDet.A_SERVICE_REF).unsigned().notNullable();
+                    table.string(aTaskDet.A_DATE, 8).comment('Date as "YYYYMMDD".');
+                    table.string(aTaskDet.A_FROM, 4).notNullable().comment('Time starting: 0900.');
+                    table.string(aTaskDet.A_TO, 4).notNullable().comment('Finish time: 2000.');
+                    table.string(aTaskDet.A_CUSTOMER, 255).notNullable().comment('Customer name.');
+                    table.string(aTaskDet.A_PHONE, 255).nullable().comment('Customer phone.');
+                    table.string(aTaskDet.A_EMAIL, 255).nullable().comment('Customer email.');
+                    table.string(aTaskDet.A_LANG, 255).nullable().comment('Customer language (locale).');
+                    table.string(aTaskDet.A_NOTE, 255).nullable().comment('Task notes.');
+                    table.primary([aTaskDet.A_TASK_REF]);
+                    table.foreign(aTaskDet.A_TASK_REF).references(aTask.A_ID).inTable(aTask.TABLE)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName('FK_book_detail__book');
-                    table.foreign('employee_ref').references('id').inTable('employee')
+                    table.foreign(aTaskDet.A_EMPLOYEE_REF).references(aEmployee.A_ID).inTable(aEmployee.TABLE)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName('FK_book_detail__employee');
-                    table.foreign('service_ref').references('id').inTable('service')
+                    table.foreign(aTaskDet.A_SERVICE_REF).references(aService.A_ID).inTable(aService.TABLE)
                         .onDelete('CASCADE').onUpdate('CASCADE')
                         .withKeyName('FK_book_detail__service');
-                    table.comment('Booking details.');
+                    table.comment('Task details.');
                 });
             }
 
             async function initEmployee(trx) {
-                await trx('employee').insert([
-                    {id: 1, code: 'elena'},
-                    {id: 2, code: 'natalie'}
+                await trx(aEmployee.TABLE).insert([
+                    {[aEmployee.A_ID]: 1, [aEmployee.A_CODE]: 'elena'},
+                    {[aEmployee.A_ID]: 2, [aEmployee.A_CODE]: 'natalie'}
                 ]);
-                await trx('service').insert([
-                    {id: 1, code: 'haircut_man', public: true, duration: 30},
-                    {id: 2, code: 'haircut_women', public: true, duration: 30},
-                    {id: 3, code: 'haircut_child', public: true, duration: 30},
-                    {id: 4, code: 'color_simple', public: true, duration: 30},
-                    {id: 5, code: 'color_complex', duration: 60},
-                    {id: 6, code: 'color_highlight', duration: 120},
-                    {id: 7, code: 'perm', duration: 60},
-                ]);
-                await trx('employee_service').insert([
-                    {employee_ref: 1, service_ref: 1},
-                    {employee_ref: 1, service_ref: 2},
-                    {employee_ref: 1, service_ref: 3},
-                    {employee_ref: 1, service_ref: 4},
-                    {employee_ref: 1, service_ref: 5},
-                    {employee_ref: 1, service_ref: 7},
-                    {employee_ref: 2, service_ref: 1},
-                    {employee_ref: 2, service_ref: 2},
-                    {employee_ref: 2, service_ref: 3},
-                    {employee_ref: 2, service_ref: 4},
-                    {employee_ref: 2, service_ref: 5},
-                    {employee_ref: 2, service_ref: 6},
+                await trx(aService.TABLE).insert([{
+                    [aService.A_ID]: 1, [aService.A_CODE]: 'haircut_man',
+                    [aService.A_PUBLIC]: true, [aService.A_DURATION]: 30
+                }, {
+                    [aService.A_ID]: 2, [aService.A_CODE]: 'haircut_women',
+                    [aService.A_PUBLIC]: true, [aService.A_DURATION]: 30
+                }, {
+                    [aService.A_ID]: 3, [aService.A_CODE]: 'haircut_child',
+                    [aService.A_PUBLIC]: true, [aService.A_DURATION]: 30
+                }, {
+                    [aService.A_ID]: 4, [aService.A_CODE]: 'color_simple',
+                    [aService.A_PUBLIC]: true, [aService.A_DURATION]: 30
+                }, {
+                    [aService.A_ID]: 5, [aService.A_CODE]: 'color_complex',
+                    [aService.A_DURATION]: 60
+                }, {
+                    [aService.A_ID]: 6, [aService.A_CODE]: 'color_highlight',
+                    [aService.A_DURATION]: 120
+                }, {
+                    [aService.A_ID]: 7, [aService.A_CODE]: 'perm',
+                    [aService.A_DURATION]: 60
+                },]);
+                await trx(aEmplSrv.TABLE).insert([
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 1},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 2},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 3},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 4},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 5},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 7},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 1},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 2},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 3},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 4},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 5},
+                    {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 6},
                 ]);
                 // employee_time_work
                 const timeWorkItems = [];
                 for (let i = 1; i < 20; i++) {
                     const ref = i % 2 + 1;
-                    const dt = _util.forwardDate(i);
-                    const date = _util.formatDate(dt);
+                    const dt = util.forwardDate(i);
+                    const date = util.formatDate(dt);
                     timeWorkItems.push({employee_ref: ref, date});
 
                 }
-                await trx('employee_time_work').insert(timeWorkItems);
+                await trx(aEmplTimeWork.TABLE).insert(timeWorkItems);
             }
 
             async function initBook(trx) {
-                await trx('book').insert([
-                    {id: 1},
-                    {id: 2},
-                    {id: 3},
-                    {id: 4},
-                    {id: 5},
-                    {id: 6},
-                    {id: 7},
-                    {id: 8},
-                    {id: 9},
-                    {id: 10},
+                await trx(aTask.TABLE).insert([
+                    {[aTask.A_ID]: 1},
+                    {[aTask.A_ID]: 2},
+                    {[aTask.A_ID]: 3},
+                    {[aTask.A_ID]: 4},
+                    {[aTask.A_ID]: 5},
+                    {[aTask.A_ID]: 6},
+                    {[aTask.A_ID]: 7},
+                    {[aTask.A_ID]: 8},
+                    {[aTask.A_ID]: 9},
+                    {[aTask.A_ID]: 10},
                 ]);
-                const d0 = _util.forwardDate(0);
-                const d1 = _util.forwardDate(1);
-                const d2 = _util.forwardDate(2);
-                const d3 = _util.forwardDate(3);
-                const date0 = _util.formatDate(d0);
-                const date1 = _util.formatDate(d1);
-                const date2 = _util.formatDate(d2);
-                const date3 = _util.formatDate(d3);
-                await trx('book_detail').insert([
+                const d0 = util.forwardDate(0);
+                const d1 = util.forwardDate(1);
+                const d2 = util.forwardDate(2);
+                const d3 = util.forwardDate(3);
+                const date0 = util.formatDate(d0);
+                const date1 = util.formatDate(d1);
+                const date2 = util.formatDate(d2);
+                const date3 = util.formatDate(d3);
+                await trx(aTaskDet.TABLE).insert([
                     {
-                        book_ref: 1, employee_ref: 1, service_ref: 1, date: date0, from: '0900', to: '1115',
-                        customer: 'John Doe', email: 'john@inter.net', phone: '2912312312',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 1, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 1,
+                        [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0900', [aTaskDet.A_TO]: '1115',
+                        [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
+                        [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     }, {
-                        book_ref: 2, employee_ref: 1, service_ref: 2, date: date0, from: '0930', to: '1045',
-                        customer: 'John Doe', email: 'john@inter.net', phone: '2912312312',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 2, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 2,
+                        [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0930', [aTaskDet.A_TO]: '1045',
+                        [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
+                        [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     }, {
-                        book_ref: 3, employee_ref: 1, service_ref: 3, date: date0, from: '1030', to: '1130',
-                        customer: 'John Doe', email: 'john@inter.net', phone: '2912312312',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 3, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 3,
+                        [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1030', [aTaskDet.A_TO]: '1130',
+                        [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
+                        [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     }, {
-                        book_ref: 4, employee_ref: 1, service_ref: 4, date: date0, from: '1215', to: '1330',
-                        customer: 'Jane Doe', email: 'jane@inter.net', phone: '2932132132',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 4, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 4,
+                        [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1215', [aTaskDet.A_TO]: '1330',
+                        [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
+                        [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     }, {
-                        book_ref: 5, employee_ref: 1, service_ref: 5, date: date0, from: '1630', to: '1730',
-                        customer: 'Jane Doe', email: 'jane@inter.net', phone: '2932132132',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 5, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
+                        [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1630', [aTaskDet.A_TO]: '1730',
+                        [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
+                        [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     }, {
-                        book_ref: 6, employee_ref: 1, service_ref: 5, date: date2, from: '0915', to: '1130',
-                        customer: 'Jane Doe', email: 'jane@inter.net', phone: '2932132132',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 6, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
+                        [aTaskDet.A_DATE]: date2, [aTaskDet.A_FROM]: '0915', [aTaskDet.A_TO]: '1130',
+                        [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
+                        [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     }, {
-                        book_ref: 7, employee_ref: 1, service_ref: 5, date: date2, from: '1230', to: '1730',
-                        customer: 'Jane Doe', email: 'jane@inter.net', phone: '2932132132',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 7, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
+                        [aTaskDet.A_DATE]: date2, [aTaskDet.A_FROM]: '1230', [aTaskDet.A_TO]: '1730',
+                        [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
+                        [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     }, {
-                        book_ref: 8, employee_ref: 2, service_ref: 5, date: date1, from: '0900', to: '1030',
-                        customer: 'Jane Doe', email: 'jane@inter.net', phone: '2932132132',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 8, [aTaskDet.A_EMPLOYEE_REF]: 2, [aTaskDet.A_SERVICE_REF]: 5,
+                        [aTaskDet.A_DATE]: date1, [aTaskDet.A_FROM]: '0900', [aTaskDet.A_TO]: '1030',
+                        [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
+                        [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     }, {
-                        book_ref: 9, employee_ref: 2, service_ref: 5, date: date1, from: '1030', to: '1130',
-                        customer: 'Jane Doe', email: 'jane@inter.net', phone: '2932132132',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 9, [aTaskDet.A_EMPLOYEE_REF]: 2, [aTaskDet.A_SERVICE_REF]: 5,
+                        [aTaskDet.A_DATE]: date1, [aTaskDet.A_FROM]: '1030', [aTaskDet.A_TO]: '1130',
+                        [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
+                        [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     }, {
-                        book_ref: 10, employee_ref: 2, service_ref: 5, date: date3, from: '1030', to: '1730',
-                        customer: 'Jane Doe', email: 'jane@inter.net', phone: '2932132132',
-                        lang: 'en_US', note: 'some notes related to the task.',
+                        [aTaskDet.A_TASK_REF]: 10, [aTaskDet.A_EMPLOYEE_REF]: 2, [aTaskDet.A_SERVICE_REF]: 5,
+                        [aTaskDet.A_DATE]: date3, [aTaskDet.A_FROM]: '1030', [aTaskDet.A_TO]: '1730',
+                        [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
+                        [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                        [aTaskDet.A_NOTE]: 'some notes related to the task.',
                     },
                 ]);
             }
 
             // MAIN FUNCTIONALITY
-            const knex = _connector.getKnex();
-            const trx = await _connector.startTransaction();
+            const knex = connector.getKnex();
+            const trx = await connector.startTransaction();
             try {
                 /** @type {SchemaBuilder} */
-                const schema = _connector.getSchema();
+                const schema = connector.getSchema();
                 // compose queries to create DB structure
                 await dropTables(schema);
                 await composeRegistries(schema, knex);
                 await composeEmployee(schema);
-                await composeBook(schema);
+                await composeTaskDetails(schema);
                 // perform queries to create DB structure
                 await schema;
                 // insert data
@@ -265,9 +321,9 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 trx.commit();
             } catch (e) {
                 trx.rollback();
-                _logger.error(`${e.toString()}`);
+                logger.error(`${e.toString()}`);
             }
-            await _connector.disconnect();
+            await connector.disconnect();
         };
     }
 }
