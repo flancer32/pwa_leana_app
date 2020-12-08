@@ -58,7 +58,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
             async function dropTables(schema) {
                 /* drop related tables (foreign keys) */
                 // deprecated tables
-                schema.dropTableIfExists('book_details');
+                schema.dropTableIfExists('book_detail');
                 // actual tables
                 schema.dropTableIfExists(aEmplSrv.TABLE);
                 schema.dropTableIfExists(aEmplTimeWork.TABLE);
