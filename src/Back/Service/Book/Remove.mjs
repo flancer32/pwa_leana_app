@@ -1,4 +1,11 @@
 export default class Fl32_Leana_Back_Service_Book_Remove {
+    /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
+    eTask
+
+    constructor(spec) {
+        this.eTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
+    }
+
     /**
      * Remove task from RDB.
      *
@@ -12,8 +19,8 @@ export default class Fl32_Leana_Back_Service_Book_Remove {
 
 
         // MAIN FUNCTIONALITY
-        const query = trx('book')
-            .where('id', taskId)
+        const query = trx(this.eTask.TABLE)
+            .where(this.eTask.A_ID, taskId)
             .del();
         removed = await query;
 

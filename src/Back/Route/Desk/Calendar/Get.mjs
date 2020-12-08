@@ -10,6 +10,15 @@ export default class Fl32_Leana_Back_Route_Desk_Calendar_Get {
         const Response = spec['Fl32_Leana_Shared_Api_Route_Desk_Calendar_Get_Response#'];
         const Service = spec['Fl32_Leana_Shared_Api_Data_Service#'];
         const Task = spec['Fl32_Leana_Shared_Api_Data_Desk_Task#'];
+        /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
+        const eEmpl = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
+        const eSrv = spec.Fl32_Leana_Store_RDb_Schema_Service$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
+        const eTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
+        /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
+        const eTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
+
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
         /**
@@ -34,7 +43,7 @@ export default class Fl32_Leana_Back_Route_Desk_Calendar_Get {
             async function _getEmployees(trx) {
                 const result = {};
                 const query = trx.select();
-                query.from('employee');
+                query.from(eEmpl.TABLE);
                 const rs = await query;
                 for (const one of rs) {
                     const target = new Employee();
@@ -52,7 +61,7 @@ export default class Fl32_Leana_Back_Route_Desk_Calendar_Get {
             async function _getServices(trx) {
                 const result = {};
                 const query = trx.select();
-                query.from('service');
+                query.from(eSrv.TABLE);
                 const rs = await query;
                 for (const one of rs) {
                     const target = new Service();
@@ -71,24 +80,24 @@ export default class Fl32_Leana_Back_Route_Desk_Calendar_Get {
                 const result = {};
                 // SELECT from book
                 const query = trx.select();
-                query.from({b: 'book'});
+                query.from({b: eTask.TABLE});
                 query.select([
-                    {id: 'b.id'},
-                    {dateCreated: 'b.created'},
+                    {id: `b.${eTask.A_ID}`},
+                    {dateCreated: `b.${eTask.A_CREATED}`},
                 ]);
                 // JOIN book_detail
-                query.leftOuterJoin({d: 'book_detail'}, 'd.book_ref', 'b.id');
+                query.leftOuterJoin({d: eTaskDet.TABLE}, `d.${eTaskDet.A_TASK_REF}`, `b.${eTask.A_ID}`);
                 query.select([
-                    {employeeRef: 'd.employee_ref'},
-                    {serviceRef: 'd.service_ref'},
-                    {bookedDate: 'd.date'},
-                    {bookedBegin: 'd.from'},
-                    {bookedEnd: 'd.to'},
-                    {customerName: 'd.customer'},
-                    {customerPhone: 'd.phone'},
-                    {customerEmail: 'd.email'},
-                    {lang: 'd.lang'},
-                    {note: 'd.note'},
+                    {employeeRef: `d.${eTaskDet.A_EMPLOYEE_REF}`},
+                    {serviceRef: `d.${eTaskDet.A_SERVICE_REF}`},
+                    {bookedDate: `d.${eTaskDet.A_DATE}`},
+                    {bookedBegin: `d.${eTaskDet.A_FROM}`},
+                    {bookedEnd: `d.${eTaskDet.A_TO}`},
+                    {customerName: `d.${eTaskDet.A_CUSTOMER}`},
+                    {customerPhone: `d.${eTaskDet.A_PHONE}`},
+                    {customerEmail: `d.${eTaskDet.A_EMAIL}`},
+                    {lang: `d.${eTaskDet.A_LANG}`},
+                    {note: `d.${eTaskDet.A_NOTE}`},
                 ]);
                 // const sql = query.toString();
                 // console.log(sql);

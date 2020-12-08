@@ -3,11 +3,23 @@ export default class Fl32_Leana_Back_Service_Book_Save {
     #googleApi
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
     #utilDate
+    /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
+    eEmpl
+    /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
+    eSrv
+    /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
+    eTask
+    /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
+    eTaskDet
 
     /**  @param {Object} spec */
     constructor(spec) {
         this.#googleApi = spec.Fl32_Leana_Extern_Google_Api$;
         this.#utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
+        this.eEmpl = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
+        this.eSrv = spec.Fl32_Leana_Store_RDb_Schema_Service$;
+        this.eTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
+        this.eTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
     }
 
     /**
@@ -39,16 +51,23 @@ export default class Fl32_Leana_Back_Service_Book_Save {
             const note = req.note ?? undefined;
             const lang = req.lang ?? undefined;
             // register ID for entity
-            const rs = await trx('book').insert({});
-            const bookId = rs[0];
+            const rs = await trx(me.eTask.TABLE).insert({});
+            const taskId = rs[0];
             // add details for new entity
-            await trx('book_detail').insert({
-                book_ref: bookId,
-                employee_ref: req.masterId,
-                service_ref: req.serviceId,
-                date, from, to, customer, email, phone, note, lang,
+            await trx(me.eTaskDet.TABLE).insert({
+                [me.eTaskDet.A_TASK_REF]: taskId,
+                [me.eTaskDet.A_EMPLOYEE_REF]: req.masterId,
+                [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
+                [me.eTaskDet.A_DATE]: date,
+                [me.eTaskDet.A_FROM]: from,
+                [me.eTaskDet.A_TO]: to,
+                [me.eTaskDet.A_CUSTOMER]: customer,
+                [me.eTaskDet.A_EMAIL]: email,
+                [me.eTaskDet.A_PHONE]: phone,
+                [me.eTaskDet.A_NOTE]: note,
+                [me.eTaskDet.A_LANG]: lang,
             });
-            return bookId;
+            return taskId;
         }
 
         async function saveToDb() {
@@ -65,11 +84,18 @@ export default class Fl32_Leana_Back_Service_Book_Save {
             const note = req.note ?? undefined;
             const lang = req.lang ?? undefined;
             // update details for existing entity
-            await trx('book_detail')
+            await trx(me.eTaskDet.TABLE)
                 .update({
-                    employee_ref: req.masterId,
-                    service_ref: req.serviceId,
-                    date, from, to, customer, email, phone, note, lang,
+                    [me.eTaskDet.A_EMPLOYEE_REF]: req.masterId,
+                    [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
+                    [me.eTaskDet.A_DATE]: date,
+                    [me.eTaskDet.A_FROM]: from,
+                    [me.eTaskDet.A_TO]: to,
+                    [me.eTaskDet.A_CUSTOMER]: customer,
+                    [me.eTaskDet.A_EMAIL]: email,
+                    [me.eTaskDet.A_PHONE]: phone,
+                    [me.eTaskDet.A_NOTE]: note,
+                    [me.eTaskDet.A_LANG]: lang,
                 })
                 .where({book_ref: req.id,});
             return req.id;
@@ -77,20 +103,20 @@ export default class Fl32_Leana_Back_Service_Book_Save {
 
         async function getEmployeeName(employeeId) {
             const query = trx.select();
-            query.from('employee');
-            query.where('id', employeeId);
+            query.from(me.eEmpl.TABLE);
+            query.where(me.eEmpl.A_ID, employeeId);
             const rs = await query;
             const data = rs[0];
-            return data.code;
+            return data[me.eEmpl.A_CODE];
         }
 
         async function getServiceName(serviceId) {
             const query = trx.select();
-            query.from('service');
-            query.where('id', serviceId);
+            query.from(me.eSrv.TABLE);
+            query.where(me.eSrv.A_ID, serviceId);
             const rs = await query;
             const data = rs[0];
-            return data.code;
+            return data[me.eSrv.A_CODE];
         }
 
         async function saveToGoogle(bookId, master, service) {
