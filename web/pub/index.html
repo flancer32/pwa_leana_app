@@ -72,10 +72,13 @@
                 const container = await initDiContainer();
                 // create 'teqfw' object in global scope and populate it
                 self.teqfw = {};
+                self.teqfw.lib = {Vue: self.Vue, Vuex: self.Vuex, VueRouter: self.VueRouter};
                 self.teqfw.app = self.Vue.createApp({});
                 self.teqfw.config = await loadConfig();
                 self.teqfw.router = initRouter();
                 self.teqfw.i18next = await initI18n(self.teqfw.app);
+                // place application objects into DI-container
+                container.set('config', self.teqfw.config);
                 // load root component and mount frontend application to DOM
                 const appRoot = await container.get('Fl32_Leana_Front_Pub_App$$');
                 self.teqfw.app.component('appRoot', appRoot);
@@ -127,6 +130,7 @@
 <!-- These scripts are not ESM ready for loading with ES6 'import'. Use old style loading.  -->
 <script type="application/javascript" src="./node/vue/vue.global.js"></script>
 <script type="application/javascript" src="./node/vue-router/vue-router.global.js"></script>
+<script type="application/javascript" src="./node/vuex/vuex.global.js"></script>
 <script type="application/javascript" src="./node/i18next/i18next.min.js"></script>
 <script type="application/javascript" src="./node/i18next-bld/i18nextBrowserLanguageDetector.js"></script>
 <link rel="stylesheet" href="./node/js-datepicker/datepicker.min.css">

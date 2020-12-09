@@ -1,0 +1,8 @@
+GET https://{{host}}/api/app/sw/files_to_cache/desk
+Accept: application/json
+
+###
+GET https://{{host}}/api/app/sw/files_to_cache/pub
+Accept: application/json
+
+###

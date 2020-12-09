@@ -1,4 +1,6 @@
 const i18next = self.teqfw.i18next;
+const mapActions = self.teqfw.lib.Vuex.mapActions;
+const mapState = self.teqfw.lib.Vuex.mapState;
 
 
 i18next.addResourceBundle('lv', 'route-book', {
@@ -18,15 +20,6 @@ i18next.addResourceBundle('lv', 'route-book', {
     phone: 'Jūsu telefons',
     phonePH: 'telefons: 29101010',
     service: 'Pakalpojums',
-    serviceLabel: {
-        haircut_man: 'Vīriešu frizūra ({{time}})',
-        haircut_women: 'Sieviešu frizūra ({{time}})',
-        haircut_child: 'Bērnu frizūra ({{time}})',
-        color_simple: 'Vienkārša krāsošana ({{time}})',
-        color_complex: 'Kompleksa krāsošana ({{time}})',
-        color_highlight: 'Izcelšana ({{time}})',
-        perm: 'Perm ({{time}})',
-    },
     serviceSelect: 'Izvēlieties pakalpojumu',
     title: 'Pierakstīties',
 }, true);
@@ -47,15 +40,6 @@ i18next.addResourceBundle('ru', 'route-book', {
     phone: 'Ваш телефон',
     phonePH: 'телефон: 29101010',
     service: 'Услуга',
-    serviceLabel: {
-        haircut_man: 'Стрижка мужская ({{time}})',
-        haircut_women: 'Стрижка женская ({{time}})',
-        haircut_child: 'Стрижка детская ({{time}})',
-        color_simple: 'Окрашивание простое ({{time}})',
-        color_complex: 'Окрашивание сложное ({{time}})',
-        color_highlight: 'Мелирование ({{time}})',
-        perm: 'Химическая завивка ({{time}})',
-    },
     serviceSelect: 'Выберите услугу',
     title: 'Записаться',
 }, true);
@@ -96,7 +80,7 @@ const template = `
                 <select name="service" v-model="service">
                     <option disabled value="null">{{ $t('route-book:serviceSelect') }}</option>
                     <option v-for="(one) in serviceOptions" :value="one.id" :disabled="one.disabled">
-                        {{ $t('route-book:serviceLabel.' + one.code, {time: one.duration}) }}
+                        {{ one.name }} ({{one.duration}})
                     </option>
                 </select>
             </div>
@@ -188,11 +172,15 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             },
             serviceOptions() {
                 let result = [];
-                if (this.bookingState && Array.isArray(this.bookingState.services)) {
-                    for (const one of this.bookingState.services) {
-                        const duration = utilDate.convertMinsToHrsMins(one.duration);
-                        const option = {id: one.id, code: one.code, duration};
-                        result.push(option);
+                if (this.apiServices) {
+                    for (const key in this.apiServices) {
+                        /** @type {Fl32_Leana_Shared_Api_Data_New_Service} */
+                        const one = this.apiServices[key];
+                        if (one.public) {
+                            const duration = utilDate.convertMinsToHrsMins(one.duration);
+                            const option = {id: one.id, name: one.name, duration};
+                            result.push(option);
+                        }
                     }
                 }
                 return result;
@@ -291,7 +279,11 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                     }
                 }
                 return result;
-            }
+            },
+            ...mapState({
+                apiEmployees: state => state.book.employees,
+                apiServices: state => state.book.services,
+            })
         },
         methods: {
             /**
@@ -344,7 +336,11 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                     this.date = null;
                     this.time = null;
                 }
-            }
+            },
+            ...mapActions({
+                loadEmployees: 'book/loadEmployees',
+                loadServices: 'book/loadServices',
+            }),
         },
         async mounted() {
             // DEFINE INNER FUNCTIONS
@@ -361,6 +357,8 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             // MAIN FUNCTIONALITY
             const {data} = await _loadData();
             this.bookingState = data;
+            await this.loadEmployees();
+            await this.loadServices();
         }
     };
 }

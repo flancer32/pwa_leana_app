@@ -1,10 +1,10 @@
 /**
- * State for common functionality of the 'desk' realm.
+ * State for common functionality of the 'pub' realm.
  *
  * @return {Object}
  * @constructor
  */
-export default function Fl32_Leana_Front_Desk_State_App() {
+export default function Fl32_Leana_Front_Pub_State_App() {
     return {
         namespaced: true,
         state: {

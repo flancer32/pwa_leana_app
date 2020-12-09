@@ -18,10 +18,10 @@
             async function initDiContainer() {
                 const baseUrl = location.origin;
                 // create and setup DI Container
-                const modContainer = await import('../src/@teqfw/di/Container.mjs');
+                const modContainer = await import('./src/@teqfw/di/Container.mjs');
                 /** @type {TeqFw_Di_Container} */
                 const result = new modContainer.default();
-                result.addSourceMapping('Fl32_Leana', baseUrl + '/src/leana', true, 'mjs');
+                result.addSourceMapping('Fl32_Leana', baseUrl + '/desk/src/leana', true, 'mjs');
                 return result;
             }
 
@@ -127,13 +127,13 @@
 <!-- load application styles -->
 <link rel="stylesheet" href="styles.css">
 <!-- These scripts are not ESM ready for loading with ES6 'import'. Use old style loading.  -->
-<script type="application/javascript" src="../node/vue/vue.global.js"></script>
-<script type="application/javascript" src="../node/vue-router/vue-router.global.js"></script>
-<script type="application/javascript" src="../node/vuex/vuex.global.js"></script>
-<script type="application/javascript" src="../node/i18next/i18next.min.js"></script>
-<script type="application/javascript" src="../node/i18next-bld/i18nextBrowserLanguageDetector.js"></script>
-<link rel="stylesheet" href="../node/js-datepicker/datepicker.min.css">
-<script type="application/javascript" src="../node/js-datepicker/datepicker.min.js"></script>
+<script type="application/javascript" src="./node/vue/vue.global.js"></script>
+<script type="application/javascript" src="./node/vue-router/vue-router.global.js"></script>
+<script type="application/javascript" src="./node/vuex/vuex.global.js"></script>
+<script type="application/javascript" src="./node/i18next/i18next.min.js"></script>
+<script type="application/javascript" src="./node/i18next-bld/i18nextBrowserLanguageDetector.js"></script>
+<link rel="stylesheet" href="./node/js-datepicker/datepicker.min.css">
+<script type="application/javascript" src="./node/js-datepicker/datepicker.min.js"></script>
 <script type="application/javascript" src="../lib/all.js"></script>
 </body>
 </html>

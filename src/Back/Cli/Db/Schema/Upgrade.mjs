@@ -86,6 +86,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     schema.createTable(aEmployee.ENTITY, (table) => {
                         table.increments(aEmployee.A_ID);
                         table.string(aEmployee.A_CODE).notNullable().comment('Short unique name for employee.');
+                        table.string(aEmployee.A_NAME_LV).notNullable().comment('Employee name in latvian.');
+                        table.string(aEmployee.A_NAME_RU).notNullable().comment('Employee name in russian.');
                         table.unique([aEmployee.A_CODE], 'UQ_employee__code');
                         table.comment('Register for employees.');
                     });
@@ -194,17 +196,22 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
              * Compose queries to insert data into the tables.
              * @param trx
              */
-            function populateWithData(trx) {
+            async function populateWithData(trx) {
                 // DEFINE INNER FUNCTIONS
-                function insertEmployees(trx) {
-                    trx(aEmployee.ENTITY).insert([
-                        {[aEmployee.A_ID]: 1, [aEmployee.A_CODE]: 'elena'},
-                        {[aEmployee.A_ID]: 2, [aEmployee.A_CODE]: 'natalie'}
+                async function insertEmployees(trx) {
+                    await trx(aEmployee.ENTITY).insert([
+                        {
+                            [aEmployee.A_ID]: 1, [aEmployee.A_CODE]: 'elena',
+                            [aEmployee.A_NAME_LV]: 'Helena', [aEmployee.A_NAME_RU]: 'Елена',
+                        }, {
+                            [aEmployee.A_ID]: 2, [aEmployee.A_CODE]: 'natalie',
+                            [aEmployee.A_NAME_LV]: 'Natalija', [aEmployee.A_NAME_RU]: 'Наталья',
+                        }
                     ]);
                 }
 
-                function insertEmployeeServices(trx) {
-                    trx(aEmplSrv.ENTITY).insert([
+                async function insertEmployeeServices(trx) {
+                    await trx(aEmplSrv.ENTITY).insert([
                         {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 1},
                         {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 2},
                         {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 3},
@@ -220,7 +227,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     ]);
                 }
 
-                function insertEmployeeTimeWork(trx) {
+                async function insertEmployeeTimeWork(trx) {
                     const timeWorkItems = [];
                     for (let i = 1; i < 20; i++) {
                         const ref = i % 2 + 1;
@@ -229,11 +236,11 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                         timeWorkItems.push({employee_ref: ref, date});
 
                     }
-                    trx(aEmplTimeWork.ENTITY).insert(timeWorkItems);
+                    await trx(aEmplTimeWork.ENTITY).insert(timeWorkItems);
                 }
 
-                function insertServices(trx) {
-                    trx(aService.ENTITY).insert([{
+                async function insertServices(trx) {
+                    await trx(aService.ENTITY).insert([{
                         [aService.A_ID]: 1, [aService.A_CODE]: 'haircut_man',
                         [aService.A_PUBLIC]: true, [aService.A_DURATION]: 30,
                         [aService.A_NAME_LV]: 'Vīriešu frizūra',
@@ -271,8 +278,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     },]);
                 }
 
-                function insertTasks(trx) {
-                    trx(aTask.ENTITY).insert([
+                async function insertTasks(trx) {
+                    await trx(aTask.ENTITY).insert([
                         {[aTask.A_ID]: 1},
                         {[aTask.A_ID]: 2},
                         {[aTask.A_ID]: 3},
@@ -286,7 +293,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     ]);
                 }
 
-                function insertTasksDetails(trx) {
+                async function insertTasksDetails(trx) {
                     const d0 = util.forwardDate(0);
                     const d1 = util.forwardDate(1);
                     const d2 = util.forwardDate(2);
@@ -295,7 +302,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     const date1 = util.formatDate(d1);
                     const date2 = util.formatDate(d2);
                     const date3 = util.formatDate(d3);
-                    trx(aTaskDet.ENTITY).insert([
+                    await trx(aTaskDet.ENTITY).insert([
                         {
                             [aTaskDet.A_TASK_REF]: 1, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 1,
                             [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0900', [aTaskDet.A_TO]: '1115',
@@ -361,12 +368,12 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 }
 
                 // MAIN FUNCTIONALITY
-                insertEmployees(trx);
-                insertServices(trx);
-                insertEmployeeServices(trx);
-                insertEmployeeTimeWork(trx);
-                insertTasks(trx);
-                insertTasksDetails(trx);
+                await insertEmployees(trx);
+                await insertServices(trx);
+                await insertEmployeeServices(trx);
+                await insertEmployeeTimeWork(trx);
+                await insertTasks(trx);
+                await insertTasksDetails(trx);
             }
 
             // MAIN FUNCTIONALITY
@@ -380,8 +387,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 // perform queries to recreate DB structure
                 await schema;
 
-                // create queries to insert data into created tables
-                populateWithData(trx);
+                // perform queries to insert data into created tables
+                await populateWithData(trx);
                 // perform queries to insert data and commit changes
                 trx.commit();
             } catch (e) {

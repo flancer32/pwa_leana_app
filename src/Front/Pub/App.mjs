@@ -1,3 +1,4 @@
+const app = self.teqfw.app;
 const router = self.teqfw.router;
 const i18next = self.teqfw.i18next;
 i18next.addResources('lv', 'app', {});
@@ -30,6 +31,7 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     const routeBook = spec.Fl32_Leana_Front_Pub_Route_Book$;
     const routeContacts = spec.Fl32_Leana_Front_Pub_Route_Contacts$;
     const routeServices = spec.Fl32_Leana_Front_Pub_Route_Services$;
+    const state = spec.Fl32_Leana_Front_Pub_State$;
 
     router.addRoute({path: '/', component: routeAbout});
     router.addRoute({path: '/about', component: routeAbout});
@@ -38,7 +40,11 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     router.addRoute({path: '/services', component: routeServices});
 
     // mount router here to enable routing on the first load of the page
-    self.teqfw.app.use(router);
+    app.use(router);
+
+    // setup Vuex store
+    const store = self.Vuex.createStore(state);
+    app.use(store);
 
     return {
         template,

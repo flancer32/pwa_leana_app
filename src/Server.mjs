@@ -47,6 +47,8 @@ export default class Fl32_Leana_Server {
         await this.addApiRoute('/api/app/sw/files_to_cache/desk', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Desk$');
         await this.addApiRoute('/api/app/sw/files_to_cache/pub', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Pub$');
         await this.addApiRoute('/api/desk/calendar/get', 'Fl32_Leana_Back_Service_Desk_Calendar_Get$');
+        await this.addApiRoute('/api/employee/list', 'Fl32_Leana_Back_Service_Employee_List$');
+        await this.addApiRoute('/api/service/list', 'Fl32_Leana_Back_Service_Service_List$');
         await this.addApiRoute('/api/task/remove', 'Fl32_Leana_Back_Service_Task_Remove$');
         await this.addApiRoute('/api/task/save', 'Fl32_Leana_Back_Service_Task_Save$');
         await this.addApiRoute('/api/task/state/get', 'Fl32_Leana_Back_Service_Task_State_Get$');
