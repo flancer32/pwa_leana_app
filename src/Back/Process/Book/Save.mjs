@@ -51,10 +51,10 @@ export default class Fl32_Leana_Back_Process_Book_Save {
             const note = req.note ?? undefined;
             const lang = req.lang ?? undefined;
             // register ID for entity
-            const rs = await trx(me.eTask.TABLE).insert({});
+            const rs = await trx(me.eTask.ENTITY).insert({});
             const taskId = rs[0];
             // add details for new entity
-            await trx(me.eTaskDet.TABLE).insert({
+            await trx(me.eTaskDet.ENTITY).insert({
                 [me.eTaskDet.A_TASK_REF]: taskId,
                 [me.eTaskDet.A_EMPLOYEE_REF]: req.masterId,
                 [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
@@ -84,7 +84,7 @@ export default class Fl32_Leana_Back_Process_Book_Save {
             const note = req.note ?? undefined;
             const lang = req.lang ?? undefined;
             // update details for existing entity
-            await trx(me.eTaskDet.TABLE)
+            await trx(me.eTaskDet.ENTITY)
                 .update({
                     [me.eTaskDet.A_EMPLOYEE_REF]: req.masterId,
                     [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
@@ -103,7 +103,7 @@ export default class Fl32_Leana_Back_Process_Book_Save {
 
         async function getEmployeeName(employeeId) {
             const query = trx.select();
-            query.from(me.eEmpl.TABLE);
+            query.from(me.eEmpl.ENTITY);
             query.where(me.eEmpl.A_ID, employeeId);
             const rs = await query;
             const data = rs[0];
@@ -112,7 +112,7 @@ export default class Fl32_Leana_Back_Process_Book_Save {
 
         async function getServiceName(serviceId) {
             const query = trx.select();
-            query.from(me.eSrv.TABLE);
+            query.from(me.eSrv.ENTITY);
             query.where(me.eSrv.A_ID, serviceId);
             const rs = await query;
             const data = rs[0];

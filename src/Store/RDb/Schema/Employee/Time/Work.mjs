@@ -8,7 +8,7 @@ export default class Fl32_Leana_Store_RDb_Schema_Employee_Time_Work {
     A_FROM = 'from'
     A_TO = 'to'
 
-    TABLE = 'employee_time_work'
+    ENTITY = 'employee_time_work'
 
     constructor() {
         Object.freeze(this);

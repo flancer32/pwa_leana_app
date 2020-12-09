@@ -43,7 +43,7 @@ export default class Fl32_Leana_Back_Service_Desk_Calendar_Get {
             async function _getEmployees(trx) {
                 const result = {};
                 const query = trx.select();
-                query.from(eEmpl.TABLE);
+                query.from(eEmpl.ENTITY);
                 const rs = await query;
                 for (const one of rs) {
                     const target = new Employee();
@@ -61,7 +61,7 @@ export default class Fl32_Leana_Back_Service_Desk_Calendar_Get {
             async function _getServices(trx) {
                 const result = {};
                 const query = trx.select();
-                query.from(eSrv.TABLE);
+                query.from(eSrv.ENTITY);
                 const rs = await query;
                 for (const one of rs) {
                     const target = new Service();
@@ -80,13 +80,13 @@ export default class Fl32_Leana_Back_Service_Desk_Calendar_Get {
                 const result = {};
                 // SELECT from book
                 const query = trx.select();
-                query.from({b: eTask.TABLE});
+                query.from({b: eTask.ENTITY});
                 query.select([
                     {id: `b.${eTask.A_ID}`},
                     {dateCreated: `b.${eTask.A_CREATED}`},
                 ]);
                 // JOIN book_detail
-                query.leftOuterJoin({d: eTaskDet.TABLE}, `d.${eTaskDet.A_TASK_REF}`, `b.${eTask.A_ID}`);
+                query.leftOuterJoin({d: eTaskDet.ENTITY}, `d.${eTaskDet.A_TASK_REF}`, `b.${eTask.A_ID}`);
                 query.select([
                     {employeeRef: `d.${eTaskDet.A_EMPLOYEE_REF}`},
                     {serviceRef: `d.${eTaskDet.A_SERVICE_REF}`},

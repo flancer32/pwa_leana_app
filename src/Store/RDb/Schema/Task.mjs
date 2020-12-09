@@ -6,7 +6,7 @@ export default class Fl32_Leana_Store_RDb_Schema_Task {
     A_CREATED = 'created'
     A_ID = 'id'
 
-    TABLE = 'task'
+    ENTITY = 'task'
 
     constructor() {
         Object.freeze(this);

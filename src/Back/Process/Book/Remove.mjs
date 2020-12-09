@@ -19,7 +19,7 @@ export default class Fl32_Leana_Back_Process_Book_Remove {
 
 
         // MAIN FUNCTIONALITY
-        const query = trx(this.eTask.TABLE)
+        const query = trx(this.eTask.ENTITY)
             .where(this.eTask.A_ID, taskId)
             .del();
         removed = await query;

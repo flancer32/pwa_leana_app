@@ -5,19 +5,23 @@ export default class Fl32_Leana_Shared_Api_Data_Service {
     /**
      * Internal id.
      *
-     * @type {number}
+     * @type {Number}
      */
     id
     /**
      * Unique code of the service.
      *
-     * @type {string}
+     * @type {String}
      */
     code
     /**
      * Service duration in minutes.
      *
-     * @type {number}
+     * @type {Number}
      */
     duration
+    /**
+     * @type {String}
+     */
+    name
 }

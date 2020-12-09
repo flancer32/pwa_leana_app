@@ -39,7 +39,7 @@ export default class Fl32_Leana_Back_Service_Task_State_Get {
             async function _getEmployees(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from(eEmpl.TABLE);
+                query.from(eEmpl.ENTITY);
                 const rs = await query;
                 for (const one of rs) {
                     /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
@@ -58,7 +58,7 @@ export default class Fl32_Leana_Back_Service_Task_State_Get {
             async function _getServices(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from(eSrv.TABLE);
+                query.from(eSrv.ENTITY);
                 query.where(eSrv.A_PUBLIC, true);
                 const rs = await query;
                 for (const one of rs) {
@@ -71,7 +71,7 @@ export default class Fl32_Leana_Back_Service_Task_State_Get {
             async function _getServicesMap(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from(eEmplSrv.TABLE);
+                query.from(eEmplSrv.ENTITY);
                 const rs = await query;
                 for (const one of rs) {
                     result.push(Object.assign({}, one));
@@ -82,7 +82,7 @@ export default class Fl32_Leana_Back_Service_Task_State_Get {
             async function _getWorkTime(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from(eEmplTimeWork.TABLE);
+                query.from(eEmplTimeWork.ENTITY);
                 const rs = await query;
                 for (const one of rs) {
                     result.push(Object.assign({}, one));
@@ -93,7 +93,7 @@ export default class Fl32_Leana_Back_Service_Task_State_Get {
             async function _getBookedTime(trx) {
                 const result = [];
                 const query = trx.select();
-                query.from(eTaskDet.TABLE);
+                query.from(eTaskDet.ENTITY);
                 const rs = await query;
                 for (const one of rs) {
                     result.push(Object.assign({}, one));

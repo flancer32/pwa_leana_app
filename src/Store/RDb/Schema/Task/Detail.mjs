@@ -15,7 +15,7 @@ export default class Fl32_Leana_Store_RDb_Schema_Task_Detail {
     A_TASK_REF = 'task_ref'
     A_TO = 'to'
 
-    TABLE = 'task_detail'
+    ENTITY = 'task_detail'
 
     constructor() {
         Object.freeze(this);
