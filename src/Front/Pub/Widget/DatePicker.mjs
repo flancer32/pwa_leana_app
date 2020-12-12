@@ -51,6 +51,10 @@ export default function Fl32_Leana_Front_Pub_Widget_DatePicker() {
                 const isHidden = picker.calendarContainer.classList.contains('qs-hidden');
                 picker[isHidden ? 'show' : 'hide']();
             },
+            cleanSelected() {
+                const el = self.document.querySelector('#bookDate');
+                el.value = '';
+            },
             /**
              * (Re)create date picker widget after params were changed.
              */

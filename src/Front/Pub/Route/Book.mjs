@@ -380,6 +380,8 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                     this.employeeId = null;
                     this.time = null;
                     this.setDateSelected(null);
+                    this.$refs['timePicker'].idSelected = null;
+                    this.$refs['datePicker'].cleanSelected();
                 }
             },
             ...mapMutations({
