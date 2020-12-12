@@ -101,26 +101,59 @@ export default class Fl32_Leana_Shared_Util_DateTime {
     }
 
     /**
+     * Convert `dateIn` into 'YYYYMMDD'.
+     * `new Date()` is used if `dateIn` is null.
+     *
+     * @param {Date|string|null} dateIn
+     * @returns {string}
+     */
+    stampDateUtc(dateIn = null) {
+        /** @type {Date} */
+        const date = (dateIn) ?
+            (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
+            new Date();
+        const y = date.getUTCFullYear();
+        const m = `${date.getUTCMonth() + 1}`.padStart(2, '0');
+        const d = `${date.getUTCDate()}`.padStart(2, '0');
+        return `${y}${m}${d}`;
+    }
+
+    /**
+     * Convert `dateIn` into 'HHMM'.
+     * `new Date()` is used if `dateIn` is null.
+     *
+     * @param {Date|string|null} dateIn
+     * @returns {string}
+     */
+    stampTimeUtc(dateIn = null) {
+        /** @type {Date} */
+        const date = (dateIn) ?
+            (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
+            new Date();
+        const h = `${date.getUTCHours()}`.padStart(2, '0');
+        const m = `${date.getUTCMinutes()}`.padStart(2, '0');
+        return `${h}${m}`;
+    }
+
+    /**
      *
      * @param {string} formatted 'YYYYMMDD'
      * @param {string} time 'HHMM' | 'HH:MM'
      */
     unformatDate(formatted, time = null) {
         const result = new Date();
-        const y = formatted.substring(0, 4);
-        const m = formatted.substring(4, 6);
-        const d = formatted.substring(6, 8);
-        let msec = Date.parse(`${y}/${m}/${d} 12:00:00`);
-        if (time) {
-            if (time.length === 4) {
-                const hour = time.substring(0, 2);
-                const min = time.substring(2, 4);
-                msec = Date.parse(`${y}/${m}/${d} ${hour}:${min}:00`);
-            } else {
-                msec = Date.parse(`${y}/${m}/${d} ${time}`);
-            }
+        const y = Number.parseInt(formatted.substring(0, 4));
+        const m = Number.parseInt(formatted.substring(4, 6));
+        const d = Number.parseInt(formatted.substring(6, 8));
+        result.setUTCFullYear(y, m - 1, d);
+
+        let hour = 12;
+        let min = 0;
+        if (time && (time.length === 4)) {
+            hour = Number.parseInt(time.substring(0, 2));
+            min = Number.parseInt(time.substring(2, 4));
         }
-        result.setTime(msec);
+        result.setUTCHours(hour, min, 0, 0);
         return result;
     }
 
@@ -135,5 +168,14 @@ export default class Fl32_Leana_Shared_Util_DateTime {
         let result = (date) ? new Date(date.getTime()) : new Date();
         result.setDate(result.getDate() + days);
         return result;
+    }
+
+    /**
+     * Convert minutes to milliseconds.
+     * @param {Number|String} minutes
+     * @return {Number}
+     */
+    minutesToMilliseconds(minutes) {
+        return Number.parseInt(minutes) * 60 * 1000;
     }
 }

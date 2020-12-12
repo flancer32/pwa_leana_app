@@ -229,11 +229,13 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
 
                 async function insertEmployeeTimeWork(trx) {
                     const timeWorkItems = [];
-                    for (let i = 1; i < 20; i++) {
+                    for (let i = 0; i < 20; i++) {
                         const ref = i % 2 + 1;
-                        const dt = util.forwardDate(i);
+                        const dt = util.forwardDate(i - 10);
                         const date = util.formatDate(dt);
-                        timeWorkItems.push({employee_ref: ref, date});
+                        const from = '0700';
+                        const to = '1800';
+                        timeWorkItems.push({employee_ref: ref, date, from, to});
 
                     }
                     await trx(aEmplTimeWork.ENTITY).insert(timeWorkItems);

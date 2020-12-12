@@ -6,4 +6,18 @@ Content-Type: application/json
 
 
 ###
+POST https://{{host}}/api/employee/time_work/list
+Accept: application/json
+Content-Type: application/json
+
+{
+  "data": {
+    "employeeRef": 1,
+    "dateBegin": "2020-12-10T09:00:00Z",
+    "dateEnd": "2021-01-10T20:00:00Z"
+  }
+}
+
+
+###
 

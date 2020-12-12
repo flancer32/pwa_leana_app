@@ -1,5 +1,6 @@
 const i18next = self.teqfw.i18next;
 const mapActions = self.teqfw.lib.Vuex.mapActions;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
 
@@ -10,10 +11,6 @@ i18next.addResourceBundle('lv', 'route-book', {
     email: 'Jūsu e-pasts',
     emailPH: 'e-pasts: user@domain.com',
     master: 'Meistars',
-    masterLabel: {
-        elena: 'Helena',
-        natalie: 'Natalija',
-    },
     masterSelect: 'Izvēlieties meistaru',
     name: 'Jūsu vārds',
     namePH: 'vārds: Līga Ozola',
@@ -30,10 +27,6 @@ i18next.addResourceBundle('ru', 'route-book', {
     email: 'Ваш email',
     emailPH: 'email: user@domain.com',
     master: 'Мастер',
-    masterLabel: {
-        elena: 'Елена',
-        natalie: 'Наталья',
-    },
     masterSelect: 'Выберите мастера',
     name: 'Ваше имя',
     namePH: 'имя: Светлана Соколова',
@@ -90,15 +83,15 @@ const template = `
                 <span>{{ $t('route-book:master') }}:</span>
             </div>
             <div class="form_field">
-                <select name="master" v-model="master">
+                <select name="employeeId" v-model="employeeId">
                     <option disabled value="null">{{ $t('route-book:masterSelect') }}</option>
                     <option v-for="(one) in masterOptions" :value="one.id" :disabled="one.disabled">
-                        {{ $t('route-book:masterLabel.' + one.code) }}
+                        {{ one.name }}
                     </option>
                 </select>
             </div>
         </div>
-        <div class="fld-date form_row" v-show="master">
+        <div class="fld-date form_row" v-show="employeeId">
             <date-picker ref="datePicker"
                          :min="dpDateMin"
                          :max="dpDateMax"
@@ -106,13 +99,13 @@ const template = `
                          @selected="setDate"
             ></date-picker>
         </div>
-        <div class="fld-time form_row" v-show="date">
+        <div class="fld-time form_row" v-show="showTime">
             <div class="form_label">
                 <span>{{ $t('route-book:time') }}:</span>
             </div>
             <div class="form_field">
                 <time-picker ref="timePicker"
-                             :entries="tpEntries"
+                             :entries="timeEntries"
                              @selected="setTime"
                 ></time-picker>
             </div>
@@ -138,6 +131,9 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
     const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
     /** @type {Fl32_Leana_Shared_Util_Mix} */
     const utilMix = spec.Fl32_Leana_Shared_Util_Mix$;
+    // classes and functions
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request'];
+    const TimeWorkRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request'];
 
     return {
         template,
@@ -147,24 +143,23 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
         },
         data: function () {
             return {
-                date: null,
                 email: null,
-                master: null,
+                employeeId: null,
                 name: null,
                 phone: null,
                 service: null,
                 time: null,
-                /** @type {Fl32_Leana_Shared_Api_Route_Book_State_Get_Response} */
-                bookingState: null,
             };
         },
         computed: {
             masterOptions() {
                 let result = [];
-                if (this.bookingState && Array.isArray(this.bookingState.employees)) {
-                    for (const one of this.bookingState.employees) {
+                if (this.apiEmployees) {
+                    for (const key in this.apiEmployees) {
+                        /** @type {Fl32_Leana_Shared_Api_Data_New_Employee} */
+                        const one = this.apiEmployees[key];
                         if (Array.isArray(one.services) && one.services.includes(this.service)) {
-                            result.push({id: one.id, code: one.code});
+                            result.push({id: one.id, name: one.name});
                         }
                     }
                 }
@@ -186,26 +181,34 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 return result;
             },
             dpDateMax() {
-                return utilDate.forwardDate(21);
+                return utilDate.forwardDate(21, new Date(Date.now()));
             },
             dpDateMin() {
-                return new Date();
+                return new Date(Date.now());
             },
             dpDatesDisabled() {
                 const result = [];
-                if (this.bookingState && Array.isArray(this.bookingState.employees)) {
-                    const work = utilMix.getOptionPropById(this.bookingState.employees, this.master, 'workTime');
-                    if (work) {
-                        let date = this.dpDateMin;
-                        let dateMax = this.dpDateMax;
-                        while (date < dateMax) {
-                            date = utilDate.forwardDate(1, date);
-                            const formatted = utilDate.formatDate(date);
-                            if (!work[formatted]) {
-                                const disabled = utilDate.unformatDate(formatted);
-                                result.push(disabled);
-                            }
+                if (this.employeeId && Array.isArray(this.apiTimeWork)) {
+                    // get working days
+                    const workDays = [];
+                    for (
+                        /** @type {Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work} */
+                        const one of this.apiTimeWork) {
+                        if (one.employeeRef === this.employeeId) {
+                            const dateStart = one.start;
+                            const formatted = utilDate.formatDate(dateStart);
+                            workDays.push(formatted);
                         }
+                    }
+                    let date = this.dpDateMin;
+                    let dateMax = this.dpDateMax;
+                    while (date < dateMax) {
+                        const formatted = utilDate.formatDate(date);
+                        if (!workDays.includes(formatted)) {
+                            const disabled = utilDate.unformatDate(formatted);
+                            result.push(disabled);
+                        }
+                        date = utilDate.forwardDate(1, date);
                     }
                 }
                 return result;
@@ -220,58 +223,71 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 }
                 return result;
             },
-            tpEntries() {
+            timeEntries() {
                 /**
                  * Collect 'from' & 'to' times for booking intervals.
-                 * @param {string} date YYYYMMDD
-                 * @param {Fl32_Leana_Shared_Api_Data_Employee} employee
-                 * @return {{booked: Object.<string, string>, bookedFroms: string[]}}
+                 *
+                 * @param {Object.<number, Fl32_Leana_Shared_Api_Data_New_Task>} tasksOnDate
+                 * @return {Object<number, number>} datetimeBegin => dateTimeEnd
                  */
-                function getBookedTime(date, employee) {
-                    const booked = {};
-                    const bookedTime = employee.bookedTime;
-                    if (bookedTime[date]) {
-                        for (const bookFromDb in bookedTime[date]) {
-                            const bookToDb = bookedTime[date][bookFromDb].to;
-                            const bookFrom = utilDate.convertDbHrsMinsToMins(bookFromDb);
-                            const bookTo = utilDate.convertDbHrsMinsToMins(bookToDb);
-                            booked[bookFrom] = bookTo;
+                function getBookedTime(tasksOnDate) {
+                    const result = {};
+                    if (Array.isArray(Object.keys(tasksOnDate))) {
+                        for (const taskId in tasksOnDate) {
+                            /** @type {Fl32_Leana_Shared_Api_Data_New_Task} */
+                            const one = tasksOnDate[taskId];
+                            const dateFrom = new Date(one.dateBook);
+                            const duration = utilDate.minutesToMilliseconds(one.duration);
+                            const dateTo = new Date(dateFrom.getTime() + duration);
+                            const timeFrom = dateFrom.getTime();
+                            const timeTo = dateTo.getTime();
+                            if (result[timeFrom]) {
+                                // more than one tasks on the time
+                                result[timeFrom] = Math.max(timeTo, result[timeFrom]);
+                            } else {
+                                // first task on the time
+                                result[timeFrom] = timeTo;
+                            }
                         }
                     }
-                    const bookedFroms = Object.keys(booked).sort((a, b) => a - b);
-                    return {booked, bookedFroms};
+                    return result;
                 }
 
                 // MAIN FUNCTIONALITY
                 const result = [];
-                if (this.date && this.master && this.bookingState && Array.isArray(this.bookingState.employees)) {
-                    const date = utilDate.formatDate(this.date);
-                    const duration = this.duration;
-                    /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
-                    const employee = utilMix.getOptionById(this.bookingState.employees, this.master);
-                    const workTime = employee.workTime;
+                if (
+                    (this.dateSelected instanceof Date) &&
+                    this.employeeId && this.apiTasksOnDate
+                ) {
+                    const {dateStart, dateEnd} = this.workTimeForEmployeeOnDate;
                     // employee has working hours for the date
-                    if (workTime[date]) {
-                        const {from: workFromDb, to: workToDb} = workTime[date];
+                    if (dateStart && dateEnd) {
+                        // perform all date operations in milliseconds
+                        const duration = utilDate.minutesToMilliseconds(this.duration);
                         // begin & end of the working day
-                        let workFrom = utilDate.convertDbHrsMinsToMins(workFromDb);
-                        const workTo = utilDate.convertDbHrsMinsToMins(workToDb);
-                        const {booked, bookedFroms} = getBookedTime(date, employee);
-                        let bookFrom = Number.parseInt(bookedFroms.shift());
+                        let workFrom = dateStart.getTime();
+                        const workTo = dateEnd.getTime();
+                        const bookedTime = getBookedTime(this.apiTasksOnDate);
+                        const bookedFroms = Object.keys(bookedTime).sort(); // num => str type conversion for keys
+                        let bookFrom = Number.parseInt(bookedFroms.shift()); // get first booked interval
                         while (workFrom < workTo) {
                             const intervalEnd = workFrom + duration;
                             if (bookFrom && (intervalEnd > bookFrom)) {
                                 // planned interval overlays already booked interval,
-                                // set workFrom to the end of booked interval
-                                workFrom = Number.parseInt(booked[bookFrom]);
-                                // shift booked interval
-                                bookFrom = Number.parseInt(bookedFroms.shift());
+                                // set workFrom to the end of the last booked interval (if intervals are overlaid)
+                                do {
+                                    // move 'from' to the end of booked interval if it is later than current 'from'
+                                    workFrom = Math.max(workFrom, bookedTime[bookFrom]);
+                                    // shift booked interval
+                                    bookFrom = Number.parseInt(bookedFroms.shift());
+                                } while (bookFrom < workFrom);
                             } else {
                                 // no booked interval or end of planned interval is less than start of booked interval
                                 const id = workFrom;
-                                const labelFrom = utilDate.convertMinsToHrsMins(workFrom);
-                                const labelTo = utilDate.convertMinsToHrsMins(intervalEnd);
-                                const label = `${labelFrom}-${labelTo}`;
+                                const dateFrom = new Date(workFrom);
+                                const hh = dateFrom.getHours().toString().padStart(2, '0');
+                                const mm = dateFrom.getMinutes().toString().padStart(2, '0');
+                                const label = `${hh}:${mm}`;
                                 result.push({id, label});
                                 workFrom = intervalEnd;
                             }
@@ -280,19 +296,51 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 }
                 return result;
             },
+            showTime() {
+                return (this.dateSelected instanceof Date);
+            },
+            /**
+             * Collect working time for selected employee on selected date.
+             */
+            workTimeForEmployeeOnDate() {
+                const result = {};
+                const stampSelected = utilDate.stampDateUtc(this.dateSelected);
+                for (const key in this.apiTimeWork) {
+                    /** @type {Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work} */
+                    const one = this.apiTimeWork[key];
+                    if (one.employeeRef === this.employeeId) {
+                        const stampWork = utilDate.stampDateUtc(one.start);
+                        if (stampSelected === stampWork) {
+                            // convert start time from UTC to local timezone
+                            result.dateStart = new Date(one.start);
+                            const durationInMsec = utilDate.minutesToMilliseconds(one.duration);
+                            result.dateEnd = new Date(result.dateStart.getTime() + durationInMsec);
+                        }
+                    }
+                }
+                return result;
+            },
             ...mapState({
                 apiEmployees: state => state.book.employees,
                 apiServices: state => state.book.services,
+                apiTasksOnDate: state => state.book.tasksOnDate,
+                apiTimeWork: state => state.book.timeWork,
+                dateSelected: state => state.book.dateSelected,
             })
         },
         methods: {
             /**
              * Handler for datePicker's event.
+             * Set selected date as state in Vuex and load tasks on the date.
              *
              * @param {Date} date
              */
             setDate(date) {
-                this.date = date;
+                this.setDateSelected(date);
+                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                const req = new TaskOnDateRequest();
+                req.date = date;
+                this.loadTasksOnDate(req);
             },
             /**
              * Handler for timePicker's event.
@@ -303,27 +351,24 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 this.time = id;
             },
             async send() {
-                // get local variable with 'date' value
-                const date = new Date(this.date.getTime());
-                const hm = utilDate.convertMinsToHrsMins(this.time);
-                const [hours, minutes] = hm.split(':');
-                date.setHours(Number.parseInt(hours), Number.parseInt(minutes));
+                // 'time' contains date-time value for beginning of the interval
+                const date = new Date(this.time);
                 /** @type {Fl32_Leana_Shared_Api_Route_Book_Save_Request} */
-                const data = await container.get('Fl32_Leana_Shared_Api_Route_Book_Save_Request$');
-                data.date = date;
-                data.duration = this.duration;
-                data.email = this.email;
-                data.lang = i18next.language;
-                data.masterId = this.master;
-                data.name = this.name;
-                data.phone = this.phone;
-                data.serviceId = this.service;
+                const req = await container.get('Fl32_Leana_Shared_Api_Route_Book_Save_Request$');
+                req.date = date;
+                req.duration = this.duration;
+                req.email = this.email;
+                req.lang = i18next.language;
+                req.masterId = this.employeeId;
+                req.name = this.name;
+                req.phone = this.phone;
+                req.serviceId = this.service;
                 const res = await fetch('../api/task/save', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({data})
+                    body: JSON.stringify({data: req})
                 });
                 const result = await res.json();
                 // result in the response is the same data if succeed
@@ -332,33 +377,28 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                     this.email = null;
                     this.phone = null;
                     this.service = null;
-                    this.master = null;
-                    this.date = null;
+                    this.employeeId = null;
                     this.time = null;
+                    this.setDateSelected(null);
                 }
             },
+            ...mapMutations({
+                setDateSelected: 'book/setDateSelected',
+            }),
             ...mapActions({
                 loadEmployees: 'book/loadEmployees',
                 loadServices: 'book/loadServices',
+                loadTasksOnDate: 'book/loadTasksOnDate',
+                loadTimeWork: 'book/loadTimeWork',
             }),
         },
         async mounted() {
-            // DEFINE INNER FUNCTIONS
-            async function _loadData() {
-                const res = await fetch('../api/task/state/get', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                return await res.json();
-            }
-
-            // MAIN FUNCTIONALITY
-            const {data} = await _loadData();
-            this.bookingState = data;
             await this.loadEmployees();
             await this.loadServices();
+            /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} */
+            const reqTimeWork = new TimeWorkRequest();
+            reqTimeWork.dateBegin = new Date(Date.now()); // UTC
+            await this.loadTimeWork(reqTimeWork);
         }
     };
 }

@@ -65,7 +65,26 @@ export default function Fl32_Leana_Front_Pub_Widget_DatePicker() {
                     showAllDates: false,
                     startDay: 1,
                     onSelect: (inst) => {
-                        this.$emit('selected', inst.dateSelected);
+                        // convert local time to UTC (YYYY/MM/DD 00:00:00)
+                        /** @type {Date} */
+                        const ds = inst.dateSelected; // date selected
+                        /** @type {Date} */
+                        const dz = new Date(0); // date zero
+                        dz.setUTCFullYear(ds.getFullYear(), ds.getMonth(), ds.getDate());
+                        // pass date to parent component
+                        this.$emit('selected', dz);
+                        // print out date value in input field
+                        if (typeof dz.toLocaleDateString === 'function') {
+                            const locale = i18next.language;
+                            const formatted = dz.toLocaleDateString(locale, {
+                                weekday: 'short',
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric'
+                            });
+                            const elInput = this.$el.querySelector('#bookDate');
+                            elInput.value = formatted;
+                        }
                     }
                 });
             }
