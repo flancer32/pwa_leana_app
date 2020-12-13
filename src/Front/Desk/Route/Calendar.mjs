@@ -11,8 +11,8 @@ const template = `
     <div class="calendar_current_date">{{dateFormatted}}</div>
     <booking 
         :tasks="bookedTasks"
-        :begin="'0900'"
-        :end="'2000'"
+        :begin="dateBegin"
+        :end="dateEnd"
         :step="60"
     ></booking>
 </div>
@@ -58,6 +58,16 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                     });
                 }
                 return result;
+            },
+            dateBegin() {
+                const now = new Date();
+                now.setUTCHours(7, 0, 0, 0); // included
+                return now.getTime();
+            },
+            dateEnd() {
+                const now = new Date();
+                now.setUTCHours(18, 0, 0, 0); // excluded
+                return now.getTime();
             },
             ...mapState({
                 dateSelected: state => state.calendar.dateSelected,
@@ -140,6 +150,8 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                     /** @type {Fl32_Leana_Shared_Api_Data_Service} */
                     const serviceApi = data.services[taskApi.serviceRef];
                     // prepare intermediate data
+                    const timeBegin = utilDate.unformatDate(taskApi.bookedDate, taskApi.bookedBegin);
+                    const timeEnd = utilDate.unformatDate(taskApi.bookedDate, taskApi.bookedEnd);
                     const minsBegin = utilDate.convertDbHrsMinsToMins(taskApi.bookedBegin); // 615
                     const minsEnd = utilDate.convertDbHrsMinsToMins(taskApi.bookedEnd); // 645
                     const duration = minsEnd - minsBegin;       // 30
@@ -150,8 +162,8 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                     const taskWidget = new TaskWidget();
                     const id = Number.parseInt(taskApi.id);
                     taskWidget.id = id;             // 1
-                    taskWidget.begin = minsBegin;   // 540
-                    taskWidget.end = minsEnd;       // 570
+                    taskWidget.begin = timeBegin;   // unixtime
+                    taskWidget.end = timeEnd;       // unixtime
                     taskWidget.duration = duration; // 30
                     taskWidget.taskData = taskUi;
                     // add widget task data to results

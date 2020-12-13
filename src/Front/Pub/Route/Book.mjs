@@ -228,14 +228,17 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                  * Collect 'from' & 'to' times for booking intervals.
                  *
                  * @param {Object.<number, Fl32_Leana_Shared_Api_Data_New_Task>} tasksOnDate
-                 * @return {Object<number, number>} datetimeBegin => dateTimeEnd
+                 * @return {Object<number, number>} dateTimeBegin => dateTimeEnd
                  */
                 function getBookedTime(tasksOnDate) {
                     const result = {};
                     if (Array.isArray(Object.keys(tasksOnDate))) {
-                        for (const taskId in tasksOnDate) {
+                        // order tasks by booking time (by beginning)
+                        const orderedAsc = Object.values(tasksOnDate)
+                            .sort((a, b) => (new Date(a.dateBook)).getTime() - (new Date(b.dateBook)).getTime());
+                        for (
                             /** @type {Fl32_Leana_Shared_Api_Data_New_Task} */
-                            const one = tasksOnDate[taskId];
+                            const one of orderedAsc) {
                             const dateFrom = new Date(one.dateBook);
                             const duration = utilDate.minutesToMilliseconds(one.duration);
                             const dateTo = new Date(dateFrom.getTime() + duration);
@@ -243,10 +246,15 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                             const timeTo = dateTo.getTime();
                             if (result[timeFrom]) {
                                 // more than one tasks on the time
-                                result[timeFrom] = Math.max(timeTo, result[timeFrom]);
+                                result[timeFrom].timeTo = Math.max(timeTo, result[timeFrom]);
+                                result[timeFrom].dateTo = new Date(result[timeFrom].timeTo);
                             } else {
                                 // first task on the time
-                                result[timeFrom] = timeTo;
+                                result[timeFrom] = {
+                                    timeTo,
+                                    dateFrom: new Date(timeFrom),
+                                    dateTo: new Date(timeTo),
+                                };
                             }
                         }
                     }
@@ -277,7 +285,8 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                                 // set workFrom to the end of the last booked interval (if intervals are overlaid)
                                 do {
                                     // move 'from' to the end of booked interval if it is later than current 'from'
-                                    workFrom = Math.max(workFrom, bookedTime[bookFrom]);
+                                    const task = bookedTime[bookFrom];
+                                    workFrom = Math.max(workFrom, task.timeTo);
                                     // shift booked interval
                                     bookFrom = Number.parseInt(bookedFroms.shift());
                                 } while (bookFrom < workFrom);

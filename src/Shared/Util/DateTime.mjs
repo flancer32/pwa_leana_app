@@ -119,20 +119,39 @@ export default class Fl32_Leana_Shared_Util_DateTime {
     }
 
     /**
-     * Convert `dateIn` into 'HHMM'.
+     * Convert `dateIn` into 'HHMM' or 'HH:MM' (local time zone).
      * `new Date()` is used if `dateIn` is null.
      *
      * @param {Date|string|null} dateIn
+     * @param {Boolean} addColon
      * @returns {string}
      */
-    stampTimeUtc(dateIn = null) {
+    stampTime(dateIn = null, addColon = false) {
+        /** @type {Date} */
+        const date = (dateIn) ?
+            (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
+            new Date();
+        const h = `${date.getHours()}`.padStart(2, '0');
+        const m = `${date.getMinutes()}`.padStart(2, '0');
+        return (addColon) ? `${h}:${m}` : `${h}${m}`;
+    }
+
+    /**
+     * Convert `dateIn` into 'HHMM' or 'HH:MM' (UTC time zone).
+     * `new Date()` is used if `dateIn` is null.
+     *
+     * @param {Date|string|null} dateIn
+     * @param {Boolean} addColon
+     * @returns {string}
+     */
+    stampTimeUTC(dateIn = null, addColon = false) {
         /** @type {Date} */
         const date = (dateIn) ?
             (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
             new Date();
         const h = `${date.getUTCHours()}`.padStart(2, '0');
         const m = `${date.getUTCMinutes()}`.padStart(2, '0');
-        return `${h}${m}`;
+        return (addColon) ? `${h}:${m}` : `${h}${m}`;
     }
 
     /**

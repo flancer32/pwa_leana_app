@@ -33,8 +33,8 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
             bookingEntry
         },
         props: {
-            begin: String,  // '0900'
-            end: String,    // '2000'
+            begin: Number,  // unixtime for beginning of the working interval
+            end: Number,    // unixtime for end of the working interval
             step: Number,   // 60 - entry height in minutes
             tasks: Object,  // {'20201120': {1: {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task}}} tasks for the date
         },
@@ -44,11 +44,17 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
             };
         },
         computed: {
-            beginMins() {
-                return utilDate.convertDbHrsMinsToMins(this.begin);
+            beginMinsUtc() {
+                const date = new Date(this.begin);
+                const hh = `${date.getUTCHours()}`.padStart(2, '0');
+                const mm = `${date.getUTCMinutes()}`.padStart(2, '0');
+                return utilDate.convertDbHrsMinsToMins(`${hh}${mm}`);
             },
-            endMins() {
-                return utilDate.convertDbHrsMinsToMins(this.end);
+            endMinsUtc() {
+                const date = new Date(this.end);
+                const hh = `${date.getUTCHours()}`.padStart(2, '0');
+                const mm = `${date.getUTCMinutes()}`.padStart(2, '0');
+                return utilDate.convertDbHrsMinsToMins(`${hh}${mm}`);
             },
             /**
              * Get tasks for selected date then compose array with 'hours' in rows and tasks being bound to the rows.
@@ -72,8 +78,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
                     // we can't iterate over proxy object directly
                     if (tasksProxy) {
                         for (const id in tasksProxy) {
-                            // const task = tasksProxy[id];
-                            // task.begin = utilDate.convertHrsMinsToMins(task.begin);
                             result.push(tasksProxy[id]);
                         }
                     }
@@ -82,9 +86,9 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
 
                 /**
                  * Place all tasks on the grid with minimal step (15, 10, 5 minutes - see this.gridStep).
-                 * @param {number} dayBegin 540
-                 * @param {number} dayEnd 1200
-                 * @param {number} step 15, 10, 5
+                 * @param {number} dayBegin unixtime of beginning of interval
+                 * @param {number} dayEnd unixtime of end of interval
+                 * @param {number} step in minutes 15, 10, 5
                  * @param {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task[]} tasksOnDate
                  * @return {Object.<number, Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry>}
                  * @private
@@ -93,20 +97,26 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
                     const result = {};
                     let intervalBegin = dayBegin;
                     let running = [];
-                    while (intervalBegin <= dayEnd) {
+                    let loop = 0; // to decrease CSS z-index
+                    while (intervalBegin < dayEnd) {
                         const id = intervalBegin;
-                        const timestamp = utilDate.convertMinsToHrsMins(intervalBegin, true);
+                        const timestamp = utilDate.stampTime(intervalBegin, true);
+                        // const timestamp = utilDate.convertMinsToHrsMins(intervalBegin, true);
                         // leave not ended tasks only in 'running' registry
-                        running = running.filter(one => one.end > intervalBegin);
+                        running = running.filter(one => one.end.getTime() > intervalBegin);
                         // filter tasks that started in interval [begin, end].
-                        const intervalEnd = intervalBegin + step;
-                        const tasks = tasksOnDate.filter(one => (one.begin >= intervalBegin) && (one.begin < intervalEnd));
+                        const intervalEnd = intervalBegin + utilDate.minutesToMilliseconds(step);
+                        const tasks = tasksOnDate.filter(
+                            one => (one.begin.getTime() >= intervalBegin) && (one.begin.getTime() < intervalEnd)
+                        );
                         // we need to place new task in appropriate column in the row (entry)
                         for (/** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task} */ const task of tasks) {
                             // do it for every task in the row (entry)
                             let column = 1; // place task to the first column by default
                             // calculate column for the task
-                            for (/** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task} */const old of running) {
+                            for (
+                                /** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task} */
+                                const old of running) {
                                 const end = old.end;
                                 const col = old.column;
                                 const begin = task.begin;
@@ -126,7 +136,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
                         for (const one of running) {
                             one.activeTasks = (one.activeTasks > totalActive) ? one.activeTasks : totalActive;
                         }
-                        const cssZindex = 1500 - intervalBegin; // z-index (from high to low)
+                        const cssZindex = 1500 - (10 * (loop++)); // z-index (from high to low)
                         // compose new entry (row in table, 'one hour')
                         /** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry} */
                         const entry = new EntryUi();
@@ -138,7 +148,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
                         entry.begin = intervalBegin;
                         entry.end = intervalEnd;
                         result[id] = entry;
-                        intervalBegin += step;
+                        intervalBegin += utilDate.minutesToMilliseconds(step);
                     }
                     return result;
                 }
@@ -156,7 +166,9 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
                     let gridInEntry = 0;
                     /** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry} */
                     let entry = new EntryUi();
-                    for (/** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry} */const key of Object.keys(grid)) {
+                    for (
+                        /** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry} */
+                        const key of Object.keys(grid)) {
                         /** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry} */
                         const one = grid[key];
                         if (gridInEntry === 0) {
@@ -180,14 +192,15 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
                 }
 
                 // MAIN FUNCTIONALITY
-                // const result = {};
-                const dayBegin = utilDate.convertDbHrsMinsToMins(this.begin);
-                const dayEnd = utilDate.convertDbHrsMinsToMins(this.end);
-                // get tasks for selected date
-                const datestamp = utilDate.formatDate(this.dateSelected);
-                const tasksOnDate = _getTasksOnDate(datestamp);    // all tasks being scheduled for the date
-                const grid = _getGridWithTasks(dayBegin, dayEnd, this.gridStep, tasksOnDate);
-                return _convertGridToEntries(grid, this.step, this.gridStep);
+                if (this.dateSelected.getTime) {
+                    // get tasks for selected date
+                    const datestamp = utilDate.formatDate(this.dateSelected);
+                    const tasksOnDate = _getTasksOnDate(datestamp);    // all tasks being scheduled for the date
+                    const grid = _getGridWithTasks(this.begin, this.end, this.gridStep, tasksOnDate);
+                    return _convertGridToEntries(grid, this.step, this.gridStep);
+                } else {
+                    return {};
+                }
             },
             ...mapState({
                 dateSelected: state => state.calendar.dateSelected,

@@ -59,7 +59,7 @@ export default function Fl32_Leana_Front_Pub_Widget_TimePicker(spec) {
                     const leftColumn = [];
                     const rightColumn = [];
                     const total = this.entries.length;
-                    const median = (total / 2) + (total % 2); // (5/2+1) = 3 or (6/2+0)=3
+                    const median = Math.round(total / 2); // (5/2+1) = 3 or (6/2+0)=3
                     let i = 0;
                     for (const ndx in this.entries) {
                         (i++ < median) ? leftColumn.push(this.entries[ndx]) : rightColumn.push(this.entries[ndx]);

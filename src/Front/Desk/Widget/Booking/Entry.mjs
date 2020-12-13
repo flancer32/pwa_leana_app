@@ -19,7 +19,10 @@ const template = `
  * @return {Object}
  * @constructor
  */
-export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry() {
+export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry(spec) {
+    /** @type {Fl32_Leana_Shared_Util_DateTime} */
+    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
+
     return {
         template,
         components: {},
@@ -27,7 +30,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry() {
             id: Number,
             interval: Number,
             tasks: Array,
-            timestamp: String,
+            timestamp: String,  // "09:00"
             begin: Number,
             end: Number,
         },
@@ -35,6 +38,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry() {
         data: function () {
             return {};
         },
+        computed: {},
         methods: {
             /**
              *
@@ -51,7 +55,8 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry() {
                 const cssHeight = `height:${Number.parseInt(rowHeight * k) - 5}px`;
 
                 const cssLeft = `left: ${(task.column - 1) * widthPercent}%`;
-                const beginDelta = (task.begin - this.begin);
+                const beginDeltaMsec = (task.begin - this.begin);
+                const beginDelta = Math.floor(beginDeltaMsec / 1000 / 60);
                 const topIndent = (beginDelta / this.interval) * rowHeight;
                 const cssTop = `top: ${topIndent}px`;
                 return `${cssHeight}; ${cssWidth}; ${cssTop};  ${cssLeft}`;
@@ -62,7 +67,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry() {
                 if (data) {
                     const customer = data.customer;
                     const employee = data.employee;
-                    return `${customer.name} (task: ${data.id} / ${employee.code})`;
+                    return `${customer.name} (${data.id}: ${data.service.code} / ${employee.code})`;
                 } else {
                     return '';
                 }
