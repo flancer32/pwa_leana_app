@@ -7,6 +7,7 @@
 export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
     const gateEmployeeList = spec.Fl32_Leana_Front_Shared_Gate_Employee_List$;
     const gateServiceList = spec.Fl32_Leana_Front_Shared_Gate_Service_List$;
+    const gateTaskOnDate = spec.Fl32_Leana_Front_Shared_Gate_Task_OnDate$;
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
 
     return {
@@ -16,6 +17,7 @@ export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
             employees: Object,
             services: Object,
             taskSelected: Task,
+            tasksOnDate: Object,  // Object.<Number, Fl32_Leana_Shared_Api_Data_New_Task>
         },
         getters: {},
         mutations: {
@@ -30,6 +32,9 @@ export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
             },
             setTaskSelected(state, data) {
                 state.taskSelected = data;
+            },
+            setTasksOnDate(state, data) {
+                state.tasksOnDate = data;
             },
         },
         actions: {
@@ -52,6 +57,16 @@ export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
                 /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Response} */
                 const res = await gateServiceList(req);
                 commit('setServices', res.items);
+            },
+            /**
+             * @param commit
+             * @param {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} req
+             * @return {Promise<void>}
+             */
+            async loadTasksOnDate({commit}, req) {
+                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Response} */
+                const res = await gateTaskOnDate(req);
+                commit('setTasksOnDate', res.items);
             },
         },
     };

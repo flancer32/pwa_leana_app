@@ -15,13 +15,11 @@ const template = `
 </div>
 `;
 /**
- * One row in
+ * One row in the grid (one hour).
  * @return {Object}
  * @constructor
  */
-export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry(spec) {
-    /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
+export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry() {
 
     return {
         template,

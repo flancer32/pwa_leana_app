@@ -3,7 +3,6 @@ const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
-
 i18next.addResourceBundle('lv', 'route-book', {
     action: {
         send: 'Nosūtīt'

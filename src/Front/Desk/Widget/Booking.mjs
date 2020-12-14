@@ -26,7 +26,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_Booking_Entry} */
     const bookingEntry = spec.Fl32_Leana_Front_Desk_Widget_Booking_Entry$;
     const EntryUi = spec['Fl32_Leana_Front_Desk_Widget_Booking_Api#Entry'];
-    const Swipe = spec['Fl32_Leana_Front_Desk_Util_Swipe#'];
+
     return {
         template,
         components: {
@@ -34,9 +34,9 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
         },
         props: {
             hourBegin: Number,  // 0-23: hour of the beginning of the working interval (local time, including/from)
-            hourEnd: Number,  // 0-23: hour of the beginning of the working interval (local time, excluding/up to)
-            step: Number,   // 60: grid row 'height' in minutes
-            tasks: Object,  // {'20201120': {1: {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task}}} tasks for the date
+            hourEnd: Number,    // 0-23: hour of the beginning of the working interval (local time, excluding/up to)
+            step: Number,       // 60: grid row 'height' in minutes
+            tasks: Object,      // {taskId: {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task}} tasks on the date
         },
         data: function () {
             return {
@@ -69,28 +69,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
              * @return {Object.<number, Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry>}
              */
             panelEntries() {
-                const me = this;
-
                 // DEFINE INNER FUNCTIONS
-                /**
-                 * Get array of the tasks for the given date.
-                 *
-                 * @param datestamp - 'YYYYMMDD'
-                 * @return {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task[]}
-                 * @private
-                 */
-                function _getTasksOnDate(datestamp) {
-                    const result = [];
-                    /** @type {Object.<string, Fl32_Leana_Front_Desk_Widget_Booking_Api_Task>} */
-                    const tasksProxy = me.tasks[datestamp];
-                    // we can't iterate over proxy object directly
-                    if (tasksProxy) {
-                        for (const id in tasksProxy) {
-                            result.push(tasksProxy[id]);
-                        }
-                    }
-                    return result;
-                }
 
                 /**
                  * Place all tasks on the grid with minimal step (15, 10, 5 minutes - see this.gridStep).
@@ -202,9 +181,9 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
                 // MAIN FUNCTIONALITY
                 if (this.dateSelected.getTime) {
                     // get tasks for selected date
-                    const datestamp = utilDate.formatDate(this.dateSelected);
-                    const tasksOnDate = _getTasksOnDate(datestamp);    // all tasks being scheduled for the date
-                    const grid = _getGridWithTasks(this.timeBegin, this.timeEnd, this.gridStep, tasksOnDate);
+                    /** @type {Array.<Fl32_Leana_Front_Desk_Widget_Booking_Api_Task>} */
+                    const tasks = Object.values(this.tasks);
+                    const grid = _getGridWithTasks(this.timeBegin, this.timeEnd, this.gridStep, tasks);
                     return _convertGridToEntries(grid, this.step, this.gridStep);
                 } else {
                     return {};
@@ -220,17 +199,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
             }),
         },
         mounted() {
-            const me = this;
-            /** @type {Fl32_Leana_Front_Desk_Util_Swipe} */
-            const swipe = new Swipe('.book_panel');
-            swipe.setOnLeft(function () {
-                const dayAfter = utilDate.forwardDate(1, me.dateSelected);
-                me.saveDateSelected(dayAfter);
-            });
-            swipe.setOnRight(function () {
-                const dayBefore = utilDate.forwardDate(-1, me.dateSelected);
-                me.saveDateSelected(dayBefore);
-            });
         }
     };
 }

@@ -4,22 +4,22 @@
 class Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry {
     /**
      * Unique ID for DOM element.
-     * @type {string}
+     * @type {String}
      */
     id
     /**
      * Label for the row (HH:MM)
-     * @type {string}
+     * @type {String}
      */
     timestamp
     /**
      * Start of the entry interval in minutes from the day beginning (inclusive).
-     * @type {number} 540
+     * @type {Number} 540
      */
     begin
     /**
      * End of the entry interval in minutes from the day beginning (exclusive).
-     * @type {number} 600
+     * @type {Number} 600
      */
     end
     /** @type {Object.<string, Fl32_Leana_Front_Desk_Widget_Booking_Api_Task>} */
@@ -27,10 +27,10 @@ class Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry {
     /**
      * Total active tasks for the period (row - hour, half, etc.).
      * Some tasks can be started in other periods.
-     * @type {number} 1, 2, 3, ...
+     * @type {Number} 1, 2, 3, ...
      */
     activeTasks
-    /** @type {number} */
+    /** @type {Number} */
     cssZindex
 }
 
@@ -39,23 +39,23 @@ class Fl32_Leana_Front_Desk_Widget_Booking_Api_Entry {
  */
 class Fl32_Leana_Front_Desk_Widget_Booking_Api_Task {
     /**
-     * Unique ID for DOM element.
-     * @type {string}
+     * Unique ID of the task.
+     * @type {String}
      */
     id
     /**
      * Label for the task
-     * @type {string}
+     * @type {String}
      */
     title
     /**
-     * Start time for the task in minutes from day begin (00:00)
-     * @type {number} 540
+     * Start time for the task.
+     * @type {Date}
      */
     begin
     /**
-     * End time for the task in minutes from day begin (00:00)
-     * @type {number} 570
+     * End time for the task.
+     * @type {Date}
      */
     end
     /**
@@ -65,12 +65,12 @@ class Fl32_Leana_Front_Desk_Widget_Booking_Api_Task {
     duration
     /**
      * Total active tasks for the period (row - hour, half, etc.).
-     * @type {number} 1, 2, 3, ...
+     * @type {Number} 1, 2, 3, ...
      */
     activeTasks
     /**
      * Position in row to print out task.
-     * @type {number} 1,2,3
+     * @type {Number} 1,2,3
      */
     column
     /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */

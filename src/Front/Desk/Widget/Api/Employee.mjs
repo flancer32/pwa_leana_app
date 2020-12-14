@@ -12,4 +12,9 @@ export default class Fl32_Leana_Front_Desk_Widget_Api_Employee {
      * @type {string}
      */
     code
+    /**
+     * Localized name of the employee.
+     * @type {String}
+     */
+    name
 }

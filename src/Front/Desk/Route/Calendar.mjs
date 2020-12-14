@@ -1,7 +1,8 @@
+const i18next = self.teqfw.i18next;
+const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapState = self.teqfw.lib.Vuex.mapState;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 
-const i18next = self.teqfw.i18next;
 i18next.addResources('lv', 'route-about', {});
 i18next.addResources('ru', 'route-about', {});
 
@@ -9,12 +10,14 @@ const template = `
 <div>
     <action-bar></action-bar>
     <div class="calendar_current_date">{{dateFormatted}}</div>
-    <booking 
-        :tasks="bookedTasks"
-        :hourBegin="hourBegin"
-        :hourEnd="hourEnd"
-        :step="60"
-    ></booking>
+    <div id="calendar_entries">
+        <booking 
+            :tasks="bookedTasks"
+            :hourBegin="hourBegin"
+            :hourEnd="hourEnd"
+            :step="60"
+        ></booking>
+    </div>
 </div>
 `;
 
@@ -23,13 +26,16 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
     const booking = spec.Fl32_Leana_Front_Desk_Widget_Booking$;  // singleton
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
     const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
+    /** @type {Fl32_Leana_Front_Desk_Util_Convert_Api2Ui} */
+    const utilConvert = spec.Fl32_Leana_Front_Desk_Util_Convert_Api2Ui$;
     /** @type {Fl32_Leana_Front_Desk_Widget_Calendar_ActionBar} */
     const wgActionBar = spec.Fl32_Leana_Front_Desk_Widget_Calendar_ActionBar$;   // singleton
-    const CustomerUi = spec['Fl32_Leana_Front_Desk_Widget_Api_Customer#'];   // class constructor
-    const EmployeeUi = spec['Fl32_Leana_Front_Desk_Widget_Api_Employee#'];
-    const ServiceUi = spec['Fl32_Leana_Front_Desk_Widget_Api_Service#'];
-    const TaskUi = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
-    const TaskWidget = spec['Fl32_Leana_Front_Desk_Widget_Booking_Api#Task'];
+    const EmplReq = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];  // class constructor
+    const ServReq = spec['Fl32_Leana_Shared_Api_Route_Service_List#Request'];   // class constructor
+    const Swipe = spec['Fl32_Leana_Front_Desk_Util_Swipe#'];                    // class constructor
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
+    const TaskWidget = spec['Fl32_Leana_Front_Desk_Widget_Booking_Api#Task'];   // class constructor
+
 
     return {
         template,
@@ -39,10 +45,10 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
         },
         data: function () {
             return {
-                /** @type {Fl32_Leana_Shared_Api_Route_Desk_Calendar_Get_Response} */
+                // /** @type {Fl32_Leana_Shared_Api_Route_Desk_Calendar_Get_Response} */
                 calendarData: {},
-                /** @type {Object.<string,Object<number, Fl32_Leana_Front_Desk_Widget_Booking_Api_Task>>} */
-                bookedTasks: {},
+                // /** @type {Object.<string,Object<number, Fl32_Leana_Front_Desk_Widget_Booking_Api_Task>>} */
+                // bookedTasks: {},
             };
         },
         computed: {
@@ -65,119 +71,108 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
             hourEnd() {
                 return 20;  // excluding < 20
             },
+            /**
+             * Return tasks on date converted into Booking Widget format.
+             * @return {Object.<number, Fl32_Leana_Front_Desk_Widget_Booking_Api_Task>}
+             */
+            bookedTasks() {
+                const result = {};
+                // convert tasks on the date to UI format
+                if (Array.isArray(Object.keys(this.apiTasksOnDate))) {
+                    for (
+                        /** @type {Fl32_Leana_Shared_Api_Data_New_Task} */
+                        const one of Object.values(this.apiTasksOnDate)) {
+                        /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
+                        const taskUi = utilConvert.taskApi2Ui(one, this.apiEmployees, this.apiServices);
+                        /** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task} */
+                        const taskWidget = new TaskWidget();
+                        taskWidget.id = taskUi.id;              // 1
+                        const durationInMsec = utilDate.minutesToMilliseconds(taskUi.duration);
+                        const timeEnd = taskUi.dateBook.getTime() + durationInMsec;
+                        taskWidget.begin = taskUi.dateBook;     // Date
+                        taskWidget.end = new Date(timeEnd);     // Date
+                        taskWidget.duration = taskUi.duration;  // 30: in minutes
+                        taskWidget.taskData = taskUi;
+                        // add widget task data to results
+                        result[taskWidget.id] = taskWidget;
+                    }
+                }
+                return result;
+            },
             ...mapState({
+                apiEmployees: state => state.calendar.employees,
+                apiServices: state => state.calendar.services,
+                apiTasksOnDate: state => state.calendar.tasksOnDate,
                 dateSelected: state => state.calendar.dateSelected,
             })
         },
         methods: {
+            /**
+             * Load employees & services data and save it into vuex store.
+             * @return {Promise<void>}
+             */
+            async apiLoadCodifiers() {
+                const locale = i18next.language;
+                // load employees
+                /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
+                const emplReq = new EmplReq();
+                emplReq.locale = locale;
+                this.loadEmployees(emplReq);
+                // load services
+                /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Request} */
+                const servReq = new ServReq();
+                servReq.locale = locale;
+                this.loadServices(servReq);
+            },
+            /**
+             * Load tasks on the selected data and save its into vuex store.
+             * @return {Promise<void>}
+             */
+            async apiLoadTasks() {
+                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                const req = new TaskOnDateRequest();
+                req.date = this.dateSelected;
+                this.loadTasksOnDate(req);
+            },
             ...mapMutations({
-                setDateSelected: 'calendar/setDateSelected'
-            })
+                setDateSelected: 'calendar/setDateSelected',
+                setTasksOnDate: 'calendar/setTasksOnDate',
+            }),
+            ...mapActions({
+                loadEmployees: 'calendar/loadEmployees',
+                loadServices: 'calendar/loadServices',
+                loadTasksOnDate: 'calendar/loadTasksOnDate',
+            }),
         },
         async mounted() {
             // DEFINE INNER FUNCTIONS
-
             /**
-             * Load all booked tasks from server.
-             * @return {Promise<any>}
-             * @private
+             * Add onSwipes handlers to change selected date.
              */
-            async function _loadData() {
-                const res = await fetch('../api/desk/calendar/get', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+            function addSwipes() {
+                /** @type {Fl32_Leana_Front_Desk_Util_Swipe} */
+                const swipe = new Swipe('#calendar_entries');
+                swipe.setOnLeft(function () {
+                    const dayAfter = utilDate.forwardDate(1, me.dateSelected);
+                    me.setDateSelected(dayAfter);
+                    me.apiLoadTasks();
                 });
-                return await res.json();
-            }
-
-            /**
-             * Convert API data to UI data.
-             * @param {Fl32_Leana_Shared_Api_Route_Desk_Calendar_Get_Response} data
-             * @return {Object.<string, Object.<number, Fl32_Leana_Front_Desk_Widget_Booking_Api_Task>>} {'YYYYMMDD':{id:{TaskUI}}}
-             */
-            function _prepareBookedTasks(data) {
-                /**
-                 * Convert data from Backend API fromat to UI format.
-                 *
-                 * @param {Fl32_Leana_Shared_Api_Data_Desk_Task} taskApi
-                 * @param {Fl32_Leana_Shared_Api_Data_Desk_Employee} employeeApi
-                 * @param {Fl32_Leana_Shared_Api_Data_Service} serviceApi
-                 * @param {number} duration
-                 * @return {Fl32_Leana_Front_Desk_Widget_Api_Task}
-                 */
-                function _parseTaskUi(taskApi, employeeApi, serviceApi, duration) {
-                    /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
-                    const result = new TaskUi();
-                    result.id = taskApi.id;
-                    result.dateBook = utilDate.unformatDate(taskApi.bookedDate, taskApi.bookedBegin);
-                    result.dateCreated = taskApi.dateCreated;
-                    result.duration = duration;
-                    result.note = taskApi.note;
-                    result.lang = taskApi.lang;
-                    /** @type {Fl32_Leana_Front_Desk_Widget_Api_Customer} */
-                    const customer = new CustomerUi();
-                    customer.name = taskApi.customerName;
-                    customer.email = taskApi.customerEmail;
-                    customer.phone = taskApi.customerPhone;
-                    result.customer = customer;
-                    /** @type {Fl32_Leana_Front_Desk_Widget_Api_Service} */
-                    const service = new ServiceUi();
-                    service.id = serviceApi.id;
-                    service.code = serviceApi.code;
-                    service.duration = serviceApi.duration;
-                    result.service = service;
-                    /** @type {Fl32_Leana_Front_Desk_Widget_Api_Employee} */
-                    const employee = new EmployeeUi();
-                    employee.id = employeeApi.id;
-                    employee.code = employeeApi.code;
-                    result.employee = employee;
-                    return result;
-                }
-
-                const result = {};
-                for (const taskId in data.tasks) {
-                    // convert Backend API data to UI data
-                    /** @type {Fl32_Leana_Shared_Api_Data_Desk_Task} */
-                    const taskApi = data.tasks[taskId];
-                    /** @type {Fl32_Leana_Shared_Api_Data_Desk_Employee} */
-                    const employeeApi = data.employees[taskApi.employeeRef];
-                    /** @type {Fl32_Leana_Shared_Api_Data_Service} */
-                    const serviceApi = data.services[taskApi.serviceRef];
-                    // prepare intermediate data
-                    const timeBegin = utilDate.unformatDate(taskApi.bookedDate, taskApi.bookedBegin);
-                    const timeEnd = utilDate.unformatDate(taskApi.bookedDate, taskApi.bookedEnd);
-                    const minsBegin = utilDate.convertDbHrsMinsToMins(taskApi.bookedBegin); // 615
-                    const minsEnd = utilDate.convertDbHrsMinsToMins(taskApi.bookedEnd); // 645
-                    const duration = minsEnd - minsBegin;       // 30
-                    // compose task common data for all widgets (UI)
-                    /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
-                    const taskUi = _parseTaskUi(taskApi, employeeApi, serviceApi, duration);
-                    /** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task} */
-                    const taskWidget = new TaskWidget();
-                    const id = Number.parseInt(taskApi.id);
-                    taskWidget.id = id;             // 1
-                    taskWidget.begin = timeBegin;   // unixtime
-                    taskWidget.end = timeEnd;       // unixtime
-                    taskWidget.duration = duration; // 30
-                    taskWidget.taskData = taskUi;
-                    // add widget task data to results
-                    const bookedDate = taskApi.bookedDate;  // 20201120
-                    result[bookedDate] = result[bookedDate] || {};
-                    result[bookedDate][id] = taskWidget;
-                }
-                return result;
+                swipe.setOnRight(function () {
+                    const dayBefore = utilDate.forwardDate(-1, me.dateSelected);
+                    me.setDateSelected(dayBefore);
+                    me.apiLoadTasks();
+                });
             }
 
             // MAIN FUNCTIONALITY
+            const me = this;
+            addSwipes();
             if (typeof this.dateSelected.getTime !== 'function') {
                 const now = new Date(Date.now());
                 this.setDateSelected(now);
             }
-            const {data} = await _loadData();
-            this.calendarData = data;
-            this.bookedTasks = _prepareBookedTasks(data);
+            await this.apiLoadCodifiers();
+            await this.apiLoadTasks();
         }
     };
 }
