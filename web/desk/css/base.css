@@ -13,7 +13,12 @@ INPUT, TEXTAREA, BUTTON {
 }
 
 
-INPUT {
+INPUT, SELECT {
     height: var(--input-height);
+    width: 100%;
+}
+
+TEXTAREA {
+    height: calc(var(--input-height) * 3);
     width: 100%;
 }

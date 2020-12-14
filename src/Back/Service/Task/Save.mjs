@@ -6,10 +6,11 @@ export default class Fl32_Leana_Back_Service_Task_Save {
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const _db = spec.TeqFw_Core_App_Db_Connector$;
+        const rdb = spec.TeqFw_Core_App_Db_Connector$;
         /** @type {Fl32_Leana_Back_Process_Book_Save} */
-        const _srvSave = spec.Fl32_Leana_Back_Process_Book_Save$;
-        const ServiceRequest = spec['Fl32_Leana_Shared_Api_Route_Book_Save_Request#'];  // class
+        const procSave = spec.Fl32_Leana_Back_Process_Book_Save$;
+        const Request = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request'];  // class
+        const Response = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Response'];  // class
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
         /**
@@ -21,22 +22,24 @@ export default class Fl32_Leana_Back_Service_Task_Save {
          * @see TeqFw_Core_App_Server.addApiRoute
          */
         this.handle = async function (req, res) {
-            // PARSE INPUT & DEFINE WORKING VARS
-            const body = req.body;
-            /** @type {Fl32_Leana_Shared_Api_Route_Book_Save_Request} */
-            const dataIn = body.data;
-            /** @type {Fl32_Leana_Shared_Api_Route_Book_Save_Request} */
-            const data = {};
-            Object.assign(data, dataIn);
 
-            const trx = await _db.startTransaction();
+            // MAIN FUNCTIONALITY
+            const body = req.body;
+            /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
+            const dataIn = Object.assign(new Request(), body.data);
+            const trx = await rdb.startTransaction();
             try {
-                const req = Object.assign(new ServiceRequest(), dataIn);
-                await _srvSave.exec({trx, req});
+                /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Response} */
+                const dataOut = new Response();
+                const taskId = await procSave.exec({trx, req: dataIn});
                 trx.commit();
+                // COMPOSE SUCCESS RESPONSE
+                dataOut.id = taskId;
                 res.setHeader('Content-Type', 'application/json; charset=UTF-8');
-                res.end(JSON.stringify({data}));
+                res.end(JSON.stringify({data: dataOut}));
             } catch (err) {
+                trx.rollback();
+                // COMPOSE FAILURE RESPONSE
                 // TODO: move error processing in HANDLERS proto
                 const stack = (err.stack) ? err.stack : (new Error()).stack;
                 const message = err.message;

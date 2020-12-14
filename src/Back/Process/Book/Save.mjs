@@ -26,12 +26,12 @@ export default class Fl32_Leana_Back_Process_Book_Save {
      * Save booking details from front into RDB.
      *
      * @param {Function} trx
-     * @param {Fl32_Leana_Shared_Api_Route_Book_Save_Request} req
+     * @param {Fl32_Leana_Shared_Api_Route_Task_Save_Request} req
      * @returns {Promise<{}>}
      */
     async exec({trx, req}) {
         // PARSE INPUT & DEFINE WORKING VARS
-        const result = {};
+        let result = null;
         const me = this;
         const apiDate = new Date(req.date);
 
@@ -104,9 +104,9 @@ export default class Fl32_Leana_Back_Process_Book_Save {
         // MAIN FUNCTIONALITY
         if (typeof req.id === 'number') {
             await saveToDb();
+            result = req.id;
         } else {
-            const bookId = await addToDb();
-            console.log(`New task is added: ${bookId}.`);
+            result = await addToDb();
         }
         // COMPOSE RESULT
         return result;

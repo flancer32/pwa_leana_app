@@ -121,8 +121,6 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
-    /** @type {TeqFw_Di_Container} */
-    const container = spec.TeqFw_Di_Container$;
     /** @type {Fl32_Leana_Front_Pub_Widget_DatePicker} */
     const datePicker = spec.Fl32_Leana_Front_Pub_Widget_DatePicker$;
     /** @type {Fl32_Leana_Front_Pub_Widget_TimePicker} */
@@ -132,8 +130,9 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
     /** @type {Fl32_Leana_Shared_Util_Mix} */
     const utilMix = spec.Fl32_Leana_Shared_Util_Mix$;
     // classes and functions
-    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request'];
-    const TimeWorkRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request'];
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class
+    const TimeWorkRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request']; // class
+    const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class
 
     return {
         template,
@@ -362,8 +361,8 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             async send() {
                 // 'time' contains date-time value for beginning of the interval
                 const date = new Date(this.time);
-                /** @type {Fl32_Leana_Shared_Api_Route_Book_Save_Request} */
-                const req = await container.get('Fl32_Leana_Shared_Api_Route_Book_Save_Request$');
+                /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
+                const req = new SaveRequest();
                 req.date = date;
                 req.duration = this.duration;
                 req.email = this.email;
@@ -380,8 +379,8 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                     body: JSON.stringify({data: req})
                 });
                 const result = await res.json();
-                // result in the response is the same data if succeed
-                if (result.data.name === this.name) {
+                // there is task id in the response
+                if (typeof result.data.id === 'number') {
                     this.name = null;
                     this.email = null;
                     this.phone = null;

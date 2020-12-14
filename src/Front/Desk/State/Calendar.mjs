@@ -5,12 +5,16 @@
  * @constructor
  */
 export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
+    const gateEmployeeList = spec.Fl32_Leana_Front_Shared_Gate_Employee_List$;
+    const gateServiceList = spec.Fl32_Leana_Front_Shared_Gate_Service_List$;
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
 
     return {
         namespaced: true,
         state: {
             dateSelected: Date,
+            employees: Object,
+            services: Object,
             taskSelected: Task,
         },
         getters: {},
@@ -18,10 +22,37 @@ export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
             setDateSelected(state, data) {
                 state.dateSelected = data;
             },
+            setEmployees(state, data) {
+                state.employees = data;
+            },
+            setServices(state, data) {
+                state.services = data;
+            },
             setTaskSelected(state, data) {
                 state.taskSelected = data;
             },
         },
-        actions: {},
+        actions: {
+            /**
+             * @param commit
+             * @param {Fl32_Leana_Shared_Api_Route_Employee_List_Request} req
+             * @return {Promise<void>}
+             */
+            async loadEmployees({commit}, req) {
+                /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Response} */
+                const res = await gateEmployeeList(req);
+                commit('setEmployees', res.items);
+            },
+            /**
+             * @param commit
+             * @param {Fl32_Leana_Shared_Api_Route_Service_List_Request} req
+             * @return {Promise<void>}
+             */
+            async loadServices({commit}, req) {
+                /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Response} */
+                const res = await gateServiceList(req);
+                commit('setServices', res.items);
+            },
+        },
     };
 }

@@ -22,3 +22,15 @@
     /*justify-items: center;*/
 }
 
+.edit .controls {
+    /*z-index: 5000;*/
+    background-color: var(--color-back-main);
+    height: 50%;
+    left: 0;
+    opacity: 0;
+    position: fixed;
+    top: 50%;
+    transition: opacity 500ms;
+    visibility: hidden;
+    width: 100%;
+}

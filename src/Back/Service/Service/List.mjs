@@ -45,7 +45,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
                     service.code = one[eSrv.A_CODE];
                     service.duration = one[eSrv.A_DURATION];
                     service.public = one[eSrv.A_PUBLIC];
-                    service.name = (locale === 'ru_RU') ? one[eSrv.A_NAME_RU] : one[eSrv.A_NAME_LV];
+                    service.name = (locale === 'ru-RU') ? one[eSrv.A_NAME_RU] : one[eSrv.A_NAME_LV];
                     result[one.id] = service;
                 }
                 return result;

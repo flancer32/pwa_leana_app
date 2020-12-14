@@ -1,6 +1,8 @@
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
+const EVENT_ADD = 'actionAdd';
+
 const template = `
 <div class="task_edit_action_bar">
     <action-bar :params="actions"></action-bar>
@@ -18,12 +20,13 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions(spec) {
         components: {
             actionBar
         },
+        emits: ['actionAdd'],
         computed: {
             actions() {
                 /** @type {Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
                 const save = new Item();
                 save.code = 'save';
-                save.func = this.actionSave;
+                save.func = this.actionAdd;
                 save.icon = 'fas fa-cloud-upload-alt';
                 save.title = 'saveTitle';
                 // compose result
@@ -37,8 +40,8 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions(spec) {
             })
         },
         methods: {
-            actionSave() {
-                console.log('Save action is fired.');
+            actionAdd() {
+                this.$emit(EVENT_ADD);
             },
             ...mapMutations('app', [
                 'setOverlay',

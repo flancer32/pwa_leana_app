@@ -78,6 +78,8 @@
                 self.teqfw.config = await loadConfig();
                 self.teqfw.router = initRouter();
                 self.teqfw.i18next = await initI18n(self.teqfw.app);
+                // place application objects into DI-container
+                container.set('config', self.teqfw.config);
                 // load root component and mount frontend application to DOM
                 const appRoot = await container.get('Fl32_Leana_Front_Desk_App$$');
                 self.teqfw.app.component('appRoot', appRoot);

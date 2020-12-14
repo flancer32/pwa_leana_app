@@ -61,7 +61,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
                     const employee = new Employee();
                     employee.id = one[eEmpl.A_ID];
                     employee.code = one[eEmpl.A_CODE];
-                    employee.name = (locale === 'ru_RU') ? one[eEmpl.A_NAME_RU] : one[eEmpl.A_NAME_LV];
+                    employee.name = (locale === 'ru-RU') ? one[eEmpl.A_NAME_RU] : one[eEmpl.A_NAME_LV];
                     if (Array.isArray(services[employee.id])) {
                         employee.services = [...services[employee.id]];
                     }
@@ -83,13 +83,18 @@ export default class Fl32_Leana_Back_Service_Employee_List {
                 // COMPOSE SUCCESS RESPONSE
                 res.setHeader('Content-Type', 'application/json; charset=UTF-8');
                 res.end(JSON.stringify({data: dataOut}));
-            } catch (error) {
+            } catch (err) {
                 trx.rollback();
                 // COMPOSE FAILURE RESPONSE
-                console.error(error);
+                // TODO: move error processing in HANDLERS proto
+                const stack = (err.stack) ? err.stack : (new Error()).stack;
+                const message = err.message;
+                const error = {message, stack};
+                const str = JSON.stringify({error});
+                console.error(str);
                 res.setHeader('Content-Type', 'application/json');
                 res.code = 500;
-                res.end(JSON.stringify({error}));
+                res.end(str);
             }
         };
     }

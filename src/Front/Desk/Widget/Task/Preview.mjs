@@ -102,9 +102,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
     const actions = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions$$;    // new instance
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class
-    const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Book_Save_Request#']; // class
-    /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$; // singleton
+    const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class
 
     return {
         template,
@@ -188,7 +186,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 this.resetOverlay();
             },
             actionEditDate() {
-                console.log(`Edit date for task #'${this.item.id}'.`);
                 const elControl = this.$el.querySelector('.controls.dtp_widget');
                 elControl.style.visibility = 'visible';
                 elControl.style.opacity = 1;
@@ -210,7 +207,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 // const hm = utilDate.convertMinsToHrsMins(this.item.dateBook);
                 // const [hours, minutes] = hm.split(':');
                 // date.setHours(Number.parseInt(hours), Number.parseInt(minutes));
-                /** @type {Fl32_Leana_Shared_Api_Route_Book_Save_Request} */
+                /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
                 const data = new SaveRequest();
                 data.id = this.item.id;
                 data.date = this.item.dateBook;
