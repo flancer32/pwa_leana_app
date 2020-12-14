@@ -40,7 +40,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
         },
         data: function () {
             return {
-                gridStep: 15,   // minimal step for tasks scheduling
+                gridStep: 30,   // minimal step for tasks scheduling
             };
         },
         computed: {

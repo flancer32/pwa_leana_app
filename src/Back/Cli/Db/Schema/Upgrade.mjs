@@ -307,13 +307,13 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     await trx(aTaskDet.ENTITY).insert([
                         {
                             [aTaskDet.A_TASK_REF]: 1, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 1,
-                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0900', [aTaskDet.A_TO]: '1115',
+                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0900', [aTaskDet.A_TO]: '1130',
                             [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
                             [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LANG]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 2, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 2,
-                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0930', [aTaskDet.A_TO]: '1045',
+                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0930', [aTaskDet.A_TO]: '1030',
                             [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
                             [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LANG]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
@@ -325,7 +325,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 4, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 4,
-                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1215', [aTaskDet.A_TO]: '1330',
+                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1200', [aTaskDet.A_TO]: '1330',
                             [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
                             [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
@@ -337,7 +337,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 6, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
-                            [aTaskDet.A_DATE]: date2, [aTaskDet.A_FROM]: '0915', [aTaskDet.A_TO]: '1130',
+                            [aTaskDet.A_DATE]: date2, [aTaskDet.A_FROM]: '0930', [aTaskDet.A_TO]: '1130',
                             [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
                             [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
