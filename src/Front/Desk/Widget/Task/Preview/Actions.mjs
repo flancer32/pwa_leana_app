@@ -1,4 +1,5 @@
 const app = self.teqfw.app;
+const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
@@ -9,12 +10,18 @@ const template = `
     <action-bar :params="actions"></action-bar>
 </div>
 `;
-
+/**
+ *
+ * @param {TeqFw_Di_SpecProxy} spec
+ * @return {*}
+ * @constructor
+ */
 export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_Action_Bar} */
     const actionBar = spec.Fl32_Leana_Front_Desk_Widget_Action_Bar$$;   // new instance
-    const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar'];
-    const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];
+    const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar'];    // class constructor
+    const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];  // class constructor
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
     const popupYesNo = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions_Remove$$;  // new instance
 
     // add components being used in overlay to application
@@ -27,7 +34,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
         },
         emits: ['actionSave', 'actionRemove'],
         computed: {
-
             actions() {
                 /** @type {Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
                 const remove = new Item();
@@ -48,13 +54,16 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
                 return result;
             },
             ...mapState({
+                dateSelected: state => state.calendar.dateSelected,
                 taskSelected: state => state.calendar.taskSelected,
             })
         },
         methods: {
             actionRemove() {
                 const me = this;
+                // data from Vuex is not transmitted into handlers, pin it here.
                 const storedTask = this.taskSelected;
+                const storedDate = this.dateSelected;
 
                 async function onNo() {
                     me.resetOverlay();
@@ -81,6 +90,10 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
                     const res = await removeTask(taskId);
                     console.log(`Remove task operation is completed: ${JSON.stringify(res)}`);
                     me.resetOverlay();
+                    /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                    const req = new TaskOnDateRequest();
+                    req.date = storedDate;
+                    me.loadTasksOnDate(req);
                 }
 
                 this.setOverlay({name: 'popupYesNo', params: {onYes, onNo}});
@@ -92,6 +105,9 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
                 'setOverlay',
                 'resetOverlay',
             ]),
+            ...mapActions({
+                loadTasksOnDate: 'calendar/loadTasksOnDate',
+            }),
         }
     };
 }

@@ -32,7 +32,7 @@ export default class Fl32_Leana_Back_Service_Task_Save {
                 /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Response} */
                 const dataOut = new Response();
                 const taskId = await procSave.exec({trx, req: dataIn});
-                trx.commit();
+                await trx.commit();
                 // COMPOSE SUCCESS RESPONSE
                 dataOut.id = taskId;
                 res.setHeader('Content-Type', 'application/json; charset=UTF-8');

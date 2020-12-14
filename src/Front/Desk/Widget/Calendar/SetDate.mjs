@@ -1,3 +1,4 @@
+const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
@@ -16,13 +17,10 @@ const template = `
 `;
 /**
  * Widget to set date for calendar in dashboard overlay.
+ * @param {TeqFw_Di_SpecProxy} spec
  */
 export default function Fl32_Leana_Front_Desk_Widget_Calendar_SetDate(spec) {
-    /** @type {Fl32_Leana_Shared_Const} */
-    const cfgConst = spec.Fl32_Leana_Shared_Const$;
-    /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
-
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
     // picker container should be a simple object (not 'vued' as prop or data)
     let datePicker;
 
@@ -46,9 +44,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Calendar_SetDate(spec) {
                 // https://github.com/qodesmith/datepicker
                 if (datePicker && datePicker.remove) datePicker.remove();
                 // prepare date picker configuration options
-                // const maxDate = utilDate.forwardDate(cfgConst.calendar.maxDate);
-                // const minDate = utilDate.forwardDate(cfgConst.calendar.minDate);
-                // create calendar
                 datePicker = self.datepicker('.calendar_date_picker INPUT', {
                     alwaysShow: true,
                     dateSelected: this.dateSelected,
@@ -65,12 +60,22 @@ export default function Fl32_Leana_Front_Desk_Widget_Calendar_SetDate(spec) {
                 });
             },
             save() {
-                this.saveDateSelected(this.dateSelected);
+                /** @type {Date} */
+                const d = this.dateSelected;
+                const utc = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0));
+                this.saveDateSelected(utc);
+                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                const req = new TaskOnDateRequest();
+                req.date = utc;
+                this.loadTasksOnDate(req);
                 this.resetOverlay();
             },
             ...mapMutations({
                 resetOverlay: 'app/resetOverlay',
                 saveDateSelected: 'calendar/setDateSelected',
+            }),
+            ...mapActions({
+                loadTasksOnDate: 'calendar/loadTasksOnDate',
             }),
         },
         mounted() {

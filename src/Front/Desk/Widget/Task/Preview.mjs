@@ -1,5 +1,7 @@
 const i18next = self.teqfw.i18next;
+const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
+const mapState = self.teqfw.lib.Vuex.mapState;
 
 i18next.addResources('lv', 'taskPreview', {});
 i18next.addResources('ru', 'taskPreview', {
@@ -21,14 +23,6 @@ const template = `
 <!--    <h1>{{ $t('taskPreview:task') }} {{ params.id }}</h1>-->
     <h1>{{ params.customer.name }}</h1>
     <form class="preview" onsubmit="return false">
-<!--        <div class="row">-->
-<!--            <div class="label">-->
-<!--                <span>{{ $t('taskPreview:customer') }}:</span>-->
-<!--            </div>-->
-<!--            <div class="field">-->
-<!--                <span>{{ customer.name }}</span>-->
-<!--            </div>-->
-<!--        </div>-->
         <div class="row" v-show="customer.email">
             <div class="label">
                 <span>{{ $t('taskPreview:email') }}:</span>
@@ -96,13 +90,15 @@ const template = `
 </div>
 `;
 /**
- * Widget to preview task details in dashboard overlay.
+ * Widget to preview task details in desk overlay.
+ * @param {TeqFw_Di_SpecProxy} spec
  */
 export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
     const actions = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions$$;    // new instance
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton
-    const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class
-    const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class
+    const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class constructor
+    const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
 
     return {
         template,
@@ -180,6 +176,9 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 }
                 return result;
             },
+            ...mapState({
+                dateSelectedCalendar: state => state.calendar.dateSelected,
+            })
         },
         methods: {
             actionClose() {
@@ -202,11 +201,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 elControl.style.opacity = 0;
             },
             async onTaskSave() {
-                // get local variable with 'date' value
-                // const date = new Date(this.item.dateBook.getTime());
-                // const hm = utilDate.convertMinsToHrsMins(this.item.dateBook);
-                // const [hours, minutes] = hm.split(':');
-                // date.setHours(Number.parseInt(hours), Number.parseInt(minutes));
                 /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
                 const data = new SaveRequest();
                 data.id = this.item.id;
@@ -229,9 +223,16 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 const result = await res.json();
                 console.log('Saved: ' + JSON.stringify(result));
                 this.resetOverlay();
+                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                const req = new TaskOnDateRequest();
+                req.date = this.dateSelectedCalendar;
+                this.loadTasksOnDate(req);
             },
             ...mapMutations({
                 resetOverlay: 'app/resetOverlay',
+            }),
+            ...mapActions({
+                loadTasksOnDate: 'calendar/loadTasksOnDate',
             }),
         }
     };

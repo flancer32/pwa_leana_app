@@ -33,7 +33,7 @@ export default class Fl32_Leana_Back_Service_Task_Remove {
             try {
                 const {removed} = await srvRemove.exec({trx, taskId: dataIn.taskId});
                 dataOut.removed = (removed >= 1);
-                trx.commit();
+                await trx.commit();
                 res.setHeader('Content-Type', 'application/json; charset=UTF-8');
                 res.end(JSON.stringify({data: dataOut}));
             } catch (err) {

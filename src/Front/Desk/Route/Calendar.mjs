@@ -169,6 +169,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
             addSwipes();
             if (typeof this.dateSelected.getTime !== 'function') {
                 const now = new Date(Date.now());
+                now.setUTCHours(0, 0, 0, 0);
                 this.setDateSelected(now);
             }
             await this.apiLoadCodifiers();

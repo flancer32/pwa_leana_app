@@ -122,6 +122,7 @@ const template = `
 `;
 /**
  * Widget to add/edit task in desk realm.
+ * @param {TeqFw_Di_SpecProxy} spec
  */
 export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     const gateTaskSave = spec.Fl32_Leana_Front_Shared_Gate_Task_Save$;  //singleton
@@ -129,9 +130,10 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
     const wgActions = spec.Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$;
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton
-    const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
     const EmplReq = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];
     const ServReq = spec['Fl32_Leana_Shared_Api_Route_Service_List#Request'];
+    const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
     const TaskSaveReq = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request'];
 
     return {
@@ -242,11 +244,16 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 const res = await gateTaskSave(req);
                 if (res.data && (typeof res.data.id === 'number')) {
                     this.resetOverlay();
+                    /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                    const req = new TaskOnDateRequest();
+                    req.date = this.dateSelected;
+                    this.loadTasksOnDate(req);
                 }
             },
             ...mapActions({
                 loadEmployees: 'calendar/loadEmployees',
                 loadServices: 'calendar/loadServices',
+                loadTasksOnDate: 'calendar/loadTasksOnDate',
             }),
             ...mapMutations({
                 resetOverlay: 'app/resetOverlay',
