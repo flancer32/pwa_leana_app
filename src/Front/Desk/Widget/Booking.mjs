@@ -33,9 +33,9 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
             bookingEntry
         },
         props: {
-            begin: Number,  // unixtime for beginning of the working interval
-            end: Number,    // unixtime for end of the working interval
-            step: Number,   // 60 - entry height in minutes
+            hourBegin: Number,  // 0-23: hour of the beginning of the working interval (local time, including/from)
+            hourEnd: Number,  // 0-23: hour of the beginning of the working interval (local time, excluding/up to)
+            step: Number,   // 60: grid row 'height' in minutes
             tasks: Object,  // {'20201120': {1: {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task}}} tasks for the date
         },
         data: function () {
@@ -44,17 +44,25 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
             };
         },
         computed: {
-            beginMinsUtc() {
-                const date = new Date(this.begin);
-                const hh = `${date.getUTCHours()}`.padStart(2, '0');
-                const mm = `${date.getUTCMinutes()}`.padStart(2, '0');
-                return utilDate.convertDbHrsMinsToMins(`${hh}${mm}`);
+            /**
+             * Get time for beginning of the working interval (including, from).
+             *
+             * @return {number}
+             */
+            timeBegin() {
+                const timeBegin = new Date(this.dateSelected.getTime());
+                timeBegin.setHours(this.hourBegin, 0, 0, 0);
+                return timeBegin.getTime();
             },
-            endMinsUtc() {
-                const date = new Date(this.end);
-                const hh = `${date.getUTCHours()}`.padStart(2, '0');
-                const mm = `${date.getUTCMinutes()}`.padStart(2, '0');
-                return utilDate.convertDbHrsMinsToMins(`${hh}${mm}`);
+            /**
+             * Get time for ending of the working interval (excluding, up to).
+             *
+             * @return {number}
+             */
+            timeEnd() {
+                const timeBegin = new Date(this.dateSelected.getTime());
+                timeBegin.setHours(this.hourEnd, 0, 0, 0);
+                return timeBegin.getTime();
             },
             /**
              * Get tasks for selected date then compose array with 'hours' in rows and tasks being bound to the rows.
@@ -196,7 +204,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking(spec) {
                     // get tasks for selected date
                     const datestamp = utilDate.formatDate(this.dateSelected);
                     const tasksOnDate = _getTasksOnDate(datestamp);    // all tasks being scheduled for the date
-                    const grid = _getGridWithTasks(this.begin, this.end, this.gridStep, tasksOnDate);
+                    const grid = _getGridWithTasks(this.timeBegin, this.timeEnd, this.gridStep, tasksOnDate);
                     return _convertGridToEntries(grid, this.step, this.gridStep);
                 } else {
                     return {};

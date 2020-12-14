@@ -11,8 +11,8 @@ const template = `
     <div class="calendar_current_date">{{dateFormatted}}</div>
     <booking 
         :tasks="bookedTasks"
-        :begin="dateBegin"
-        :end="dateEnd"
+        :hourBegin="hourBegin"
+        :hourEnd="hourEnd"
         :step="60"
     ></booking>
 </div>
@@ -59,15 +59,11 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                 }
                 return result;
             },
-            dateBegin() {
-                const now = new Date();
-                now.setUTCHours(7, 0, 0, 0); // included
-                return now.getTime();
+            hourBegin() {
+                return 9;   // including: 9 >=
             },
-            dateEnd() {
-                const now = new Date();
-                now.setUTCHours(18, 0, 0, 0); // excluded
-                return now.getTime();
+            hourEnd() {
+                return 20;  // excluding < 20
             },
             ...mapState({
                 dateSelected: state => state.calendar.dateSelected,
