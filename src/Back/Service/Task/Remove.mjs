@@ -9,8 +9,8 @@ export default class Fl32_Leana_Back_Service_Task_Remove {
         const _db = spec.TeqFw_Core_App_Db_Connector$;
         /** @type {Fl32_Leana_Back_Process_Book_Remove} */
         const srvRemove = spec.Fl32_Leana_Back_Process_Book_Remove$;
-        const ApiRequest = spec['Fl32_Leana_Shared_Api_Route_Book_Remove#Request'];
-        const ApiResponse = spec['Fl32_Leana_Shared_Api_Route_Book_Remove#Response'];
+        const ApiRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Remove#Request'];
+        const ApiResponse = spec['Fl32_Leana_Shared_Api_Route_Task_Remove#Response'];
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
         /**
@@ -24,9 +24,9 @@ export default class Fl32_Leana_Back_Service_Task_Remove {
         this.handle = async function (req, res) {
             // PARSE INPUT & DEFINE WORKING VARS
             const body = req.body;
-            /** @type {Fl32_Leana_Shared_Api_Route_Book_Remove_Request} */
+            /** @type {Fl32_Leana_Shared_Api_Route_Task_Remove_Request} */
             const dataIn = Object.assign(new ApiRequest(), body.data);
-            /** @type {Fl32_Leana_Shared_Api_Route_Book_Remove_Response} */
+            /** @type {Fl32_Leana_Shared_Api_Route_Task_Remove_Response} */
             const dataOut = new ApiResponse();
 
             const trx = await _db.startTransaction();

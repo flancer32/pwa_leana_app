@@ -44,12 +44,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
             actionBar: wgActionBar
         },
         data: function () {
-            return {
-                // /** @type {Fl32_Leana_Shared_Api_Route_Desk_Calendar_Get_Response} */
-                calendarData: {},
-                // /** @type {Object.<string,Object<number, Fl32_Leana_Front_Desk_Widget_Booking_Api_Task>>} */
-                // bookedTasks: {},
-            };
+            return {};
         },
         computed: {
             dateFormatted() {
