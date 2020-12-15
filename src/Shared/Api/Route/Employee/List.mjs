@@ -2,7 +2,7 @@
  * Request and response for 'employee/list' service.
  */
 class Fl32_Leana_Shared_Api_Route_Employee_List_Request {
-    /** @type {String} 'es_ES' */
+    /** @type {String} 'es-ES' */
     locale
 }
 

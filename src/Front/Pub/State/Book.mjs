@@ -38,24 +38,45 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
             },
         },
         actions: {
-            async loadEmployees({commit}) {
+
+            /**
+             * @param commit
+             * @param {Fl32_Leana_Shared_Api_Route_Employee_List_Request} req
+             * @return {Promise<void>}
+             */
+            async loadEmployees({commit}, req) {
                 /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Response} */
-                const res = await gateEmployeeList({locale: 'ru_RU'});
+                const res = await gateEmployeeList(req);
                 commit('setEmployees', res.items);
             },
 
-            async loadServices({commit}) {
+            /**
+             * @param commit
+             * @param {Fl32_Leana_Shared_Api_Route_Service_List_Request} req
+             * @return {Promise<void>}
+             */
+            async loadServices({commit}, req) {
                 /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Response} */
-                const res = await gateServiceList({locale: 'ru_RU'});
+                const res = await gateServiceList(req);
                 commit('setServices', res.items);
             },
 
+            /**
+             * @param commit
+             * @param {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} req
+             * @return {Promise<void>}
+             */
             async loadTimeWork({commit}, req) {
                 /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Response} */
                 const res = await gateTimeWorkList(req);
                 commit('setTimeWork', res.items);
             },
 
+            /**
+             * @param commit
+             * @param {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} req
+             * @return {Promise<void>}
+             */
             async loadTasksOnDate({commit}, req) {
                 /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Response} */
                 const res = await gateTaskOnDate(req);

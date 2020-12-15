@@ -186,7 +186,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                         }
                     }
                 }
-                return result;
+                return result.sort((a, b) => (a.name > b.name) ? 1 : -1);
             },
             optionsServices() {
                 let result = [];
@@ -194,14 +194,12 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                     for (const key in this.apiServices) {
                         /** @type {Fl32_Leana_Shared_Api_Data_Service} */
                         const one = this.apiServices[key];
-                        if (one.public) {
-                            const duration = utilDate.convertMinsToHrsMins(one.duration);
-                            const option = {id: one.id, name: one.name, duration};
-                            result.push(option);
-                        }
+                        const duration = utilDate.convertMinsToHrsMins(one.duration);
+                        const option = {id: one.id, name: one.name, duration};
+                        result.push(option);
                     }
                 }
-                return result;
+                return result.sort((a, b) => (a.name > b.name) ? 1 : -1);
             },
             ...mapState({
                 apiEmployees: state => state.calendar.employees,

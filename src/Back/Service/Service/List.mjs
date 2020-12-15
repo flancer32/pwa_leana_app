@@ -29,14 +29,17 @@ export default class Fl32_Leana_Back_Service_Service_List {
             /**
              * Get relations between services and employees.
              * @param trx
-             * @param {String} locale 'en_US'
+             * @param {Fl32_Leana_Shared_Api_Route_Service_List_Request} req
              * @return {Promise<{Number: Fl32_Leana_Shared_Api_Data_Employee}>}
              */
-            async function selectData(trx, locale) {
+            async function selectData(trx, req) {
                 const result = {};
-                // const services = await getServicesMap(trx);
+
                 const query = trx.select();
                 query.from(eSrv.ENTITY);
+                if (req.publicOnly) {
+                    query.where(eSrv.A_PUBLIC, true);
+                }
                 const rs = await query;
                 for (const one of rs) {
                     /** @type {Fl32_Leana_Shared_Api_Data_Service} */
@@ -45,7 +48,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
                     service.code = one[eSrv.A_CODE];
                     service.duration = one[eSrv.A_DURATION];
                     service.public = one[eSrv.A_PUBLIC];
-                    service.name = (locale === 'ru-RU') ? one[eSrv.A_NAME_RU] : one[eSrv.A_NAME_LV];
+                    service.name = (req.locale === 'ru-RU') ? one[eSrv.A_NAME_RU] : one[eSrv.A_NAME_LV];
                     result[one.id] = service;
                 }
                 return result;
@@ -59,7 +62,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
             try {
                 /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Response} */
                 const dataOut = new Response();
-                dataOut.items = await selectData(trx, dataIn.locale);
+                dataOut.items = await selectData(trx, dataIn);
                 trx.commit();
                 // COMPOSE SUCCESS RESPONSE
                 res.setHeader('Content-Type', 'application/json; charset=UTF-8');

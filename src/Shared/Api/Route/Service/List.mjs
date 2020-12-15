@@ -2,8 +2,10 @@
  * Request and response for 'service/list' service.
  */
 class Fl32_Leana_Shared_Api_Route_Service_List_Request {
-    /** @type {String} 'es_ES' */
+    /** @type {String} 'es-ES' */
     locale
+    /** @type {Boolean} */
+    publicOnly
 }
 
 class Fl32_Leana_Shared_Api_Route_Service_List_Response {

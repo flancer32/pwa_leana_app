@@ -129,9 +129,11 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
     /** @type {Fl32_Leana_Shared_Util_Mix} */
     const utilMix = spec.Fl32_Leana_Shared_Util_Mix$;
     // classes and functions
-    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class
-    const TimeWorkRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request']; // class
-    const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class
+    const EmployeeRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request']; // class constructor
+    const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class constructor
+    const ServiceRequest = spec['Fl32_Leana_Shared_Api_Route_Service_List#Request']; // class constructor
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
+    const TimeWorkRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request']; // class constructor
 
     return {
         template,
@@ -169,11 +171,9 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                     for (const key in this.apiServices) {
                         /** @type {Fl32_Leana_Shared_Api_Data_Service} */
                         const one = this.apiServices[key];
-                        if (one.public) {
-                            const duration = utilDate.convertMinsToHrsMins(one.duration);
-                            const option = {id: one.id, name: one.name, duration};
-                            result.push(option);
-                        }
+                        const duration = utilDate.convertMinsToHrsMins(one.duration);
+                        const option = {id: one.id, name: one.name, duration};
+                        result.push(option);
                     }
                 }
                 return result;
@@ -403,8 +403,15 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             }),
         },
         async mounted() {
-            await this.loadEmployees();
-            await this.loadServices();
+            /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
+            const reqEmpl = new EmployeeRequest();
+            reqEmpl.locale = i18next.language;
+            await this.loadEmployees(reqEmpl);
+            /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Request} */
+            const reqSrv = new ServiceRequest();
+            reqSrv.locale = i18next.language;
+            reqSrv.publicOnly = true;
+            await this.loadServices(reqSrv);
             /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} */
             const reqTimeWork = new TimeWorkRequest();
             reqTimeWork.dateBegin = new Date(Date.now()); // UTC
