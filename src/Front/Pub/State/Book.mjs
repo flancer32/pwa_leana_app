@@ -16,7 +16,7 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
             dateSelected: Date,
             employees: Object,
             services: Object,
-            tasksOnDate: null,  // Object.<Number, Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work>
+            tasksOnDate: null,  // Object.<Number, Fl32_Leana_Shared_Api_Data_Employee_Time_Work>
             timeWork: Array,
         },
         getters: {},

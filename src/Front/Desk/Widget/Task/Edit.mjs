@@ -179,7 +179,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 let result = [];
                 if (this.apiEmployees) {
                     for (const key in this.apiEmployees) {
-                        /** @type {Fl32_Leana_Shared_Api_Data_New_Employee} */
+                        /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
                         const one = this.apiEmployees[key];
                         if (Array.isArray(one.services) && one.services.includes(this.serviceId)) {
                             result.push({id: one.id, name: one.name});
@@ -192,7 +192,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 let result = [];
                 if (this.apiServices) {
                     for (const key in this.apiServices) {
-                        /** @type {Fl32_Leana_Shared_Api_Data_New_Service} */
+                        /** @type {Fl32_Leana_Shared_Api_Data_Service} */
                         const one = this.apiServices[key];
                         if (one.public) {
                             const duration = utilDate.convertMinsToHrsMins(one.duration);

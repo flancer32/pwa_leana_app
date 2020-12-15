@@ -8,7 +8,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
         const rdb = spec.TeqFw_Core_App_Db_Connector$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
         const eSrv = spec.Fl32_Leana_Store_RDb_Schema_Service$;
-        const Service = spec['Fl32_Leana_Shared_Api_Data_New_Service#'];
+        const Service = spec['Fl32_Leana_Shared_Api_Data_Service#'];
         const Request = spec['Fl32_Leana_Shared_Api_Route_Service_List#Request'];
         const Response = spec['Fl32_Leana_Shared_Api_Route_Service_List#Response'];
 
@@ -30,7 +30,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
              * Get relations between services and employees.
              * @param trx
              * @param {String} locale 'en_US'
-             * @return {Promise<{Number: Fl32_Leana_Shared_Api_Data_New_Employee}>}
+             * @return {Promise<{Number: Fl32_Leana_Shared_Api_Data_Employee}>}
              */
             async function selectData(trx, locale) {
                 const result = {};
@@ -39,7 +39,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
                 query.from(eSrv.ENTITY);
                 const rs = await query;
                 for (const one of rs) {
-                    /** @type {Fl32_Leana_Shared_Api_Data_New_Service} */
+                    /** @type {Fl32_Leana_Shared_Api_Data_Service} */
                     const service = new Service();
                     service.id = one[eSrv.A_ID];
                     service.code = one[eSrv.A_CODE];

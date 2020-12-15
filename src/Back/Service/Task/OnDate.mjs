@@ -14,7 +14,7 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
         /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
         const eTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
         //
-        const Task = spec['Fl32_Leana_Shared_Api_Data_New_Task#'];
+        const Task = spec['Fl32_Leana_Shared_Api_Data_Task#'];
         const Request = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request'];
         const Response = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Response'];
 
@@ -35,10 +35,10 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
                 /**
                  *
                  * @param {TextRow} data
-                 * @return {Fl32_Leana_Shared_Api_Data_New_Task}
+                 * @return {Fl32_Leana_Shared_Api_Data_Task}
                  */
                 function composeItem(data) {
-                    /** @type {Fl32_Leana_Shared_Api_Data_New_Task} */
+                    /** @type {Fl32_Leana_Shared_Api_Data_Task} */
                     const result = new Task();
                     result.customerEmail = data['customerEmail'];
                     result.customerName = data['customerName'];

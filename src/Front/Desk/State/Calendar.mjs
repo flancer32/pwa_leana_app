@@ -17,7 +17,7 @@ export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
             employees: Object,
             services: Object,
             taskSelected: Task,
-            tasksOnDate: Object,  // Object.<Number, Fl32_Leana_Shared_Api_Data_New_Task>
+            tasksOnDate: Object,  // Object.<Number, Fl32_Leana_Shared_Api_Data_Task>
         },
         getters: {},
         mutations: {

@@ -7,7 +7,7 @@ class Fl32_Leana_Shared_Api_Route_Employee_List_Request {
 }
 
 class Fl32_Leana_Shared_Api_Route_Employee_List_Response {
-    /** @type {Object.<number, Fl32_Leana_Shared_Api_Data_New_Employee>} */
+    /** @type {Object.<number, Fl32_Leana_Shared_Api_Data_Employee>} */
     items
 }
 

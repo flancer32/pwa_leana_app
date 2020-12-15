@@ -14,7 +14,7 @@ export default class Fl32_Leana_Front_Desk_Util_Convert_Api2Ui {
      * @param (TeqFw_Di_SpecProxy) spec
      */
     constructor(spec) {
-        this.ApiTask = spec['Fl32_Leana_Shared_Api_Data_New_Task#'];
+        this.ApiTask = spec['Fl32_Leana_Shared_Api_Data_Task#'];
         this.UiCustomer = spec['Fl32_Leana_Front_Desk_Widget_Api_Customer#'];
         this.UiEmployee = spec['Fl32_Leana_Front_Desk_Widget_Api_Employee#'];
         this.UiService = spec['Fl32_Leana_Front_Desk_Widget_Api_Service#'];
@@ -26,9 +26,9 @@ export default class Fl32_Leana_Front_Desk_Util_Convert_Api2Ui {
 
     /**
      *
-     * @param {Fl32_Leana_Shared_Api_Data_New_Task} apiTask
-     * @param {Object.<Number, Fl32_Leana_Shared_Api_Data_New_Employee>} apiEmployees
-     * @param {Object.<Number, Fl32_Leana_Shared_Api_Data_New_Service>} apiServices
+     * @param {Fl32_Leana_Shared_Api_Data_Task} apiTask
+     * @param {Object.<Number, Fl32_Leana_Shared_Api_Data_Employee>} apiEmployees
+     * @param {Object.<Number, Fl32_Leana_Shared_Api_Data_Service>} apiServices
      * @return {Fl32_Leana_Front_Desk_Widget_Api_Task}
      */
     taskApi2Ui(apiTask, apiEmployees, apiServices) {
@@ -48,7 +48,7 @@ export default class Fl32_Leana_Front_Desk_Util_Convert_Api2Ui {
         customer.phone = apiTask.customerPhone;
         result.customer = customer;
         if (apiServices && apiServices[apiTask.serviceRef]) {
-            /** @type {Fl32_Leana_Shared_Api_Data_New_Service} */
+            /** @type {Fl32_Leana_Shared_Api_Data_Service} */
             const serviceApi = apiServices[apiTask.serviceRef];
             /** @type {Fl32_Leana_Front_Desk_Widget_Api_Service} */
             const service = new this.UiService();
@@ -60,7 +60,7 @@ export default class Fl32_Leana_Front_Desk_Util_Convert_Api2Ui {
             result.service = service;
         }
         if (apiEmployees && apiEmployees[apiTask.employeeRef]) {
-            /** @type {Fl32_Leana_Shared_Api_Data_New_Employee} */
+            /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
             const employeeApi = apiEmployees[apiTask.employeeRef];
             /** @type {Fl32_Leana_Front_Desk_Widget_Api_Employee} */
             const employee = new this.UiEmployee();

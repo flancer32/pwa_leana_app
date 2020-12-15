@@ -10,7 +10,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
         const eEmpl = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Service} */
         const eEmplSrv = spec.Fl32_Leana_Store_RDb_Schema_Employee_Service$;
-        const Employee = spec['Fl32_Leana_Shared_Api_Data_New_Employee#'];
+        const Employee = spec['Fl32_Leana_Shared_Api_Data_Employee#'];
         const Request = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];
         const Response = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Response'];
 
@@ -32,7 +32,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
              * Get relations between services and employees.
              * @param trx
              * @param {String} locale 'en_US'
-             * @return {Promise<{Number: Fl32_Leana_Shared_Api_Data_New_Employee}>}
+             * @return {Promise<{Number: Fl32_Leana_Shared_Api_Data_Employee}>}
              */
             async function selectData(trx, locale) {
                 // DEFINE INNER FUNCTIONS
@@ -57,7 +57,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
                 query.from(eEmpl.ENTITY);
                 const rs = await query;
                 for (const one of rs) {
-                    /** @type {Fl32_Leana_Shared_Api_Data_New_Employee} */
+                    /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
                     const employee = new Employee();
                     employee.id = one[eEmpl.A_ID];
                     employee.code = one[eEmpl.A_CODE];

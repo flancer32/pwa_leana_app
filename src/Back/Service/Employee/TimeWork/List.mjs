@@ -10,7 +10,7 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
         const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Time_Work} */
         const eTimeWork = spec.Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$;
-        const TimeWork = spec['Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work#'];
+        const TimeWork = spec['Fl32_Leana_Shared_Api_Data_Employee_Time_Work#'];
         const Request = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request'];
         const Response = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Response'];
 
@@ -32,7 +32,7 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
              * Get working time for employees.
              * @param trx
              * @param {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} dataIn
-             * @return {Promise<Array.<Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work>>}
+             * @return {Promise<Array.<Fl32_Leana_Shared_Api_Data_Employee_Time_Work>>}
              */
             async function selectData(trx, dataIn) {
                 // DEFINE INNER FUNCTIONS
@@ -58,7 +58,7 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
                 // perform query and get data
                 const rs = await query;
                 for (const one of rs) {
-                    /** @type {Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work} */
+                    /** @type {Fl32_Leana_Shared_Api_Data_Employee_Time_Work} */
                     const item = new TimeWork();
                     item.employeeRef = one[eTimeWork.A_EMPLOYEE_REF];
                     const ds = one[eTimeWork.A_DATE];

@@ -1,7 +1,7 @@
 /**
  * Service data.
  */
-export default class Fl32_Leana_Shared_Api_Data_New_Service {
+export default class Fl32_Leana_Shared_Api_Data_Service {
     /**
      * Internal id.
      *

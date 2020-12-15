@@ -1,7 +1,7 @@
 /**
  * Task data.
  */
-export default class Fl32_Leana_Shared_Api_Data_New_Task {
+export default class Fl32_Leana_Shared_Api_Data_Task {
     /**
      *  @type {String}
      */

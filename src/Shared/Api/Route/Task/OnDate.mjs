@@ -7,7 +7,7 @@ class Fl32_Leana_Shared_Api_Route_Task_OnDate_Request {
 }
 
 class Fl32_Leana_Shared_Api_Route_Task_OnDate_Response {
-    /** @type {Object.<number, Fl32_Leana_Shared_Api_Data_New_Task>} */
+    /** @type {Object.<number, Fl32_Leana_Shared_Api_Data_Task>} */
     items
 }
 

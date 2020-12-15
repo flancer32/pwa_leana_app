@@ -3,7 +3,7 @@
  */
 export default function (spec) {
     const config = spec.config;
-    const Service = spec['Fl32_Leana_Shared_Api_Data_New_Service#'];
+    const Service = spec['Fl32_Leana_Shared_Api_Data_Service#'];
     const Response = spec['Fl32_Leana_Shared_Api_Route_Service_List#Response'];
 
     const URL = `https://${config.web.urlBase}/api/service/list`;
@@ -21,7 +21,7 @@ export default function (spec) {
         const result = new Response();
         result.items = {};
         for (const key in json.data.items) {
-            /** @type {Fl32_Leana_Shared_Api_Data_New_Service} */
+            /** @type {Fl32_Leana_Shared_Api_Data_Service} */
             const item = Object.assign(new Service(), json.data.items[key]);
             result.items[item.id] = item;
         }

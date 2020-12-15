@@ -7,7 +7,7 @@ class Fl32_Leana_Shared_Api_Route_Service_List_Request {
 }
 
 class Fl32_Leana_Shared_Api_Route_Service_List_Response {
-    /** @type {Object.<number, Fl32_Leana_Shared_Api_Data_New_Service>} */
+    /** @type {Object.<number, Fl32_Leana_Shared_Api_Data_Service>} */
     items
 }
 

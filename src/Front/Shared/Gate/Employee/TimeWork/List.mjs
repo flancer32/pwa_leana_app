@@ -3,7 +3,7 @@
  */
 export default function (spec) {
     const config = spec.config;
-    const TimeWork = spec['Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work#'];
+    const TimeWork = spec['Fl32_Leana_Shared_Api_Data_Employee_Time_Work#'];
     const Response = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Response'];
 
     const URL = `https://${config.web.urlBase}/api/employee/time_work/list`;
@@ -21,7 +21,7 @@ export default function (spec) {
         const result = new Response();
         result.items = [];
         for (const one of json.data.items) {
-            /** @type {Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work} */
+            /** @type {Fl32_Leana_Shared_Api_Data_Employee_Time_Work} */
             const item = Object.assign(new TimeWork(), one);
             result.items.push(item);
         }

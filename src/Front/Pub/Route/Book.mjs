@@ -154,7 +154,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 let result = [];
                 if (this.apiEmployees) {
                     for (const key in this.apiEmployees) {
-                        /** @type {Fl32_Leana_Shared_Api_Data_New_Employee} */
+                        /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
                         const one = this.apiEmployees[key];
                         if (Array.isArray(one.services) && one.services.includes(this.service)) {
                             result.push({id: one.id, name: one.name});
@@ -167,7 +167,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 let result = [];
                 if (this.apiServices) {
                     for (const key in this.apiServices) {
-                        /** @type {Fl32_Leana_Shared_Api_Data_New_Service} */
+                        /** @type {Fl32_Leana_Shared_Api_Data_Service} */
                         const one = this.apiServices[key];
                         if (one.public) {
                             const duration = utilDate.convertMinsToHrsMins(one.duration);
@@ -190,7 +190,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                     // get working days
                     const workDays = [];
                     for (
-                        /** @type {Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work} */
+                        /** @type {Fl32_Leana_Shared_Api_Data_Employee_Time_Work} */
                         const one of this.apiTimeWork) {
                         if (one.employeeRef === this.employeeId) {
                             const dateStart = one.start;
@@ -225,7 +225,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 /**
                  * Collect 'from' & 'to' times for booking intervals.
                  *
-                 * @param {Object.<number, Fl32_Leana_Shared_Api_Data_New_Task>} tasksOnDate
+                 * @param {Object.<number, Fl32_Leana_Shared_Api_Data_Task>} tasksOnDate
                  * @return {Object<number, number>} dateTimeBegin => dateTimeEnd
                  */
                 function getBookedTime(tasksOnDate) {
@@ -235,7 +235,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                         const orderedAsc = Object.values(tasksOnDate)
                             .sort((a, b) => (new Date(a.dateBook)).getTime() - (new Date(b.dateBook)).getTime());
                         for (
-                            /** @type {Fl32_Leana_Shared_Api_Data_New_Task} */
+                            /** @type {Fl32_Leana_Shared_Api_Data_Task} */
                             const one of orderedAsc) {
                             const dateFrom = new Date(one.dateBook);
                             const duration = utilDate.minutesToMilliseconds(one.duration);
@@ -313,7 +313,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 const result = {};
                 const stampSelected = utilDate.stampDateUtc(this.dateSelected);
                 for (const key in this.apiTimeWork) {
-                    /** @type {Fl32_Leana_Shared_Api_Data_New_Employee_Time_Work} */
+                    /** @type {Fl32_Leana_Shared_Api_Data_Employee_Time_Work} */
                     const one = this.apiTimeWork[key];
                     if (one.employeeRef === this.employeeId) {
                         const stampWork = utilDate.stampDateUtc(one.start);

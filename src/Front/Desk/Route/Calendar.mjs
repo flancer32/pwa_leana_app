@@ -75,7 +75,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                 // convert tasks on the date to UI format
                 if (Array.isArray(Object.keys(this.apiTasksOnDate))) {
                     for (
-                        /** @type {Fl32_Leana_Shared_Api_Data_New_Task} */
+                        /** @type {Fl32_Leana_Shared_Api_Data_Task} */
                         const one of Object.values(this.apiTasksOnDate)) {
                         /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
                         const taskUi = utilConvert.taskApi2Ui(one, this.apiEmployees, this.apiServices);
