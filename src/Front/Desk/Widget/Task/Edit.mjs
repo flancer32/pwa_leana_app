@@ -235,8 +235,8 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 req.date = this.date;
                 req.duration = 30;
                 req.email = this.email;
-                req.lang = i18next.language;
-                req.masterId = this.employeeId;
+                req.locale = i18next.language;
+                req.employeeId = this.employeeId;
                 req.name = this.customer;
                 req.note = this.note;
                 req.phone = this.phone;

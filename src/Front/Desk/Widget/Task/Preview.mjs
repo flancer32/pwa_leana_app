@@ -9,6 +9,9 @@ i18next.addResources('ru', 'taskPreview', {
     date: 'Дата',
     email: 'Email',
     employee: 'Мастер',
+    madeBy: 'Создан',
+    madeByAdmin: 'Вручную',
+    madeByCustomer: 'Клиентом',
     notes: 'Заметки',
     phone: 'Телефон',
     service: 'Задача',
@@ -20,7 +23,6 @@ const template = `
     <actions
         @actionSave="onTaskSave"
     ></actions>
-<!--    <h1>{{ $t('taskPreview:task') }} {{ params.id }}</h1>-->
     <h1>{{ params.customer.name }}</h1>
     <form class="preview" onsubmit="return false">
         <div class="row" v-show="customer.email">
@@ -64,6 +66,15 @@ const template = `
             </div>
             <div class="field">
                 <span>{{ service.code }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">
+                <span>{{ $t('taskPreview:madeBy') }}:</span>
+            </div>
+            <div class="field">
+                <span v-show="!item.madeOnFront">{{ $t('taskPreview:madeByAdmin') }}</span>
+                <span v-show="item.madeOnFront">{{ $t('taskPreview:madeByCustomer') }}</span>
             </div>
         </div>
         <div class="row">
@@ -123,6 +134,23 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                     return {};
                 }
             },
+            dateSchedule() {
+                let result = '';
+                if (
+                    this.item.dateBook &&
+                    (typeof this.item.dateBook.toLocaleDateString === 'function')
+                ) {
+                    const locale = i18next.language;
+                    result = this.item.dateBook.toLocaleDateString(locale, {
+                        weekday: 'short',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    });
+                }
+                return result;
+            },
             /**
              * @return {{}|Fl32_Leana_Front_Desk_Widget_Api_Employee}
              */
@@ -159,23 +187,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                     return {};
                 }
             },
-            dateSchedule() {
-                let result = '';
-                if (
-                    this.item.dateBook &&
-                    (typeof this.item.dateBook.toLocaleDateString === 'function')
-                ) {
-                    const locale = i18next.language;
-                    result = this.item.dateBook.toLocaleDateString(locale, {
-                        weekday: 'short',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                    });
-                }
-                return result;
-            },
             ...mapState({
                 dateSelectedCalendar: state => state.calendar.dateSelected,
             })
@@ -207,12 +218,12 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 data.date = this.item.dateBook;
                 data.duration = this.item.duration;
                 data.email = this.item.customer.email;
-                data.masterId = this.employee.id;
+                data.employeeId = this.employee.id;
                 data.name = this.customer.name;
                 data.phone = this.customer.phone;
                 data.serviceId = this.service.id;
                 data.note = this.item.note;
-                data.lang = this.item.lang;
+                data.locale = this.item.locale;
                 const res = await fetch('../api/task/save', {
                     method: 'POST',
                     headers: {

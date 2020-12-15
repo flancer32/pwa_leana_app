@@ -2,11 +2,8 @@
  * Task common data for dashboard widgets.
  */
 export default class Fl32_Leana_Front_Desk_Widget_Api_Task {
-    /**
-     * Task id (from backend).
-     * @type {number}
-     */
-    id
+    /** @type {Fl32_Leana_Front_Desk_Widget_Api_Customer} */
+    customer
     /**
      * Scheduled date and time.
      * @type {Date}
@@ -24,12 +21,17 @@ export default class Fl32_Leana_Front_Desk_Widget_Api_Task {
     duration
     /** @type {Fl32_Leana_Front_Desk_Widget_Api_Employee} */
     employee
-    /** @type {Fl32_Leana_Front_Desk_Widget_Api_Service} */
-    service
-    /** @type {Fl32_Leana_Front_Desk_Widget_Api_Customer} */
-    customer
+    /**
+     * Task id (from backend).
+     * @type {number}
+     */
+    id
+    /** @type {String} */
+    locale
+    /** @type {Boolean} */
+    madeOnFront
     /** @type {String} */
     note
-    /** @type {String} */
-    lang
+    /** @type {Fl32_Leana_Front_Desk_Widget_Api_Service} */
+    service
 }

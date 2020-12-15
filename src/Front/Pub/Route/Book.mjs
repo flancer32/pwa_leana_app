@@ -365,8 +365,9 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 req.date = date;
                 req.duration = this.duration;
                 req.email = this.email;
-                req.lang = i18next.language;
-                req.masterId = this.employeeId;
+                req.locale = i18next.language;
+                req.employeeId = this.employeeId;
+                req.madeOnFront = true;
                 req.name = this.name;
                 req.phone = this.phone;
                 req.serviceId = this.service;

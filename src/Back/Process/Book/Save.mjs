@@ -47,25 +47,27 @@ export default class Fl32_Leana_Back_Process_Book_Save {
             const to = me.#utilDate.convertMinsToDbHrsMins(toMin);
             const customer = req.name ?? undefined;
             const email = req.email ?? undefined;
-            const phone = req.phone ?? undefined;
+            const locale = req.locale ?? undefined;
+            const madeOnFront = req.madeOnFront ?? false;
             const note = req.note ?? undefined;
-            const lang = req.lang ?? undefined;
+            const phone = req.phone ?? undefined;
             // register ID for entity
             const rs = await trx(me.eTask.ENTITY).insert({});
             const taskId = rs[0];
             // add details for new entity
             await trx(me.eTaskDet.ENTITY).insert({
-                [me.eTaskDet.A_TASK_REF]: taskId,
-                [me.eTaskDet.A_EMPLOYEE_REF]: req.masterId,
-                [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
-                [me.eTaskDet.A_DATE]: date,
-                [me.eTaskDet.A_FROM]: from,
-                [me.eTaskDet.A_TO]: to,
                 [me.eTaskDet.A_CUSTOMER]: customer,
+                [me.eTaskDet.A_DATE]: date,
                 [me.eTaskDet.A_EMAIL]: email,
-                [me.eTaskDet.A_PHONE]: phone,
+                [me.eTaskDet.A_EMPLOYEE_REF]: req.employeeId,
+                [me.eTaskDet.A_FROM]: from,
+                [me.eTaskDet.A_LOCALE]: locale,
+                [me.eTaskDet.A_MADE_ON_FRONT]: madeOnFront,
                 [me.eTaskDet.A_NOTE]: note,
-                [me.eTaskDet.A_LANG]: lang,
+                [me.eTaskDet.A_PHONE]: phone,
+                [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
+                [me.eTaskDet.A_TASK_REF]: taskId,
+                [me.eTaskDet.A_TO]: to,
             });
             return taskId;
         }
@@ -82,20 +84,20 @@ export default class Fl32_Leana_Back_Process_Book_Save {
             const email = req.email ?? undefined;
             const phone = req.phone ?? undefined;
             const note = req.note ?? undefined;
-            const lang = req.lang ?? undefined;
+            const locale = req.locale ?? undefined;
             // update details for existing entity
             await trx(me.eTaskDet.ENTITY)
                 .update({
-                    [me.eTaskDet.A_EMPLOYEE_REF]: req.masterId,
-                    [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
-                    [me.eTaskDet.A_DATE]: date,
-                    [me.eTaskDet.A_FROM]: from,
-                    [me.eTaskDet.A_TO]: to,
                     [me.eTaskDet.A_CUSTOMER]: customer,
+                    [me.eTaskDet.A_DATE]: date,
                     [me.eTaskDet.A_EMAIL]: email,
-                    [me.eTaskDet.A_PHONE]: phone,
+                    [me.eTaskDet.A_EMPLOYEE_REF]: req.employeeId,
+                    [me.eTaskDet.A_FROM]: from,
+                    [me.eTaskDet.A_LOCALE]: locale,
                     [me.eTaskDet.A_NOTE]: note,
-                    [me.eTaskDet.A_LANG]: lang,
+                    [me.eTaskDet.A_PHONE]: phone,
+                    [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
+                    [me.eTaskDet.A_TO]: to,
                 })
                 .where({[me.eTaskDet.A_TASK_REF]: req.id,});
             return req.id;

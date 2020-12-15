@@ -11,9 +11,11 @@ class Fl32_Leana_Shared_Api_Route_Task_Save_Request {
     /** @type {Number|null} */
     id
     /** @type {String} language code (lv-LV, ru-RU, ...) */
-    lang
+    locale
+    /** @type {Boolean} */
+    madeOnFront
     /** @type {Number} */
-    masterId
+    employeeId
     /** @type {String} customer name */
     name
     /** @type {String} */

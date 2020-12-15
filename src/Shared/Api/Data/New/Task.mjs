@@ -44,6 +44,11 @@ export default class Fl32_Leana_Shared_Api_Data_New_Task {
      */
     locale
     /**
+     * 'true' if task is scheduled from the front by customer.
+     *  @type {Boolean}
+     */
+    madeOnFront
+    /**
      *  @type {String}
      */
     note

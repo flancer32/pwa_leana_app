@@ -55,6 +55,7 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
                     result.id = data['id'];
                     result.locale = data['locale'];
                     result.note = data['note'];
+                    result.madeOnFront = data['madeOnFront'];
                     result.serviceRef = data['serviceRef'];
                     return result;
                 }
@@ -71,16 +72,17 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
                 // JOIN book_detail
                 query.leftOuterJoin({d: eTaskDet.ENTITY}, `d.${eTaskDet.A_TASK_REF}`, `t.${eTask.A_ID}`);
                 query.select([
-                    {employeeRef: `d.${eTaskDet.A_EMPLOYEE_REF}`},
-                    {serviceRef: `d.${eTaskDet.A_SERVICE_REF}`},
-                    {bookedDate: `d.${eTaskDet.A_DATE}`},
                     {bookedBegin: `d.${eTaskDet.A_FROM}`},
+                    {bookedDate: `d.${eTaskDet.A_DATE}`},
                     {bookedEnd: `d.${eTaskDet.A_TO}`},
+                    {customerEmail: `d.${eTaskDet.A_EMAIL}`},
                     {customerName: `d.${eTaskDet.A_CUSTOMER}`},
                     {customerPhone: `d.${eTaskDet.A_PHONE}`},
-                    {customerEmail: `d.${eTaskDet.A_EMAIL}`},
-                    {locale: `d.${eTaskDet.A_LANG}`},
+                    {employeeRef: `d.${eTaskDet.A_EMPLOYEE_REF}`},
+                    {locale: `d.${eTaskDet.A_LOCALE}`},
+                    {madeOnFront: `d.${eTaskDet.A_MADE_ON_FRONT}`},
                     {note: `d.${eTaskDet.A_NOTE}`},
+                    {serviceRef: `d.${eTaskDet.A_SERVICE_REF}`},
                 ]);
                 // WHERE
                 const datestamp = utilDate.stampDateUtc(date);

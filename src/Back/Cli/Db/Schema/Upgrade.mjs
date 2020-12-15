@@ -160,10 +160,13 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                         table.string(aTaskDet.A_DATE, 8).comment('Date as "YYYYMMDD".');
                         table.string(aTaskDet.A_FROM, 4).notNullable().comment('Time starting: 0900.');
                         table.string(aTaskDet.A_TO, 4).notNullable().comment('Finish time: 2000.');
+                        table.boolean(aTaskDet.A_MADE_ON_FRONT).notNullable()
+                            .defaultTo(false)
+                            .comment('true - if task is created by customer from pub app.');
                         table.string(aTaskDet.A_CUSTOMER, 255).notNullable().comment('Customer name.');
                         table.string(aTaskDet.A_PHONE, 255).nullable().comment('Customer phone.');
                         table.string(aTaskDet.A_EMAIL, 255).nullable().comment('Customer email.');
-                        table.string(aTaskDet.A_LANG, 255).nullable().comment('Customer language (locale).');
+                        table.string(aTaskDet.A_LOCALE, 255).nullable().comment('Customer language (locale).');
                         table.string(aTaskDet.A_NOTE, 255).nullable().comment('Task notes.');
                         table.primary([aTaskDet.A_TASK_REF]);
                         table.foreign(aTaskDet.A_TASK_REF).references(aTask.A_ID).inTable(aTask.ENTITY)
@@ -309,61 +312,61 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [aTaskDet.A_TASK_REF]: 1, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 1,
                             [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0900', [aTaskDet.A_TO]: '1130',
                             [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
-                            [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 2, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 2,
                             [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0930', [aTaskDet.A_TO]: '1030',
                             [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
-                            [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 3, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 3,
                             [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1030', [aTaskDet.A_TO]: '1130',
                             [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
-                            [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 4, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 4,
                             [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1200', [aTaskDet.A_TO]: '1330',
                             [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 5, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
                             [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1630', [aTaskDet.A_TO]: '1730',
                             [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 6, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
                             [aTaskDet.A_DATE]: date2, [aTaskDet.A_FROM]: '0930', [aTaskDet.A_TO]: '1130',
                             [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 7, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
                             [aTaskDet.A_DATE]: date2, [aTaskDet.A_FROM]: '1230', [aTaskDet.A_TO]: '1730',
                             [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 8, [aTaskDet.A_EMPLOYEE_REF]: 2, [aTaskDet.A_SERVICE_REF]: 5,
                             [aTaskDet.A_DATE]: date1, [aTaskDet.A_FROM]: '0900', [aTaskDet.A_TO]: '1030',
                             [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 9, [aTaskDet.A_EMPLOYEE_REF]: 2, [aTaskDet.A_SERVICE_REF]: 5,
                             [aTaskDet.A_DATE]: date1, [aTaskDet.A_FROM]: '1030', [aTaskDet.A_TO]: '1130',
                             [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [aTaskDet.A_TASK_REF]: 10, [aTaskDet.A_EMPLOYEE_REF]: 2, [aTaskDet.A_SERVICE_REF]: 5,
                             [aTaskDet.A_DATE]: date3, [aTaskDet.A_FROM]: '1030', [aTaskDet.A_TO]: '1730',
                             [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LANG]: 'en_US',
+                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
                             [aTaskDet.A_NOTE]: 'some notes related to the task.',
                         },
                     ]);

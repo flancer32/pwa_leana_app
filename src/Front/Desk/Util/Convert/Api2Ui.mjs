@@ -38,8 +38,9 @@ export default class Fl32_Leana_Front_Desk_Util_Convert_Api2Ui {
         result.dateBook = new Date(apiTask.dateBook);
         result.dateCreated = new Date(apiTask.dateCreated);
         result.duration = apiTask.duration;
+        result.locale = apiTask.locale;
+        result.madeOnFront = apiTask.madeOnFront;
         result.note = apiTask.note;
-        result.lang = apiTask.locale;
         /** @type {Fl32_Leana_Front_Desk_Widget_Api_Customer} */
         const customer = new this.UiCustomer();
         customer.name = apiTask.customerName;

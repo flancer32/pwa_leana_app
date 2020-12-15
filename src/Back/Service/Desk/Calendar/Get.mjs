@@ -96,7 +96,7 @@ export default class Fl32_Leana_Back_Service_Desk_Calendar_Get {
                     {customerName: `d.${eTaskDet.A_CUSTOMER}`},
                     {customerPhone: `d.${eTaskDet.A_PHONE}`},
                     {customerEmail: `d.${eTaskDet.A_EMAIL}`},
-                    {lang: `d.${eTaskDet.A_LANG}`},
+                    {lang: `d.${eTaskDet.A_LOCALE}`},
                     {note: `d.${eTaskDet.A_NOTE}`},
                 ]);
                 // const sql = query.toString();
