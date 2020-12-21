@@ -63,7 +63,8 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry() {
                 const data = one.taskData;
                 if (data) {
                     const customer = data.customer;
-                    return `${data.id}: ${customer.name} (${data.service.name}) ${data.note}`;
+                    const note = data.note ?? '';
+                    return `${data.id}: ${customer.name} (${data.service.name}) ${note}`.trim();
                 } else {
                     return '';
                 }
