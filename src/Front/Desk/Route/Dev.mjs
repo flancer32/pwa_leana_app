@@ -7,14 +7,17 @@ i18next.addResources('ru', 'route-about', {});
 
 const template = `
 <div style="min-width: 80%; margin: auto; height: 300px;">
+    <dialog-yes-no
+        :params="{message:'Please, answer the question.', onYes:actDialogYes, onNo:actDialogNo}"
+    ></dialog-yes-no>
 <!--    <task-edit :params="params"></task-edit>-->
-    <date-time-picker
-        :yearMin="2020"
-        :yearMax="2021"
-        :hourMin="9"
-        :hourMax="20"
-        :minsStep="30"
-    ></date-time-picker>
+<!--    <date-time-picker-->
+<!--        :yearMin="2020"-->
+<!--        :yearMax="2021"-->
+<!--        :hourMin="9"-->
+<!--        :hourMax="20"-->
+<!--        :minsStep="30"-->
+<!--    ></date-time-picker>-->
 <!--    <scroller-vertical-->
 <!--        :items="getScrollerItems()"-->
 <!--    ></scroller-vertical>-->
@@ -26,6 +29,8 @@ export default function Fl32_Leana_Front_Desk_Route_Dev(spec) {
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$;
     const wgScrollerVertical = spec.Fl32_Leana_Front_Shared_Widget_Scroller_Vertical$;
     const wgTaskEdit = spec.Fl32_Leana_Front_Desk_Widget_Task_Edit$;
+    /** @type {Fl32_Leana_Front_Shared_Widget_Dialog_YesNo} */
+    const dialogYesNo = spec.Fl32_Leana_Front_Shared_Widget_Dialog_YesNo$;
 
     // other activity
     return {
@@ -34,6 +39,7 @@ export default function Fl32_Leana_Front_Desk_Route_Dev(spec) {
             dateTimePicker: wgDateTimePicker,
             scrollerVertical: wgScrollerVertical,
             taskEdit: wgTaskEdit,
+            dialogYesNo,
         },
         data: function () {
             return {
@@ -41,6 +47,12 @@ export default function Fl32_Leana_Front_Desk_Route_Dev(spec) {
             };
         },
         methods: {
+            actDialogNo() {
+                console.log('No!');
+            },
+            actDialogYes() {
+                console.log('Yes!');
+            },
             getScrollerItems() {
                 const items = [];
                 for (let i = 2020; i <= 2030; i++) {

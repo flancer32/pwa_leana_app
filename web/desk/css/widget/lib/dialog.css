@@ -1,0 +1,20 @@
+.dialog-yes-no {
+    display: grid;
+    grid-template: "a" "b";
+    max-width: 300px;
+    row-gap: var(--grid-gap);
+}
+
+.dialog-yes-no_message {
+    text-align: center;
+}
+
+.dialog-yes-no_actions {
+    align-items: center;
+    display: grid;
+    grid-auto-columns: auto;
+    grid-auto-flow: column;
+    grid-gap: var(--grid-gap);
+    grid-template-rows:  auto;
+    justify-items: center;
+}

@@ -1,9 +1,17 @@
 const app = self.teqfw.app;
+const i18next = self.teqfw.i18next;
 const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
+
 const EVENT_SAVE = 'actionSave';
+
+i18next.addResources('lv', 'previewAct', {});
+i18next.addResources('ru', 'previewAct', {
+    removeConfirm: 'Вы действительно хотите удалить запись?',
+});
+
 
 const template = `
 <div class="task_preview_action_bar">
@@ -22,10 +30,12 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
     const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar'];    // class constructor
     const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];  // class constructor
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
-    const popupYesNo = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions_Remove$$;  // new instance
+    // const popupYesNo = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions_Remove$$;  // new instance
+    /** @type {Fl32_Leana_Front_Shared_Widget_Dialog_YesNo} */
+    const dialogYesNo = spec.Fl32_Leana_Front_Shared_Widget_Dialog_YesNo$;  // singleton
 
     // add components being used in overlay to application
-    app.component('popupYesNo', popupYesNo);
+    app.component('popupYesNo', dialogYesNo);    // rewrite component's name with 'popupYesNo'
 
     return {
         template,
@@ -96,7 +106,9 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
                     me.loadTasksOnDate(req);
                 }
 
-                this.setOverlay({name: 'popupYesNo', params: {onYes, onNo}});
+                // use 'popupYesNo' as component name (see "app.component('popupYesNo', dialogYesNo)")
+                const message = this.$t('previewAct:removeConfirm');
+                this.setOverlay({name: 'popupYesNo', params: {message, onYes, onNo}});
             },
             actionSave() {
                 this.$emit(EVENT_SAVE);

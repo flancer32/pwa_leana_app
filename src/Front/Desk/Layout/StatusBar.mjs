@@ -32,7 +32,7 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Desk_Layout_StatusBar() {
+function Fl32_Leana_Front_Desk_Layout_StatusBar() {
     return {
         template,
         data: function () {
@@ -41,3 +41,5 @@ export default function Fl32_Leana_Front_Desk_Layout_StatusBar() {
         methods: {},
     };
 }
+
+export default Fl32_Leana_Front_Desk_Layout_StatusBar;

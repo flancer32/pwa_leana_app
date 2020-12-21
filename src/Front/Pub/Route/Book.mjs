@@ -136,6 +136,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
     const TimeWorkRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request']; // class constructor
 
     return {
+        name: 'RouteBook',
         template,
         components: {
             datePicker,

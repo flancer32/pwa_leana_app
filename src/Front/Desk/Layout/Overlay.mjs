@@ -11,7 +11,7 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Desk_Layout_Overlay() {
+function Fl32_Leana_Front_Desk_Layout_Overlay() {
 
     return {
         template,
@@ -74,3 +74,5 @@ export default function Fl32_Leana_Front_Desk_Layout_Overlay() {
         },
     };
 }
+
+export default Fl32_Leana_Front_Desk_Layout_Overlay;

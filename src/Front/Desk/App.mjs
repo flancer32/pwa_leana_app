@@ -23,8 +23,9 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Desk_App(spec) {
-    /** @type {Fl32_Leana_Front_Desk_Layout_StatusBar} */
+    /** @type {Fl32_Leana_Front_Desk_Layout_Overlay} */
     const compLayoutOverlay = spec.Fl32_Leana_Front_Desk_Layout_Overlay$;
+    /** @type {Fl32_Leana_Front_Desk_Layout_StatusBar} */
     const compLayoutStatusBar = spec.Fl32_Leana_Front_Desk_Layout_StatusBar$;
     const compRouteCalendar = spec.Fl32_Leana_Front_Desk_Route_Calendar$;
     const compRouteClients = spec.Fl32_Leana_Front_Desk_Route_Clients$;
