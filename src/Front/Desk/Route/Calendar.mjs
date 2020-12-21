@@ -36,7 +36,6 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
     const TaskWidget = spec['Fl32_Leana_Front_Desk_Widget_Booking_Api#Task'];   // class constructor
 
-
     return {
         template,
         components: {
@@ -49,9 +48,9 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
         computed: {
             dateFormatted() {
                 let result = '';
-                if (typeof this.dateSelected.toLocaleDateString === 'function') {
+                if (typeof this.calendarDateSelected.toLocaleDateString === 'function') {
                     const locale = i18next.language;
-                    result = this.dateSelected.toLocaleDateString(locale, {
+                    result = this.calendarDateSelected.toLocaleDateString(locale, {
                         weekday: 'short',
                         year: 'numeric',
                         month: 'short',
@@ -73,12 +72,12 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
             bookedTasks() {
                 const result = {};
                 // convert tasks on the date to UI format
-                if (Array.isArray(Object.keys(this.apiTasksOnDate))) {
+                if (Array.isArray(Object.keys(this.calendarTasksOnDate))) {
                     for (
                         /** @type {Fl32_Leana_Shared_Api_Data_Task} */
-                        const one of Object.values(this.apiTasksOnDate)) {
+                        const one of Object.values(this.calendarTasksOnDate)) {
                         /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
-                        const taskUi = utilConvert.taskApi2Ui(one, this.apiEmployees, this.apiServices);
+                        const taskUi = utilConvert.taskApi2Ui(one, this.calendarEmployees, this.calendarServices);
                         /** @type {Fl32_Leana_Front_Desk_Widget_Booking_Api_Task} */
                         const taskWidget = new TaskWidget();
                         taskWidget.id = taskUi.id;              // 1
@@ -95,10 +94,10 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                 return result;
             },
             ...mapState({
-                apiEmployees: state => state.calendar.employees,
-                apiServices: state => state.calendar.services,
-                apiTasksOnDate: state => state.calendar.tasksOnDate,
-                dateSelected: state => state.calendar.dateSelected,
+                calendarEmployees: state => state.calendar.employees,
+                calendarServices: state => state.calendar.services,
+                calendarTasksOnDate: state => state.calendar.tasksOnDate,
+                calendarDateSelected: state => state.calendar.dateSelected,
             })
         },
         methods: {
@@ -126,7 +125,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
             async apiLoadTasks() {
                 /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
                 const req = new TaskOnDateRequest();
-                req.date = this.dateSelected;
+                req.date = this.calendarDateSelected;
                 this.loadTasksOnDate(req);
             },
             ...mapMutations({
@@ -148,12 +147,12 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                 /** @type {Fl32_Leana_Front_Desk_Util_Swipe} */
                 const swipe = new Swipe('#calendar_entries');
                 swipe.setOnLeft(function () {
-                    const dayAfter = utilDate.forwardDate(1, me.dateSelected);
+                    const dayAfter = utilDate.forwardDate(1, me.calendarDateSelected);
                     me.setDateSelected(dayAfter);
                     me.apiLoadTasks();
                 });
                 swipe.setOnRight(function () {
-                    const dayBefore = utilDate.forwardDate(-1, me.dateSelected);
+                    const dayBefore = utilDate.forwardDate(-1, me.calendarDateSelected);
                     me.setDateSelected(dayBefore);
                     me.apiLoadTasks();
                 });
@@ -162,7 +161,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
             // MAIN FUNCTIONALITY
             const me = this;
             addSwipes();
-            if (typeof this.dateSelected.getTime !== 'function') {
+            if (typeof this.calendarDateSelected.getTime !== 'function') {
                 const now = new Date(Date.now());
                 now.setUTCHours(0, 0, 0, 0);
                 this.setDateSelected(now);

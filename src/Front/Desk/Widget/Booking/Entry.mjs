@@ -20,7 +20,6 @@ const template = `
  * @constructor
  */
 export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry() {
-
     return {
         template,
         components: {},
@@ -64,8 +63,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Booking_Entry() {
                 const data = one.taskData;
                 if (data) {
                     const customer = data.customer;
-                    const employee = data.employee;
-                    return `${customer.name} (${data.id}: ${data.service.code} / ${employee.code})`;
+                    return `${data.id}: ${customer.name} (${data.service.name}) ${data.note}`;
                 } else {
                     return '';
                 }

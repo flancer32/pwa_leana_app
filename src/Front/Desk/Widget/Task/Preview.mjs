@@ -21,7 +21,7 @@ i18next.addResources('ru', 'taskPreview', {
 const template = `
 <div class="">
     <actions
-        @actionSave="onTaskSave"
+            @actionSave="onTaskSave"
     ></actions>
     <h1>{{ params.customer.name }}</h1>
     <form class="preview" onsubmit="return false">
@@ -57,7 +57,7 @@ const template = `
                 <span>{{ $t('taskPreview:employee') }}:</span>
             </div>
             <div class="field">
-                <span>{{ employee.code }}</span>
+                <span>{{ employee.name }}</span>
             </div>
         </div>
         <div class="row" v-show="service.code">
@@ -65,7 +65,23 @@ const template = `
                 <span>{{ $t('taskPreview:service') }}:</span>
             </div>
             <div class="field">
-                <span>{{ service.code }}</span>
+                <select name="service" v-model="service.id">
+                    <option v-for="(one) in optsServices" :value="one.id">
+                        {{ one.name }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">
+                <span>{{ $t('taskPreview:duration') }}:</span>
+            </div>
+            <div class="field">
+                <select v-model="item.duration" style="width: auto">
+                    <option v-for="(one) in optsDuration" :value="one.id">
+                        {{ one.value }}
+                    </option>
+                </select>
             </div>
         </div>
         <div class="row">
@@ -82,40 +98,50 @@ const template = `
                 <span>{{ $t('taskPreview:notes') }}:</span>
             </div>
             <div class="field">
-                <span>{{item.note}}</span>
+                <textarea v-model="item.note"></textarea>
             </div>
         </div>
         <div class="controls dtp_widget">
             <date-time-picker
-                :yearMin="2020"
-                :yearMax="2021"
-                :hourMin="9"
-                :hourMax="20"
-                :minsStep="30"
-                :initDate="item.dateBook"
-                @cancelled="onDtpCancelled"
-                @selected="onDtpSelected"
+                    :yearMin="2020"
+                    :yearMax="2021"
+                    :hourMin="9"
+                    :hourMax="20"
+                    :minsStep="30"
+                    :initDate="item.dateBook"
+                    @cancelled="onDtpCancelled"
+                    @selected="onDtpSelected"
             ></date-time-picker>
         </div>
     </form>
 </div>
 `;
+
 /**
  * Widget to preview task details in desk overlay.
  * @param {TeqFw_Di_SpecProxy} spec
  */
-export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
+function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
     const actions = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions$$;    // new instance
+    /** @type {Fl32_Leana_Shared_Util_DateTime} */
+    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$; // singleton object
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton
-    const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class constructor
+    const SaveReq = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class constructor
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
-    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
+    const TaskOnDateReq = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
+    const TimeWorkReq = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request'];   // class constructor
 
     return {
+        name: 'TaskPreview',
         template,
         components: {
             actions,
             dateTimePicker: wgDateTimePicker,
+        },
+        data() {
+            return {
+                serviceId: null,
+            };
         },
         props: {
             /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
@@ -175,6 +201,26 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                     return {};
                 }
             },
+            optsDuration() {
+                const result = [];
+                for (let i = 30; i <= 240; i += 30) {
+                    result.push({id: i, value: utilDate.convertMinsToHrsMins(i)});
+                }
+                return result;
+            },
+            optsServices() {
+                const result = [];
+                if (this.calendarServices) {
+                    for (
+                        /** @type {Fl32_Leana_Shared_Api_Data_Service} */
+                        const one of Object.values(this.calendarServices)) {
+                        const item = {id: one.id, name: one.name, duration: one.duration};
+                        result.push(item);
+                    }
+                    result.sort((a, b) => (a.name > b.name) ? 1 : -1);
+                }
+                return result;
+            },
             /**
              * @return {Fl32_Leana_Front_Desk_Widget_Api_Service|{}}
              */
@@ -188,7 +234,10 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 }
             },
             ...mapState({
-                dateSelectedCalendar: state => state.calendar.dateSelected,
+                calendarDateSelected: state => state.calendar.dateSelected,
+                calendarEmployees: state => state.calendar.employees,
+                calendarServices: state => state.calendar.services,
+                calendarTimeWork: state => state.calendar.timeWork,
             })
         },
         methods: {
@@ -207,13 +256,38 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
             },
             onDtpSelected(data) {
                 this.item.dateBook = data;
+                // load time work & switch employee
+                /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} */
+                const timeReq = new TimeWorkReq();
+                timeReq.dateBegin = data;
+                timeReq.dateEnd = data;
+                this.loadTimeWork(timeReq).then(() => {
+                    const employeeId = this.employee.id;
+                    let changeId = null;
+                    for (
+                        /** @type {Fl32_Leana_Shared_Api_Data_Employee_Time_Work} */
+                        const one of this.calendarTimeWork) {
+                        if (one.employeeRef === employeeId) {
+                            changeId = null;
+                            break;
+                        }
+                        if (changeId === null) changeId = one.employeeRef;
+                    }
+                    // change employee if need
+                    if (changeId !== null) {
+                        this.params.employee = this.calendarEmployees[changeId];
+                    }
+                });
+
+
+                // hide widget
                 const elControl = this.$el.querySelector('.controls.dtp_widget');
                 elControl.style.visibility = 'hidden';
                 elControl.style.opacity = 0;
             },
             async onTaskSave() {
                 /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
-                const data = new SaveRequest();
+                const data = new SaveReq();
                 data.id = this.item.id;
                 data.date = this.item.dateBook;
                 data.duration = this.item.duration;
@@ -235,8 +309,8 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 console.log('Saved: ' + JSON.stringify(result));
                 this.resetOverlay();
                 /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
-                const req = new TaskOnDateRequest();
-                req.date = this.dateSelectedCalendar;
+                const req = new TaskOnDateReq();
+                req.date = this.calendarDateSelected;
                 this.loadTasksOnDate(req);
             },
             ...mapMutations({
@@ -244,7 +318,10 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
             }),
             ...mapActions({
                 loadTasksOnDate: 'calendar/loadTasksOnDate',
+                loadTimeWork: 'calendar/loadTimeWork',
             }),
-        }
+        },
     };
 }
+
+export default Fl32_Leana_Front_Desk_Widget_Task_Preview;

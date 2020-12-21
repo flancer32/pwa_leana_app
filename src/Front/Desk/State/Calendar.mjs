@@ -4,20 +4,22 @@
  * @return {Object}
  * @constructor
  */
-export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
+function Fl32_Leana_Front_Desk_State_Calendar(spec) {
     const gateEmployeeList = spec.Fl32_Leana_Front_Shared_Gate_Employee_List$;
     const gateServiceList = spec.Fl32_Leana_Front_Shared_Gate_Service_List$;
     const gateTaskOnDate = spec.Fl32_Leana_Front_Shared_Gate_Task_OnDate$;
-    const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
+    const gateTimeWorkList = spec.Fl32_Leana_Front_Shared_Gate_Employee_TimeWork_List$;
+    const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
 
     return {
         namespaced: true,
         state: {
             dateSelected: Date,
-            employees: Object,
-            services: Object,
+            employees: Object,  // Object.<Number, Fl32_Leana_Shared_Api_Data_Employee>
+            services: Object,   // Object.<Number, Fl32_Leana_Shared_Api_Data_Service>
             taskSelected: Task,
             tasksOnDate: Object,  // Object.<Number, Fl32_Leana_Shared_Api_Data_Task>
+            timeWork: Object,
         },
         getters: {},
         mutations: {
@@ -35,6 +37,9 @@ export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
             },
             setTasksOnDate(state, data) {
                 state.tasksOnDate = data;
+            },
+            setTimeWork(state, data) {
+                state.timeWork = data;
             },
         },
         actions: {
@@ -68,6 +73,18 @@ export default function Fl32_Leana_Front_Desk_State_Calendar(spec) {
                 const res = await gateTaskOnDate(req);
                 commit('setTasksOnDate', res.items);
             },
+            /**
+             * @param commit
+             * @param {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} req
+             * @return {Promise<void>}
+             */
+            async loadTimeWork({commit}, req) {
+                /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Response} */
+                const res = await gateTimeWorkList(req);
+                commit('setTimeWork', res.items);
+            },
         },
     };
 }
+
+export default Fl32_Leana_Front_Desk_State_Calendar;
