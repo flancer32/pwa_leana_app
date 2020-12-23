@@ -19,6 +19,8 @@ export default class Fl32_Leana_Server {
     _serverLog
     /** @type {Fl32_Leana_Server_Route_Static} */
     _routeStatic
+    /** @type {TeqFw_Core_App_Server_HandlerFactory} */
+    _handlerFactory
 
     _server = $express();
 
@@ -29,6 +31,7 @@ export default class Fl32_Leana_Server {
         this._logger = spec.TeqFw_Core_App_Logger$;
         this._serverLog = spec.TeqFw_Core_App_Server_Log$;
         this._routeStatic = spec.Fl32_Leana_Server_Route_Static$;
+        this._handlerFactory = spec.TeqFw_Core_App_Server_HandlerFactory$;
     }
 
     async addApiRoute(route, dependencyId) {
@@ -52,6 +55,9 @@ export default class Fl32_Leana_Server {
         await this.addApiRoute('/api/task/on_date', 'Fl32_Leana_Back_Service_Task_OnDate$');
         await this.addApiRoute('/api/task/remove', 'Fl32_Leana_Back_Service_Task_Remove$');
         await this.addApiRoute('/api/task/save', 'Fl32_Leana_Back_Service_Task_Save$');
+        // new style
+        await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_Register$');
+
         // static resources in project
         const pathRoot = this._config.get('path/root');
         const pathPub = $path.join(pathRoot, 'node_modules/@flancer32/pwa_leana_app/web');

@@ -32,6 +32,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         const aTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
         const aTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
+        /** @type {Fl32_Teq_User_Plugin_Store_RDb_Setup} */
+        const setupTeqUser = spec.Fl32_Teq_User_Plugin_Store_RDb_Setup$;
 
         // POPULATE CURRENT INSTANCE WITH BASE CLASSES METHODS (COMPOSITION INSTEAD OF INHERITANCE)
         objFactory.assignPrototypeMethods(this, base);
@@ -389,11 +391,15 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 /** @type {SchemaBuilder} */
                 const schema = connector.getSchema();
                 recreateStructure(schema, knex);
+                // run setups from modules
+                await setupTeqUser.upgradeStructure(knex, schema);
                 // perform queries to recreate DB structure
                 await schema;
 
                 // perform queries to insert data into created tables
                 await populateWithData(trx);
+                // run setups from modules
+                await setupTeqUser.upgradeData(knex, trx);
                 // perform queries to insert data and commit changes
                 trx.commit();
             } catch (e) {

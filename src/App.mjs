@@ -81,8 +81,16 @@ export default class Fl32_Leana_App {
             await me.addCommand('Fl32_Leana_Back_Cli_Stop$');
         }
 
+        function setupDiContainer() {
+            const pathRoot = me._config.get('path/root');
+            const pathNode = $path.join(pathRoot, 'node_modules');
+            const teqUserPath = $path.join(pathNode, '@flancer32/teq_user/src');
+            me._container.addSourceMapping('Fl32_Teq_User', teqUserPath, true);
+        }
+
         // MAIN FUNCTIONALITY
         loadConfig();
+        setupDiContainer();
         await this._db.init();
         await addCliActions();
     }
