@@ -89,7 +89,7 @@ export default class Fl32_Leana_Server_Route_Static {
 
             const path = getPath(req.url);
             if ($fs.existsSync(path)) {
-                if (req.url.startsWith('/static/mod/app/block/md/')) {
+                if (req.url.startsWith('/static/app/block/md/')) {
                     await processBlock(path);
                 } else {
                     await processRegular(path);
