@@ -6,6 +6,7 @@ i18next.addResources('lv', 'app-navBar', {
     lv: 'LV',
     ru: 'RU',
     services: 'Pakalpojumi un cenas',
+    signUp: 'Pierakstīties',
 });
 i18next.addResources('ru', 'app-navBar', {
     about: 'О нас',
@@ -14,6 +15,7 @@ i18next.addResources('ru', 'app-navBar', {
     lv: 'LV',
     ru: 'RU',
     services: 'Услуги и цены',
+    signUp: 'Регистрация',
 });
 
 const template = `
@@ -32,6 +34,9 @@ const template = `
             </div>
             <div>
                 <router-link to="/book">{{$t("app-navBar:book")}}</router-link>
+            </div>
+            <div>
+                <router-link to="/signUp">{{$t("app-navBar:signUp")}}</router-link>
             </div>
         </div>
     </div>

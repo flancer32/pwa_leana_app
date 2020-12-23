@@ -34,9 +34,9 @@ export default class Fl32_Leana_Back_Service_App_Sw_FilesToCache_Desk {
 
             // scan paths and compose one array with URLs to cache
             const urlWeb = scanFolder(pathWeb, '.');
-            const urlSrcFront = scanFolder(pathSrcFront, './src/leana/Front/Desk');
-            const urlSrcFrontShared = scanFolder(pathSrcFrontShared, './src/leana/Front/Shared');
-            const urlSrcShared = scanFolder(pathSrcShared, './src/leana/Shared');
+            const urlSrcFront = scanFolder(pathSrcFront, './src/app/Front/Desk');
+            const urlSrcFrontShared = scanFolder(pathSrcFrontShared, './src/app/Front/Shared');
+            const urlSrcShared = scanFolder(pathSrcShared, './src/app/Shared');
             const urls = [].concat(urlWeb, urlSrcFront, urlSrcFrontShared, urlSrcShared);
 
             // manually add files from the root & parent

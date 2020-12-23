@@ -31,6 +31,7 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     const routeBook = spec.Fl32_Leana_Front_Pub_Route_Book$;
     const routeContacts = spec.Fl32_Leana_Front_Pub_Route_Contacts$;
     const routeServices = spec.Fl32_Leana_Front_Pub_Route_Services$;
+    const routeSignUp = spec.Fl32_Leana_Front_Pub_Route_SignUp$;
     const state = spec.Fl32_Leana_Front_Pub_State$;
 
     router.addRoute({path: '/', component: routeAbout});
@@ -38,6 +39,7 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     router.addRoute({path: '/book', component: routeBook});
     router.addRoute({path: '/contacts', component: routeContacts});
     router.addRoute({path: '/services', component: routeServices});
+    router.addRoute({path: '/signUp', component: routeSignUp});
 
     // mount router here to enable routing on the first load of the page
     app.use(router);

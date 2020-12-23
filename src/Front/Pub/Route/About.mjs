@@ -20,7 +20,7 @@ export default function Fl32_Leana_Front_Pub_Route_About() {
 
             async function loadContent(lang) {
                 const code = lang.substring(0, 2);
-                const res = await fetch(`/static/mod/leana/block/md/about.${code}.md`);
+                const res = await fetch(`/static/mod/app/block/md/about.${code}.md`);
                 return await res.text();
             }
 

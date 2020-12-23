@@ -17,7 +17,7 @@ export default class Fl32_Leana_Server {
     _logger
     /** @type {TeqFw_Core_App_Server_Log} */
     _serverLog
-    /** @type {TeqFw_Core_App_Server_Route_Static} */
+    /** @type {Fl32_Leana_Server_Route_Static} */
     _routeStatic
 
     _server = $express();
@@ -28,7 +28,7 @@ export default class Fl32_Leana_Server {
         this._config = spec.TeqFw_Core_App_Config$;
         this._logger = spec.TeqFw_Core_App_Logger$;
         this._serverLog = spec.TeqFw_Core_App_Server_Log$;
-        this._routeStatic = spec.TeqFw_Core_App_Server_Route_Static$;
+        this._routeStatic = spec.Fl32_Leana_Server_Route_Static$;
     }
 
     async addApiRoute(route, dependencyId) {
