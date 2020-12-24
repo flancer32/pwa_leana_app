@@ -57,6 +57,7 @@ export default class Fl32_Leana_Server {
         await this.addApiRoute('/api/task/save', 'Fl32_Leana_Back_Service_Task_Save$');
         // new style
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_List$');
+        await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignIn$');
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignUp$');
 
         // static resources in project
