@@ -5,6 +5,7 @@
     display: grid;
     grid-auto-flow: row;
     grid-gap: var(--table-gap);
+    margin-top: var(--table-gap);
 }
 
 .table-actions {

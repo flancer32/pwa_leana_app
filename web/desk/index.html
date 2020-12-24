@@ -21,7 +21,9 @@
                 const modContainer = await import('./src/@teqfw/di/Container.mjs');
                 /** @type {TeqFw_Di_Container} */
                 const result = new modContainer.default();
-                result.addSourceMapping('Fl32_Leana', baseUrl + '/desk/src/app', true, 'mjs');
+                result.addSourceMapping('Fl32_Leana', baseUrl + '/pub/src/app', true, 'mjs');
+                result.addSourceMapping('Fl32_Teq_User', baseUrl + '/node/@flancer32/teq_user/', true, 'mjs');
+                result.addSourceMapping('TeqFw_Core', baseUrl + '/node/@teqfw/core-app/', true, 'mjs');
                 return result;
             }
 

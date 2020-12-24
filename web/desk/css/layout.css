@@ -5,6 +5,7 @@ BUTTON {
 }
 
 #layer_base {
+    margin-top: var(--grid-gap);
     position: relative;
     top: var(--layout-status-bar-height);
     width: 100%;

@@ -7,7 +7,6 @@ i18next.addResources('ru', 'route-about', {
 });
 
 const template = `
-
 <div>
     <div class="table">
         <div class="table-actions">
@@ -27,7 +26,8 @@ const template = `
             </div>
         </div>
     </div>
-</div>`;
+</div>
+`;
 
 export default function Fl32_Leana_Front_Desk_Route_Services() {
 
