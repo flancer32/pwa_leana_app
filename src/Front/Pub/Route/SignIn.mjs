@@ -1,33 +1,46 @@
 const i18next = self.teqfw.i18next;
 
 i18next.addResources('lv', 'routeSignIn', {
-    about: 'Jauns lietotājs "{{user}}" ir reģistrēts.',
+    message: 'Izveidota jauna sesija: {{sessionId}}.',
 });
 i18next.addResources('ru', 'routeSignIn', {
-    registered: 'Новый пользователь "{{user}}" зарегистрирован.',
+    message: 'Новая сессия установлена: "{{sessionId}}".',
 });
+
+i18next.addResourceBundle('lv', 'teqUserSignIn', {
+    password: 'Parole',
+    submit: 'Nosūtīt',
+    user: 'Lietotājs',
+}, true);
+
+i18next.addResourceBundle('ru', 'teqUserSignIn', {
+    password: 'Пароль',
+    submit: 'Отправить',
+    user: 'Пользователь',
+}, true);
+
 
 const template = `
 <div>
-    <user-sign-up v-show="showForm"
-        :data="signUp"
+    <user-sign-in v-show="showForm"
+        :data="signIn"
         @onSuccess="onSuccess($event)"
         @onFailure="onFailure($event)"
-    ></user-sign-up>
+    ></user-sign-in>
     <div class="id-message" v-show="!showForm">
         {{message}}
     </div>
 </div>
 `;
 
-export default function Fl32_Leana_Front_Pub_Route_SignUp(spec) {
-    const userSignUp = spec.Fl32_Teq_User_Front_Widget_SignUp$;
-    /** @type {typeof Fl32_Teq_User_Front_Widget_SignUp_Props} */
-    const SignUpProps = spec['Fl32_Teq_User_Front_Widget_SignUp#Props'];
+export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
+    const userSignIn = spec.Fl32_Teq_User_Front_Widget_SignIn$;
+    /** @type {typeof Fl32_Teq_User_Front_Widget_SignIn_Props} */
+    const SignInProps = spec['Fl32_Teq_User_Front_Widget_SignIn#Props'];
 
     return {
         template,
-        components: {userSignUp},
+        components: {userSignIn},
         data: function () {
             return {
                 message: null,
@@ -35,13 +48,11 @@ export default function Fl32_Leana_Front_Pub_Route_SignUp(spec) {
             };
         },
         computed: {
-            signUp() {
-                const result = new SignUpProps();
-                result.email = 'alex@flancer64.com';
-                result.login = 'alex';
-                result.name = 'Alex Gusev';
+            signIn() {
+                /** @type {Fl32_Teq_User_Front_Widget_SignIn_Props} */
+                const result = new SignInProps();
                 result.password = 'LetMeIn';
-                result.phone = '29181801';
+                result.user = 'alex';
                 return result;
             }
         },
@@ -59,7 +70,7 @@ export default function Fl32_Leana_Front_Pub_Route_SignUp(spec) {
              */
             onSuccess(data) {
                 this.showForm = false;
-                this.message = this.$t('routeSignIn:registered', {user: data.login});
+                this.message = this.$t('routeSignIn:message', {sessionId: data});
                 this.reset();
             },
             reset() {
