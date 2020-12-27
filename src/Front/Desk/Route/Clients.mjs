@@ -12,10 +12,10 @@ i18next.addResourceBundle('ru', 'routeClients', I18N_BUNDLE_RU, true);
 const template = `
 <div>
     <div class="table">
-    <div class="table-head" :style="colspan">
-        <div class="headCell">{{ $t('routeClients:id') }}</div>
-        <div class="headCell">{{ $t('routeClients:login') }}</div>
-        <div class="headCell">{{ $t('routeClients:name') }}</div>
+        <div class="table-head" :style="colspan">
+            <div class="headCell">{{ $t('routeClients:id') }}</div>
+            <div class="headCell">{{ $t('routeClients:login') }}</div>
+            <div class="headCell">{{ $t('routeClients:name') }}</div>
         </div>
         <div v-for="item in items" class="table-row" :style="colspan">
             <div class="dataCell">{{ item.id }}</div>

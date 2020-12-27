@@ -1,7 +1,7 @@
 /**
  * Service to get services listing ("/api/service/list").
  */
-export default class Fl32_Leana_Back_Service_Service_ListNew {
+export default class Fl32_Leana_Back_Service_Service_List {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
@@ -25,15 +25,15 @@ export default class Fl32_Leana_Back_Service_Service_ListNew {
             /**
              * @param {IncomingMessage} httpReq
              * @return {Fl32_Leana_Shared_Service_Route_Service_List_Request}
-             * @exports Fl32_Leana_Back_Service_Service_ListNew$parse
+             * @exports Fl32_Leana_Back_Service_Service_List$parse
              */
-            function Fl32_Leana_Back_Service_Service_ListNew$parse(httpReq) {
+            function Fl32_Leana_Back_Service_Service_List$parse(httpReq) {
                 const body = httpReq.body;
                 // clone HTTP body into API request object
                 return Object.assign(new Request(), body.data);
             }
 
-            return Fl32_Leana_Back_Service_Service_ListNew$parse;
+            return Fl32_Leana_Back_Service_Service_List$parse;
         };
 
         /**
@@ -44,9 +44,9 @@ export default class Fl32_Leana_Back_Service_Service_ListNew {
             /**
              * @param {Fl32_Leana_Shared_Service_Route_Service_List_Request} apiReq
              * @return {Promise<Fl32_Leana_Shared_Service_Route_Service_List_Response>}
-             * @exports Fl32_Leana_Back_Service_Service_ListNew$process
+             * @exports Fl32_Leana_Back_Service_Service_List$process
              */
-            async function Fl32_Leana_Back_Service_Service_ListNew$process(apiReq) {
+            async function Fl32_Leana_Back_Service_Service_List$process(apiReq) {
                 // DEFINE INNER FUNCTIONS
                 /**
                  * Get relations between services and employees.
@@ -91,7 +91,7 @@ export default class Fl32_Leana_Back_Service_Service_ListNew {
                 return result;
             }
 
-            return Fl32_Leana_Back_Service_Service_ListNew$process;
+            return Fl32_Leana_Back_Service_Service_List$process;
         };
     }
 
