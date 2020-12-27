@@ -31,7 +31,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_Calendar_ActionBar} */
     const wgActionBar = spec.Fl32_Leana_Front_Desk_Widget_Calendar_ActionBar$;   // singleton
     const EmplReq = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];  // class constructor
-    const ServReq = spec['Fl32_Leana_Shared_Api_Route_Service_List#Request'];   // class constructor
+    const ServReq = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request'];   // class constructor
     const Swipe = spec['Fl32_Leana_Front_Desk_Util_Swipe#'];                    // class constructor
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
     const TaskWidget = spec['Fl32_Leana_Front_Desk_Widget_Booking_Api#Task'];   // class constructor
@@ -113,7 +113,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                 emplReq.locale = locale;
                 this.loadEmployees(emplReq);
                 // load services
-                /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Request} */
                 const servReq = new ServReq();
                 servReq.locale = locale;
                 this.loadServices(servReq);

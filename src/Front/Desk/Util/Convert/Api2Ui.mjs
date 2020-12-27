@@ -28,7 +28,7 @@ export default class Fl32_Leana_Front_Desk_Util_Convert_Api2Ui {
      *
      * @param {Fl32_Leana_Shared_Api_Data_Task} apiTask
      * @param {Object.<Number, Fl32_Leana_Shared_Api_Data_Employee>} apiEmployees
-     * @param {Object.<Number, Fl32_Leana_Shared_Api_Data_Service>} apiServices
+     * @param {Object.<Number, Fl32_Leana_Shared_Service_Data_Service>} apiServices
      * @return {Fl32_Leana_Front_Desk_Widget_Api_Task}
      */
     taskApi2Ui(apiTask, apiEmployees, apiServices) {
@@ -48,7 +48,7 @@ export default class Fl32_Leana_Front_Desk_Util_Convert_Api2Ui {
         customer.phone = apiTask.customerPhone;
         result.customer = customer;
         if (apiServices && apiServices[apiTask.serviceRef]) {
-            /** @type {Fl32_Leana_Shared_Api_Data_Service} */
+            /** @type {Fl32_Leana_Shared_Service_Data_Service} */
             const serviceApi = apiServices[apiTask.serviceRef];
             /** @type {Fl32_Leana_Front_Desk_Widget_Api_Service} */
             const service = new this.UiService();

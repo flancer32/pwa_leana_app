@@ -131,7 +131,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     const wgActions = spec.Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$;
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton
     const EmplReq = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];
-    const ServReq = spec['Fl32_Leana_Shared_Api_Route_Service_List#Request'];
+    const ServReq = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request'];
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
     const TaskSaveReq = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request'];
@@ -192,7 +192,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 let result = [];
                 if (this.apiServices) {
                     for (const key in this.apiServices) {
-                        /** @type {Fl32_Leana_Shared_Api_Data_Service} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Service} */
                         const one = this.apiServices[key];
                         const duration = utilDate.convertMinsToHrsMins(one.duration);
                         const option = {id: one.id, name: one.name, duration};
@@ -266,7 +266,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
             emplReq.locale = locale;
             this.loadEmployees(emplReq);
             // load services to compose options array
-            /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Request} */
+            /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Request} */
             const servReq = new ServReq();
             servReq.locale = locale;
             this.loadServices(servReq);

@@ -212,7 +212,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 const result = [];
                 if (this.calendarServices) {
                     for (
-                        /** @type {Fl32_Leana_Shared_Api_Data_Service} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Service} */
                         const one of Object.values(this.calendarServices)) {
                         const item = {id: one.id, name: one.name, duration: one.duration};
                         result.push(item);

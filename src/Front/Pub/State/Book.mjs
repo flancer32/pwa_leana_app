@@ -6,7 +6,7 @@
  */
 export default function Fl32_Leana_Front_Pub_State_Book(spec) {
     const gateEmployeeList = spec.Fl32_Leana_Front_Shared_Gate_Employee_List$;
-    const gateServiceList = spec.Fl32_Leana_Front_Shared_Gate_Service_List$;
+    const gateServiceList = spec.Fl32_Leana_Shared_Service_Gate_Service_List$;
     const gateTaskOnDate = spec.Fl32_Leana_Front_Shared_Gate_Task_OnDate$;
     const gateTimeWorkList = spec.Fl32_Leana_Front_Shared_Gate_Employee_TimeWork_List$;
 
@@ -52,11 +52,11 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
 
             /**
              * @param commit
-             * @param {Fl32_Leana_Shared_Api_Route_Service_List_Request} req
+             * @param {Fl32_Leana_Shared_Service_Route_Service_List_Request} req
              * @return {Promise<void>}
              */
             async loadServices({commit}, req) {
-                /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Response} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Response} */
                 const res = await gateServiceList(req);
                 commit('setServices', res.items);
             },

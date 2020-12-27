@@ -131,7 +131,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
     // classes and functions
     const EmployeeRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request']; // class constructor
     const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class constructor
-    const ServiceRequest = spec['Fl32_Leana_Shared_Api_Route_Service_List#Request']; // class constructor
+    const ServiceRequest = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request']; // class constructor
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
     const TimeWorkRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request']; // class constructor
 
@@ -170,7 +170,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 let result = [];
                 if (this.apiServices) {
                     for (const key in this.apiServices) {
-                        /** @type {Fl32_Leana_Shared_Api_Data_Service} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Service} */
                         const one = this.apiServices[key];
                         const duration = utilDate.convertMinsToHrsMins(one.duration);
                         const option = {id: one.id, name: one.name, duration};
@@ -408,7 +408,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             const reqEmpl = new EmployeeRequest();
             reqEmpl.locale = i18next.language;
             await this.loadEmployees(reqEmpl);
-            /** @type {Fl32_Leana_Shared_Api_Route_Service_List_Request} */
+            /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Request} */
             const reqSrv = new ServiceRequest();
             reqSrv.locale = i18next.language;
             reqSrv.publicOnly = true;
