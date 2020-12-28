@@ -1,3 +1,5 @@
+import $bcrypt from 'bcrypt';
+
 /**
  * CLI action to upgrade RDB schema.
  */
@@ -10,6 +12,10 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
 
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
+        /** @type {Fl32_Leana_Defaults} */
+        const DEF = spec.Fl32_Leana_Defaults$;
+        /** @type {Fl32_Teq_User_Defaults} */
+        const DEF_USER = spec.Fl32_Teq_User_Defaults$;
         /** @type {TeqFw_Core_App_Logger} */
         const logger = spec.TeqFw_Core_App_Logger$;
         /** @type {TeqFw_Core_App_Db_Connector} */
@@ -21,17 +27,41 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         /** @type {TeqFw_Core_App_Cli_Command} */
         const base = spec.TeqFw_Core_App_Cli_Command$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
-        const aEmployee = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
+        const eEmployee = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Service} */
-        const aEmplSrv = spec.Fl32_Leana_Store_RDb_Schema_Employee_Service$;
+        const eEmplSrv = spec.Fl32_Leana_Store_RDb_Schema_Employee_Service$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Time_Work} */
-        const aEmplTimeWork = spec.Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$;
+        const eEmplTimeWork = spec.Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
-        const aService = spec.Fl32_Leana_Store_RDb_Schema_Service$;
+        const eService = spec.Fl32_Leana_Store_RDb_Schema_Service$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
-        const aTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
+        const eTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
-        const aTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
+        const eTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
+        /** @type {Fl32_Teq_Acl_Store_RDb_Schema_Permission} */
+        const ePerm = spec.Fl32_Teq_Acl_Store_RDb_Schema_Permission$;
+        /** @type {Fl32_Teq_Acl_Store_RDb_Schema_Perm_User} */
+        const ePermUser = spec.Fl32_Teq_Acl_Store_RDb_Schema_Perm_User$;
+        /** @type {Fl32_Teq_Acl_Store_RDb_Schema_Role_Perm} */
+        const eRolePerm = spec.Fl32_Teq_Acl_Store_RDb_Schema_Role_Perm$;
+        /** @type {Fl32_Teq_Acl_Store_RDb_Schema_Role_User} */
+        const eRoleUser = spec.Fl32_Teq_Acl_Store_RDb_Schema_Role_User$;
+        /** @type {Fl32_Teq_Acl_Store_RDb_Schema_Role} */
+        const eRole = spec.Fl32_Teq_Acl_Store_RDb_Schema_Role$;
+        /** @type {Fl32_Teq_User_Store_RDb_Schema_Auth_Password} */
+        const eAuthPassword = spec['Fl32_Teq_User_Store_RDb_Schema_Auth_Password$'];
+        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Email} */
+        const eIdEmail = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Email$;
+        /** @type {Fl32_Teq_User_Store_RDb_Schema_Id_Phone} */
+        const eIdPhone = spec.Fl32_Teq_User_Store_RDb_Schema_Id_Phone$;
+        /** @type {Fl32_Teq_User_Store_RDb_Schema_Profile} */
+        const eProfile = spec.Fl32_Teq_User_Store_RDb_Schema_Profile$;
+        /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Link} */
+        const eRefLink = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Link$;
+        /** @type {Fl32_Teq_User_Store_RDb_Schema_Ref_Tree} */
+        const eRefTree = spec.Fl32_Teq_User_Store_RDb_Schema_Ref_Tree$;
+        /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
+        const eUser = spec.Fl32_Teq_User_Store_RDb_Schema_User$;
         /** @type {Fl32_Teq_Acl_Plugin_Store_RDb_Setup} */
         const setupTeqAcl = spec.Fl32_Teq_Acl_Plugin_Store_RDb_Setup$;
         /** @type {Fl32_Teq_User_Plugin_Store_RDb_Setup} */
@@ -73,39 +103,39 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     // deprecated tables
                     schema.dropTableIfExists('book_detail');
                     // actual tables
-                    schema.dropTableIfExists(aEmplSrv.ENTITY);
-                    schema.dropTableIfExists(aEmplTimeWork.ENTITY);
-                    schema.dropTableIfExists(aTaskDet.ENTITY);
+                    schema.dropTableIfExists(eEmplSrv.ENTITY);
+                    schema.dropTableIfExists(eEmplTimeWork.ENTITY);
+                    schema.dropTableIfExists(eTaskDet.ENTITY);
 
                     /* drop registries */
                     // deprecated tables
                     schema.dropTableIfExists('book');
                     // actual tables
-                    schema.dropTableIfExists(aEmployee.ENTITY);
-                    schema.dropTableIfExists(aService.ENTITY);
-                    schema.dropTableIfExists(aTask.ENTITY);
+                    schema.dropTableIfExists(eEmployee.ENTITY);
+                    schema.dropTableIfExists(eService.ENTITY);
+                    schema.dropTableIfExists(eTask.ENTITY);
                 }
 
                 function createTblEmployee(schema) {
-                    schema.createTable(aEmployee.ENTITY, (table) => {
-                        table.increments(aEmployee.A_ID);
-                        table.string(aEmployee.A_CODE).notNullable().comment('Short unique name for employee.');
-                        table.string(aEmployee.A_NAME_LV).notNullable().comment('Employee name in latvian.');
-                        table.string(aEmployee.A_NAME_RU).notNullable().comment('Employee name in russian.');
-                        table.unique([aEmployee.A_CODE], 'UQ_employee__code');
+                    schema.createTable(eEmployee.ENTITY, (table) => {
+                        table.increments(eEmployee.A_ID);
+                        table.string(eEmployee.A_CODE).notNullable().comment('Short unique name for employee.');
+                        table.string(eEmployee.A_NAME_LV).notNullable().comment('Employee name in latvian.');
+                        table.string(eEmployee.A_NAME_RU).notNullable().comment('Employee name in russian.');
+                        table.unique([eEmployee.A_CODE], 'UQ_employee__code');
                         table.comment('Register for employees.');
                     });
                 }
 
                 function createTblEmployeeService(schema) {
-                    schema.createTable(aEmplSrv.ENTITY, (table) => {
-                        table.integer(aEmplSrv.A_EMPLOYEE_REF).unsigned().notNullable();
-                        table.integer(aEmplSrv.A_SERVICE_REF).unsigned().notNullable();
-                        table.primary([aEmplSrv.A_EMPLOYEE_REF, aEmplSrv.A_SERVICE_REF]);
-                        table.foreign(aEmplSrv.A_EMPLOYEE_REF).references(aEmployee.A_ID).inTable(aEmployee.ENTITY)
+                    schema.createTable(eEmplSrv.ENTITY, (table) => {
+                        table.integer(eEmplSrv.A_EMPLOYEE_REF).unsigned().notNullable();
+                        table.integer(eEmplSrv.A_SERVICE_REF).unsigned().notNullable();
+                        table.primary([eEmplSrv.A_EMPLOYEE_REF, eEmplSrv.A_SERVICE_REF]);
+                        table.foreign(eEmplSrv.A_EMPLOYEE_REF).references(eEmployee.A_ID).inTable(eEmployee.ENTITY)
                             .onDelete('CASCADE').onUpdate('CASCADE')
                             .withKeyName('FK_employee_service__employee');
-                        table.foreign(aEmplSrv.A_SERVICE_REF).references(aService.A_ID).inTable(aService.ENTITY)
+                        table.foreign(eEmplSrv.A_SERVICE_REF).references(eService.A_ID).inTable(eService.ENTITY)
                             .onDelete('CASCADE').onUpdate('CASCADE')
                             .withKeyName('FK_employee_service__service');
                         table.comment('Employee provides services.');
@@ -113,35 +143,35 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 }
 
                 function createTblService(schema) {
-                    schema.createTable(aService.ENTITY, (table) => {
-                        table.increments(aService.A_ID);
-                        table.string(aService.A_CODE).notNullable()
+                    schema.createTable(eService.ENTITY, (table) => {
+                        table.increments(eService.A_ID);
+                        table.string(eService.A_CODE).notNullable()
                             .comment('Short unique name for service (should we use code with names?).');
-                        table.integer(aService.A_DURATION).unsigned().notNullable().defaultTo(0)
+                        table.integer(eService.A_DURATION).unsigned().notNullable().defaultTo(0)
                             .comment('Service duration in minutes.');
-                        table.boolean(aService.A_PUBLIC).notNullable().defaultTo(false)
+                        table.boolean(eService.A_PUBLIC).notNullable().defaultTo(false)
                             .comment('Does this service available on front or only through admin UI.');
-                        table.string(aService.A_NAME_LV).notNullable()
+                        table.string(eService.A_NAME_LV).notNullable()
                             .comment('Service name in latvian.');
-                        table.string(aService.A_NAME_RU).notNullable()
+                        table.string(eService.A_NAME_RU).notNullable()
                             .comment('Service name in russian.');
-                        table.unique([aService.A_CODE], 'UQ_employee__code');
+                        table.unique([eService.A_CODE], 'UQ_employee__code');
                         table.comment('Register for services.');
                     });
                 }
 
                 function createTblEmployeeTimeWork(schema) {
-                    schema.createTable(aEmplTimeWork.ENTITY, (table) => {
-                        table.integer(aEmplTimeWork.A_EMPLOYEE_REF).unsigned().notNullable();
-                        table.string(aEmplTimeWork.A_DATE, 8).comment('Date as "YYYYMMDD".');
-                        table.string(aEmplTimeWork.A_FROM, 4).defaultTo('0900')
+                    schema.createTable(eEmplTimeWork.ENTITY, (table) => {
+                        table.integer(eEmplTimeWork.A_EMPLOYEE_REF).unsigned().notNullable();
+                        table.string(eEmplTimeWork.A_DATE, 8).comment('Date as "YYYYMMDD".');
+                        table.string(eEmplTimeWork.A_FROM, 4).defaultTo('0900')
                             .comment('Time starting: 0900.');
-                        table.string(aEmplTimeWork.A_TO, 4).defaultTo('2000')
+                        table.string(eEmplTimeWork.A_TO, 4).defaultTo('2000')
                             .comment('Finish time: 2000.');
                         table.primary(
-                            [aEmplTimeWork.A_EMPLOYEE_REF, aEmplTimeWork.A_DATE, aEmplTimeWork.A_FROM]
+                            [eEmplTimeWork.A_EMPLOYEE_REF, eEmplTimeWork.A_DATE, eEmplTimeWork.A_FROM]
                         );
-                        table.foreign(aEmplTimeWork.A_EMPLOYEE_REF).references(aEmployee.A_ID).inTable(aEmployee.ENTITY)
+                        table.foreign(eEmplTimeWork.A_EMPLOYEE_REF).references(eEmployee.A_ID).inTable(eEmployee.ENTITY)
                             .onDelete('CASCADE').onUpdate('CASCADE')
                             .withKeyName('FK_employee_time_work__employee');
                         table.comment('Working time for employees.');
@@ -149,37 +179,37 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 }
 
                 function createTblTask(schema, knex) {
-                    schema.createTable(aTask.ENTITY, (table) => {
-                        table.increments(aTask.A_ID);
-                        table.dateTime(aTask.A_CREATED).notNullable().defaultTo(knex.fn.now());
+                    schema.createTable(eTask.ENTITY, (table) => {
+                        table.increments(eTask.A_ID);
+                        table.dateTime(eTask.A_CREATED).notNullable().defaultTo(knex.fn.now());
                         table.comment('Register for tasks (appointments, bookings).');
                     });
                 }
 
                 function createTblTaskDetail(schema) {
-                    schema.createTable(aTaskDet.ENTITY, (table) => {
-                        table.integer(aTaskDet.A_TASK_REF).unsigned().notNullable();
-                        table.integer(aTaskDet.A_EMPLOYEE_REF).unsigned().notNullable();
-                        table.integer(aTaskDet.A_SERVICE_REF).unsigned().notNullable();
-                        table.string(aTaskDet.A_DATE, 8).comment('Date as "YYYYMMDD".');
-                        table.string(aTaskDet.A_FROM, 4).notNullable().comment('Time starting: 0900.');
-                        table.string(aTaskDet.A_TO, 4).notNullable().comment('Finish time: 2000.');
-                        table.boolean(aTaskDet.A_MADE_ON_FRONT).notNullable()
+                    schema.createTable(eTaskDet.ENTITY, (table) => {
+                        table.integer(eTaskDet.A_TASK_REF).unsigned().notNullable();
+                        table.integer(eTaskDet.A_EMPLOYEE_REF).unsigned().notNullable();
+                        table.integer(eTaskDet.A_SERVICE_REF).unsigned().notNullable();
+                        table.string(eTaskDet.A_DATE, 8).comment('Date as "YYYYMMDD".');
+                        table.string(eTaskDet.A_FROM, 4).notNullable().comment('Time starting: 0900.');
+                        table.string(eTaskDet.A_TO, 4).notNullable().comment('Finish time: 2000.');
+                        table.boolean(eTaskDet.A_MADE_ON_FRONT).notNullable()
                             .defaultTo(false)
                             .comment('true - if task is created by customer from pub app.');
-                        table.string(aTaskDet.A_CUSTOMER, 255).notNullable().comment('Customer name.');
-                        table.string(aTaskDet.A_PHONE, 255).nullable().comment('Customer phone.');
-                        table.string(aTaskDet.A_EMAIL, 255).nullable().comment('Customer email.');
-                        table.string(aTaskDet.A_LOCALE, 255).nullable().comment('Customer language (locale).');
-                        table.string(aTaskDet.A_NOTE, 255).nullable().comment('Task notes.');
-                        table.primary([aTaskDet.A_TASK_REF]);
-                        table.foreign(aTaskDet.A_TASK_REF).references(aTask.A_ID).inTable(aTask.ENTITY)
+                        table.string(eTaskDet.A_CUSTOMER, 255).notNullable().comment('Customer name.');
+                        table.string(eTaskDet.A_PHONE, 255).nullable().comment('Customer phone.');
+                        table.string(eTaskDet.A_EMAIL, 255).nullable().comment('Customer email.');
+                        table.string(eTaskDet.A_LOCALE, 255).nullable().comment('Customer language (locale).');
+                        table.string(eTaskDet.A_NOTE, 255).nullable().comment('Task notes.');
+                        table.primary([eTaskDet.A_TASK_REF]);
+                        table.foreign(eTaskDet.A_TASK_REF).references(eTask.A_ID).inTable(eTask.ENTITY)
                             .onDelete('CASCADE').onUpdate('CASCADE')
                             .withKeyName('FK_book_detail__book');
-                        table.foreign(aTaskDet.A_EMPLOYEE_REF).references(aEmployee.A_ID).inTable(aEmployee.ENTITY)
+                        table.foreign(eTaskDet.A_EMPLOYEE_REF).references(eEmployee.A_ID).inTable(eEmployee.ENTITY)
                             .onDelete('CASCADE').onUpdate('CASCADE')
                             .withKeyName('FK_book_detail__employee');
-                        table.foreign(aTaskDet.A_SERVICE_REF).references(aService.A_ID).inTable(aService.ENTITY)
+                        table.foreign(eTaskDet.A_SERVICE_REF).references(eService.A_ID).inTable(eService.ENTITY)
                             .onDelete('CASCADE').onUpdate('CASCADE')
                             .withKeyName('FK_book_detail__service');
                         table.comment('Task details.');
@@ -205,32 +235,63 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
              */
             async function populateWithData(trx) {
                 // DEFINE INNER FUNCTIONS
+                async function insertAcl(trx) {
+                    // permissions
+                    await trx(ePerm.ENTITY).insert([
+                        {[ePerm.A_ID]: 1, [ePerm.A_CODE]: DEF.ACL_IS_CUSTOMER},
+                        {[ePerm.A_ID]: 2, [ePerm.A_CODE]: DEF.ACL_IS_MANAGER},
+                        {[ePerm.A_ID]: 3, [ePerm.A_CODE]: DEF.ACL_IS_DEVELOPER},
+                    ]);
+                    // roles
+                    await trx(eRole.ENTITY).insert([
+                        {[eRole.A_ID]: 1, [eRole.A_CODE]: 'authenticated'},
+                        {[eRole.A_ID]: 2, [eRole.A_CODE]: 'manager'},
+                    ]);
+                    // permissions for roles
+                    await trx(eRolePerm.ENTITY).insert([
+                        {[eRolePerm.A_ROLE_REF]: 1, [eRolePerm.A_PERM_REF]: 1},
+                        {[eRolePerm.A_ROLE_REF]: 2, [eRolePerm.A_PERM_REF]: 2},
+                    ]);
+                    // users for roles
+                    await trx(eRoleUser.ENTITY).insert([
+                        {[eRoleUser.A_ROLE_REF]: 1, [eRoleUser.A_USER_REF]: 1},
+                        {[eRoleUser.A_ROLE_REF]: 1, [eRoleUser.A_USER_REF]: 2},
+                        {[eRoleUser.A_ROLE_REF]: 2, [eRoleUser.A_USER_REF]: 2},
+                    ]);
+                    // individual permissions
+                    await trx(ePermUser.ENTITY).insert([
+                        {[ePermUser.A_PERM_REF]: 1, [ePermUser.A_USER_REF]: 3},
+                        {[ePermUser.A_PERM_REF]: 2, [ePermUser.A_USER_REF]: 3},
+                        {[ePermUser.A_PERM_REF]: 3, [ePermUser.A_USER_REF]: 3},
+                    ]);
+                }
+
                 async function insertEmployees(trx) {
-                    await trx(aEmployee.ENTITY).insert([
+                    await trx(eEmployee.ENTITY).insert([
                         {
-                            [aEmployee.A_ID]: 1, [aEmployee.A_CODE]: 'elena',
-                            [aEmployee.A_NAME_LV]: 'Helena', [aEmployee.A_NAME_RU]: 'Елена',
+                            [eEmployee.A_ID]: 1, [eEmployee.A_CODE]: 'elena',
+                            [eEmployee.A_NAME_LV]: 'Helena', [eEmployee.A_NAME_RU]: 'Елена',
                         }, {
-                            [aEmployee.A_ID]: 2, [aEmployee.A_CODE]: 'natalie',
-                            [aEmployee.A_NAME_LV]: 'Natalija', [aEmployee.A_NAME_RU]: 'Наталья',
+                            [eEmployee.A_ID]: 2, [eEmployee.A_CODE]: 'natalie',
+                            [eEmployee.A_NAME_LV]: 'Natalija', [eEmployee.A_NAME_RU]: 'Наталья',
                         }
                     ]);
                 }
 
                 async function insertEmployeeServices(trx) {
-                    await trx(aEmplSrv.ENTITY).insert([
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 1},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 2},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 3},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 4},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 5},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 1, [aEmplSrv.A_SERVICE_REF]: 7},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 1},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 2},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 3},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 4},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 5},
-                        {[aEmplSrv.A_EMPLOYEE_REF]: 2, [aEmplSrv.A_SERVICE_REF]: 6},
+                    await trx(eEmplSrv.ENTITY).insert([
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 1, [eEmplSrv.A_SERVICE_REF]: 1},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 1, [eEmplSrv.A_SERVICE_REF]: 2},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 1, [eEmplSrv.A_SERVICE_REF]: 3},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 1, [eEmplSrv.A_SERVICE_REF]: 4},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 1, [eEmplSrv.A_SERVICE_REF]: 5},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 1, [eEmplSrv.A_SERVICE_REF]: 7},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 2, [eEmplSrv.A_SERVICE_REF]: 1},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 2, [eEmplSrv.A_SERVICE_REF]: 2},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 2, [eEmplSrv.A_SERVICE_REF]: 3},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 2, [eEmplSrv.A_SERVICE_REF]: 4},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 2, [eEmplSrv.A_SERVICE_REF]: 5},
+                        {[eEmplSrv.A_EMPLOYEE_REF]: 2, [eEmplSrv.A_SERVICE_REF]: 6},
                     ]);
                 }
 
@@ -245,60 +306,60 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                         timeWorkItems.push({employee_ref: ref, date, from, to});
 
                     }
-                    await trx(aEmplTimeWork.ENTITY).insert(timeWorkItems);
+                    await trx(eEmplTimeWork.ENTITY).insert(timeWorkItems);
                 }
 
                 async function insertServices(trx) {
-                    await trx(aService.ENTITY).insert([{
-                        [aService.A_ID]: 1, [aService.A_CODE]: 'haircut_man',
-                        [aService.A_PUBLIC]: true, [aService.A_DURATION]: 30,
-                        [aService.A_NAME_LV]: 'Vīriešu frizūra',
-                        [aService.A_NAME_RU]: 'Стрижка мужская',
+                    await trx(eService.ENTITY).insert([{
+                        [eService.A_ID]: 1, [eService.A_CODE]: 'haircut_man',
+                        [eService.A_PUBLIC]: true, [eService.A_DURATION]: 30,
+                        [eService.A_NAME_LV]: 'Vīriešu frizūra',
+                        [eService.A_NAME_RU]: 'Стрижка мужская',
                     }, {
-                        [aService.A_ID]: 2, [aService.A_CODE]: 'haircut_women',
-                        [aService.A_PUBLIC]: true, [aService.A_DURATION]: 30,
-                        [aService.A_NAME_LV]: 'Sieviešu frizūra',
-                        [aService.A_NAME_RU]: 'Стрижка женская',
+                        [eService.A_ID]: 2, [eService.A_CODE]: 'haircut_women',
+                        [eService.A_PUBLIC]: true, [eService.A_DURATION]: 30,
+                        [eService.A_NAME_LV]: 'Sieviešu frizūra',
+                        [eService.A_NAME_RU]: 'Стрижка женская',
                     }, {
-                        [aService.A_ID]: 3, [aService.A_CODE]: 'haircut_child',
-                        [aService.A_PUBLIC]: true, [aService.A_DURATION]: 30,
-                        [aService.A_NAME_LV]: 'Bērnu frizūra',
-                        [aService.A_NAME_RU]: 'Стрижка детская',
+                        [eService.A_ID]: 3, [eService.A_CODE]: 'haircut_child',
+                        [eService.A_PUBLIC]: true, [eService.A_DURATION]: 30,
+                        [eService.A_NAME_LV]: 'Bērnu frizūra',
+                        [eService.A_NAME_RU]: 'Стрижка детская',
                     }, {
-                        [aService.A_ID]: 4, [aService.A_CODE]: 'color_simple',
-                        [aService.A_PUBLIC]: true, [aService.A_DURATION]: 30,
-                        [aService.A_NAME_LV]: 'Vienkārša krāsošana',
-                        [aService.A_NAME_RU]: 'Окрашивание простое',
+                        [eService.A_ID]: 4, [eService.A_CODE]: 'color_simple',
+                        [eService.A_PUBLIC]: true, [eService.A_DURATION]: 30,
+                        [eService.A_NAME_LV]: 'Vienkārša krāsošana',
+                        [eService.A_NAME_RU]: 'Окрашивание простое',
                     }, {
-                        [aService.A_ID]: 5, [aService.A_CODE]: 'color_complex',
-                        [aService.A_DURATION]: 60,
-                        [aService.A_NAME_LV]: 'Kompleksa krāsošana',
-                        [aService.A_NAME_RU]: 'Окрашивание сложное',
+                        [eService.A_ID]: 5, [eService.A_CODE]: 'color_complex',
+                        [eService.A_DURATION]: 60,
+                        [eService.A_NAME_LV]: 'Kompleksa krāsošana',
+                        [eService.A_NAME_RU]: 'Окрашивание сложное',
                     }, {
-                        [aService.A_ID]: 6, [aService.A_CODE]: 'color_highlight',
-                        [aService.A_DURATION]: 120,
-                        [aService.A_NAME_LV]: 'Izcelšana',
-                        [aService.A_NAME_RU]: 'Мелирование',
+                        [eService.A_ID]: 6, [eService.A_CODE]: 'color_highlight',
+                        [eService.A_DURATION]: 120,
+                        [eService.A_NAME_LV]: 'Izcelšana',
+                        [eService.A_NAME_RU]: 'Мелирование',
                     }, {
-                        [aService.A_ID]: 7, [aService.A_CODE]: 'perm',
-                        [aService.A_DURATION]: 60,
-                        [aService.A_NAME_LV]: 'Perm',
-                        [aService.A_NAME_RU]: 'Химическая завивка',
+                        [eService.A_ID]: 7, [eService.A_CODE]: 'perm',
+                        [eService.A_DURATION]: 60,
+                        [eService.A_NAME_LV]: 'Perm',
+                        [eService.A_NAME_RU]: 'Химическая завивка',
                     },]);
                 }
 
                 async function insertTasks(trx) {
-                    await trx(aTask.ENTITY).insert([
-                        {[aTask.A_ID]: 1},
-                        {[aTask.A_ID]: 2},
-                        {[aTask.A_ID]: 3},
-                        {[aTask.A_ID]: 4},
-                        {[aTask.A_ID]: 5},
-                        {[aTask.A_ID]: 6},
-                        {[aTask.A_ID]: 7},
-                        {[aTask.A_ID]: 8},
-                        {[aTask.A_ID]: 9},
-                        {[aTask.A_ID]: 10},
+                    await trx(eTask.ENTITY).insert([
+                        {[eTask.A_ID]: 1},
+                        {[eTask.A_ID]: 2},
+                        {[eTask.A_ID]: 3},
+                        {[eTask.A_ID]: 4},
+                        {[eTask.A_ID]: 5},
+                        {[eTask.A_ID]: 6},
+                        {[eTask.A_ID]: 7},
+                        {[eTask.A_ID]: 8},
+                        {[eTask.A_ID]: 9},
+                        {[eTask.A_ID]: 10},
                     ]);
                 }
 
@@ -311,69 +372,112 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     const date1 = util.formatDate(d1);
                     const date2 = util.formatDate(d2);
                     const date3 = util.formatDate(d3);
-                    await trx(aTaskDet.ENTITY).insert([
+                    await trx(eTaskDet.ENTITY).insert([
                         {
-                            [aTaskDet.A_TASK_REF]: 1, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 1,
-                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0900', [aTaskDet.A_TO]: '1130',
-                            [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
-                            [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 1, [eTaskDet.A_EMPLOYEE_REF]: 1, [eTaskDet.A_SERVICE_REF]: 1,
+                            [eTaskDet.A_DATE]: date0, [eTaskDet.A_FROM]: '0900', [eTaskDet.A_TO]: '1130',
+                            [eTaskDet.A_CUSTOMER]: 'John Doe', [eTaskDet.A_EMAIL]: 'john@inter.net',
+                            [eTaskDet.A_PHONE]: '2912312312', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
-                            [aTaskDet.A_TASK_REF]: 2, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 2,
-                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '0930', [aTaskDet.A_TO]: '1030',
-                            [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
-                            [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 2, [eTaskDet.A_EMPLOYEE_REF]: 1, [eTaskDet.A_SERVICE_REF]: 2,
+                            [eTaskDet.A_DATE]: date0, [eTaskDet.A_FROM]: '0930', [eTaskDet.A_TO]: '1030',
+                            [eTaskDet.A_CUSTOMER]: 'John Doe', [eTaskDet.A_EMAIL]: 'john@inter.net',
+                            [eTaskDet.A_PHONE]: '2912312312', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
-                            [aTaskDet.A_TASK_REF]: 3, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 3,
-                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1030', [aTaskDet.A_TO]: '1130',
-                            [aTaskDet.A_CUSTOMER]: 'John Doe', [aTaskDet.A_EMAIL]: 'john@inter.net',
-                            [aTaskDet.A_PHONE]: '2912312312', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 3, [eTaskDet.A_EMPLOYEE_REF]: 1, [eTaskDet.A_SERVICE_REF]: 3,
+                            [eTaskDet.A_DATE]: date0, [eTaskDet.A_FROM]: '1030', [eTaskDet.A_TO]: '1130',
+                            [eTaskDet.A_CUSTOMER]: 'John Doe', [eTaskDet.A_EMAIL]: 'john@inter.net',
+                            [eTaskDet.A_PHONE]: '2912312312', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
-                            [aTaskDet.A_TASK_REF]: 4, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 4,
-                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1200', [aTaskDet.A_TO]: '1330',
-                            [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 4, [eTaskDet.A_EMPLOYEE_REF]: 1, [eTaskDet.A_SERVICE_REF]: 4,
+                            [eTaskDet.A_DATE]: date0, [eTaskDet.A_FROM]: '1200', [eTaskDet.A_TO]: '1330',
+                            [eTaskDet.A_CUSTOMER]: 'Jane Doe', [eTaskDet.A_EMAIL]: 'jane@inter.net',
+                            [eTaskDet.A_PHONE]: '2932132132', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
-                            [aTaskDet.A_TASK_REF]: 5, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
-                            [aTaskDet.A_DATE]: date0, [aTaskDet.A_FROM]: '1630', [aTaskDet.A_TO]: '1730',
-                            [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 5, [eTaskDet.A_EMPLOYEE_REF]: 1, [eTaskDet.A_SERVICE_REF]: 5,
+                            [eTaskDet.A_DATE]: date0, [eTaskDet.A_FROM]: '1630', [eTaskDet.A_TO]: '1730',
+                            [eTaskDet.A_CUSTOMER]: 'Jane Doe', [eTaskDet.A_EMAIL]: 'jane@inter.net',
+                            [eTaskDet.A_PHONE]: '2932132132', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
-                            [aTaskDet.A_TASK_REF]: 6, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
-                            [aTaskDet.A_DATE]: date2, [aTaskDet.A_FROM]: '0930', [aTaskDet.A_TO]: '1130',
-                            [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 6, [eTaskDet.A_EMPLOYEE_REF]: 1, [eTaskDet.A_SERVICE_REF]: 5,
+                            [eTaskDet.A_DATE]: date2, [eTaskDet.A_FROM]: '0930', [eTaskDet.A_TO]: '1130',
+                            [eTaskDet.A_CUSTOMER]: 'Jane Doe', [eTaskDet.A_EMAIL]: 'jane@inter.net',
+                            [eTaskDet.A_PHONE]: '2932132132', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
-                            [aTaskDet.A_TASK_REF]: 7, [aTaskDet.A_EMPLOYEE_REF]: 1, [aTaskDet.A_SERVICE_REF]: 5,
-                            [aTaskDet.A_DATE]: date2, [aTaskDet.A_FROM]: '1230', [aTaskDet.A_TO]: '1730',
-                            [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 7, [eTaskDet.A_EMPLOYEE_REF]: 1, [eTaskDet.A_SERVICE_REF]: 5,
+                            [eTaskDet.A_DATE]: date2, [eTaskDet.A_FROM]: '1230', [eTaskDet.A_TO]: '1730',
+                            [eTaskDet.A_CUSTOMER]: 'Jane Doe', [eTaskDet.A_EMAIL]: 'jane@inter.net',
+                            [eTaskDet.A_PHONE]: '2932132132', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
-                            [aTaskDet.A_TASK_REF]: 8, [aTaskDet.A_EMPLOYEE_REF]: 2, [aTaskDet.A_SERVICE_REF]: 5,
-                            [aTaskDet.A_DATE]: date1, [aTaskDet.A_FROM]: '0900', [aTaskDet.A_TO]: '1030',
-                            [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 8, [eTaskDet.A_EMPLOYEE_REF]: 2, [eTaskDet.A_SERVICE_REF]: 5,
+                            [eTaskDet.A_DATE]: date1, [eTaskDet.A_FROM]: '0900', [eTaskDet.A_TO]: '1030',
+                            [eTaskDet.A_CUSTOMER]: 'Jane Doe', [eTaskDet.A_EMAIL]: 'jane@inter.net',
+                            [eTaskDet.A_PHONE]: '2932132132', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
-                            [aTaskDet.A_TASK_REF]: 9, [aTaskDet.A_EMPLOYEE_REF]: 2, [aTaskDet.A_SERVICE_REF]: 5,
-                            [aTaskDet.A_DATE]: date1, [aTaskDet.A_FROM]: '1030', [aTaskDet.A_TO]: '1130',
-                            [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 9, [eTaskDet.A_EMPLOYEE_REF]: 2, [eTaskDet.A_SERVICE_REF]: 5,
+                            [eTaskDet.A_DATE]: date1, [eTaskDet.A_FROM]: '1030', [eTaskDet.A_TO]: '1130',
+                            [eTaskDet.A_CUSTOMER]: 'Jane Doe', [eTaskDet.A_EMAIL]: 'jane@inter.net',
+                            [eTaskDet.A_PHONE]: '2932132132', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
-                            [aTaskDet.A_TASK_REF]: 10, [aTaskDet.A_EMPLOYEE_REF]: 2, [aTaskDet.A_SERVICE_REF]: 5,
-                            [aTaskDet.A_DATE]: date3, [aTaskDet.A_FROM]: '1030', [aTaskDet.A_TO]: '1730',
-                            [aTaskDet.A_CUSTOMER]: 'Jane Doe', [aTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [aTaskDet.A_PHONE]: '2932132132', [aTaskDet.A_LOCALE]: 'en_US',
-                            [aTaskDet.A_NOTE]: 'some notes related to the task.',
+                            [eTaskDet.A_TASK_REF]: 10, [eTaskDet.A_EMPLOYEE_REF]: 2, [eTaskDet.A_SERVICE_REF]: 5,
+                            [eTaskDet.A_DATE]: date3, [eTaskDet.A_FROM]: '1030', [eTaskDet.A_TO]: '1730',
+                            [eTaskDet.A_CUSTOMER]: 'Jane Doe', [eTaskDet.A_EMAIL]: 'jane@inter.net',
+                            [eTaskDet.A_PHONE]: '2932132132', [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         },
                     ]);
+                }
+
+                async function insertUsers(trx) {
+                    await trx(eUser.ENTITY).insert([{[eUser.A_ID]: 1}, {[eUser.A_ID]: 2}, {[eUser.A_ID]: 3}]);
+                    await trx(eProfile.ENTITY).insert([
+                        {[eProfile.A_USER_REF]: 1, [eProfile.A_NAME]: 'Customer'},
+                        {[eProfile.A_USER_REF]: 2, [eProfile.A_NAME]: 'Manager'},
+                        {[eProfile.A_USER_REF]: 3, [eProfile.A_NAME]: 'Developer'},
+                    ]);
+                    const hash1 = await $bcrypt.hash('test', DEF_USER.BCRYPT_HASH_ROUNDS);
+                    const hash2 = await $bcrypt.hash('test', DEF_USER.BCRYPT_HASH_ROUNDS);
+                    const hash3 = await $bcrypt.hash('test', DEF_USER.BCRYPT_HASH_ROUNDS);
+                    await trx(eAuthPassword.ENTITY).insert([
+                        {
+                            [eAuthPassword.A_USER_REF]: 1,
+                            [eAuthPassword.A_LOGIN]: 'cust',
+                            [eAuthPassword.A_PASSWORD_HASH]: hash1,
+                        }, {
+                            [eAuthPassword.A_USER_REF]: 2,
+                            [eAuthPassword.A_LOGIN]: 'mgr',
+                            [eAuthPassword.A_PASSWORD_HASH]: hash2,
+                        }, {
+                            [eAuthPassword.A_USER_REF]: 3,
+                            [eAuthPassword.A_LOGIN]: 'dev',
+                            [eAuthPassword.A_PASSWORD_HASH]: hash3,
+                        }
+                    ]);
+                    await trx(eIdEmail.ENTITY).insert({
+                        [eIdEmail.A_EMAIL]: 'user@test.com',
+                        [eIdEmail.A_USER_REF]: 1,
+                    });
+                    await trx(eIdPhone.ENTITY).insert({
+                        [eIdPhone.A_PHONE]: '(371)29181801',
+                        [eIdPhone.A_USER_REF]: 1,
+                    });
+                    await trx(eRefLink.ENTITY).insert({
+                        [eRefLink.A_USER_REF]: 1,
+                        [eRefLink.A_CODE]: 'addMeHere',
+                    });
+                    await trx(eRefTree.ENTITY).insert({
+                        [eRefTree.A_USER_REF]: 1,
+                        [eRefTree.A_PARENT_REF]: 1,
+                    });
                 }
 
                 // MAIN FUNCTIONALITY
@@ -383,6 +487,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 await insertEmployeeTimeWork(trx);
                 await insertTasks(trx);
                 await insertTasksDetails(trx);
+                await insertUsers(trx);
+                await insertAcl(trx);
             }
 
             // MAIN FUNCTIONALITY
