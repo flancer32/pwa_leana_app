@@ -34,13 +34,13 @@ const template = `
             <div>
                 <router-link to="/services">{{$t("app-navBar:services")}}</router-link>
             </div>
-            <div>
+            <div v-if="isAuthenticated">
                 <router-link to="/book">{{$t("app-navBar:book")}}</router-link>
             </div>
-            <div>
+            <div  v-if="!isAuthenticated">
                 <router-link to="/signIn">{{$t("app-navBar:signIn")}}</router-link>
             </div>
-            <div>
+            <div v-if="!isAuthenticated">
                 <router-link to="/signUp">{{$t("app-navBar:signUp")}}</router-link>
             </div>
         </div>
@@ -71,6 +71,11 @@ export default function Fl32_Leana_Front_Pub_App_NavBar() {
                 menuLeftOpened: false,
                 menuRightOpened: false,
             };
+        },
+        computed: {
+            isAuthenticated() {
+                return false;
+            }
         },
         methods: {
             async changeLang(lang) {

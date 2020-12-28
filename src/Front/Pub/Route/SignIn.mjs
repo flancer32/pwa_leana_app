@@ -34,6 +34,8 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec.Fl32_Leana_Defaults$;
     const userSignIn = spec.Fl32_Teq_User_Front_Widget_SignIn$;
     /** @type {typeof Fl32_Teq_User_Front_Widget_SignIn_Props} */
     const SignInProps = spec['Fl32_Teq_User_Front_Widget_SignIn#Props'];
@@ -78,6 +80,14 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
                     this.message = '';
                     this.showForm = true;
                 }, 5000);
+            }
+        },
+        mounted() {
+            const acl = [];
+            if (Array.isArray(acl)) {
+                if (!acl.includes(DEF.ACL_IS_CUSTOMER)) {
+                    // throw not authorized exception
+                }
             }
         }
     };
