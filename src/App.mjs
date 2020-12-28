@@ -84,7 +84,9 @@ export default class Fl32_Leana_App {
         function setupDiContainer() {
             const pathRoot = me._config.get('path/root');
             const pathNode = $path.join(pathRoot, 'node_modules');
+            const teqAclPath = $path.join(pathNode, '@flancer32/teq_acl/src');
             const teqUserPath = $path.join(pathNode, '@flancer32/teq_user/src');
+            me._container.addSourceMapping('Fl32_Teq_Acl', teqAclPath, true);
             me._container.addSourceMapping('Fl32_Teq_User', teqUserPath, true);
         }
 

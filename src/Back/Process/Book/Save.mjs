@@ -14,7 +14,7 @@ export default class Fl32_Leana_Back_Process_Book_Save {
 
     /**  @param {Object} spec */
     constructor(spec) {
-        this.#googleApi = spec.Fl32_Leana_Extern_Google_Api$;
+        // this.#googleApi = spec.Fl32_Leana_Extern_Google_Api$;
         this.#utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
         this.eEmpl = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
         this.eSrv = spec.Fl32_Leana_Store_RDb_Schema_Service$;

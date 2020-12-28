@@ -32,6 +32,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         const aTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
         const aTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
+        /** @type {Fl32_Teq_Acl_Plugin_Store_RDb_Setup} */
+        const setupTeqAcl = spec.Fl32_Teq_Acl_Plugin_Store_RDb_Setup$;
         /** @type {Fl32_Teq_User_Plugin_Store_RDb_Setup} */
         const setupTeqUser = spec.Fl32_Teq_User_Plugin_Store_RDb_Setup$;
 
@@ -391,15 +393,25 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 /** @type {SchemaBuilder} */
                 const schema = connector.getSchema();
                 recreateStructure(schema, knex);
-                // run setups from modules
-                await setupTeqUser.upgradeStructure(knex, schema);
+                //
+                // run setups from modules:
+                //
+                // drop tables considering relations
+                await setupTeqAcl.dropTables1(schema);
+                await setupTeqUser.dropTables1(schema);
+                await setupTeqAcl.dropTables0(schema);
+                await setupTeqUser.dropTables0(schema);
+                // create tables
+                await setupTeqUser.createStructure(knex, schema);
+                await setupTeqAcl.createStructure(knex, schema);
                 // perform queries to recreate DB structure
                 await schema;
 
                 // perform queries to insert data into created tables
                 await populateWithData(trx);
                 // run setups from modules
-                await setupTeqUser.upgradeData(knex, trx);
+                await setupTeqUser.initData(knex, trx);
+                await setupTeqAcl.initData(knex, trx);
                 // perform queries to insert data and commit changes
                 trx.commit();
             } catch (e) {
