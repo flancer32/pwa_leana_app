@@ -34,7 +34,7 @@ const template = `
             <div>
                 <router-link to="/services">{{$t("app-navBar:services")}}</router-link>
             </div>
-            <div v-if="isAuthenticated">
+            <div v-if="!isAuthenticated">
                 <router-link to="/book">{{$t("app-navBar:book")}}</router-link>
             </div>
             <div  v-if="!isAuthenticated">

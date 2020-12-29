@@ -15,8 +15,10 @@ export default class Fl32_Leana_Server {
     _config
     /** @type {TeqFw_Core_App_Logger} */
     _logger
+    /** @type {Fl32_Teq_Acl_App_Server_Permissions} */
+    _mwAcl
     /** @type {TeqFw_Core_App_Server_Log} */
-    _serverLog
+    _mwLog
     /** @type {Fl32_Leana_Server_Route_Static} */
     _routeStatic
     /** @type {TeqFw_Core_App_Server_HandlerFactory} */
@@ -29,7 +31,8 @@ export default class Fl32_Leana_Server {
         this._container = spec.TeqFw_Di_Container$;
         this._config = spec.TeqFw_Core_App_Config$;
         this._logger = spec.TeqFw_Core_App_Logger$;
-        this._serverLog = spec.TeqFw_Core_App_Server_Log$;
+        this._mwAcl = spec.Fl32_Teq_Acl_App_Server_Permissions$;
+        this._mwLog = spec.TeqFw_Core_App_Server_Log$;
         this._routeStatic = spec.Fl32_Leana_Server_Route_Static$;
         this._handlerFactory = spec.TeqFw_Core_App_Server_HandlerFactory$;
     }
@@ -44,7 +47,8 @@ export default class Fl32_Leana_Server {
         // setup order is important
         this._server.use($cookieParser());
         this._server.use($express.json({limit: '50mb'}));
-        this._server.use(me._serverLog.handle);
+        this._server.use(me._mwLog.handle);
+        this._server.use(me._mwAcl.handle);
         // API routes
         await this.addApiRoute('/api/app/config/get', 'Fl32_Leana_Back_Service_App_Config_Get$');
         await this.addApiRoute('/api/app/sw/files_to_cache/desk', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Desk$');
