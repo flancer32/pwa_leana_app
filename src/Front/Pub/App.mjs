@@ -1,6 +1,9 @@
 const app = self.teqfw.app;
 const router = self.teqfw.router;
 const i18next = self.teqfw.i18next;
+const mapActions = self.teqfw.lib.Vuex.mapActions;
+const mapState = self.teqfw.lib.Vuex.mapState;
+
 i18next.addResources('lv', 'app', {});
 i18next.addResources('ru', 'app', {});
 
@@ -15,12 +18,8 @@ const template = `
         <div id="layer_nav_bar">
             <app-nav-bar></app-nav-bar>
         </div>
-        <div id="layer_overlay">
-<!--            <app_display_image></app_display_image>-->
-        </div>
-        <div id="layer_notification">
-<!--            <app_notification></app_notification>-->
-        </div>
+        <div id="layer_overlay"></div>
+        <div id="layer_notification"></div>
     </div>
 </div>
 `;
@@ -34,6 +33,9 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     const routeSignIn = spec.Fl32_Leana_Front_Pub_Route_SignIn$;
     const routeSignUp = spec.Fl32_Leana_Front_Pub_Route_SignUp$;
     const state = spec.Fl32_Leana_Front_Pub_State$;
+    /** @type {typeof Fl32_Teq_Acl_Shared_Service_Route_User_Get_Request} */
+    const AclGetRequest = spec['Fl32_Teq_Acl_Shared_Service_Route_User_Get#Request'];
+
 
     router.addRoute({path: '/', component: routeAbout});
     router.addRoute({path: '/about', component: routeAbout});
@@ -54,6 +56,24 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
         template,
         components: {
             'AppNavBar': appNavBar
+        },
+        computed: {
+            ...mapState({
+                userAcl: state => state.acl.userAcl,
+            }),
+        },
+        methods: {
+            ...mapActions({
+                loadUserAcl: 'acl/loadUserAcl',
+            }),
+        },
+        mounted() {
+            // get permissions from server
+            const req = new AclGetRequest();
+            this.loadUserAcl(req)
+                .catch((e) => {
+                    console.error('Cannot get user ACL: ' + e.toString());
+                });
         }
     };
 }

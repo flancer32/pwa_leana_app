@@ -56,8 +56,8 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
             signIn() {
                 /** @type {Fl32_Teq_User_Front_Widget_SignIn_Props} */
                 const result = new SignInProps();
-                result.password = 'LetMeIn';
-                result.user = 'alex';
+                result.password = '';
+                result.user = 'cust';
                 return result;
             },
             ...mapState({
