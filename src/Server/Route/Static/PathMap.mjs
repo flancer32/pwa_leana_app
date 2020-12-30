@@ -14,6 +14,8 @@ const PATH_MAP = {
     vue: {from: '/node/vue/', to: '/node_modules/vue/dist/'},
     vueRouter: {from: '/node/vue-router/', to: '/node_modules/vue-router/dist/'},
     vuex: {from: '/node/vuex/', to: '/node_modules/vuex/dist/'},
+    fl32TeqAclSrc: {from: '/node/@flancer32/teq_acl/', to: '/node_modules/@flancer32/teq_acl/src/'},
+    fl32TeqAclStatic: {from: '/static/@flancer32/teq_acl/', to: '/node_modules/@flancer32/teq_acl/web/'},
     fl32TeqUserSrc: {from: '/node/@flancer32/teq_user/', to: '/node_modules/@flancer32/teq_user/src/'},
     fl32TeqUserStatic: {from: '/static/@flancer32/teq_user/', to: '/node_modules/@flancer32/teq_user/web/'},
     teqfwCore: {from: '/node/@teqfw/core-app/', to: '/node_modules/@teqfw/core-app/src/'},

@@ -1,4 +1,6 @@
 const i18next = self.teqfw.i18next;
+const mapState = self.teqfw.lib.Vuex.mapState;
+
 i18next.addResources('lv', 'app-navBar', {
     about: 'Par mums',
     book: 'Pierakstīties',
@@ -34,7 +36,7 @@ const template = `
             <div>
                 <router-link to="/services">{{$t("app-navBar:services")}}</router-link>
             </div>
-            <div v-if="!isAuthenticated">
+            <div v-if="isAuthenticated">
                 <router-link to="/book">{{$t("app-navBar:book")}}</router-link>
             </div>
             <div  v-if="!isAuthenticated">
@@ -62,7 +64,10 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Pub_App_NavBar() {
+export default function Fl32_Leana_Front_Pub_App_NavBar(spec) {
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec.Fl32_Leana_Defaults$;
+
     return {
         template,
         data: function () {
@@ -74,8 +79,15 @@ export default function Fl32_Leana_Front_Pub_App_NavBar() {
         },
         computed: {
             isAuthenticated() {
-                return false;
-            }
+                let result = false;
+                if (this.userAcl && this.userAcl.permissions) {
+                    result = Object.values(this.userAcl.permissions).includes(DEF.ACL_IS_CUSTOMER);
+                }
+                return result;
+            },
+            ...mapState({
+                userAcl: state => state.acl.userAcl,
+            })
         },
         methods: {
             async changeLang(lang) {
