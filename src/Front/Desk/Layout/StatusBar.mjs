@@ -34,6 +34,7 @@ const template = `
 
 function Fl32_Leana_Front_Desk_Layout_StatusBar() {
     return {
+        name: 'StatusBar',
         template,
         data: function () {
             return {};

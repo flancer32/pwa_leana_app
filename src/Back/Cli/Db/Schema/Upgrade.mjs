@@ -1,5 +1,15 @@
 import $bcrypt from 'bcrypt';
 
+const PERM_ID_CUST = 3;
+const PERM_ID_DEV = 1;
+const PERM_ID_EMPL = 2;
+const ROLE_ID_CUST = 2;
+const ROLE_ID_EMPL = 1;
+const USER_ID_ALEX = 1;
+const USER_ID_CUST = 4;
+const USER_ID_LENA = 2;
+const USER_ID_NATA = 3;
+
 /**
  * CLI action to upgrade RDB schema.
  */
@@ -238,31 +248,33 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 async function insertAcl(trx) {
                     // permissions
                     await trx(ePerm.ENTITY).insert([
-                        {[ePerm.A_ID]: 1, [ePerm.A_CODE]: DEF.ACL_IS_CUSTOMER},
-                        {[ePerm.A_ID]: 2, [ePerm.A_CODE]: DEF.ACL_IS_MANAGER},
-                        {[ePerm.A_ID]: 3, [ePerm.A_CODE]: DEF.ACL_IS_DEVELOPER},
+                        {[ePerm.A_ID]: PERM_ID_CUST, [ePerm.A_CODE]: DEF.ACL_IS_CUSTOMER},
+                        {[ePerm.A_ID]: PERM_ID_DEV, [ePerm.A_CODE]: DEF.ACL_IS_DEVELOPER},
+                        {[ePerm.A_ID]: PERM_ID_EMPL, [ePerm.A_CODE]: DEF.ACL_IS_EMPLOYEE},
                     ]);
                     // roles
                     await trx(eRole.ENTITY).insert([
-                        {[eRole.A_ID]: 1, [eRole.A_CODE]: 'authenticated'},
-                        {[eRole.A_ID]: 2, [eRole.A_CODE]: 'manager'},
+                        {[eRole.A_ID]: ROLE_ID_CUST, [eRole.A_CODE]: 'customer'},
+                        {[eRole.A_ID]: ROLE_ID_EMPL, [eRole.A_CODE]: 'employee'},
                     ]);
                     // permissions for roles
                     await trx(eRolePerm.ENTITY).insert([
-                        {[eRolePerm.A_ROLE_REF]: 1, [eRolePerm.A_PERM_REF]: 1},
-                        {[eRolePerm.A_ROLE_REF]: 2, [eRolePerm.A_PERM_REF]: 2},
+                        {[eRolePerm.A_ROLE_REF]: ROLE_ID_EMPL, [eRolePerm.A_PERM_REF]: PERM_ID_EMPL},
+                        {[eRolePerm.A_ROLE_REF]: ROLE_ID_CUST, [eRolePerm.A_PERM_REF]: PERM_ID_CUST},
                     ]);
                     // users for roles
                     await trx(eRoleUser.ENTITY).insert([
-                        {[eRoleUser.A_ROLE_REF]: 1, [eRoleUser.A_USER_REF]: 1},
-                        {[eRoleUser.A_ROLE_REF]: 1, [eRoleUser.A_USER_REF]: 2},
-                        {[eRoleUser.A_ROLE_REF]: 2, [eRoleUser.A_USER_REF]: 2},
+                        {[eRoleUser.A_ROLE_REF]: ROLE_ID_CUST, [eRoleUser.A_USER_REF]: USER_ID_ALEX},
+                        {[eRoleUser.A_ROLE_REF]: ROLE_ID_CUST, [eRoleUser.A_USER_REF]: USER_ID_CUST},
+                        {[eRoleUser.A_ROLE_REF]: ROLE_ID_EMPL, [eRoleUser.A_USER_REF]: USER_ID_ALEX},
+                        {[eRoleUser.A_ROLE_REF]: ROLE_ID_EMPL, [eRoleUser.A_USER_REF]: USER_ID_LENA},
+                        {[eRoleUser.A_ROLE_REF]: ROLE_ID_EMPL, [eRoleUser.A_USER_REF]: USER_ID_NATA},
                     ]);
                     // individual permissions
                     await trx(ePermUser.ENTITY).insert([
-                        {[ePermUser.A_PERM_REF]: 1, [ePermUser.A_USER_REF]: 3},
-                        {[ePermUser.A_PERM_REF]: 2, [ePermUser.A_USER_REF]: 3},
-                        {[ePermUser.A_PERM_REF]: 3, [ePermUser.A_USER_REF]: 3},
+                        {[ePermUser.A_PERM_REF]: PERM_ID_CUST, [ePermUser.A_USER_REF]: USER_ID_ALEX},
+                        {[ePermUser.A_PERM_REF]: PERM_ID_DEV, [ePermUser.A_USER_REF]: USER_ID_ALEX},
+                        {[ePermUser.A_PERM_REF]: PERM_ID_EMPL, [ePermUser.A_USER_REF]: USER_ID_ALEX},
                     ]);
                 }
 
@@ -438,45 +450,69 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 }
 
                 async function insertUsers(trx) {
-                    await trx(eUser.ENTITY).insert([{[eUser.A_ID]: 1}, {[eUser.A_ID]: 2}, {[eUser.A_ID]: 3}]);
+                    await trx(eUser.ENTITY).insert([
+                        {[eUser.A_ID]: USER_ID_ALEX},
+                        {[eUser.A_ID]: USER_ID_LENA},
+                        {[eUser.A_ID]: USER_ID_NATA},
+                        {[eUser.A_ID]: USER_ID_CUST},
+                    ]);
                     await trx(eProfile.ENTITY).insert([
-                        {[eProfile.A_USER_REF]: 1, [eProfile.A_NAME]: 'Customer'},
-                        {[eProfile.A_USER_REF]: 2, [eProfile.A_NAME]: 'Manager'},
-                        {[eProfile.A_USER_REF]: 3, [eProfile.A_NAME]: 'Developer'},
+                        {[eProfile.A_USER_REF]: USER_ID_ALEX, [eProfile.A_NAME]: 'Alex'},
+                        {[eProfile.A_USER_REF]: USER_ID_LENA, [eProfile.A_NAME]: 'Helena'},
+                        {[eProfile.A_USER_REF]: USER_ID_NATA, [eProfile.A_NAME]: 'Nataly'},
+                        {[eProfile.A_USER_REF]: USER_ID_CUST, [eProfile.A_NAME]: 'Some Customer'},
                     ]);
                     const hash1 = await $bcrypt.hash('test', DEF_USER.BCRYPT_HASH_ROUNDS);
                     const hash2 = await $bcrypt.hash('test', DEF_USER.BCRYPT_HASH_ROUNDS);
                     const hash3 = await $bcrypt.hash('test', DEF_USER.BCRYPT_HASH_ROUNDS);
+                    const hash4 = await $bcrypt.hash('test', DEF_USER.BCRYPT_HASH_ROUNDS);
                     await trx(eAuthPassword.ENTITY).insert([
                         {
-                            [eAuthPassword.A_USER_REF]: 1,
-                            [eAuthPassword.A_LOGIN]: 'cust',
+                            [eAuthPassword.A_USER_REF]: USER_ID_ALEX,
+                            [eAuthPassword.A_LOGIN]: 'alex',
                             [eAuthPassword.A_PASSWORD_HASH]: hash1,
                         }, {
-                            [eAuthPassword.A_USER_REF]: 2,
-                            [eAuthPassword.A_LOGIN]: 'mgr',
+                            [eAuthPassword.A_USER_REF]: USER_ID_LENA,
+                            [eAuthPassword.A_LOGIN]: 'lena',
                             [eAuthPassword.A_PASSWORD_HASH]: hash2,
                         }, {
-                            [eAuthPassword.A_USER_REF]: 3,
-                            [eAuthPassword.A_LOGIN]: 'dev',
+                            [eAuthPassword.A_USER_REF]: USER_ID_NATA,
+                            [eAuthPassword.A_LOGIN]: 'nata',
                             [eAuthPassword.A_PASSWORD_HASH]: hash3,
+                        }, {
+                            [eAuthPassword.A_USER_REF]: USER_ID_CUST,
+                            [eAuthPassword.A_LOGIN]: 'cust',
+                            [eAuthPassword.A_PASSWORD_HASH]: hash4,
                         }
                     ]);
                     await trx(eIdEmail.ENTITY).insert({
-                        [eIdEmail.A_EMAIL]: 'user@test.com',
-                        [eIdEmail.A_USER_REF]: 1,
+                        [eIdEmail.A_EMAIL]: 'alex@flancer64.com',
+                        [eIdEmail.A_USER_REF]: USER_ID_ALEX,
                     });
                     await trx(eIdPhone.ENTITY).insert({
                         [eIdPhone.A_PHONE]: '(371)29181801',
-                        [eIdPhone.A_USER_REF]: 1,
+                        [eIdPhone.A_USER_REF]: USER_ID_ALEX,
                     });
                     await trx(eRefLink.ENTITY).insert({
-                        [eRefLink.A_USER_REF]: 1,
-                        [eRefLink.A_CODE]: 'addMeHere',
+                        [eRefLink.A_USER_REF]: USER_ID_ALEX,
+                        [eRefLink.A_CODE]: 'dev',
+                    });
+                    // users tree
+                    await trx(eRefTree.ENTITY).insert({
+                        [eRefTree.A_USER_REF]: USER_ID_ALEX,
+                        [eRefTree.A_PARENT_REF]: USER_ID_ALEX,
                     });
                     await trx(eRefTree.ENTITY).insert({
-                        [eRefTree.A_USER_REF]: 1,
-                        [eRefTree.A_PARENT_REF]: 1,
+                        [eRefTree.A_USER_REF]: USER_ID_LENA,
+                        [eRefTree.A_PARENT_REF]: USER_ID_ALEX,
+                    });
+                    await trx(eRefTree.ENTITY).insert({
+                        [eRefTree.A_USER_REF]: USER_ID_NATA,
+                        [eRefTree.A_PARENT_REF]: USER_ID_ALEX,
+                    });
+                    await trx(eRefTree.ENTITY).insert({
+                        [eRefTree.A_USER_REF]: USER_ID_CUST,
+                        [eRefTree.A_PARENT_REF]: USER_ID_LENA,
                     });
                 }
 

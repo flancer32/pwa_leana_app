@@ -83,8 +83,12 @@
                 self.teqfw.i18next = await initI18n(self.teqfw.app);
                 // place application objects into DI-container
                 container.set('config', self.teqfw.config);
+                // setup session (load user permissions from server)
+                /** @type {Fl32_Leana_Front_Desk_App_Session} */
+                const session = await container.get('Fl32_Leana_Front_Desk_App_Session$'); // singleton object
+                await session.init();
                 // load root component and mount frontend application to DOM
-                const appRoot = await container.get('Fl32_Leana_Front_Desk_App$$');
+                const appRoot = await container.get('Fl32_Leana_Front_Desk_App$'); // singleton object
                 self.teqfw.app.component('appRoot', appRoot);
                 self.teqfw.app.mount('BODY > DIV');
             } catch (e) {

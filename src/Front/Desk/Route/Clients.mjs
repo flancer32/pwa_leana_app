@@ -27,6 +27,10 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Desk_Route_Clients(spec) {
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec.Fl32_Leana_Defaults$;
+    /** @type {Fl32_Leana_Front_Desk_App_Session} */
+    const session = spec.Fl32_Leana_Front_Desk_App_Session$;
     /** @type {Fl32_Teq_User_Shared_Service_Gate_List} */
     const gateUsersList = spec.Fl32_Teq_User_Shared_Service_Gate_List$;
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Request} */
@@ -41,10 +45,16 @@ export default function Fl32_Leana_Front_Desk_Route_Clients(spec) {
             };
         },
         async mounted() {
-            const req = new UsersListReq();
-            /** @type {Fl32_Teq_User_Shared_Service_Route_List_Response} */
-            const res = await gateUsersList(req);
-            this.items = Object.values(res.items);
+            if (!session.hasPermission(DEF.ACL_IS_EMPLOYEE)) {
+                const route = this.$router.currentRoute.value.path;
+                session.setRouteToRedirect(route);
+                await this.$router.push('/user/signIn');
+            } else {
+                const req = new UsersListReq();
+                /** @type {Fl32_Teq_User_Shared_Service_Route_List_Response} */
+                const res = await gateUsersList(req);
+                this.items = Object.values(res.items);
+            }
         }
     };
 }

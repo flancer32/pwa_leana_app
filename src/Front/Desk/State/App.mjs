@@ -17,7 +17,7 @@ export default function Fl32_Leana_Front_Desk_State_App() {
             },
             resetOverlay(state) {
                 state.overlay = {name: null, params: {}};
-            }
+            },
         },
         actions: {},
     };

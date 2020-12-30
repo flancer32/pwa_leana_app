@@ -25,6 +25,10 @@ const template = `
 
 export default function Fl32_Leana_Front_Desk_Route_Dev(spec) {
     // inject dependencies first
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec.Fl32_Leana_Defaults$;
+    /** @type {Fl32_Leana_Front_Desk_App_Session} */
+    const session = spec.Fl32_Leana_Front_Desk_App_Session$;
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$;
     const wgScrollerVertical = spec.Fl32_Leana_Front_Shared_Widget_Scroller_Vertical$;
@@ -61,5 +65,12 @@ export default function Fl32_Leana_Front_Desk_Route_Dev(spec) {
                 return items;
             },
         },
+        async mounted() {
+            if (!session.hasPermission(DEF.ACL_IS_DEVELOPER)) {
+                const route = this.$router.currentRoute.value.path;
+                session.setRouteToRedirect(route);
+                await this.$router.push('/user/signIn');
+            }
+        }
     };
 }

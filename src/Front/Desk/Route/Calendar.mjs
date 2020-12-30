@@ -3,9 +3,6 @@ const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapState = self.teqfw.lib.Vuex.mapState;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 
-i18next.addResources('lv', 'route-about', {});
-i18next.addResources('ru', 'route-about', {});
-
 const template = `
 <div>
     <action-bar></action-bar>
@@ -22,6 +19,10 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec.Fl32_Leana_Defaults$;
+    /** @type {Fl32_Leana_Front_Desk_App_Session} */
+    const session = spec.Fl32_Leana_Front_Desk_App_Session$;
     /** @type {Fl32_Leana_Front_Desk_Widget_Booking} */
     const booking = spec.Fl32_Leana_Front_Desk_Widget_Booking$;  // singleton
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
@@ -94,10 +95,11 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                 return result;
             },
             ...mapState({
+                calendarDateSelected: state => state.calendar.dateSelected,
                 calendarEmployees: state => state.calendar.employees,
                 calendarServices: state => state.calendar.services,
                 calendarTasksOnDate: state => state.calendar.tasksOnDate,
-                calendarDateSelected: state => state.calendar.dateSelected,
+                stateSignInRedirect: state => state.app.signInRedirect,
             })
         },
         methods: {
@@ -130,6 +132,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
             },
             ...mapMutations({
                 setDateSelected: 'calendar/setDateSelected',
+                setSignInRedirect: 'app/setSignInRedirect',
                 setTasksOnDate: 'calendar/setTasksOnDate',
             }),
             ...mapActions({
@@ -160,14 +163,20 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
 
             // MAIN FUNCTIONALITY
             const me = this;
-            addSwipes();
-            if (typeof this.calendarDateSelected.getTime !== 'function') {
-                const now = new Date(Date.now());
-                now.setUTCHours(0, 0, 0, 0);
-                this.setDateSelected(now);
+            if (!session.hasPermission(DEF.ACL_IS_EMPLOYEE)) {
+                const route = this.$router.currentRoute.value.path;
+                session.setRouteToRedirect(route);
+                await this.$router.push('/user/signIn');
+            } else {
+                addSwipes();
+                if (typeof this.calendarDateSelected.getTime !== 'function') {
+                    const now = new Date(Date.now());
+                    now.setUTCHours(0, 0, 0, 0);
+                    this.setDateSelected(now);
+                }
+                await this.apiLoadCodifiers();
+                await this.apiLoadTasks();
             }
-            await this.apiLoadCodifiers();
-            await this.apiLoadTasks();
         }
     };
 }

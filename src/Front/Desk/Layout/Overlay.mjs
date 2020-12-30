@@ -14,6 +14,7 @@ const template = `
 function Fl32_Leana_Front_Desk_Layout_Overlay() {
 
     return {
+        name: 'Overlay',
         template,
         props: {
             name: String,    // name of the component to display in popup
