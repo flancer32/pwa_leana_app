@@ -76,6 +76,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         const setupTeqAcl = spec.Fl32_Teq_Acl_Plugin_Store_RDb_Setup$;
         /** @type {Fl32_Teq_User_Plugin_Store_RDb_Setup} */
         const setupTeqUser = spec.Fl32_Teq_User_Plugin_Store_RDb_Setup$;
+        /** @type {Fl32_Leana_Plugin_Store_RDb_Setup} */
+        const setupApp = spec.Fl32_Leana_Plugin_Store_RDb_Setup$;
 
         // POPULATE CURRENT INSTANCE WITH BASE CLASSES METHODS (COMPOSITION INSTEAD OF INHERITANCE)
         objFactory.assignPrototypeMethods(this, base);
@@ -100,145 +102,6 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
             // }
 
             // DEFINE INNER FUNCTIONS
-            /**
-             * Compose queries to drop and create tables.
-             *
-             * @param {SchemaBuilder} schema
-             * @param knex
-             */
-            function recreateStructure(schema, knex) {
-                // DEFINE INNER FUNCTIONS
-                function dropTables(schema) {
-                    /* drop related tables (foreign keys) */
-                    // deprecated tables
-                    schema.dropTableIfExists('book_detail');
-                    // actual tables
-                    schema.dropTableIfExists(eEmplSrv.ENTITY);
-                    schema.dropTableIfExists(eEmplTimeWork.ENTITY);
-                    schema.dropTableIfExists(eTaskDet.ENTITY);
-
-                    /* drop registries */
-                    // deprecated tables
-                    schema.dropTableIfExists('book');
-                    // actual tables
-                    schema.dropTableIfExists(eEmployee.ENTITY);
-                    schema.dropTableIfExists(eService.ENTITY);
-                    schema.dropTableIfExists(eTask.ENTITY);
-                }
-
-                function createTblEmployee(schema) {
-                    schema.createTable(eEmployee.ENTITY, (table) => {
-                        table.increments(eEmployee.A_ID);
-                        table.string(eEmployee.A_CODE).notNullable().comment('Short unique name for employee.');
-                        table.string(eEmployee.A_NAME_LV).notNullable().comment('Employee name in latvian.');
-                        table.string(eEmployee.A_NAME_RU).notNullable().comment('Employee name in russian.');
-                        table.unique([eEmployee.A_CODE], 'UQ_employee__code');
-                        table.comment('Register for employees.');
-                    });
-                }
-
-                function createTblEmployeeService(schema) {
-                    schema.createTable(eEmplSrv.ENTITY, (table) => {
-                        table.integer(eEmplSrv.A_EMPLOYEE_REF).unsigned().notNullable();
-                        table.integer(eEmplSrv.A_SERVICE_REF).unsigned().notNullable();
-                        table.primary([eEmplSrv.A_EMPLOYEE_REF, eEmplSrv.A_SERVICE_REF]);
-                        table.foreign(eEmplSrv.A_EMPLOYEE_REF).references(eEmployee.A_ID).inTable(eEmployee.ENTITY)
-                            .onDelete('CASCADE').onUpdate('CASCADE')
-                            .withKeyName('FK_employee_service__employee');
-                        table.foreign(eEmplSrv.A_SERVICE_REF).references(eService.A_ID).inTable(eService.ENTITY)
-                            .onDelete('CASCADE').onUpdate('CASCADE')
-                            .withKeyName('FK_employee_service__service');
-                        table.comment('Employee provides services.');
-                    });
-                }
-
-                function createTblService(schema) {
-                    schema.createTable(eService.ENTITY, (table) => {
-                        table.increments(eService.A_ID);
-                        table.string(eService.A_CODE).notNullable()
-                            .comment('Short unique name for service (should we use code with names?).');
-                        table.integer(eService.A_DURATION).unsigned().notNullable().defaultTo(0)
-                            .comment('Service duration in minutes.');
-                        table.boolean(eService.A_PUBLIC).notNullable().defaultTo(false)
-                            .comment('Does this service available on front or only through admin UI.');
-                        table.string(eService.A_NAME_LV).notNullable()
-                            .comment('Service name in latvian.');
-                        table.string(eService.A_NAME_RU).notNullable()
-                            .comment('Service name in russian.');
-                        table.unique([eService.A_CODE], 'UQ_employee__code');
-                        table.comment('Register for services.');
-                    });
-                }
-
-                function createTblEmployeeTimeWork(schema) {
-                    schema.createTable(eEmplTimeWork.ENTITY, (table) => {
-                        table.integer(eEmplTimeWork.A_EMPLOYEE_REF).unsigned().notNullable();
-                        table.string(eEmplTimeWork.A_DATE, 8).comment('Date as "YYYYMMDD".');
-                        table.string(eEmplTimeWork.A_FROM, 4).defaultTo('0900')
-                            .comment('Time starting: 0900.');
-                        table.string(eEmplTimeWork.A_TO, 4).defaultTo('2000')
-                            .comment('Finish time: 2000.');
-                        table.primary(
-                            [eEmplTimeWork.A_EMPLOYEE_REF, eEmplTimeWork.A_DATE, eEmplTimeWork.A_FROM]
-                        );
-                        table.foreign(eEmplTimeWork.A_EMPLOYEE_REF).references(eEmployee.A_ID).inTable(eEmployee.ENTITY)
-                            .onDelete('CASCADE').onUpdate('CASCADE')
-                            .withKeyName('FK_employee_time_work__employee');
-                        table.comment('Working time for employees.');
-                    });
-                }
-
-                function createTblTask(schema, knex) {
-                    schema.createTable(eTask.ENTITY, (table) => {
-                        table.increments(eTask.A_ID);
-                        table.dateTime(eTask.A_CREATED).notNullable().defaultTo(knex.fn.now());
-                        table.comment('Register for tasks (appointments, bookings).');
-                    });
-                }
-
-                function createTblTaskDetail(schema) {
-                    schema.createTable(eTaskDet.ENTITY, (table) => {
-                        table.integer(eTaskDet.A_TASK_REF).unsigned().notNullable();
-                        table.integer(eTaskDet.A_EMPLOYEE_REF).unsigned().notNullable();
-                        table.integer(eTaskDet.A_SERVICE_REF).unsigned().notNullable();
-                        table.string(eTaskDet.A_DATE, 8).comment('Date as "YYYYMMDD".');
-                        table.string(eTaskDet.A_FROM, 4).notNullable().comment('Time starting: 0900.');
-                        table.string(eTaskDet.A_TO, 4).notNullable().comment('Finish time: 2000.');
-                        table.boolean(eTaskDet.A_MADE_ON_FRONT).notNullable()
-                            .defaultTo(false)
-                            .comment('true - if task is created by customer from pub app.');
-                        table.string(eTaskDet.A_CUSTOMER, 255).notNullable().comment('Customer name.');
-                        table.string(eTaskDet.A_PHONE, 255).nullable().comment('Customer phone.');
-                        table.string(eTaskDet.A_EMAIL, 255).nullable().comment('Customer email.');
-                        table.string(eTaskDet.A_LOCALE, 255).nullable().comment('Customer language (locale).');
-                        table.string(eTaskDet.A_NOTE, 255).nullable().comment('Task notes.');
-                        table.primary([eTaskDet.A_TASK_REF]);
-                        table.foreign(eTaskDet.A_TASK_REF).references(eTask.A_ID).inTable(eTask.ENTITY)
-                            .onDelete('CASCADE').onUpdate('CASCADE')
-                            .withKeyName('FK_book_detail__book');
-                        table.foreign(eTaskDet.A_EMPLOYEE_REF).references(eEmployee.A_ID).inTable(eEmployee.ENTITY)
-                            .onDelete('CASCADE').onUpdate('CASCADE')
-                            .withKeyName('FK_book_detail__employee');
-                        table.foreign(eTaskDet.A_SERVICE_REF).references(eService.A_ID).inTable(eService.ENTITY)
-                            .onDelete('CASCADE').onUpdate('CASCADE')
-                            .withKeyName('FK_book_detail__service');
-                        table.comment('Task details.');
-                    });
-                }
-
-                // MAIN FUNCTIONALITY
-                // compose queries to drop existing tables
-                dropTables(schema);
-                // compose queries to create main tables (registries)
-                createTblEmployee(schema);
-                createTblService(schema);
-                createTblTask(schema, knex);
-                // compose queries to create additional tables (relations and details)
-                createTblEmployeeService(schema);
-                createTblEmployeeTimeWork(schema);
-                createTblTaskDetail(schema);
-            }
-
             /**
              * Compose queries to insert data into the tables.
              * @param trx
@@ -605,18 +468,18 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 // compose queries to recreate DB structure
                 /** @type {SchemaBuilder} */
                 const schema = connector.getSchema();
-                recreateStructure(schema, knex);
-                //
-                // run setups from modules:
-                //
-                // drop tables considering relations
-                await setupTeqAcl.dropTables1(schema);
-                await setupTeqUser.dropTables1(schema);
-                await setupTeqAcl.dropTables0(schema);
-                await setupTeqUser.dropTables0(schema);
+
+                // drop tables considering relations (1) then drop base registries (0)
+                setupApp.dropTables1(schema);
+                setupTeqAcl.dropTables1(schema);
+                setupTeqUser.dropTables1(schema);
+                setupApp.dropTables0(schema);
+                setupTeqAcl.dropTables0(schema);
+                setupTeqUser.dropTables0(schema);
                 // create tables
-                await setupTeqUser.createStructure(knex, schema);
-                await setupTeqAcl.createStructure(knex, schema);
+                setupTeqUser.createStructure(knex, schema);
+                setupTeqAcl.createStructure(knex, schema);
+                setupApp.createStructure(knex, schema);
                 // perform queries to recreate DB structure
                 await schema;
 
