@@ -11,7 +11,7 @@ export default function (spec) {
      */
     function Fl32_Leana_Plugin_Store_RDb_Setup_Create_Table_Service(knex, schema) {
         schema.createTable(eService.ENTITY, (table) => {
-            table.increments(eService.A_ID);
+            table.increments(eService.A_USER_REF);
             table.string(eService.A_CODE).notNullable()
                 .comment('Short unique name for service (should we use code with names?).');
             table.integer(eService.A_DURATION).unsigned().notNullable().defaultTo(0)

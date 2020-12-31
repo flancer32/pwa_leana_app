@@ -59,7 +59,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
                 for (const one of rs) {
                     /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
                     const employee = new Employee();
-                    employee.id = one[eEmpl.A_ID];
+                    employee.id = one[eEmpl.A_USER_REF];
                     employee.code = one[eEmpl.A_CODE];
                     employee.name = (locale === 'ru-RU') ? one[eEmpl.A_NAME_RU] : one[eEmpl.A_NAME_LV];
                     if (Array.isArray(services[employee.id])) {

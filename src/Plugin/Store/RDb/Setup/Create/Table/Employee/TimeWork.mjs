@@ -23,10 +23,11 @@ export default function (spec) {
             table.primary(
                 [eEmplTimeWork.A_EMPLOYEE_REF, eEmplTimeWork.A_DATE, eEmplTimeWork.A_FROM]
             );
-            table.foreign(eEmplTimeWork.A_EMPLOYEE_REF).references(eEmployee.A_ID).inTable(eEmployee.ENTITY)
+            table.foreign(eEmplTimeWork.A_EMPLOYEE_REF).references(eEmployee.A_USER_REF).inTable(eEmployee.ENTITY)
                 .onDelete('CASCADE').onUpdate('CASCADE')
                 .withKeyName(utilFKName(
-                    eEmplTimeWork.ENTITY, eEmplTimeWork.A_EMPLOYEE_REF, eEmployee.ENTITY, eEmployee.A_ID
+                    eEmplTimeWork.ENTITY, eEmplTimeWork.A_EMPLOYEE_REF,
+                    eEmployee.ENTITY, eEmployee.A_USER_REF
                 ));
             table.comment('Working time for employees.');
         });

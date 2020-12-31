@@ -35,9 +35,9 @@ export default function (spec) {
             table.foreign(eTaskDet.A_TASK_REF).references(eTask.A_ID).inTable(eTask.ENTITY)
                 .onDelete('CASCADE').onUpdate('CASCADE')
                 .withKeyName(utilFKName(eTaskDet.ENTITY, eTaskDet.A_TASK_REF, eTask.ENTITY, eTask.A_ID));
-            table.foreign(eTaskDet.A_EMPLOYEE_REF).references(eEmployee.A_ID).inTable(eEmployee.ENTITY)
+            table.foreign(eTaskDet.A_EMPLOYEE_REF).references(eEmployee.A_USER_REF).inTable(eEmployee.ENTITY)
                 .onDelete('CASCADE').onUpdate('CASCADE')
-                .withKeyName(utilFKName(eTaskDet.ENTITY, eTaskDet.A_EMPLOYEE_REF, eEmployee.ENTITY, eEmployee.A_ID));
+                .withKeyName(utilFKName(eTaskDet.ENTITY, eTaskDet.A_EMPLOYEE_REF, eEmployee.ENTITY, eEmployee.A_USER_REF));
             table.foreign(eTaskDet.A_SERVICE_REF).references(eService.A_ID).inTable(eService.ENTITY)
                 .onDelete('CASCADE').onUpdate('CASCADE')
                 .withKeyName(utilFKName(eTaskDet.ENTITY, eTaskDet.A_SERVICE_REF, eService.ENTITY, eService.A_ID));

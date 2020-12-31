@@ -144,10 +144,10 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 async function insertEmployees(trx) {
                     await trx(eEmployee.ENTITY).insert([
                         {
-                            [eEmployee.A_ID]: USER_ID_LENA, [eEmployee.A_CODE]: 'elena',
+                            [eEmployee.A_USER_REF]: USER_ID_LENA, [eEmployee.A_CODE]: 'elena',
                             [eEmployee.A_NAME_LV]: 'Helena', [eEmployee.A_NAME_RU]: 'Елена',
                         }, {
-                            [eEmployee.A_ID]: USER_ID_NATA, [eEmployee.A_CODE]: 'natalie',
+                            [eEmployee.A_USER_REF]: USER_ID_NATA, [eEmployee.A_CODE]: 'natalie',
                             [eEmployee.A_NAME_LV]: 'Natalija', [eEmployee.A_NAME_RU]: 'Наталья',
                         }
                     ]);
@@ -451,14 +451,14 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 }
 
                 // MAIN FUNCTIONALITY
+                await insertUsers(trx);
+                await insertAcl(trx);
                 await insertEmployees(trx);
                 await insertServices(trx);
                 await insertEmployeeServices(trx);
                 await insertEmployeeTimeWork(trx);
                 await insertTasks(trx);
                 await insertTasksDetails(trx);
-                await insertUsers(trx);
-                await insertAcl(trx);
             }
 
             // MAIN FUNCTIONALITY
@@ -485,9 +485,6 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
 
                 // perform queries to insert data into created tables
                 await populateWithData(trx);
-                // run setups from modules
-                await setupTeqUser.initData(knex, trx);
-                await setupTeqAcl.initData(knex, trx);
                 // perform queries to insert data and commit changes
                 trx.commit();
             } catch (e) {

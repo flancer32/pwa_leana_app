@@ -19,9 +19,9 @@ export default function (spec) {
             table.integer(eEmplSrv.A_EMPLOYEE_REF).unsigned().notNullable();
             table.integer(eEmplSrv.A_SERVICE_REF).unsigned().notNullable();
             table.primary([eEmplSrv.A_EMPLOYEE_REF, eEmplSrv.A_SERVICE_REF]);
-            table.foreign(eEmplSrv.A_EMPLOYEE_REF).references(eEmployee.A_ID).inTable(eEmployee.ENTITY)
+            table.foreign(eEmplSrv.A_EMPLOYEE_REF).references(eEmployee.A_USER_REF).inTable(eEmployee.ENTITY)
                 .onDelete('CASCADE').onUpdate('CASCADE')
-                .withKeyName(utilFKName(eEmplSrv.ENTITY, eEmplSrv.A_EMPLOYEE_REF, eEmployee.ENTITY, eEmployee.A_ID));
+                .withKeyName(utilFKName(eEmplSrv.ENTITY, eEmplSrv.A_EMPLOYEE_REF, eEmployee.ENTITY, eEmployee.A_USER_REF));
             table.foreign(eEmplSrv.A_SERVICE_REF).references(eService.A_ID).inTable(eService.ENTITY)
                 .onDelete('CASCADE').onUpdate('CASCADE')
                 .withKeyName(utilFKName(eEmplSrv.ENTITY, eEmplSrv.A_USER_REF, eService.ENTITY, eService.A_ID));
