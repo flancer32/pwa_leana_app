@@ -31,6 +31,7 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     const routeContacts = spec.Fl32_Leana_Front_Pub_Route_Contacts$;
     const routeServices = spec.Fl32_Leana_Front_Pub_Route_Services$;
     const routeSignIn = spec.Fl32_Leana_Front_Pub_Route_SignIn$;
+    const routeSignOut = spec.Fl32_Leana_Front_Pub_Route_SignOut$;
     const routeSignUp = spec.Fl32_Leana_Front_Pub_Route_SignUp$;
     const state = spec.Fl32_Leana_Front_Pub_State$;
     /** @type {typeof Fl32_Teq_Acl_Shared_Service_Route_User_Get_Request} */
@@ -43,6 +44,7 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     router.addRoute({path: '/contacts', component: routeContacts});
     router.addRoute({path: '/services', component: routeServices});
     router.addRoute({path: '/signIn', component: routeSignIn});
+    router.addRoute({path: '/signOut', component: routeSignOut});
     router.addRoute({path: '/signUp', component: routeSignUp});
 
     // mount router here to enable routing on the first load of the page

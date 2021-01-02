@@ -9,6 +9,7 @@ i18next.addResources('lv', 'app-navBar', {
     ru: 'RU',
     services: 'Pakalpojumi un cenas',
     signIn: 'Ielogoties',
+    signOut: 'Izrakstīties',
     signUp: 'Pierakstīties',
 });
 i18next.addResources('ru', 'app-navBar', {
@@ -19,6 +20,7 @@ i18next.addResources('ru', 'app-navBar', {
     ru: 'RU',
     services: 'Услуги и цены',
     signIn: 'Вход',
+    signOut: 'Выход',
     signUp: 'Регистрация',
 });
 
@@ -44,6 +46,9 @@ const template = `
             </div>
             <div v-if="!isAuthenticated">
                 <router-link to="/signUp">{{$t("app-navBar:signUp")}}</router-link>
+            </div>
+            <div v-if="!isAuthenticated">
+                <router-link to="/signOut">{{$t("app-navBar:signOut")}}</router-link>
             </div>
         </div>
     </div>

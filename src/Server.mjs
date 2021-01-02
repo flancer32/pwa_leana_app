@@ -19,6 +19,8 @@ export default class Fl32_Leana_Server {
     _mwAcl
     /** @type {TeqFw_Core_App_Server_Log} */
     _mwLog
+    /** @type {Fl32_Teq_User_App_Server_Session} */
+    _mwSession
     /** @type {Fl32_Leana_Server_Route_Static} */
     _routeStatic
     /** @type {TeqFw_Core_App_Server_HandlerFactory} */
@@ -28,13 +30,14 @@ export default class Fl32_Leana_Server {
 
 
     constructor(spec) {
-        this._container = spec.TeqFw_Di_Container$;
         this._config = spec.TeqFw_Core_App_Config$;
+        this._container = spec.TeqFw_Di_Container$;
+        this._handlerFactory = spec.TeqFw_Core_App_Server_HandlerFactory$;
         this._logger = spec.TeqFw_Core_App_Logger$;
         this._mwAcl = spec.Fl32_Teq_Acl_App_Server_Permissions$;
         this._mwLog = spec.TeqFw_Core_App_Server_Log$;
+        this._mwSession = spec.Fl32_Teq_User_App_Server_Session$;
         this._routeStatic = spec.Fl32_Leana_Server_Route_Static$;
-        this._handlerFactory = spec.TeqFw_Core_App_Server_HandlerFactory$;
     }
 
     async addApiRoute(route, dependencyId) {
@@ -48,6 +51,7 @@ export default class Fl32_Leana_Server {
         this._server.use($cookieParser());
         this._server.use($express.json({limit: '50mb'}));
         this._server.use(me._mwLog.handle);
+        this._server.use(me._mwSession.handle);
         this._server.use(me._mwAcl.handle);
         // API routes
         await this.addApiRoute('/api/app/config/get', 'Fl32_Leana_Back_Service_App_Config_Get$');
@@ -61,8 +65,10 @@ export default class Fl32_Leana_Server {
         // new style
         await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Service_List$');
         await this._handlerFactory.registerHandler(this._server, 'acl', 'Fl32_Teq_Acl_Back_Service_User_Get$');
+        await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_Current$');
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_List$');
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignIn$');
+        await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignOut$');
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignUp$');
 
         // static resources in project
