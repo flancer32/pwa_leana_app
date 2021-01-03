@@ -1,11 +1,6 @@
 const app = self.teqfw.app;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const router = self.teqfw.router;
-const i18next = self.teqfw.i18next;
-const mapActions = self.teqfw.lib.Vuex.mapActions;
-const mapState = self.teqfw.lib.Vuex.mapState;
-
-i18next.addResources('lv', 'app', {});
-i18next.addResources('ru', 'app', {});
 
 const template = `
 <div>
@@ -26,10 +21,10 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Desk_App(spec) {
-    /** @type {Fl32_Leana_Defaults} */
-    const DEF = spec.Fl32_Leana_Defaults$;
-    /** @type {TeqFw_Di_Container} */
-    const contaier = spec.container;
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    /** @type {Fl32_Teq_Acl_Front_App_Session} */
+    const session = spec[DEF_USER.DI_SESSION];
     const layoutOverlay = spec.Fl32_Leana_Front_Desk_Layout_Overlay$;
     const layoutStatusBar = spec.Fl32_Leana_Front_Desk_Layout_StatusBar$;
     const routeCalendar = spec.Fl32_Leana_Front_Desk_Route_Calendar$;
@@ -39,12 +34,9 @@ export default function Fl32_Leana_Front_Desk_App(spec) {
     const routeServices = spec.Fl32_Leana_Front_Desk_Route_Services$;
     const routeUserSignIn = spec.Fl32_Leana_Front_Desk_Route_User_SignIn$;
     const widgetTaskPreview = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview$;
-
     const state = spec.Fl32_Leana_Front_Desk_State$;
-    /** @type {typeof Fl32_Teq_Acl_Shared_Service_Route_User_Get_Request} */
-    const AclGetRequest = spec['Fl32_Teq_Acl_Shared_Service_Route_User_Get#Request'];
 
-
+    // add frontend routes and bound components
     router.addRoute({path: '/', component: routeCalendar});
     router.addRoute({path: '/calendar', component: routeCalendar});
     router.addRoute({path: '/clients', component: routeClients});
@@ -59,7 +51,6 @@ export default function Fl32_Leana_Front_Desk_App(spec) {
     // setup Vuex store and place it into DI container.
     const store = self.Vuex.createStore(state);
     app.use(store);
-    contaier.set(DEF.DI_STATE_STORE, store);
 
     // add globally used components (accessible from other components)
     app.component('appOverlay', layoutOverlay);
@@ -71,23 +62,14 @@ export default function Fl32_Leana_Front_Desk_App(spec) {
         components: {   // locally used components
             appStatusBar: layoutStatusBar,
         },
-        computed: {
-            ...mapState({
-                userAcl: state => state.acl.userAcl,
-            }),
-        },
         methods: {
-            ...mapActions({
-                loadUserAcl: 'acl/loadUserAcl',
+            ...mapMutations({
+                setUserAuthenticated: 'user/setAuthenticated'
             }),
         },
         mounted() {
-            // get permissions from server
-            const req = new AclGetRequest();
-            this.loadUserAcl(req)
-                .catch((e) => {
-                    console.error('Cannot get user ACL: ' + e.toString());
-                });
+            const user = session.getUser();
+            this.setUserAuthenticated(user);
         }
     };
 }

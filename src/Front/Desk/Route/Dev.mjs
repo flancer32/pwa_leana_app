@@ -27,8 +27,10 @@ export default function Fl32_Leana_Front_Desk_Route_Dev(spec) {
     // inject dependencies first
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec.Fl32_Leana_Defaults$;
-    /** @type {Fl32_Leana_Front_Desk_App_Session} */
-    const session = spec.Fl32_Leana_Front_Desk_App_Session$;
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    /** @type {Fl32_Teq_Acl_Front_App_Session} */
+    const session = spec[DEF_USER.DI_SESSION];
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$;
     const wgScrollerVertical = spec.Fl32_Leana_Front_Shared_Widget_Scroller_Vertical$;

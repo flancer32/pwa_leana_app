@@ -1,5 +1,5 @@
 const i18next = self.teqfw.i18next;
-const mapActions = self.teqfw.lib.Vuex.mapActions;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
 i18next.addResources('lv', 'routeSignIn', {
@@ -36,12 +36,13 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
-    /** @type {Fl32_Leana_Defaults} */
-    const DEF = spec.Fl32_Leana_Defaults$;
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    /** @type {Fl32_Teq_Acl_Front_App_Session} */
+    const session = spec[DEF_USER.DI_SESSION];
     const userSignIn = spec.Fl32_Teq_User_Front_Widget_SignIn$;
     /** @type {typeof Fl32_Teq_User_Front_Widget_SignIn_Props} */
     const SignInProps = spec['Fl32_Teq_User_Front_Widget_SignIn#Props'];
-    const AclGetRequest = spec['Fl32_Teq_Acl_Shared_Service_Route_User_Get#Request'];
 
     return {
         template,
@@ -61,7 +62,7 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
                 return result;
             },
             ...mapState({
-                userAcl: state => state.acl.userAcl,
+                userAuthenticated: state => state.user.authenticated,
             })
         },
         methods: {
@@ -74,11 +75,10 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
                 this.reset();
             },
             async onSuccess() {
-                // get permissions from server
-                const req = new AclGetRequest();
-                await this.loadUserAcl(req);
+                const user = session.getUser();
+                this.setUserAuthenticated(user);
                 // redirect to booking
-                this.$router.push('/book');
+                await this.$router.push('/book');
             },
             reset() {
                 setTimeout(() => {
@@ -86,17 +86,9 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
                     this.showForm = true;
                 }, 2000);
             },
-            ...mapActions({
-                loadUserAcl: 'acl/loadUserAcl',
+            ...mapMutations({
+                setUserAuthenticated: 'user/setAuthenticated'
             }),
         },
-        mounted() {
-            const acl = [];
-            if (Array.isArray(acl)) {
-                if (!acl.includes(DEF.ACL_IS_CUSTOMER)) {
-                    // throw not authorized exception
-                }
-            }
-        }
     };
 }

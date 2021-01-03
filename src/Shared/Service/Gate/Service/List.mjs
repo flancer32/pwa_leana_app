@@ -7,8 +7,8 @@ export default function (spec) {
     const Service = spec['Fl32_Leana_Shared_Service_Data_Service#']; // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Service_List_Response} */
     const Response = spec['Fl32_Leana_Shared_Service_Route_Service_List#Response']; // class constructor
-    /** @type {typeof TeqFw_Core_Front_Gate_Response_Error} */
-    const GateError = spec['TeqFw_Core_Front_Gate_Response_Error#'];    // class constructor
+    /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
+    const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     // TODO: we need to map gate to APU URI
     const URL = `https://${config.web.urlBase}/api/service/list`;
@@ -17,7 +17,7 @@ export default function (spec) {
      * We should place function separately to allow JSDoc & IDEA hints & navigation.
      *
      * @param {Fl32_Leana_Shared_Service_Route_Service_List_Request} data
-     * @return {Promise<Fl32_Leana_Shared_Service_Route_Service_List_Response|TeqFw_Core_Front_Gate_Response_Error>}
+     * @return {Promise<Fl32_Leana_Shared_Service_Route_Service_List_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
      * @exports Fl32_Leana_Shared_Service_Gate_Service_List
      */
     async function Fl32_Leana_Shared_Service_Gate_Service_List(data) {

@@ -1,11 +1,6 @@
 const app = self.teqfw.app;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const router = self.teqfw.router;
-const i18next = self.teqfw.i18next;
-const mapActions = self.teqfw.lib.Vuex.mapActions;
-const mapState = self.teqfw.lib.Vuex.mapState;
-
-i18next.addResources('lv', 'app', {});
-i18next.addResources('ru', 'app', {});
 
 const template = `
 <div>
@@ -25,6 +20,10 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Pub_App(spec) {
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    /** @type {Fl32_Teq_Acl_Front_App_Session} */
+    const session = spec[DEF_USER.DI_SESSION];
     const appNavBar = spec.Fl32_Leana_Front_Pub_App_NavBar$;
     const routeAbout = spec.Fl32_Leana_Front_Pub_Route_About$;
     const routeBook = spec.Fl32_Leana_Front_Pub_Route_Book$;
@@ -34,10 +33,8 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     const routeSignOut = spec.Fl32_Leana_Front_Pub_Route_SignOut$;
     const routeSignUp = spec.Fl32_Leana_Front_Pub_Route_SignUp$;
     const state = spec.Fl32_Leana_Front_Pub_State$;
-    /** @type {typeof Fl32_Teq_Acl_Shared_Service_Route_User_Get_Request} */
-    const AclGetRequest = spec['Fl32_Teq_Acl_Shared_Service_Route_User_Get#Request'];
 
-
+    // add frontend routes and bound components
     router.addRoute({path: '/', component: routeAbout});
     router.addRoute({path: '/about', component: routeAbout});
     router.addRoute({path: '/book', component: routeBook});
@@ -55,27 +52,19 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     app.use(store);
 
     return {
+        name: 'PubApp',
         template,
         components: {
-            'AppNavBar': appNavBar
-        },
-        computed: {
-            ...mapState({
-                userAcl: state => state.acl.userAcl,
-            }),
+            appNavBar
         },
         methods: {
-            ...mapActions({
-                loadUserAcl: 'acl/loadUserAcl',
+            ...mapMutations({
+                setUserAuthenticated: 'user/setAuthenticated'
             }),
         },
         mounted() {
-            // get permissions from server
-            const req = new AclGetRequest();
-            this.loadUserAcl(req)
-                .catch((e) => {
-                    console.error('Cannot get user ACL: ' + e.toString());
-                });
+            const user = session.getUser();
+            this.setUserAuthenticated(user);
         }
     };
 }

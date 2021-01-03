@@ -21,8 +21,10 @@ const template = `
 export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec.Fl32_Leana_Defaults$;
-    /** @type {Fl32_Leana_Front_Desk_App_Session} */
-    const session = spec.Fl32_Leana_Front_Desk_App_Session$;
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    /** @type {Fl32_Teq_Acl_Front_App_Session} */
+    const session = spec[DEF_USER.DI_SESSION];
     /** @type {Fl32_Leana_Front_Desk_Widget_Booking} */
     const booking = spec.Fl32_Leana_Front_Desk_Widget_Booking$;  // singleton
     /** @type {Fl32_Leana_Shared_Util_DateTime} */

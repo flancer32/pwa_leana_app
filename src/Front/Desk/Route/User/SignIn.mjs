@@ -39,8 +39,10 @@ export default function Fl32_Leana_Front_Desk_Route_User_SignIn(spec) {
     const userSignIn = spec.Fl32_Teq_User_Front_Widget_SignIn$;
     /** @type {typeof Fl32_Teq_User_Front_Widget_SignIn_Props} */
     const SignInProps = spec['Fl32_Teq_User_Front_Widget_SignIn#Props'];
-    /** @type {Fl32_Leana_Front_Desk_App_Session} */
-    const session = spec.Fl32_Leana_Front_Desk_App_Session$;
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    /** @type {Fl32_Teq_Acl_Front_App_Session} */
+    const session = spec[DEF_USER.DI_SESSION];
 
     return {
         name: 'RouteUserSignIn',

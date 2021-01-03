@@ -120,6 +120,12 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec.Fl32_Leana_Defaults$;
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    /** @type {Fl32_Teq_Acl_Front_App_Session} */
+    const session = spec[DEF_USER.DI_SESSION];
     /** @type {Fl32_Leana_Front_Pub_Widget_DatePicker} */
     const datePicker = spec.Fl32_Leana_Front_Pub_Widget_DatePicker$;
     /** @type {Fl32_Leana_Front_Pub_Widget_TimePicker} */
@@ -404,19 +410,25 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             }),
         },
         async mounted() {
-            /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
-            const reqEmpl = new EmployeeRequest();
-            reqEmpl.locale = i18next.language;
-            await this.loadEmployees(reqEmpl);
-            /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Request} */
-            const reqSrv = new ServiceRequest();
-            reqSrv.locale = i18next.language;
-            reqSrv.publicOnly = true;
-            await this.loadServices(reqSrv);
-            /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} */
-            const reqTimeWork = new TimeWorkRequest();
-            reqTimeWork.dateBegin = new Date(Date.now()); // UTC
-            await this.loadTimeWork(reqTimeWork);
+            if (!session.hasPermission(DEF.ACL_IS_CUSTOMER)) {
+                const route = this.$router.currentRoute.value.path;
+                session.setRouteToRedirect(route);
+                await this.$router.push('/signIn');
+            } else {
+                /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
+                const reqEmpl = new EmployeeRequest();
+                reqEmpl.locale = i18next.language;
+                await this.loadEmployees(reqEmpl);
+                /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Request} */
+                const reqSrv = new ServiceRequest();
+                reqSrv.locale = i18next.language;
+                reqSrv.publicOnly = true;
+                await this.loadServices(reqSrv);
+                /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} */
+                const reqTimeWork = new TimeWorkRequest();
+                reqTimeWork.dateBegin = new Date(Date.now()); // UTC
+                await this.loadTimeWork(reqTimeWork);
+            }
         }
     };
 }

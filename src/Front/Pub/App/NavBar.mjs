@@ -47,7 +47,7 @@ const template = `
             <div v-if="!isAuthenticated">
                 <router-link to="/signUp">{{$t("app-navBar:signUp")}}</router-link>
             </div>
-            <div v-if="!isAuthenticated">
+            <div v-if="isAuthenticated">
                 <router-link to="/signOut">{{$t("app-navBar:signOut")}}</router-link>
             </div>
         </div>
@@ -72,6 +72,10 @@ const template = `
 export default function Fl32_Leana_Front_Pub_App_NavBar(spec) {
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec.Fl32_Leana_Defaults$;
+    /** @type {Fl32_Teq_User_Defaults} */
+    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    /** @type {Fl32_Teq_Acl_Front_App_Session} */
+    const session = spec[DEF_USER.DI_SESSION];
 
     return {
         template,
@@ -85,13 +89,13 @@ export default function Fl32_Leana_Front_Pub_App_NavBar(spec) {
         computed: {
             isAuthenticated() {
                 let result = false;
-                if (this.userAcl && this.userAcl.permissions) {
-                    result = Object.values(this.userAcl.permissions).includes(DEF.ACL_IS_CUSTOMER);
+                if (this.userAuthenticated) {
+                    result = session.hasPermission(DEF.ACL_IS_CUSTOMER);
                 }
                 return result;
             },
             ...mapState({
-                userAcl: state => state.acl.userAcl,
+                userAuthenticated: state => state.user.authenticated,
             })
         },
         methods: {
