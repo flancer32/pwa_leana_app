@@ -6,7 +6,7 @@ Content-Type: application/json
 
 
 ###
-POST https://{{host}}/api/employee/time_work/list
+POST https://{{host}}/api/employee/timeWork/list
 Accept: application/json
 Content-Type: application/json
 

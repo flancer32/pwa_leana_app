@@ -57,8 +57,8 @@ export default class Fl32_Leana_Server {
         await this.addApiRoute('/api/app/config/get', 'Fl32_Leana_Back_Service_App_Config_Get$');
         await this.addApiRoute('/api/app/sw/files_to_cache/desk', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Desk$');
         await this.addApiRoute('/api/app/sw/files_to_cache/pub', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Pub$');
-        await this.addApiRoute('/api/employee/time_work/list', 'Fl32_Leana_Back_Service_Employee_TimeWork_List$');
-        await this.addApiRoute('/api/task/on_date', 'Fl32_Leana_Back_Service_Task_OnDate$');
+        await this.addApiRoute('/api/employee/timeWork/list', 'Fl32_Leana_Back_Service_Employee_TimeWork_List$');
+        await this.addApiRoute('/api/task/onDate', 'Fl32_Leana_Back_Service_Task_OnDate$');
         await this.addApiRoute('/api/task/remove', 'Fl32_Leana_Back_Service_Task_Remove$');
         await this.addApiRoute('/api/task/save', 'Fl32_Leana_Back_Service_Task_Save$');
         // new style

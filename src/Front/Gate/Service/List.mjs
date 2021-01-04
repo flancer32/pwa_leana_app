@@ -2,7 +2,7 @@
  * Frontend gate to 'service/list' service.
  */
 export default function (spec) {
-    const config = spec.config;
+    const config = spec.config; // named singleton
     /** @type {typeof Fl32_Leana_Shared_Service_Data_Service} */
     const Service = spec['Fl32_Leana_Shared_Service_Data_Service#']; // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Service_List_Response} */
@@ -10,7 +10,7 @@ export default function (spec) {
     /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
     const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
-    // TODO: we need to map gate to APU URI
+    // TODO: we need to map gate to API URI
     const URL = `https://${config.web.urlBase}/api/service/list`;
 
     /**
@@ -18,9 +18,9 @@ export default function (spec) {
      *
      * @param {Fl32_Leana_Shared_Service_Route_Service_List_Request} data
      * @return {Promise<Fl32_Leana_Shared_Service_Route_Service_List_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
-     * @exports Fl32_Leana_Front_Service_Service_List
+     * @exports Fl32_Leana_Front_Gate_Service_List
      */
-    async function Fl32_Leana_Front_Service_Service_List(data) {
+    async function Fl32_Leana_Front_Gate_Service_List(data) {
         try {
             const res = await fetch(URL, {
                 method: 'POST',
@@ -61,5 +61,6 @@ export default function (spec) {
         }
     }
 
-    return Fl32_Leana_Front_Service_Service_List;
+    // We should place function separately to allow JSDoc & IDEA hints & navigation.
+    return Fl32_Leana_Front_Gate_Service_List;
 }

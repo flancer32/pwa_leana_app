@@ -32,8 +32,8 @@ export default function Fl32_Leana_Front_Desk_Route_Services(spec) {
     const session = spec[DEF_USER.DI_SESSION];
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
     const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
-    /** @type {Fl32_Leana_Front_Service_Service_List} */
-    const gate = spec.Fl32_Leana_Front_Service_Service_List$;
+    /** @type {Fl32_Leana_Front_Gate_Service_List} */
+    const gate = spec.Fl32_Leana_Front_Gate_Service_List$;
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Service_List_Request} */
     const ListReq = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request'];
 
