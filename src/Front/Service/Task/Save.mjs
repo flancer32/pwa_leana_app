@@ -13,7 +13,7 @@ export default function (spec) {
      * @return {Promise<Fl32_Leana_Shared_Api_Route_Task_Save_Response>}
      * @constructor
      */
-    async function Fl32_Leana_Front_Shared_Gate_Task_Save(data) {
+    async function Fl32_Leana_Front_Service_Task_Save(data) {
         const res = await fetch(URL, {
             method: 'POST',
             headers: {
@@ -28,6 +28,6 @@ export default function (spec) {
         return result;
     }
 
-    return Fl32_Leana_Front_Shared_Gate_Task_Save;
+    return Fl32_Leana_Front_Service_Task_Save;
 }
 

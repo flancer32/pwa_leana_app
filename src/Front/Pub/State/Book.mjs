@@ -5,10 +5,10 @@
  * @constructor
  */
 export default function Fl32_Leana_Front_Pub_State_Book(spec) {
-    const gateEmployeeList = spec.Fl32_Leana_Front_Shared_Gate_Employee_List$;
+    const gateEmployeeList = spec.Fl32_Leana_Front_Service_Employee_List$;
     const gateServiceList = spec.Fl32_Leana_Shared_Service_Gate_Service_List$;
-    const gateTaskOnDate = spec.Fl32_Leana_Front_Shared_Gate_Task_OnDate$;
-    const gateTimeWorkList = spec.Fl32_Leana_Front_Shared_Gate_Employee_TimeWork_List$;
+    const gateTaskOnDate = spec.Fl32_Leana_Front_Service_Task_OnDate$;
+    const gateTimeWorkList = spec.Fl32_Leana_Front_Service_Employee_TimeWork_List$;
 
     return {
         namespaced: true,

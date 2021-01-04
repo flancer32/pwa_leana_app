@@ -8,7 +8,7 @@ export default function (spec) {
 
     const URL = `https://${config.web.urlBase}/api/employee/time_work/list`;
 
-    return async function Fl32_Leana_Front_Shared_Gate_Employee_TimeWork_List(data) {
+    return async function Fl32_Leana_Front_Service_Employee_TimeWork_List(data) {
         const res = await fetch(URL, {
             method: 'POST',
             headers: {

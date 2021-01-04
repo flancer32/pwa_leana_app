@@ -8,7 +8,7 @@ export default function (spec) {
 
     const URL = `https://${config.web.urlBase}/api/service/list`;
 
-    return async function Fl32_Leana_Front_Shared_Gate_Service_List(data) {
+    return async function Fl32_Leana_Front_Service_Service_List(data) {
         const res = await fetch(URL, {
             method: 'POST',
             headers: {
