@@ -31,7 +31,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
          * Factory to create function to validate and to structure incoming data.
          * @return {Function}
          */
-        this.getParser = function () {
+        this.createParser = function () {
             /**
              * @param {IncomingMessage} httpReq
              * @return {Fl32_Leana_Shared_Service_Route_Service_List_Request}
@@ -50,7 +50,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
          * Factory to create function to perform requested operation.
          * @return {Function}
          */
-        this.getProcessor = function () {
+        this.createProcessor = function () {
             /**
              * @param {Fl32_Leana_Shared_Service_Route_Service_List_Request} apiReq
              * @return {Promise<Fl32_Leana_Shared_Service_Route_Service_List_Response>}

@@ -58,17 +58,17 @@ export default class Fl32_Leana_Server {
         await this.addApiRoute('/api/app/sw/files_to_cache/desk', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Desk$');
         await this.addApiRoute('/api/app/sw/files_to_cache/pub', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Pub$');
         // new style
-        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Employee_List$');
-        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Employee_TimeWork_List$');
-        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Service_List$');
-        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Task_OnDate$');
-        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Task_Remove$');
-        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Task_Save$');
-        await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_Current$');
-        await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_List$');
-        await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignIn$');
-        await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignOut$');
-        await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignUp$');
+        await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Employee_List$');
+        await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Employee_TimeWork_List$');
+        await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Service_List$');
+        await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Task_OnDate$');
+        await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Task_Remove$');
+        await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Task_Save$');
+        await this._handlerFactory.registerService(this._server, 'user', 'Fl32_Teq_User_Back_Service_Current$');
+        await this._handlerFactory.registerService(this._server, 'user', 'Fl32_Teq_User_Back_Service_List$');
+        await this._handlerFactory.registerService(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignIn$');
+        await this._handlerFactory.registerService(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignOut$');
+        await this._handlerFactory.registerService(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignUp$');
 
         // static resources in project
         const pathRoot = this._config.get('path/root');
