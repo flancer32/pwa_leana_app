@@ -5,10 +5,12 @@
  * @constructor
  */
 export default function Fl32_Leana_Front_Pub_State_Book(spec) {
-    const gateEmployeeList = spec.Fl32_Leana_Front_Gate_Employee_List$;
-    const gateServiceList = spec.Fl32_Leana_Front_Gate_Service_List$;
-    const gateTaskOnDate = spec.Fl32_Leana_Front_Gate_Task_OnDate$;
-    const gateTimeWorkList = spec.Fl32_Leana_Front_Gate_Employee_TimeWork_List$;
+    const gateEmployeeList = spec['Fl32_Leana_Front_Gate_Employee_List$'];  // singleton function
+    const gateServiceList = spec['Fl32_Leana_Front_Gate_Service_List$'];   // singleton function
+    const gateTaskOnDate = spec['Fl32_Leana_Front_Gate_Task_OnDate$']; // singleton function
+    const gateTimeWorkList = spec['Fl32_Leana_Front_Gate_Employee_TimeWork_List$'];    // singleton function
+    /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
+    const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     return {
         namespaced: true,
@@ -47,7 +49,11 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
             async loadEmployees({commit}, req) {
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Response} */
                 const res = await gateEmployeeList(req);
-                commit('setEmployees', res.items);
+                if (!(res instanceof GateError)) {
+                    commit('setEmployees', res.items);
+                } else {
+                    console.error('Service Gate Error: ' + res.message);
+                }
             },
 
             /**
@@ -58,7 +64,11 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
             async loadServices({commit}, req) {
                 /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Response} */
                 const res = await gateServiceList(req);
-                commit('setServices', res.items);
+                if (!(res instanceof GateError)) {
+                    commit('setServices', res.items);
+                } else {
+                    console.error('Service Gate Error: ' + res.message);
+                }
             },
 
             /**
@@ -69,7 +79,11 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
             async loadTimeWork({commit}, req) {
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response} */
                 const res = await gateTimeWorkList(req);
-                commit('setTimeWork', res.items);
+                if (!(res instanceof GateError)) {
+                    commit('setTimeWork', res.items);
+                } else {
+                    console.error('Service Gate Error: ' + res.message);
+                }
             },
 
             /**
@@ -80,7 +94,11 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
             async loadTasksOnDate({commit}, req) {
                 /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Response} */
                 const res = await gateTaskOnDate(req);
-                commit('setTasksOnDate', res.items);
+                if (!(res instanceof GateError)) {
+                    commit('setTasksOnDate', res.items);
+                } else {
+                    console.error('Service Gate Error: ' + res.message);
+                }
             },
         },
     };

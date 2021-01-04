@@ -31,7 +31,7 @@ export default function (spec) {
             /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response} */
             const result = new Response();
             result.items = {};
-            for (const one of json.data.items) {
+            for (const one of Object.values(json.data.items)) {
                 /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
                 const item = Object.assign(new TimeWork(), one);
                 result.items[item.employeeRef] = item;

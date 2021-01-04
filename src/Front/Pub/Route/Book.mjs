@@ -268,10 +268,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
 
                 // MAIN FUNCTIONALITY
                 const result = [];
-                if (
-                    (this.dateSelected instanceof Date) &&
-                    this.employeeId && this.apiTasksOnDate
-                ) {
+                if ((this.dateSelected instanceof Date) && this.employeeId) {
                     const {dateStart, dateEnd} = this.workTimeForEmployeeOnDate;
                     // employee has working hours for the date
                     if (dateStart && dateEnd) {
