@@ -1,101 +1,125 @@
 /**
- * Service to get all employees data.
+ * Service to get all employees data ("/api/employee/list").
  */
 export default class Fl32_Leana_Back_Service_Employee_List {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec.TeqFw_Core_App_Db_Connector$;
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];   // singleton instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
-        const eEmpl = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
+        const eEmpl = spec['Fl32_Leana_Store_RDb_Schema_Employee$'];    // singleton instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Service} */
-        const eEmplSrv = spec.Fl32_Leana_Store_RDb_Schema_Employee_Service$;
-        const Employee = spec['Fl32_Leana_Shared_Api_Data_Employee#'];
-        const Request = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];
-        const Response = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Response'];
+        const eEmplSrv = spec['Fl32_Leana_Store_RDb_Schema_Employee_Service$']; // singleton instance
+        /** @type {typeof Fl32_Leana_Shared_Api_Data_Employee} */
+        const DEmployee = spec['Fl32_Leana_Shared_Api_Data_Employee#'];  // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
+        const Request = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];  // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Api_Route_Employee_List_Response} */
+        const Response = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Response'];    // class constructor
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
 
         /**
-         * API route handler to get booking state.
-         *
-         * @param req
-         * @param res
-         * @returns {Promise<void>}
-         * @see TeqFw_Core_App_Server.addApiRoute
+         * Get backend route to service inside module or application namespace.
+         *  - 'path/to/service': application route (w/o module) starts w/o slash;
+         *  - '/path/to/service': module route starts with slash;
+         * @return {string}
          */
-        this.handle = async function (req, res) {
-            // PARSE INPUT & DEFINE WORKING VARS
+        this.getRoute = function () {
+            return 'employee/list'; // route w/o module starts w/o slash
+        };
 
-            // DEFINE INNER FUNCTIONS (AVAILABLE FOR CURRENT INSTANCE ONLY)
+        /**
+         * Factory to create function to validate and to structure incoming data.
+         * @return {Function}
+         */
+        this.getParser = function () {
             /**
-             * Get relations between services and employees.
-             * @param trx
-             * @param {String} locale 'en_US'
-             * @return {Promise<{Number: Fl32_Leana_Shared_Api_Data_Employee}>}
+             * @param {IncomingMessage} httpReq
+             * @return {Fl32_Leana_Shared_Api_Route_Employee_List_Request}
+             * @exports Fl32_Leana_Back_Service_Employee_List$parse
              */
-            async function selectData(trx, locale) {
-                // DEFINE INNER FUNCTIONS
-                async function getServicesMap(trx) {
+            function Fl32_Leana_Back_Service_Employee_List$parse(httpReq) {
+                const body = httpReq.body;
+                // clone HTTP body into API request object
+                return Object.assign(new Request(), body.data);
+            }
+
+            return Fl32_Leana_Back_Service_Employee_List$parse;
+        };
+
+        /**
+         * Factory to create function to perform requested operation.
+         * @return {Function}
+         */
+        this.getProcessor = function () {
+            /**
+             *
+             * @param {Fl32_Leana_Shared_Api_Route_Employee_List_Request} apiReq
+             * @return {Promise<Fl32_Leana_Shared_Api_Route_Employee_List_Response>}
+             * @exports Fl32_Leana_Back_Service_Employee_List$process
+             */
+            async function Fl32_Leana_Back_Service_Employee_List$process(apiReq) {
+                // DEFINE INNER FUNCTIONS (AVAILABLE FOR CURRENT INSTANCE ONLY)
+                /**
+                 * Get relations between services and employees.
+                 * @param trx
+                 * @param {String} locale 'es-ES'
+                 * @return {Promise<{Number: Fl32_Leana_Shared_Api_Data_Employee}>}
+                 */
+                async function selectData(trx, locale) {
+                    // DEFINE INNER FUNCTIONS
+                    async function getServicesMap(trx) {
+                        const result = {};
+                        const query = trx.select();
+                        query.from(eEmplSrv.ENTITY);
+                        const rs = await query;
+                        for (const one of rs) {
+                            const serviceRef = one[eEmplSrv.A_SERVICE_REF];
+                            const employeeRef = one[eEmplSrv.A_EMPLOYEE_REF];
+                            if (!result[employeeRef]) result[employeeRef] = [];
+                            result[employeeRef].push(serviceRef);
+                        }
+                        return result;
+                    }
+
+                    // MAIN FUNCTIONALITY
                     const result = {};
+                    const services = await getServicesMap(trx);
                     const query = trx.select();
-                    query.from(eEmplSrv.ENTITY);
+                    query.from(eEmpl.ENTITY);
                     const rs = await query;
                     for (const one of rs) {
-                        const serviceRef = one[eEmplSrv.A_SERVICE_REF];
-                        const employeeRef = one[eEmplSrv.A_EMPLOYEE_REF];
-                        if (!result[employeeRef]) result[employeeRef] = [];
-                        result[employeeRef].push(serviceRef);
+                        /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
+                        const employee = new DEmployee();
+                        employee.id = one[eEmpl.A_USER_REF];
+                        employee.code = one[eEmpl.A_CODE];
+                        employee.name = (locale === 'ru-RU') ? one[eEmpl.A_NAME_RU] : one[eEmpl.A_NAME_LV];
+                        if (Array.isArray(services[employee.id])) {
+                            employee.services = [...services[employee.id]];
+                        }
+                        result[one.id] = employee;
                     }
                     return result;
                 }
 
                 // MAIN FUNCTIONALITY
-                const result = {};
-                const services = await getServicesMap(trx);
-                const query = trx.select();
-                query.from(eEmpl.ENTITY);
-                const rs = await query;
-                for (const one of rs) {
-                    /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
-                    const employee = new Employee();
-                    employee.id = one[eEmpl.A_USER_REF];
-                    employee.code = one[eEmpl.A_CODE];
-                    employee.name = (locale === 'ru-RU') ? one[eEmpl.A_NAME_RU] : one[eEmpl.A_NAME_LV];
-                    if (Array.isArray(services[employee.id])) {
-                        employee.services = [...services[employee.id]];
-                    }
-                    result[one.id] = employee;
+                /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Response} */
+                const result = new Response();
+                const trx = await rdb.startTransaction();
+                try {
+                    // result.items = await selectData(trx, apiReq);
+                    result.items = await selectData(trx, apiReq.locale);
+                    await trx.commit();
+                } catch (error) {
+                    await trx.rollback();
+                    throw error;
                 }
                 return result;
             }
 
-            // MAIN FUNCTIONALITY
-            const body = req.body;
-            /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
-            const dataIn = Object.assign(new Request(), body.data);
-            const trx = await rdb.startTransaction();
-            try {
-                /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Response} */
-                const dataOut = new Response();
-                dataOut.items = await selectData(trx, dataIn.locale);
-                trx.commit();
-                // COMPOSE SUCCESS RESPONSE
-                res.setHeader('Content-Type', 'application/json; charset=UTF-8');
-                res.end(JSON.stringify({data: dataOut}));
-            } catch (err) {
-                trx.rollback();
-                // COMPOSE FAILURE RESPONSE
-                // TODO: move error processing in HANDLERS proto
-                const stack = (err.stack) ? err.stack : (new Error()).stack;
-                const message = err.message;
-                const error = {message, stack};
-                const str = JSON.stringify({error});
-                console.error(str);
-                res.setHeader('Content-Type', 'application/json');
-                res.code = 500;
-                res.end(str);
-            }
+            return Fl32_Leana_Back_Service_Employee_List$process;
         };
+
     }
 }

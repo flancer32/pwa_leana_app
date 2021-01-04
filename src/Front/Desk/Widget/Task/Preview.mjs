@@ -124,7 +124,7 @@ const template = `
 function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
     const actions = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions$$;    // new instance
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$; // singleton object
+    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$; // singleton instance
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton
     const SaveReq = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class constructor
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor

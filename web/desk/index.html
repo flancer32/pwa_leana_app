@@ -85,13 +85,13 @@
                 container.set('config', self.teqfw.config);
                 // setup session (load user permissions from server)
                 /** @type {Fl32_Teq_Acl_Front_App_Session} */
-                const session = await container.get('Fl32_Teq_Acl_Front_App_Session$'); // singleton object
+                const session = await container.get('Fl32_Teq_Acl_Front_App_Session$'); // singleton instance
                 /** @type {Fl32_Teq_User_Defaults} */
                 const DEF_USER = await container.get('Fl32_Teq_User_Defaults$');
                 container.set(DEF_USER.DI_SESSION, session);    // TMP: put into container as singleton
                 await session.init();
                 // load root component and mount frontend application to DOM
-                const appRoot = await container.get('Fl32_Leana_Front_Desk_App$'); // singleton object
+                const appRoot = await container.get('Fl32_Leana_Front_Desk_App$'); // singleton instance
                 self.teqfw.app.component('appRoot', appRoot);
                 self.teqfw.app.mount('BODY > DIV');
             } catch (e) {

@@ -269,7 +269,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'John Doe',
                             [eTaskDet.A_EMAIL]: 'john@inter.net',
                             [eTaskDet.A_PHONE]: '2912312312',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [eTaskDet.A_TASK_REF]: 2,
@@ -281,7 +281,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'John Doe',
                             [eTaskDet.A_EMAIL]: 'john@inter.net',
                             [eTaskDet.A_PHONE]: '2912312312',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [eTaskDet.A_TASK_REF]: 3,
@@ -293,7 +293,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'John Doe',
                             [eTaskDet.A_EMAIL]: 'john@inter.net',
                             [eTaskDet.A_PHONE]: '2912312312',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [eTaskDet.A_TASK_REF]: 4,
@@ -305,7 +305,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'Jane Doe',
                             [eTaskDet.A_EMAIL]: 'jane@inter.net',
                             [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [eTaskDet.A_TASK_REF]: 5,
@@ -317,7 +317,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'Jane Doe',
                             [eTaskDet.A_EMAIL]: 'jane@inter.net',
                             [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [eTaskDet.A_TASK_REF]: 6,
@@ -329,7 +329,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'Jane Doe',
                             [eTaskDet.A_EMAIL]: 'jane@inter.net',
                             [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [eTaskDet.A_TASK_REF]: 7,
@@ -341,7 +341,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'Jane Doe',
                             [eTaskDet.A_EMAIL]: 'jane@inter.net',
                             [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [eTaskDet.A_TASK_REF]: 8,
@@ -353,7 +353,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'Jane Doe',
                             [eTaskDet.A_EMAIL]: 'jane@inter.net',
                             [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [eTaskDet.A_TASK_REF]: 9,
@@ -365,7 +365,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'Jane Doe',
                             [eTaskDet.A_EMAIL]: 'jane@inter.net',
                             [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         }, {
                             [eTaskDet.A_TASK_REF]: 10,
@@ -377,7 +377,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                             [eTaskDet.A_CUSTOMER]: 'Jane Doe',
                             [eTaskDet.A_EMAIL]: 'jane@inter.net',
                             [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'en_US',
+                            [eTaskDet.A_LOCALE]: 'es-ES',
                             [eTaskDet.A_NOTE]: 'some notes related to the task.',
                         },
                     ]);

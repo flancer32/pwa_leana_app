@@ -5,20 +5,30 @@ export default class Fl32_Leana_Back_Service_Service_List {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec.TeqFw_Core_App_Db_Connector$;  // singleton object
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
-        const eSrv = spec.Fl32_Leana_Store_RDb_Schema_Service$; // singleton object
+        const eSrv = spec.Fl32_Leana_Store_RDb_Schema_Service$; // singleton instance
+        /** @type {typeof Fl32_Leana_Shared_Service_Route_Service_List_Request} */
         const Request = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request'];   // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Service_Route_Service_List_Response} */
         const Response = spec['Fl32_Leana_Shared_Service_Route_Service_List#Response'];   // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Data_Service} */
         const Service = spec['Fl32_Leana_Shared_Service_Data_Service#']; // class constructor
 
+        // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
+
+        /**
+         * Get backend route to service inside module or application namespace.
+         *  - 'path/to/service': application route (w/o module) starts w/o slash;
+         *  - '/path/to/service': module route starts with slash;
+         * @return {string}
+         */
         this.getRoute = function () {
             return 'service/list'; // route w/o module starts w/o slash
         };
 
         /**
-         * Create function to validate and structure incoming data.
+         * Factory to create function to validate and to structure incoming data.
          * @return {Function}
          */
         this.getParser = function () {
@@ -37,7 +47,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
         };
 
         /**
-         * Create function to perform requested operation.
+         * Factory to create function to perform requested operation.
          * @return {Function}
          */
         this.getProcessor = function () {
