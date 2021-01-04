@@ -10,12 +10,12 @@ export default class Fl32_Leana_Back_Service_Employee_List {
         const eEmpl = spec['Fl32_Leana_Store_RDb_Schema_Employee$'];    // singleton instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Service} */
         const eEmplSrv = spec['Fl32_Leana_Store_RDb_Schema_Employee_Service$']; // singleton instance
-        /** @type {typeof Fl32_Leana_Shared_Api_Data_Employee} */
-        const DEmployee = spec['Fl32_Leana_Shared_Api_Data_Employee#'];  // class constructor
-        /** @type {typeof Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
-        const Request = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];  // class constructor
-        /** @type {typeof Fl32_Leana_Shared_Api_Route_Employee_List_Response} */
-        const Response = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Response'];    // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee} */
+        const DEmployee = spec['Fl32_Leana_Shared_Service_Data_Employee#'];  // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
+        const Request = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Request'];  // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_List_Response} */
+        const Response = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Response'];    // class constructor
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
 
@@ -36,7 +36,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
         this.getParser = function () {
             /**
              * @param {IncomingMessage} httpReq
-             * @return {Fl32_Leana_Shared_Api_Route_Employee_List_Request}
+             * @return {Fl32_Leana_Shared_Service_Route_Employee_List_Request}
              * @exports Fl32_Leana_Back_Service_Employee_List$parse
              */
             function Fl32_Leana_Back_Service_Employee_List$parse(httpReq) {
@@ -55,8 +55,8 @@ export default class Fl32_Leana_Back_Service_Employee_List {
         this.getProcessor = function () {
             /**
              *
-             * @param {Fl32_Leana_Shared_Api_Route_Employee_List_Request} apiReq
-             * @return {Promise<Fl32_Leana_Shared_Api_Route_Employee_List_Response>}
+             * @param {Fl32_Leana_Shared_Service_Route_Employee_List_Request} apiReq
+             * @return {Promise<Fl32_Leana_Shared_Service_Route_Employee_List_Response>}
              * @exports Fl32_Leana_Back_Service_Employee_List$process
              */
             async function Fl32_Leana_Back_Service_Employee_List$process(apiReq) {
@@ -65,7 +65,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
                  * Get relations between services and employees.
                  * @param trx
                  * @param {String} locale 'es-ES'
-                 * @return {Promise<{Number: Fl32_Leana_Shared_Api_Data_Employee}>}
+                 * @return {Promise<{Number: Fl32_Leana_Shared_Service_Data_Employee}>}
                  */
                 async function selectData(trx, locale) {
                     // DEFINE INNER FUNCTIONS
@@ -90,7 +90,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
                     query.from(eEmpl.ENTITY);
                     const rs = await query;
                     for (const one of rs) {
-                        /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Employee} */
                         const employee = new DEmployee();
                         employee.id = one[eEmpl.A_USER_REF];
                         employee.code = one[eEmpl.A_CODE];
@@ -104,7 +104,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Response} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Response} */
                 const result = new Response();
                 const trx = await rdb.startTransaction();
                 try {

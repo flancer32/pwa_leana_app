@@ -14,9 +14,9 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
         /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
         const eTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
         //
-        const Task = spec['Fl32_Leana_Shared_Api_Data_Task#'];
-        const Request = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request'];
-        const Response = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Response'];
+        const Task = spec['Fl32_Leana_Shared_Service_Data_Task#'];
+        const Request = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request'];
+        const Response = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Response'];
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
         /**
@@ -35,10 +35,10 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
                 /**
                  *
                  * @param {TextRow} data
-                 * @return {Fl32_Leana_Shared_Api_Data_Task}
+                 * @return {Fl32_Leana_Shared_Service_Data_Task}
                  */
                 function composeItem(data) {
-                    /** @type {Fl32_Leana_Shared_Api_Data_Task} */
+                    /** @type {Fl32_Leana_Shared_Service_Data_Task} */
                     const result = new Task();
                     result.customerEmail = data['customerEmail'];
                     result.customerName = data['customerName'];
@@ -99,12 +99,12 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
 
             // MAIN FUNCTIONALITY
             const body = req.body;
-            /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+            /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
             const dataIn = Object.assign(new Request(), body.data);
             if (dataIn.date) dataIn.date = new Date(dataIn.date);
             const trx = await rdb.startTransaction();
             try {
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
                 const dataOut = new Response();
                 dataOut.items = await selectData(trx, dataIn.date);
                 trx.commit();

@@ -1,7 +1,7 @@
 /**
  * Request and response for 'task/save' service.
  */
-class Fl32_Leana_Shared_Api_Route_Task_Save_Request {
+class Fl32_Leana_Shared_Service_Route_Task_Save_Request {
     /** @type {Date} date-time of the appointment's beginning */
     date
     /** @type {Number} appointment duration in minutes */
@@ -26,12 +26,12 @@ class Fl32_Leana_Shared_Api_Route_Task_Save_Request {
     serviceId
 }
 
-class Fl32_Leana_Shared_Api_Route_Task_Save_Response {
+class Fl32_Leana_Shared_Service_Route_Task_Save_Response {
     /** @type {Number} */
     id
 }
 
 export {
-    Fl32_Leana_Shared_Api_Route_Task_Save_Request as Request,
-    Fl32_Leana_Shared_Api_Route_Task_Save_Response as Response,
+    Fl32_Leana_Shared_Service_Route_Task_Save_Request as Request,
+    Fl32_Leana_Shared_Service_Route_Task_Save_Response as Response,
 };

@@ -20,7 +20,7 @@ const template = `
  * @param {TeqFw_Di_SpecProxy} spec
  */
 export default function Fl32_Leana_Front_Desk_Widget_Calendar_SetDate(spec) {
-    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
     // picker container should be a simple object (not 'vued' as prop or data)
     let datePicker;
 
@@ -64,7 +64,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Calendar_SetDate(spec) {
                 const d = this.dateSelected;
                 const utc = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0));
                 this.saveDateSelected(utc);
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
                 const req = new TaskOnDateRequest();
                 req.date = utc;
                 this.loadTasksOnDate(req);

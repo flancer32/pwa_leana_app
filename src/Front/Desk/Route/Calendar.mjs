@@ -33,10 +33,10 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
     const utilConvert = spec.Fl32_Leana_Front_Desk_Util_Convert_Api2Ui$;
     /** @type {Fl32_Leana_Front_Desk_Widget_Calendar_ActionBar} */
     const wgActionBar = spec.Fl32_Leana_Front_Desk_Widget_Calendar_ActionBar$;   // singleton
-    const EmplReq = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];  // class constructor
+    const EmplReq = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Request'];  // class constructor
     const ServReq = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request'];   // class constructor
     const Swipe = spec['Fl32_Leana_Front_Desk_Util_Swipe#'];                    // class constructor
-    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
     const TaskWidget = spec['Fl32_Leana_Front_Desk_Widget_Booking_Api#Task'];   // class constructor
 
     return {
@@ -77,7 +77,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                 // convert tasks on the date to UI format
                 if (Array.isArray(Object.keys(this.calendarTasksOnDate))) {
                     for (
-                        /** @type {Fl32_Leana_Shared_Api_Data_Task} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Task} */
                         const one of Object.values(this.calendarTasksOnDate)) {
                         /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
                         const taskUi = utilConvert.taskApi2Ui(one, this.calendarEmployees, this.calendarServices);
@@ -112,7 +112,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
             async apiLoadCodifiers() {
                 const locale = i18next.language;
                 // load employees
-                /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
                 const emplReq = new EmplReq();
                 emplReq.locale = locale;
                 this.loadEmployees(emplReq);
@@ -127,7 +127,7 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
              * @return {Promise<void>}
              */
             async apiLoadTasks() {
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
                 const req = new TaskOnDateRequest();
                 req.date = this.calendarDateSelected;
                 this.loadTasksOnDate(req);

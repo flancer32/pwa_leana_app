@@ -9,8 +9,8 @@ export default class Fl32_Leana_Back_Service_Task_Save {
         const rdb = spec.TeqFw_Core_App_Db_Connector$;
         /** @type {Fl32_Leana_Back_Process_Book_Save} */
         const procSave = spec.Fl32_Leana_Back_Process_Book_Save$;
-        const Request = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request'];  // class
-        const Response = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Response'];  // class
+        const Request = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request'];  // class
+        const Response = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Response'];  // class
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
         /**
@@ -25,11 +25,11 @@ export default class Fl32_Leana_Back_Service_Task_Save {
 
             // MAIN FUNCTIONALITY
             const body = req.body;
-            /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
+            /** @type {Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
             const dataIn = Object.assign(new Request(), body.data);
             const trx = await rdb.startTransaction();
             try {
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Response} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_Save_Response} */
                 const dataOut = new Response();
                 const taskId = await procSave.exec({trx, req: dataIn});
                 await trx.commit();

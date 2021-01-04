@@ -29,7 +29,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
     const actionBar = spec.Fl32_Leana_Front_Desk_Widget_Action_Bar$$;   // new instance
     const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar'];    // class constructor
     const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];  // class constructor
-    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
     // const popupYesNo = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions_Remove$$;  // new instance
     /** @type {Fl32_Leana_Front_Shared_Widget_Dialog_YesNo} */
     const dialogYesNo = spec.Fl32_Leana_Front_Shared_Widget_Dialog_YesNo$;  // singleton
@@ -100,7 +100,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
                     const res = await removeTask(taskId);
                     console.log(`Remove task operation is completed: ${JSON.stringify(res)}`);
                     me.resetOverlay();
-                    /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                    /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
                     const req = new TaskOnDateRequest();
                     req.date = storedDate;
                     me.loadTasksOnDate(req);

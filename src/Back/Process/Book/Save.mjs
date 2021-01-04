@@ -26,7 +26,7 @@ export default class Fl32_Leana_Back_Process_Book_Save {
      * Save booking details from front into RDB.
      *
      * @param {Function} trx
-     * @param {Fl32_Leana_Shared_Api_Route_Task_Save_Request} req
+     * @param {Fl32_Leana_Shared_Service_Route_Task_Save_Request} req
      * @returns {Promise<{}>}
      */
     async exec({trx, req}) {

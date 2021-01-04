@@ -16,7 +16,7 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
             dateSelected: Date,
             employees: Object,
             services: Object,
-            tasksOnDate: null,  // Object.<Number, Fl32_Leana_Shared_Api_Data_Employee_Time_Work>
+            tasksOnDate: null,  // Object.<Number, Fl32_Leana_Shared_Service_Data_Employee_TimeWork>
             timeWork: Array,
         },
         getters: {},
@@ -41,11 +41,11 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
 
             /**
              * @param commit
-             * @param {Fl32_Leana_Shared_Api_Route_Employee_List_Request} req
+             * @param {Fl32_Leana_Shared_Service_Route_Employee_List_Request} req
              * @return {Promise<void>}
              */
             async loadEmployees({commit}, req) {
-                /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Response} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Response} */
                 const res = await gateEmployeeList(req);
                 commit('setEmployees', res.items);
             },
@@ -63,22 +63,22 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
 
             /**
              * @param commit
-             * @param {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} req
+             * @param {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} req
              * @return {Promise<void>}
              */
             async loadTimeWork({commit}, req) {
-                /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Response} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response} */
                 const res = await gateTimeWorkList(req);
                 commit('setTimeWork', res.items);
             },
 
             /**
              * @param commit
-             * @param {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} req
+             * @param {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} req
              * @return {Promise<void>}
              */
             async loadTasksOnDate({commit}, req) {
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Response} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Response} */
                 const res = await gateTaskOnDate(req);
                 commit('setTasksOnDate', res.items);
             },

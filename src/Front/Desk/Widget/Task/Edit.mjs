@@ -130,16 +130,16 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$; // singleton class instance
     const wgActions = spec.Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$; // singleton component
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton component
-    /** @type {typeof Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
-    const EmplReq = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];  // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
+    const EmplReq = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Request'];  // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Service_List_Request} */
     const ServReq = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request'];   // class constructor
     /** @type {typeof Fl32_Leana_Front_Desk_Widget_Api_Task} */
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
-    /** @type {typeof Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
-    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
-    /** @type {typeof Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
-    const TaskSaveReq = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request'];  // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
+    const TaskSaveReq = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request'];  // class constructor
 
     return {
         name: 'CalendarTaskEdit',
@@ -185,7 +185,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 let result = [];
                 if (this.apiEmployees) {
                     for (const key in this.apiEmployees) {
-                        /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Employee} */
                         const one = this.apiEmployees[key];
                         if (Array.isArray(one.services) && one.services.includes(this.serviceId)) {
                             result.push({id: one.id, name: one.name});
@@ -234,7 +234,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 elControl.style.opacity = 0;
             },
             async onTaskAdd() {
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
                 const req = new TaskSaveReq();
                 req.date = this.date;
                 req.duration = 30;
@@ -248,7 +248,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 const res = await gateTaskSave(req);
                 if (res.data && (typeof res.data.id === 'number')) {
                     this.resetOverlay();
-                    /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                    /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
                     const req = new TaskOnDateRequest();
                     req.date = this.dateSelected;
                     this.loadTasksOnDate(req);
@@ -267,7 +267,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
         async mounted() {
             const locale = i18next.language;
             // load employees to compose options array
-            /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
+            /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
             const emplReq = new EmplReq();
             emplReq.locale = locale;
             this.loadEmployees(emplReq);

@@ -3,8 +3,8 @@
  */
 export default function (spec) {
     const config = spec.config;
-    const Employee = spec['Fl32_Leana_Shared_Api_Data_Employee#'];
-    const Response = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Response'];
+    const Employee = spec['Fl32_Leana_Shared_Service_Data_Employee#'];
+    const Response = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Response'];
 
     const URL = `https://${config.web.urlBase}/api/employee/list`;
 
@@ -17,11 +17,11 @@ export default function (spec) {
             body: JSON.stringify({data})
         });
         const json = await res.json();
-        /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Response} */
+        /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Response} */
         const result = new Response();
         result.items = {};
         for (const key in json.data.items) {
-            /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
+            /** @type {Fl32_Leana_Shared_Service_Data_Employee} */
             const item = Object.assign(new Employee(), json.data.items[key]);
             result.items[item.id] = item;
         }

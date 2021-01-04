@@ -126,10 +126,10 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
     const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$; // singleton instance
     const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton
-    const SaveReq = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class constructor
+    const SaveReq = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request']; // class constructor
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
-    const TaskOnDateReq = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
-    const TimeWorkReq = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request'];   // class constructor
+    const TaskOnDateReq = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
+    const TimeWorkReq = spec['Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List#Request'];   // class constructor
 
     return {
         name: 'TaskPreview',
@@ -257,7 +257,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
             onDtpSelected(data) {
                 this.item.dateBook = data;
                 // load time work & switch employee
-                /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */
                 const timeReq = new TimeWorkReq();
                 timeReq.dateBegin = data;
                 timeReq.dateEnd = data;
@@ -265,7 +265,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                     const employeeId = this.employee.id;
                     let changeId = null;
                     for (
-                        /** @type {Fl32_Leana_Shared_Api_Data_Employee_Time_Work} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
                         const one of this.calendarTimeWork) {
                         if (one.employeeRef === employeeId) {
                             changeId = null;
@@ -286,7 +286,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 elControl.style.opacity = 0;
             },
             async onTaskSave() {
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
                 const data = new SaveReq();
                 data.id = this.item.id;
                 data.date = this.item.dateBook;
@@ -308,7 +308,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 const result = await res.json();
                 console.log('Saved: ' + JSON.stringify(result));
                 this.resetOverlay();
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
                 const req = new TaskOnDateReq();
                 req.date = this.calendarDateSelected;
                 this.loadTasksOnDate(req);

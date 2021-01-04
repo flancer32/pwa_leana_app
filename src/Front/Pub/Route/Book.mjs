@@ -135,11 +135,11 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
     /** @type {Fl32_Leana_Shared_Util_Mix} */
     const utilMix = spec.Fl32_Leana_Shared_Util_Mix$;
     // classes and functions
-    const EmployeeRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request']; // class constructor
-    const SaveRequest = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request']; // class constructor
+    const EmployeeRequest = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Request']; // class constructor
+    const SaveRequest = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request']; // class constructor
     const ServiceRequest = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request']; // class constructor
-    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
-    const TimeWorkRequest = spec['Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List#Request']; // class constructor
+    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
+    const TimeWorkRequest = spec['Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List#Request']; // class constructor
 
     return {
         name: 'RouteBook',
@@ -163,7 +163,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 let result = [];
                 if (this.apiEmployees) {
                     for (const key in this.apiEmployees) {
-                        /** @type {Fl32_Leana_Shared_Api_Data_Employee} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Employee} */
                         const one = this.apiEmployees[key];
                         if (Array.isArray(one.services) && one.services.includes(this.service)) {
                             result.push({id: one.id, name: one.name});
@@ -197,7 +197,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                     // get working days
                     const workDays = [];
                     for (
-                        /** @type {Fl32_Leana_Shared_Api_Data_Employee_Time_Work} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
                         const one of this.apiTimeWork) {
                         if (one.employeeRef === this.employeeId) {
                             const dateStart = one.start;
@@ -232,7 +232,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 /**
                  * Collect 'from' & 'to' times for booking intervals.
                  *
-                 * @param {Object.<number, Fl32_Leana_Shared_Api_Data_Task>} tasksOnDate
+                 * @param {Object.<number, Fl32_Leana_Shared_Service_Data_Task>} tasksOnDate
                  * @return {Object<number, number>} dateTimeBegin => dateTimeEnd
                  */
                 function getBookedTime(tasksOnDate) {
@@ -242,7 +242,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                         const orderedAsc = Object.values(tasksOnDate)
                             .sort((a, b) => (new Date(a.dateBook)).getTime() - (new Date(b.dateBook)).getTime());
                         for (
-                            /** @type {Fl32_Leana_Shared_Api_Data_Task} */
+                            /** @type {Fl32_Leana_Shared_Service_Data_Task} */
                             const one of orderedAsc) {
                             const dateFrom = new Date(one.dateBook);
                             const duration = utilDate.minutesToMilliseconds(one.duration);
@@ -320,7 +320,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 const result = {};
                 const stampSelected = utilDate.stampDateUtc(this.dateSelected);
                 for (const key in this.apiTimeWork) {
-                    /** @type {Fl32_Leana_Shared_Api_Data_Employee_Time_Work} */
+                    /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
                     const one = this.apiTimeWork[key];
                     if (one.employeeRef === this.employeeId) {
                         const stampWork = utilDate.stampDateUtc(one.start);
@@ -351,7 +351,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
              */
             setDate(date) {
                 this.setDateSelected(date);
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
                 const req = new TaskOnDateRequest();
                 req.date = date;
                 this.loadTasksOnDate(req);
@@ -367,7 +367,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             async send() {
                 // 'time' contains date-time value for beginning of the interval
                 const date = new Date(this.time);
-                /** @type {Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
                 const req = new SaveRequest();
                 req.date = date;
                 req.duration = this.duration;
@@ -415,7 +415,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 session.setRouteToRedirect(route);
                 await this.$router.push('/signIn');
             } else {
-                /** @type {Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
                 const reqEmpl = new EmployeeRequest();
                 reqEmpl.locale = i18next.language;
                 await this.loadEmployees(reqEmpl);
@@ -424,7 +424,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 reqSrv.locale = i18next.language;
                 reqSrv.publicOnly = true;
                 await this.loadServices(reqSrv);
-                /** @type {Fl32_Leana_Shared_Api_Route_Employee_TimeWork_List_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */
                 const reqTimeWork = new TimeWorkRequest();
                 reqTimeWork.dateBegin = new Date(Date.now()); // UTC
                 await this.loadTimeWork(reqTimeWork);

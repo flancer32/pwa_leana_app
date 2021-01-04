@@ -1,7 +1,7 @@
 /**
  * Employee data for API.
  */
-export default class Fl32_Leana_Shared_Api_Data_Employee {
+export default class Fl32_Leana_Shared_Service_Data_Employee {
     /**
      * Internal id.
      * @type {Number}

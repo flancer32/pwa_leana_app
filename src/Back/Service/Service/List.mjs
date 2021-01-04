@@ -62,7 +62,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
                  * Get relations between services and employees.
                  * @param trx
                  * @param {Fl32_Leana_Shared_Service_Route_Service_List_Request} req
-                 * @return {Promise<{Number: Fl32_Leana_Shared_Api_Data_Employee}>}
+                 * @return {Promise<{Number: Fl32_Leana_Shared_Service_Data_Employee}>}
                  */
                 async function selectData(trx, req) {
                     const result = {};
