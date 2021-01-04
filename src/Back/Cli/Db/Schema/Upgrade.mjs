@@ -457,8 +457,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 await insertServices(trx);
                 await insertEmployeeServices(trx);
                 await insertEmployeeTimeWork(trx);
-                await insertTasks(trx);
-                await insertTasksDetails(trx);
+                // await insertTasks(trx);
+                // await insertTasksDetails(trx);
             }
 
             // MAIN FUNCTIONALITY

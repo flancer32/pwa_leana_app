@@ -125,18 +125,24 @@ const template = `
  * @param {TeqFw_Di_SpecProxy} spec
  */
 export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
-    const gateTaskSave = spec.Fl32_Leana_Front_Shared_Gate_Task_Save$;  //singleton
+    const gateTaskSave = spec.Fl32_Leana_Front_Shared_Gate_Task_Save$;  //singleton function
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
-    const wgActions = spec.Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$;
-    const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton
-    const EmplReq = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];
-    const ServReq = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request'];
-    const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];
+    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$; // singleton class instance
+    const wgActions = spec.Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$; // singleton component
+    const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton component
+    /** @type {typeof Fl32_Leana_Shared_Api_Route_Employee_List_Request} */
+    const EmplReq = spec['Fl32_Leana_Shared_Api_Route_Employee_List#Request'];  // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Service_List_Request} */
+    const ServReq = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request'];   // class constructor
+    /** @type {typeof Fl32_Leana_Front_Desk_Widget_Api_Task} */
+    const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Api_Route_Task_OnDate_Request} */
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Api_Route_Task_OnDate#Request']; // class constructor
-    const TaskSaveReq = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request'];
+    /** @type {typeof Fl32_Leana_Shared_Api_Route_Task_Save_Request} */
+    const TaskSaveReq = spec['Fl32_Leana_Shared_Api_Route_Task_Save#Request'];  // class constructor
 
     return {
+        name: 'CalendarTaskEdit',
         template,
         components: {
             actions: wgActions,
