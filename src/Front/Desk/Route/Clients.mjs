@@ -33,8 +33,8 @@ export default function Fl32_Leana_Front_Desk_Route_Clients(spec) {
     const DEF_USER = spec.Fl32_Teq_User_Defaults$;
     /** @type {Fl32_Teq_Acl_Front_App_Session} */
     const session = spec[DEF_USER.DI_SESSION];
-    /** @type {Fl32_Teq_User_Shared_Service_Gate_List} */
-    const gateUsersList = spec.Fl32_Teq_User_Shared_Service_Gate_List$;
+    /** @type {Fl32_Teq_User_Front_Gate_List} */
+    const gateUsersList = spec.Fl32_Teq_User_Front_Gate_List$;
     /** @type {typeof Fl32_Teq_User_Shared_Service_Route_List_Request} */
     const UsersListReq = spec['Fl32_Teq_User_Shared_Service_Route_List#Request'];
 

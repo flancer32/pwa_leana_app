@@ -64,7 +64,6 @@ export default class Fl32_Leana_Server {
         await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Task_OnDate$');
         await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Task_Remove$');
         await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Task_Save$');
-        await this._handlerFactory.registerHandler(this._server, 'acl', 'Fl32_Teq_Acl_Back_Service_User_Get$');
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_Current$');
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_List$');
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_SignIn$');
