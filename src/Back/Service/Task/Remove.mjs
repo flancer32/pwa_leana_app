@@ -1,52 +1,78 @@
 /**
- * API handler to remove single task.
+ * Remove single task ("/api/task/remove").
  */
 export default class Fl32_Leana_Back_Service_Task_Remove {
 
     constructor(spec) {
-        // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const _db = spec.TeqFw_Core_App_Db_Connector$;
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Back_Process_Book_Remove} */
-        const srvRemove = spec.Fl32_Leana_Back_Process_Book_Remove$;
-        const ApiRequest = spec['Fl32_Leana_Shared_Service_Route_Task_Remove#Request'];
-        const ApiResponse = spec['Fl32_Leana_Shared_Service_Route_Task_Remove#Response'];
+        const procRemove = spec['Fl32_Leana_Back_Process_Book_Remove$'];    // singleton instance
+        /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Remove_Request} */
+        const Request = spec['Fl32_Leana_Shared_Service_Route_Task_Remove#Request']; // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Remove_Response} */
+        const Response = spec['Fl32_Leana_Shared_Service_Route_Task_Remove#Response'];   // class constructor
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
-        /**
-         * API route handler to save single booking.
-         *
-         * @param req
-         * @param res
-         * @returns {Promise<void>}
-         * @see TeqFw_Core_App_Server.addApiRoute
-         */
-        this.handle = async function (req, res) {
-            // PARSE INPUT & DEFINE WORKING VARS
-            const body = req.body;
-            /** @type {Fl32_Leana_Shared_Service_Route_Task_Remove_Request} */
-            const dataIn = Object.assign(new ApiRequest(), body.data);
-            /** @type {Fl32_Leana_Shared_Service_Route_Task_Remove_Response} */
-            const dataOut = new ApiResponse();
 
-            const trx = await _db.startTransaction();
-            try {
-                const {removed} = await srvRemove.exec({trx, taskId: dataIn.taskId});
-                dataOut.removed = (removed >= 1);
-                await trx.commit();
-                res.setHeader('Content-Type', 'application/json; charset=UTF-8');
-                res.end(JSON.stringify({data: dataOut}));
-            } catch (err) {
-                // TODO: move error processing in HANDLERS proto
-                const stack = (err.stack) ? err.stack : (new Error()).stack;
-                const message = err.message;
-                const error = {message, stack};
-                const str = JSON.stringify({error});
-                console.error(str);
-                res.setHeader('Content-Type', 'application/json');
-                res.code = 500;
-                res.end(str);
+        /**
+         * Get backend route to service inside module or application namespace.
+         *  - 'path/to/service': application route (w/o module) starts w/o slash;
+         *  - '/path/to/service': module route starts with slash;
+         * @return {string}
+         */
+        this.getRoute = function () {
+            return 'task/remove';
+        };
+
+        /**
+         * Factory to create function to validate and to structure incoming data.
+         * @return {Function}
+         */
+        this.getParser = function () {
+            /**
+             * @param {IncomingMessage} httpReq
+             * @return {Fl32_Leana_Shared_Service_Route_Task_Remove_Request}
+             * @exports Fl32_Leana_Back_Service_Task_Remove$parse
+             */
+            function Fl32_Leana_Back_Service_Task_Remove$parse(httpReq) {
+                const body = httpReq.body;
+                // clone HTTP body into API request object
+                const result = Object.assign(new Request(), body.data);
+                if (result.date) result.date = new Date(result.date);
+                return result;
             }
+
+            return Fl32_Leana_Back_Service_Task_Remove$parse;
+        };
+
+        /**
+         * Factory to create function to perform requested operation.
+         * @return {Function}
+         */
+        this.getProcessor = function () {
+            /**
+             * @param {Fl32_Leana_Shared_Service_Route_Task_Remove_Request} apiReq
+             * @return {Promise<Fl32_Leana_Shared_Service_Route_Task_Remove_Response>}
+             * @exports Fl32_Leana_Back_Service_Task_Remove$process
+             */
+            async function Fl32_Leana_Back_Service_Task_Remove$process(apiReq) {
+                /** @type {Fl32_Leana_Shared_Service_Route_Task_Remove_Response} */
+                const result = new Response();
+                const trx = await rdb.startTransaction();
+                try {
+                    const {removed} = await procRemove.exec({trx, taskId: apiReq.taskId});
+                    result.removed = (removed >= 1);
+                    trx.commit();
+                } catch (error) {
+                    trx.rollback();
+                    throw error;
+                }
+                return result;
+            }
+
+            // We should place function separately to allow JSDoc & IDEA hints & navigation.
+            return Fl32_Leana_Back_Service_Task_Remove$process;
         };
     }
 }

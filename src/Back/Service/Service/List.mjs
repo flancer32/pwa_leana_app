@@ -24,7 +24,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
          * @return {string}
          */
         this.getRoute = function () {
-            return 'service/list'; // route w/o module starts w/o slash
+            return 'service/list';
         };
 
         /**
@@ -90,7 +90,6 @@ export default class Fl32_Leana_Back_Service_Service_List {
                 /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Response} */
                 const result = new Response();
                 const trx = await rdb.startTransaction();
-
                 try {
                     result.items = await selectData(trx, apiReq);
                     trx.commit();
@@ -101,6 +100,7 @@ export default class Fl32_Leana_Back_Service_Service_List {
                 return result;
             }
 
+            // We should place function separately to allow JSDoc & IDEA hints & navigation.
             return Fl32_Leana_Back_Service_Service_List$process;
         };
     }

@@ -264,14 +264,16 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 this.loadTimeWork(timeReq).then(() => {
                     const employeeId = this.employee.id;
                     let changeId = null;
-                    for (
-                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-                        const one of this.calendarTimeWork) {
-                        if (one.employeeRef === employeeId) {
-                            changeId = null;
-                            break;
+                    if (this.calendarTimeWork) {
+                        for (
+                            /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+                            const one of Object.values(this.calendarTimeWork)) {
+                            if (one.employeeRef === employeeId) {
+                                changeId = null;
+                                break;
+                            }
+                            if (changeId === null) changeId = one.employeeRef;
                         }
-                        if (changeId === null) changeId = one.employeeRef;
                     }
                     // change employee if need
                     if (changeId !== null) {

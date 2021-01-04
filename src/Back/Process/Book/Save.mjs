@@ -27,7 +27,7 @@ export default class Fl32_Leana_Back_Process_Book_Save {
      *
      * @param {Function} trx
      * @param {Fl32_Leana_Shared_Service_Route_Task_Save_Request} req
-     * @returns {Promise<{}>}
+     * @returns {Promise<Number>}
      */
     async exec({trx, req}) {
         // PARSE INPUT & DEFINE WORKING VARS

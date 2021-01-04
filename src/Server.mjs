@@ -57,13 +57,13 @@ export default class Fl32_Leana_Server {
         await this.addApiRoute('/api/app/config/get', 'Fl32_Leana_Back_Service_App_Config_Get$');
         await this.addApiRoute('/api/app/sw/files_to_cache/desk', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Desk$');
         await this.addApiRoute('/api/app/sw/files_to_cache/pub', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Pub$');
-        await this.addApiRoute('/api/employee/timeWork/list', 'Fl32_Leana_Back_Service_Employee_TimeWork_List$');
-        await this.addApiRoute('/api/task/onDate', 'Fl32_Leana_Back_Service_Task_OnDate$');
-        await this.addApiRoute('/api/task/remove', 'Fl32_Leana_Back_Service_Task_Remove$');
-        await this.addApiRoute('/api/task/save', 'Fl32_Leana_Back_Service_Task_Save$');
         // new style
         await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Employee_List$');
+        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Employee_TimeWork_List$');
         await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Service_List$');
+        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Task_OnDate$');
+        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Task_Remove$');
+        await this._handlerFactory.registerHandler(this._server, '', 'Fl32_Leana_Back_Service_Task_Save$');
         await this._handlerFactory.registerHandler(this._server, 'acl', 'Fl32_Teq_Acl_Back_Service_User_Get$');
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_Current$');
         await this._handlerFactory.registerHandler(this._server, 'user', 'Fl32_Teq_User_Back_Service_List$');

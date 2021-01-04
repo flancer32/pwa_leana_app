@@ -118,6 +118,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
                 return result;
             }
 
+            // We should place function separately to allow JSDoc & IDEA hints & navigation.
             return Fl32_Leana_Back_Service_Employee_List$process;
         };
 
