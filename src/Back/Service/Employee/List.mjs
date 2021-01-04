@@ -98,7 +98,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
                         if (Array.isArray(services[employee.id])) {
                             employee.services = [...services[employee.id]];
                         }
-                        result[one.id] = employee;
+                        result[employee.id] = employee;
                     }
                     return result;
                 }

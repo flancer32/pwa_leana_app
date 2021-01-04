@@ -237,7 +237,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                  */
                 function getBookedTime(tasksOnDate) {
                     const result = {};
-                    if (Array.isArray(Object.keys(tasksOnDate))) {
+                    if (tasksOnDate && Array.isArray(Object.values(tasksOnDate))) {
                         // order tasks by booking time (by beginning)
                         const orderedAsc = Object.values(tasksOnDate)
                             .sort((a, b) => (new Date(a.dateBook)).getTime() - (new Date(b.dateBook)).getTime());

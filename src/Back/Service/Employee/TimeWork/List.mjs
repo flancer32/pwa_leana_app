@@ -68,10 +68,10 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
                  * Get working time for employees.
                  * @param trx
                  * @param {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} dataIn
-                 * @return {Promise<Object.<number, Fl32_Leana_Shared_Service_Data_Employee_TimeWork>>}
+                 * @return {Promise<Fl32_Leana_Shared_Service_Data_Employee_TimeWork[]>}
                  */
                 async function selectData(trx, dataIn) {
-                    const result = {};
+                    const result = [];
                     // main select
                     const query = trx.select();
                     query.from(eTimeWork.ENTITY);
@@ -101,7 +101,7 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
                         const minTo = utilDate.convertDbHrsMinsToMins(tsTo);
                         item.duration = minTo - minFrom;
                         item.start = utilDate.unformatDate(ds, tsFrom);
-                        result[item.employeeRef] = item;
+                        result.push(item);
                     }
                     return result;
                 }

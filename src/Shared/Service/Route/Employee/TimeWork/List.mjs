@@ -20,7 +20,7 @@ class Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request {
 }
 
 class Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response {
-    /** @type {Object.<number, Fl32_Leana_Shared_Service_Data_Employee_TimeWork>} */
+    /** @type {Array.<Fl32_Leana_Shared_Service_Data_Employee_TimeWork>} */
     items
 }
 
