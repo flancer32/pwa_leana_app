@@ -10,6 +10,7 @@ i18next.addResources('lv', 'taskEdit', {});
 i18next.addResources('ru', 'taskEdit', {
     customer: 'Клиент',
     email: 'Email',
+    duration: 'Продолжительность',
     employee: 'Мастер',
     employeeSelect: 'Выберите мастера',
     note: 'Заметки',
@@ -63,8 +64,21 @@ const template = `
             <div class="field">
                   <select name="service" v-model="serviceId">
                     <option disabled value="null">{{ $t('taskEdit:serviceSelect') }}</option>
-                    <option v-for="(one) in optionsServices" :value="one.id" :disabled="one.disabled">
+                    <option v-for="(one) in optsServices" :value="one.id" :disabled="one.disabled">
                         {{ one.name }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="id-duration row">
+            <div class="label">
+                <span>{{ $t('taskEdit:duration') }}:</span>
+            </div>
+            <div class="field">
+                <select v-model="duration" style="width: auto">
+                    <option v-for="(one) in optsDuration" :value="one.id">
+                        {{ one.value }}
                     </option>
                 </select>
             </div>
@@ -87,12 +101,7 @@ const template = `
                 <span>{{ $t('taskEdit:employee') }}:</span>
             </div>
             <div class="field">
-                 <select name="employeeId" v-model="employeeId">
-                    <option disabled value="null">{{ $t('taskEdit:employeeSelect') }}</option>
-                    <option v-for="(one) in optionsEmployees" :value="one.id" :disabled="one.disabled">
-                        {{ one.name }}
-                    </option>
-                </select>
+                 {{employeeName}}
             </div>
         </div>
         
@@ -107,11 +116,11 @@ const template = `
         
       <div class="controls dtp_widget">
             <date-time-picker
-                :yearMin="2020"
-                :yearMax="2021"
-                :hourMin="9"
-                :hourMax="20"
-                :minsStep="30"
+                :yearMin="dtpGetYearMin"
+                :yearMax="dtpGetYearMax"
+                :hourMin="dtpGetHourMin"
+                :hourMax="dtpGetHourMax"
+                :minsStep="dtpGetStep"
                 :initDate="dateSelected"
                 @cancelled="onDtpCancelled"
                 @selected="onDtpSelected"
@@ -126,7 +135,10 @@ const template = `
  * @param {TeqFw_Di_SpecProxy} spec
  */
 function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
     const gateTaskSave = spec['Fl32_Leana_Front_Gate_Task_Save$'];  //singleton function
+    const gateTimeWork = spec['Fl32_Leana_Front_Gate_Employee_TimeWork_List$']; // singleton function
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
     const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton class instance
     const actions = spec['Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$']; // singleton component
@@ -138,9 +150,11 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     /** @type {typeof Fl32_Leana_Front_Desk_Widget_Api_Task} */
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
-    const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
+    const TaskOnDateReq = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
     const TaskSaveReq = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request'];  // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */
+    const TimeWorkReq = spec['Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List#Request']; // class constructor
 
     return {
         name: 'CalendarTaskEdit',
@@ -154,6 +168,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
             return {
                 customer: null,
                 date: null,
+                duration: null,
                 email: null,
                 employeeId: null,
                 note: null,
@@ -179,20 +194,44 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 }
                 return result;
             },
-            optionsEmployees() {
-                let result = [];
-                if (this.apiEmployees) {
-                    for (const key in this.apiEmployees) {
-                        /** @type {Fl32_Leana_Shared_Service_Data_Employee} */
-                        const one = this.apiEmployees[key];
-                        if (Array.isArray(one.services) && one.services.includes(this.serviceId)) {
-                            result.push({id: one.id, name: one.name});
-                        }
-                    }
-                }
-                return result.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            dtpGetStep() {
+                return DEF.TIME_STEP_MINUTES;
             },
-            optionsServices() {
+            dtpGetHourMax() {
+                const date = new Date();
+                date.setUTCHours(DEF.DAY_END_HOUR_UTC);
+                return date.getHours();
+            },
+            dtpGetHourMin() {
+                const date = new Date();
+                date.setUTCHours(DEF.DAY_START_HOUR_UTC);
+                return date.getHours();
+            },
+            dtpGetYearMax() {
+                const date = new Date();
+                date.setMonth(date.getMonth() + DEF.SCHEDULE_FORECAST_MONTHS);
+                return date.getFullYear();
+            },
+            dtpGetYearMin() {
+                return (new Date()).getFullYear();
+            },
+            employeeName() {
+                let result = '';
+                if (this.employeeId && this.apiEmployees && this.apiEmployees[this.employeeId]) {
+                    /** @type {Fl32_Leana_Shared_Service_Data_Employee} */
+                    const employee = this.apiEmployees[this.employeeId];
+                    result = employee.name;
+                }
+                return result;
+            },
+            optsDuration() {
+                const result = [];
+                for (let i = DEF.TIME_STEP_MINUTES; i <= 240; i += DEF.TIME_STEP_MINUTES) {
+                    result.push({id: i, value: utilDate.convertMinsToHrsMins(i)});
+                }
+                return result;
+            },
+            optsServices() {
                 let result = [];
                 if (this.apiServices) {
                     for (const key in this.apiServices) {
@@ -247,7 +286,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 if (res.data && (typeof res.data.id === 'number')) {
                     this.resetOverlay();
                     /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
-                    const req = new TaskOnDateRequest();
+                    const req = new TaskOnDateReq();
                     req.date = this.dateSelected;
                     this.loadTasksOnDate(req);
                 }
@@ -262,18 +301,54 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
             }),
 
         },
+        watch: {
+            /**
+             * Load work time data and get active employee on the date.
+             * @param {Date} val
+             * @return {Promise<void>}
+             */
+            async date(val) {
+                if (val instanceof Date) {
+                    /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */
+                    const req = new TimeWorkReq();
+                    req.dateBegin = val;
+                    req.dateEnd = val;
+                    /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response} */
+                    const res = await gateTimeWork(req);
+                    if (Array.isArray(res.items)) {
+                        // there is one ony employee on the date in the app
+                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+                        const item = res.items.find(() => true);    // get first element from array
+                        this.employeeId = item.employeeRef;
+                    } else {
+                        this.employeeId = null;
+                    }
+                }
+            },
+            /**
+             * Reset duration on service change.
+             * @param {Number} val
+             */
+            serviceId(val) {
+                if (this.apiServices && this.apiServices[val]) {
+                    /** @type {Fl32_Leana_Shared_Service_Data_Service} */
+                    const service = this.apiServices[val];
+                    this.duration = service.duration;
+                }
+            }
+        },
         async mounted() {
             const locale = i18next.language;
             // load employees to compose options array
             /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
-            const emplReq = new EmplReq();
-            emplReq.locale = locale;
-            this.loadEmployees(emplReq);
+            const reqEmpl = new EmplReq();
+            reqEmpl.locale = locale;
+            this.loadEmployees(reqEmpl);
             // load services to compose options array
             /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Request} */
-            const servReq = new ServReq();
-            servReq.locale = locale;
-            this.loadServices(servReq);
+            const reqServ = new ServReq();
+            reqServ.locale = locale;
+            this.loadServices(reqServ);
         }
     };
 }
