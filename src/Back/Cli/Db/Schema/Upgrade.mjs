@@ -194,22 +194,22 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     await trx(eService.ENTITY).insert([{
                         [eService.A_ID]: 1, [eService.A_CODE]: 'haircut_man',
                         [eService.A_PUBLIC]: true, [eService.A_DURATION]: 30,
-                        [eService.A_NAME_LV]: 'Vīriešu frizūra',
+                        [eService.A_NAME_LV]: 'Vīriešu griezums',
                         [eService.A_NAME_RU]: 'Мужская стрижка',
                     }, {
                         [eService.A_ID]: 2, [eService.A_CODE]: 'haircut_women',
                         [eService.A_PUBLIC]: true, [eService.A_DURATION]: 30,
-                        [eService.A_NAME_LV]: 'Sieviešu frizūra',
+                        [eService.A_NAME_LV]: 'Sieviešu griezums',
                         [eService.A_NAME_RU]: 'Женская стрижка',
                     }, {
                         [eService.A_ID]: 3, [eService.A_CODE]: 'haircut_child',
                         [eService.A_PUBLIC]: true, [eService.A_DURATION]: 30,
-                        [eService.A_NAME_LV]: 'Bērnu frizūra',
+                        [eService.A_NAME_LV]: 'Bērnu griezums',
                         [eService.A_NAME_RU]: 'Детская стрижка',
                     }, {
                         [eService.A_ID]: 4, [eService.A_CODE]: 'haircut_and_style',
                         [eService.A_PUBLIC]: true, [eService.A_DURATION]: 60,
-                        [eService.A_NAME_LV]: 'Matu griešana un ieveidošana',
+                        [eService.A_NAME_LV]: 'Griezums un veidošana',
                         [eService.A_NAME_RU]: 'Стрижка и укладка',
                     }, {
                         [eService.A_ID]: 5, [eService.A_CODE]: 'style',
@@ -219,17 +219,17 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     }, {
                         [eService.A_ID]: 6, [eService.A_CODE]: 'color_haircut',
                         [eService.A_PUBLIC]: true, [eService.A_DURATION]: 90,
-                        [eService.A_NAME_LV]: 'Matu krāsošana, matu griešana',
+                        [eService.A_NAME_LV]: 'Mātu krāsošana, griezums',
                         [eService.A_NAME_RU]: 'Окраска волос, стрижка',
                     }, {
                         [eService.A_ID]: 7, [eService.A_CODE]: 'color_haircut_style',
                         [eService.A_PUBLIC]: true, [eService.A_DURATION]: 120,
-                        [eService.A_NAME_LV]: 'Matu krāsošana, matu griešana un ieveidošana',
+                        [eService.A_NAME_LV]: 'Mātu krāsošana, griezums, veidošana',
                         [eService.A_NAME_RU]: 'Окраска волос, стрижка и укладка',
                     }, {
                         [eService.A_ID]: 8, [eService.A_CODE]: 'highlighting',
                         [eService.A_PUBLIC]: false, [eService.A_DURATION]: 60,
-                        [eService.A_NAME_LV]: 'Izcelšana',
+                        [eService.A_NAME_LV]: 'Sčīpsnās krāsošana',
                         [eService.A_NAME_RU]: 'Мелирование',
                     },]);
                 }
