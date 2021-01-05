@@ -274,7 +274,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 /** @type {Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
                 const req = new TaskSaveReq();
                 req.date = this.date;
-                req.duration = 30;
+                req.duration = this.duration;
                 req.email = this.email;
                 req.locale = i18next.language;
                 req.employeeId = this.employeeId;
