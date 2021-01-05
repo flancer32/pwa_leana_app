@@ -29,7 +29,7 @@ const template = `
     <h1>{{$t('taskEdit:title')}}</h1>
     <form class="edit" onsubmit="return false">
     
-        <div class="row">
+        <div class="id-customer row">
             <div class="label">
                 <span>{{ $t('taskEdit:customer') }}:</span>
             </div>
@@ -38,7 +38,7 @@ const template = `
             </div>
         </div>    
         
-        <div class="row">
+        <div class="id-email row">
             <div class="label">
                 <span>{{ $t('taskEdit:email') }}:</span>
             </div>
@@ -47,7 +47,7 @@ const template = `
             </div>
         </div>   
         
-        <div class="row">
+        <div class="id-phone row">
             <div class="label">
                 <span>{{ $t('taskEdit:phone') }}:</span>
             </div>
@@ -56,7 +56,7 @@ const template = `
             </div>
         </div>
         
-        <div class="row">
+        <div class="id-service row">
             <div class="label">
                 <span>{{ $t('taskEdit:service') }}:</span>
             </div>
@@ -64,13 +64,13 @@ const template = `
                   <select name="service" v-model="serviceId">
                     <option disabled value="null">{{ $t('taskEdit:serviceSelect') }}</option>
                     <option v-for="(one) in optionsServices" :value="one.id" :disabled="one.disabled">
-                        {{ one.name }} ({{one.duration}})
+                        {{ one.name }}
                     </option>
                 </select>
             </div>
         </div>
         
-        <div class="row">
+        <div class="id-time row">
             <div class="label">
                 <span>{{ $t('taskEdit:time') }}:</span>
             </div>
@@ -82,7 +82,7 @@ const template = `
             </div>
         </div>
         
-        <div class="row">
+        <div class="id-employee row">
             <div class="label">
                 <span>{{ $t('taskEdit:employee') }}:</span>
             </div>
@@ -96,7 +96,7 @@ const template = `
             </div>
         </div>
         
-        <div class="row">
+        <div class="id-note row">
             <div class="label">
                 <span>{{ $t('taskEdit:note') }}:</span>
             </div>
@@ -120,16 +120,17 @@ const template = `
     </form>
 </div>
 `;
+
 /**
  * Widget to add/edit task in desk realm.
  * @param {TeqFw_Di_SpecProxy} spec
  */
-export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
-    const gateTaskSave = spec.Fl32_Leana_Front_Gate_Task_Save$;  //singleton function
+function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
+    const gateTaskSave = spec['Fl32_Leana_Front_Gate_Task_Save$'];  //singleton function
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$; // singleton class instance
-    const wgActions = spec.Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$; // singleton component
-    const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton component
+    const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton class instance
+    const actions = spec['Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$']; // singleton component
+    const dateTimePicker = spec['Fl32_Leana_Front_Shared_Widget_DateTimePicker$']; // singleton component
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
     const EmplReq = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Request'];  // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Service_List_Request} */
@@ -144,10 +145,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     return {
         name: 'CalendarTaskEdit',
         template,
-        components: {
-            actions: wgActions,
-            dateTimePicker: wgDateTimePicker,
-        },
+        components: {actions, dateTimePicker},
         props: {
             /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
             params: new Task()
@@ -279,3 +277,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
         }
     };
 }
+
+// We should place function separately to allow JSDoc & IDEA hints & navigation.
+export default Fl32_Leana_Front_Desk_Widget_Task_Edit;

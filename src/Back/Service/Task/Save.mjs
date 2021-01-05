@@ -5,9 +5,9 @@ export default class Fl32_Leana_Back_Service_Task_Save {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton class instance
         /** @type {Fl32_Leana_Back_Process_Book_Save} */
-        const procSave = spec['Fl32_Leana_Back_Process_Book_Save$'];    // singleton instance
+        const procSave = spec['Fl32_Leana_Back_Process_Book_Save$'];    // singleton class instance
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
         const Request = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request'];  // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Response} */

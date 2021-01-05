@@ -5,11 +5,11 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton class instance
         /** @type {Fl32_Leana_Shared_Util_DateTime} */
-        const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$'];  // singleton instance
+        const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$'];  // singleton class instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Time_Work} */
-        const eTimeWork = spec['Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$']; // singleton instance
+        const eTimeWork = spec['Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$']; // singleton class instance
         /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
         const TimeWork = spec['Fl32_Leana_Shared_Service_Data_Employee_TimeWork#']; // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */

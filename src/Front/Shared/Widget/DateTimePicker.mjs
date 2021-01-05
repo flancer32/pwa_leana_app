@@ -22,7 +22,7 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Shared_Widget_DateTimePicker(spec) {
+function Fl32_Leana_Front_Shared_Widget_DateTimePicker(spec) {
     const wgScrollerV = spec.Fl32_Leana_Front_Shared_Widget_Scroller_Vertical$;    // singleton
 
     return {
@@ -155,3 +155,6 @@ export default function Fl32_Leana_Front_Shared_Widget_DateTimePicker(spec) {
         },
     };
 }
+
+// We should place function separately to allow JSDoc & IDEA hints & navigation.
+export default Fl32_Leana_Front_Shared_Widget_DateTimePicker;

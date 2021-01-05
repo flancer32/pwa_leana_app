@@ -122,22 +122,25 @@ const template = `
  * @param {TeqFw_Di_SpecProxy} spec
  */
 function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
-    const actions = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions$$;    // new instance
+    /** @type {Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions} */
+    const actions = spec['Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions$$'];    // new instance
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$; // singleton instance
-    const wgDateTimePicker = spec.Fl32_Leana_Front_Shared_Widget_DateTimePicker$; // singleton
+    const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton class instance
+    /** @type {Fl32_Leana_Front_Shared_Widget_DateTimePicker} */
+    const dateTimePicker = spec['Fl32_Leana_Front_Shared_Widget_DateTimePicker$']; // singleton class instance
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
     const SaveReq = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Front_Desk_Widget_Api_Task} */
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
     const TaskOnDateReq = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */
     const TimeWorkReq = spec['Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List#Request'];   // class constructor
 
     return {
-        name: 'TaskPreview',
+        name: 'CalendarTaskPreview',
         template,
-        components: {
-            actions,
-            dateTimePicker: wgDateTimePicker,
-        },
+        components: {actions, dateTimePicker},
         data() {
             return {
                 serviceId: null,
@@ -326,4 +329,5 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
     };
 }
 
+// We should place function separately to allow JSDoc & IDEA hints & navigation.
 export default Fl32_Leana_Front_Desk_Widget_Task_Preview;

@@ -5,13 +5,13 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton class instance
         /** @type {Fl32_Leana_Shared_Util_DateTime} */
-        const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$'];  // singleton instance
+        const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$'];  // singleton class instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
-        const eTask = spec['Fl32_Leana_Store_RDb_Schema_Task$'];    // singleton instance
+        const eTask = spec['Fl32_Leana_Store_RDb_Schema_Task$'];    // singleton class instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
-        const eTaskDet = spec['Fl32_Leana_Store_RDb_Schema_Task_Detail$'];  // singleton instance
+        const eTaskDet = spec['Fl32_Leana_Store_RDb_Schema_Task_Detail$'];  // singleton class instance
         /** @type {typeof Fl32_Leana_Shared_Service_Data_Task} */
         const Task = spec['Fl32_Leana_Shared_Service_Data_Task#'];  // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */

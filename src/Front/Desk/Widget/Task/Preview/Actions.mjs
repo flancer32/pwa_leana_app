@@ -18,13 +18,13 @@ const template = `
     <action-bar :params="actions"></action-bar>
 </div>
 `;
+
 /**
  *
  * @param {TeqFw_Di_SpecProxy} spec
  * @return {*}
- * @constructor
  */
-export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) {
+function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_Action_Bar} */
     const actionBar = spec.Fl32_Leana_Front_Desk_Widget_Action_Bar$$;   // new instance
     const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar'];    // class constructor
@@ -123,3 +123,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) 
         }
     };
 }
+
+// We should place function separately to allow JSDoc & IDEA hints & navigation.
+export default Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions;
