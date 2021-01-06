@@ -1,9 +1,15 @@
 /* Define default values for CSS variables */
 :root {
+    --color-back-dark: #422c2a;
+    --color-back-light: #c1433b;
     --color-back-main: #f9efed;
+    --color-back-top-dark: #e6d6d3;
     --color-back-top: #f1e7e4;
     --color-bright: #c1433b;
     --color-front-light: #f1e7e4;
+    --color-front-main: #422c2a;
+    --color-front-placeholder: #c1807c;
+    --color-front-top: #c1433b;
     --font-size-large: 20px;
     --grid-gap: 10px;
     --icon-size-l: 120px;

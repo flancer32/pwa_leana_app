@@ -1,40 +1,46 @@
 const app = self.teqfw.app;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
+const mapState = self.teqfw.lib.Vuex.mapState;
 const router = self.teqfw.router;
 
 const template = `
-<div>
-    <div id="app">
-        <div id="layer_base">
-            <main>
-                <router-view></router-view>
-            </main>
-        </div>
-        <div id="layer_status_bar">
-            <app-status-bar></app-status-bar>
-        </div>
-        <div id="layer_side_bar"></div>
-        <app-overlay></app-overlay>
-        <div id="layer_notification"></div>
-    </div>
+<div id="app">
+    <component :is="activeLayout"></component>
 </div>
 `;
 
 export default function Fl32_Leana_Front_Desk_App(spec) {
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec['Fl32_Leana_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_User_Defaults} */
-    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    const DEF_USER = spec['Fl32_Teq_User_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_Acl_Front_App_Session} */
-    const session = spec[DEF_USER.DI_SESSION];
-    const layoutOverlay = spec.Fl32_Leana_Front_Desk_Layout_Overlay$;
-    const layoutStatusBar = spec.Fl32_Leana_Front_Desk_Layout_StatusBar$;
-    const routeCalendar = spec.Fl32_Leana_Front_Desk_Route_Calendar$;
-    const routeClients = spec.Fl32_Leana_Front_Desk_Route_Clients$;
-    const routeDev = spec.Fl32_Leana_Front_Desk_Route_Dev$;
-    const routeEmployees = spec.Fl32_Leana_Front_Desk_Route_Employees$;
-    const routeServices = spec.Fl32_Leana_Front_Desk_Route_Services$;
-    const routeUserSignIn = spec.Fl32_Leana_Front_Desk_Route_User_SignIn$;
-    const widgetTaskPreview = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview$;
-    const state = spec.Fl32_Leana_Front_Desk_State$;
+    const session = spec[DEF_USER.DI_SESSION];  // named singleton
+    /** @type {Fl32_Leana_Front_Desk_State} */
+    const state = spec['Fl32_Leana_Front_Desk_State$']; // singleton object
+    /** @type {Fl32_Leana_Front_Desk_Layout_Main} */
+    const layoutMain = spec['Fl32_Leana_Front_Desk_Layout_Main$']; // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Layout_Centered} */
+    const layoutCentered = spec['Fl32_Leana_Front_Desk_Layout_Centered$']; // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Layout_Overlay} */
+    const layoutOverlay = spec['Fl32_Leana_Front_Desk_Layout_Overlay$'];    // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Layout_StatusBar} */
+    const layoutStatusBar = spec['Fl32_Leana_Front_Desk_Layout_StatusBar$'];   // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Route_Calendar} */
+    const routeCalendar = spec['Fl32_Leana_Front_Desk_Route_Calendar$'];   // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Route_Clients} */
+    const routeClients = spec['Fl32_Leana_Front_Desk_Route_Clients$']; // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Route_Dev} */
+    const routeDev = spec['Fl32_Leana_Front_Desk_Route_Dev$']; // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Route_Employees} */
+    const routeEmployees = spec['Fl32_Leana_Front_Desk_Route_Employees$']; // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Route_Services} */
+    const routeServices = spec['Fl32_Leana_Front_Desk_Route_Services$'];   // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Route_User_SignIn} */
+    const routeUserSignIn = spec['Fl32_Leana_Front_Desk_Route_User_SignIn$'];  // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Widget_Task_Preview} */
+    const widgetTaskPreview = spec['Fl32_Leana_Front_Desk_Widget_Task_Preview$'];  // singleton component
+
 
     // add frontend routes and bound components
     router.addRoute({path: '/', component: routeCalendar});
@@ -54,13 +60,30 @@ export default function Fl32_Leana_Front_Desk_App(spec) {
 
     // add globally used components (accessible from other components)
     app.component('appOverlay', layoutOverlay);
+    app.component('appStatusBar', layoutStatusBar);
+    app.component('layoutMain', layoutMain);
+    app.component('layoutCentered', layoutCentered);
     app.component('taskPreview', widgetTaskPreview);
 
     return {
         name: 'DeskApp',
         template,
-        components: {   // locally used components
-            appStatusBar: layoutStatusBar,
+        computed: {
+            /**
+             * Calculate name for active layout widget (main or centered).
+             *
+             * @return {string}
+             */
+            activeLayout() {
+                let isAuthenticated = false;
+                if (this.stateUserAuthenticated) {
+                    isAuthenticated = session.hasPermission(DEF.ACL_IS_EMPLOYEE);
+                }
+                return isAuthenticated ? 'layoutMain' : 'layoutCentered';
+            },
+            ...mapState({
+                stateUserAuthenticated: state => state.user.authenticated,
+            })
         },
         methods: {
             ...mapMutations({

@@ -23,7 +23,7 @@ const template = `
 <!--    ></scroller-vertical>-->
 </div>`;
 
-export default function Fl32_Leana_Front_Desk_Route_Dev(spec) {
+function Fl32_Leana_Front_Desk_Route_Dev(spec) {
     // inject dependencies first
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec.Fl32_Leana_Defaults$;
@@ -76,3 +76,5 @@ export default function Fl32_Leana_Front_Desk_Route_Dev(spec) {
         }
     };
 }
+
+export default Fl32_Leana_Front_Desk_Route_Dev;

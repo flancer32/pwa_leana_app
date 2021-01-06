@@ -23,7 +23,7 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Desk_Route_Services(spec) {
+function Fl32_Leana_Front_Desk_Route_Services(spec) {
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec.Fl32_Leana_Defaults$;
     /** @type {Fl32_Teq_User_Defaults} */
@@ -65,3 +65,5 @@ export default function Fl32_Leana_Front_Desk_Route_Services(spec) {
         }
     };
 }
+
+export default Fl32_Leana_Front_Desk_Route_Services;

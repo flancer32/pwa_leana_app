@@ -1,6 +1,8 @@
 /* base rules according to SMACSS (http://smacss.com/) */
 HTML, BODY {
+    background-color: var(--color-back-main);
     box-sizing: border-box;
+    color: var(--color-front-main);
     height: 100%;
     margin: 0;
     width: 100%;
@@ -10,6 +12,11 @@ INPUT, TEXTAREA, BUTTON {
     border-style: solid;
     border-width: 1px;
     box-sizing: border-box;
+}
+
+BUTTON {
+    min-height: var(--input-height);
+    min-width: var(--input-height);
 }
 
 

@@ -4,7 +4,7 @@
  * @return {Object}
  * @constructor
  */
-export default function Fl32_Leana_Front_Desk_State_App() {
+function Fl32_Leana_Front_Desk_State_App() {
     return {
         namespaced: true,
         state: {
@@ -22,3 +22,5 @@ export default function Fl32_Leana_Front_Desk_State_App() {
         actions: {},
     };
 }
+
+export default Fl32_Leana_Front_Desk_State_App;

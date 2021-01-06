@@ -1,6 +1,5 @@
 const i18next = self.teqfw.i18next;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
-const mapState = self.teqfw.lib.Vuex.mapState;
 
 i18next.addResources('lv', 'routeSignIn', {
     message: 'Izveidota jauna sesija: {{sessionId}}.',
@@ -21,7 +20,6 @@ i18next.addResourceBundle('ru', 'teqUserSignIn', {
     user: 'Пользователь',
 }, true);
 
-
 const template = `
 <div>
     <user-sign-in v-show="showForm"
@@ -37,12 +35,13 @@ const template = `
 
 export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
-    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    const DEF_USER = spec['Fl32_Teq_User_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_Acl_Front_App_Session} */
-    const session = spec[DEF_USER.DI_SESSION];
-    const userSignIn = spec.Fl32_Teq_User_Front_Widget_SignIn$;
+    const session = spec[DEF_USER.DI_SESSION];  // named singleton
+    /** @type {Fl32_Teq_User_Front_Widget_SignIn} */
+    const userSignIn = spec['Fl32_Teq_User_Front_Widget_SignIn$'];  // singleton instance
     /** @type {typeof Fl32_Teq_User_Front_Widget_SignIn_Props} */
-    const SignInProps = spec['Fl32_Teq_User_Front_Widget_SignIn#Props'];
+    const SignInProps = spec['Fl32_Teq_User_Front_Widget_SignIn#Props'];    // class constructor
 
     return {
         template,
@@ -61,9 +60,6 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
                 result.user = 'cust';
                 return result;
             },
-            ...mapState({
-                userAuthenticated: state => state.user.authenticated,
-            })
         },
         methods: {
             /**
@@ -75,8 +71,9 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
                 this.reset();
             },
             async onSuccess() {
+                // session is initiated in 'Fl32_Teq_User_Front_Widget_SignIn' before @success event.
                 const user = session.getUser();
-                this.setUserAuthenticated(user);
+                this.setStateUserAuthenticated(user);
                 // redirect to booking
                 await this.$router.push('/book');
             },
@@ -87,7 +84,7 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
                 }, 2000);
             },
             ...mapMutations({
-                setUserAuthenticated: 'user/setAuthenticated'
+                setStateUserAuthenticated: 'user/setAuthenticated'
             }),
         },
     };

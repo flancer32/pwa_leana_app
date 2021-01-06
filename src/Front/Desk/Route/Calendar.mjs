@@ -18,7 +18,13 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
+/**
+ *
+ * @param {TeqFw_Di_SpecProxy} spec
+ * @return {Object}
+ * @exports Fl32_Leana_Front_Desk_Route_Calendar
+ */
+function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec.Fl32_Leana_Defaults$;
     /** @type {Fl32_Teq_User_Defaults} */
@@ -182,3 +188,5 @@ export default function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
         }
     };
 }
+
+export default Fl32_Leana_Front_Desk_Route_Calendar;

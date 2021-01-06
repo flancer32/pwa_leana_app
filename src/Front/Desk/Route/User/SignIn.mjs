@@ -1,12 +1,13 @@
 const i18next = self.teqfw.i18next;
-const mapActions = self.teqfw.lib.Vuex.mapActions;
-const mapState = self.teqfw.lib.Vuex.mapState;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 
 i18next.addResources('lv', 'routeSignIn', {
     message: 'Izveidota jauna sesija: {{sessionId}}.',
+    title: 'Leana Hairdresser Salon',
 });
 i18next.addResources('ru', 'routeSignIn', {
     message: 'Новая сессия установлена: "{{sessionId}}".',
+    title: 'Leana Hairdresser Salon',
 });
 
 i18next.addResourceBundle('lv', 'teqUserSignIn', {
@@ -23,7 +24,8 @@ i18next.addResourceBundle('ru', 'teqUserSignIn', {
 
 
 const template = `
-<div>
+<div class="route_sign_in">
+    <h1>{{$t('routeSignIn:title')}}</h1>
     <user-sign-in v-show="showForm"
         :data="signIn"
         @onSuccess="onSuccess($event)"
@@ -35,7 +37,7 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Desk_Route_User_SignIn(spec) {
+function Fl32_Leana_Front_Desk_Route_User_SignIn(spec) {
     const userSignIn = spec.Fl32_Teq_User_Front_Widget_SignIn$;
     /** @type {typeof Fl32_Teq_User_Front_Widget_SignIn_Props} */
     const SignInProps = spec['Fl32_Teq_User_Front_Widget_SignIn#Props'];
@@ -62,9 +64,6 @@ export default function Fl32_Leana_Front_Desk_Route_User_SignIn(spec) {
                 result.user = '';
                 return result;
             },
-            ...mapState({
-                userAcl: state => state.acl.userAcl,
-            })
         },
         methods: {
             /**
@@ -76,8 +75,10 @@ export default function Fl32_Leana_Front_Desk_Route_User_SignIn(spec) {
                 this.reset();
             },
             async onSuccess() {
-                // get permissions from server then redirect user to the saved route
-                await session.init();
+                // session is initiated in 'Fl32_Teq_User_Front_Widget_SignIn' before @success event.
+                const user = session.getUser();
+                this.setStateUserAuthenticated(user);
+                //get route been saved before redirect to sign in form
                 const path = session.getRouteToRedirect();
                 await this.$router.push(path);
             },
@@ -87,9 +88,11 @@ export default function Fl32_Leana_Front_Desk_Route_User_SignIn(spec) {
                     this.showForm = true;
                 }, 2000);
             },
-            ...mapActions({
-                loadUserAcl: 'acl/loadUserAcl',
+            ...mapMutations({
+                setStateUserAuthenticated: 'user/setAuthenticated'
             }),
         },
     };
 }
+
+export default Fl32_Leana_Front_Desk_Route_User_SignIn;
