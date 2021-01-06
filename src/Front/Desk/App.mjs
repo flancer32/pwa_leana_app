@@ -4,12 +4,12 @@ const mapState = self.teqfw.lib.Vuex.mapState;
 const router = self.teqfw.router;
 
 const template = `
-<div id="app">
+<div class="app">
     <component :is="activeLayout"></component>
 </div>
 `;
 
-export default function Fl32_Leana_Front_Desk_App(spec) {
+function Fl32_Leana_Front_Desk_App(spec) {
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec['Fl32_Leana_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_User_Defaults} */
@@ -24,8 +24,6 @@ export default function Fl32_Leana_Front_Desk_App(spec) {
     const layoutCentered = spec['Fl32_Leana_Front_Desk_Layout_Centered$']; // singleton component
     /** @type {Fl32_Leana_Front_Desk_Layout_Overlay} */
     const layoutOverlay = spec['Fl32_Leana_Front_Desk_Layout_Overlay$'];    // singleton component
-    /** @type {Fl32_Leana_Front_Desk_Layout_StatusBar} */
-    const layoutStatusBar = spec['Fl32_Leana_Front_Desk_Layout_StatusBar$'];   // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Calendar} */
     const routeCalendar = spec['Fl32_Leana_Front_Desk_Route_Calendar$'];   // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Clients} */
@@ -60,7 +58,6 @@ export default function Fl32_Leana_Front_Desk_App(spec) {
 
     // add globally used components (accessible from other components)
     app.component('appOverlay', layoutOverlay);
-    app.component('appStatusBar', layoutStatusBar);
     app.component('layoutMain', layoutMain);
     app.component('layoutCentered', layoutCentered);
     app.component('taskPreview', widgetTaskPreview);
@@ -96,3 +93,5 @@ export default function Fl32_Leana_Front_Desk_App(spec) {
         }
     };
 }
+
+export default Fl32_Leana_Front_Desk_App;

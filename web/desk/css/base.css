@@ -29,3 +29,7 @@ TEXTAREA {
     height: calc(var(--input-height) * 3);
     width: 100%;
 }
+
+A, A:visited {
+    color: var(--color-front-main);
+}

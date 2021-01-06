@@ -1,0 +1,24 @@
+.navigator {
+    align-items: center;
+    border-bottom: 1px solid var(--color-front-main);
+    display: grid;
+    font-size: var(--font-size-large);
+    grid-template-columns:1fr var(--height-top-bar);
+    height: 100%;
+    justify-items: center;
+}
+
+.nav_menu {
+    background-color: var(--color-back-top);
+    border-radius: var(--grid-gap);
+    border: 1px solid var(--color-front-main);
+    max-height: calc(100vh - var(--height-top-bar));
+    overflow: auto;
+    position: fixed;
+    right: 0;
+    top: var(--height-top-bar);
+}
+
+.nav_menu > DIV {
+    margin: 20px;
+}

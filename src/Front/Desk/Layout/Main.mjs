@@ -3,28 +3,29 @@ i18next.addResources('lv', 'navig', {});
 i18next.addResources('ru', 'navig', {});
 
 const template = `
-<div id="layout_main">
-    <div id="layer_base">
-        <main>
-            <router-view></router-view>
-        </main>
+<div class="layout_main">
+    <div class="layer_base">
+        <router-view></router-view>
     </div>
-    <div id="layer_status_bar">
-        <app-status-bar></app-status-bar>
+    <div class="layer_navigation">
+        <navigator></navigator>
     </div>
-    <div id="layer_side_bar"></div>
     <app-overlay></app-overlay>
-    <div id="layer_notification"></div>
+    <div class="layer_notification"></div>
 </div>
 `;
 
 /**
- * Right side navigator (main).
+ * Main layout for authenticated users.
  */
-function Fl32_Leana_Front_Desk_Layout_Main() {
+function Fl32_Leana_Front_Desk_Layout_Main(spec) {
+    /** @type {Fl32_Leana_Front_Desk_Layout_Navigator} */
+    const navigator = spec['Fl32_Leana_Front_Desk_Layout_Navigator$'];   // singleton component
+
     return {
         name: 'LayoutMain',
         template,
+        components: {navigator},
         data: function () {
             return {};
         },

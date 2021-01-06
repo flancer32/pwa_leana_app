@@ -1,5 +1,7 @@
-/* common styles for all modes (portrait, landscape & tablet) */
-#app {
+/* Layout related styles (common for all routes). */
+@import "layout/navig.css";
+
+.app {
     display: grid;
     grid-template-columns:100%;
     grid-template-rows:  100%;
@@ -7,42 +9,24 @@
     min-width: 100%;
 }
 
-#layer_base {
+.layer_base {
     margin-top: var(--grid-gap);
     position: relative;
-    top: var(--layout-status-bar-height);
+    top: var(--height-top-bar);
     width: 100%;
     will-change: transform;
     z-index: 0;
 }
 
-#layer_status_bar {
+.layer_navigation {
     background-color: var(--color-back-top);
-    height: var(--layout-status-bar-height);
+    height: var(--height-top-bar);
     left: 0;
     position: fixed;
     top: 0;
     width: 100%;
     will-change: transform;
     z-index: 1000;
-}
-
-
-#status_bar {
-    align-items: center;
-    display: grid;
-    grid-auto-flow: column;
-    height: 100%;
-    justify-items: center;
-}
-
-#layer_side_bar {
-    background-color: var(--color-back-top);
-    height: var(--layout-navbar-height);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1500;
 }
 
 #layer_overlay {
@@ -74,7 +58,7 @@
     overflow: scroll;
 }
 
-#layer_notification {
+.layer_notification {
     display: none;
     height: 100%;
     position: fixed;
