@@ -1,116 +1,113 @@
 export default class Fl32_Leana_Back_Process_Task_Save {
-    /** @type {Fl32_Leana_Extern_Google_Api} */
-    #googleApi
-    /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    #utilDate
-    /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
-    eEmpl
-    /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
-    eSrv
-    /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
-    eTask
-    /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
-    eTaskDet
 
     /**  @param {Object} spec */
     constructor(spec) {
-        // this.#googleApi = spec.Fl32_Leana_Extern_Google_Api$;
-        this.#utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
-        this.eEmpl = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
-        this.eSrv = spec.Fl32_Leana_Store_RDb_Schema_Service$;
-        this.eTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
-        this.eTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
-    }
+        /** @type {Fl32_Leana_Defaults} */
+        const DEF = spec['Fl32_Leana_Defaults$'];   // singleton instance
+        /** @type {Fl32_Leana_Store_RDb_Schema_Task_State_Trans} */
+        const eStateTrans = spec['Fl32_Leana_Store_RDb_Schema_Task_State_Trans$'];   // singleton instance
+        /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
+        const eTask = spec['Fl32_Leana_Store_RDb_Schema_Task$']; // singleton instance
+        /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
+        const eTaskDet = spec['Fl32_Leana_Store_RDb_Schema_Task_Detail$'];   // singleton instance
+        /** @type {Fl32_Leana_Shared_Util_DateTime} */
+        const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$'];  // singleton instance
 
-    /**
-     * Save booking details from front into RDB.
-     *
-     * @param {Function} trx
-     * @param {Fl32_Leana_Shared_Service_Route_Task_Save_Request} req
-     * @returns {Promise<Number>}
-     */
-    async exec({trx, req}) {
-        // PARSE INPUT & DEFINE WORKING VARS
-        let result = null;
-        const me = this;
-        const apiDate = new Date(req.date);
+        /**
+         * Save booking details from front into RDB.
+         *
+         * @param {Function} trx
+         * @param {Fl32_Leana_Shared_Service_Route_Task_Save_Request} req
+         * @returns {Promise<Number>}
+         */
+        this.exec = async function ({trx, req}) {
+            // PARSE INPUT & DEFINE WORKING VARS
+            let result = null;
+            const apiDate = new Date(req.date);
 
-        // DEFINE INNER FUNCTIONS
+            // DEFINE INNER FUNCTIONS
 
-        async function addToDb() {
-            const date = me.#utilDate.stampDateUtc(apiDate);
-            const hh = `${apiDate.getUTCHours()}`.padStart(2, 0);
-            const mm = `${apiDate.getUTCMinutes()}`.padStart(2, 0);
-            const from = `${hh}${mm}`;
-            const fromMin = me.#utilDate.convertDbHrsMinsToMins(from);
-            const toMin = fromMin + Number.parseInt(req.duration);
-            const to = me.#utilDate.convertMinsToDbHrsMins(toMin);
-            const customer = req.name ?? undefined;
-            const email = req.email ?? undefined;
-            const locale = req.locale ?? undefined;
-            const madeOnFront = req.madeOnFront ?? false;
-            const note = req.note ?? undefined;
-            const phone = req.phone ?? undefined;
-            // register ID for entity
-            const rs = await trx(me.eTask.ENTITY).insert({});
-            const taskId = rs[0];
-            // add details for new entity
-            await trx(me.eTaskDet.ENTITY).insert({
-                [me.eTaskDet.A_CUSTOMER]: customer,
-                [me.eTaskDet.A_DATE]: date,
-                [me.eTaskDet.A_EMAIL]: email,
-                [me.eTaskDet.A_EMPLOYEE_REF]: req.employeeId,
-                [me.eTaskDet.A_FROM]: from,
-                [me.eTaskDet.A_LOCALE]: locale,
-                [me.eTaskDet.A_MADE_ON_FRONT]: madeOnFront,
-                [me.eTaskDet.A_NOTE]: note,
-                [me.eTaskDet.A_PHONE]: phone,
-                [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
-                [me.eTaskDet.A_TASK_REF]: taskId,
-                [me.eTaskDet.A_TO]: to,
-            });
-            return taskId;
-        }
+            async function addToDb() {
+                const date = utilDate.stampDateUtc(apiDate);
+                const hh = `${apiDate.getUTCHours()}`.padStart(2, 0);
+                const mm = `${apiDate.getUTCMinutes()}`.padStart(2, 0);
+                const from = `${hh}${mm}`;
+                const fromMin = utilDate.convertDbHrsMinsToMins(from);
+                const toMin = fromMin + Number.parseInt(req.duration);
+                const to = utilDate.convertMinsToDbHrsMins(toMin);
+                const customer = req.name ?? undefined;
+                const email = req.email ?? undefined;
+                const locale = req.locale ?? undefined;
+                const madeOnFront = req.madeOnFront ?? false;
+                const note = req.note ?? undefined;
+                const phone = req.phone ?? undefined;
+                // register ID for entity
+                const rs = await trx(eTask.ENTITY).insert({});
+                const taskId = rs[0];
+                // add details for new entity
+                await trx(eTaskDet.ENTITY).insert({
+                    [eTaskDet.A_CUSTOMER]: customer,
+                    [eTaskDet.A_DATE]: date,
+                    [eTaskDet.A_EMAIL]: email,
+                    [eTaskDet.A_EMPLOYEE_REF]: req.employeeId,
+                    [eTaskDet.A_FROM]: from,
+                    [eTaskDet.A_LOCALE]: locale,
+                    [eTaskDet.A_MADE_ON_FRONT]: madeOnFront,
+                    [eTaskDet.A_NOTE]: note,
+                    [eTaskDet.A_PHONE]: phone,
+                    [eTaskDet.A_SERVICE_REF]: req.serviceId,
+                    [eTaskDet.A_TASK_REF]: taskId,
+                    [eTaskDet.A_TO]: to,
+                });
+                // register state transition
+                await trx(eStateTrans.ENTITY).insert({
+                    [eStateTrans.A_TASK_REF]: taskId,
+                    [eStateTrans.A_STATE_OLD]: DEF.E_TASK_STATE_ACTIVE,
+                    [eStateTrans.A_STATE_NEW]: DEF.E_TASK_STATE_ACTIVE,
+                });
+                return taskId;
+            }
 
-        async function saveToDb() {
-            const date = me.#utilDate.stampDateUtc(apiDate);
-            const hh = `${apiDate.getUTCHours()}`.padStart(2, 0);
-            const mm = `${apiDate.getUTCMinutes()}`.padStart(2, 0);
-            const from = `${hh}${mm}`;
-            const fromMin = me.#utilDate.convertDbHrsMinsToMins(from);
-            const toMin = fromMin + Number.parseInt(req.duration);
-            const to = me.#utilDate.convertMinsToDbHrsMins(toMin);
-            const customer = req.name ?? undefined;
-            const email = req.email ?? undefined;
-            const phone = req.phone ?? undefined;
-            const note = req.note ?? undefined;
-            const locale = req.locale ?? undefined;
-            // update details for existing entity
-            await trx(me.eTaskDet.ENTITY)
-                .update({
-                    [me.eTaskDet.A_CUSTOMER]: customer,
-                    [me.eTaskDet.A_DATE]: date,
-                    [me.eTaskDet.A_EMAIL]: email,
-                    [me.eTaskDet.A_EMPLOYEE_REF]: req.employeeId,
-                    [me.eTaskDet.A_FROM]: from,
-                    [me.eTaskDet.A_LOCALE]: locale,
-                    [me.eTaskDet.A_NOTE]: note,
-                    [me.eTaskDet.A_PHONE]: phone,
-                    [me.eTaskDet.A_SERVICE_REF]: req.serviceId,
-                    [me.eTaskDet.A_TO]: to,
-                })
-                .where({[me.eTaskDet.A_TASK_REF]: req.id,});
-            return req.id;
-        }
+            async function saveToDb() {
+                const date = utilDate.stampDateUtc(apiDate);
+                const hh = `${apiDate.getUTCHours()}`.padStart(2, 0);
+                const mm = `${apiDate.getUTCMinutes()}`.padStart(2, 0);
+                const from = `${hh}${mm}`;
+                const fromMin = utilDate.convertDbHrsMinsToMins(from);
+                const toMin = fromMin + Number.parseInt(req.duration);
+                const to = utilDate.convertMinsToDbHrsMins(toMin);
+                const customer = req.name ?? undefined;
+                const email = req.email ?? undefined;
+                const phone = req.phone ?? undefined;
+                const note = req.note ?? undefined;
+                const locale = req.locale ?? undefined;
+                // update details for existing entity
+                await trx(eTaskDet.ENTITY)
+                    .update({
+                        [eTaskDet.A_CUSTOMER]: customer,
+                        [eTaskDet.A_DATE]: date,
+                        [eTaskDet.A_EMAIL]: email,
+                        [eTaskDet.A_EMPLOYEE_REF]: req.employeeId,
+                        [eTaskDet.A_FROM]: from,
+                        [eTaskDet.A_LOCALE]: locale,
+                        [eTaskDet.A_NOTE]: note,
+                        [eTaskDet.A_PHONE]: phone,
+                        [eTaskDet.A_SERVICE_REF]: req.serviceId,
+                        [eTaskDet.A_TO]: to,
+                    })
+                    .where({[eTaskDet.A_TASK_REF]: req.id,});
+                return req.id;
+            }
 
-        // MAIN FUNCTIONALITY
-        if (typeof req.id === 'number') {
-            await saveToDb();
-            result = req.id;
-        } else {
-            result = await addToDb();
-        }
-        // COMPOSE RESULT
-        return result;
+            // MAIN FUNCTIONALITY
+            if (typeof req.id === 'number') {
+                await saveToDb();
+                result = req.id;
+            } else {
+                result = await addToDb();
+            }
+            // COMPOSE RESULT
+            return result;
+        };
     }
 }
