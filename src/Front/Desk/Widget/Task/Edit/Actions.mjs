@@ -11,9 +11,11 @@ const template = `
 
 export default function Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_Action_Bar} */
-    const actionBar = spec.Fl32_Leana_Front_Desk_Widget_Action_Bar$$;   // new instance
-    const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar'];
-    const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];
+    const actionBar = spec['Fl32_Leana_Front_Desk_Widget_Action_Bar$$'];   // new instance
+    /** @type {typeof Fl32_Leana_Front_Desk_Widget_Action_Api_Bar} */
+    const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar'];    // class constructor
+    /** @type {typeof Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
+    const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];  // class constructor
 
     return {
         template,

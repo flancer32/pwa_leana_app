@@ -6,8 +6,9 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Desk_Widget_Action_Item(spec) {
-    const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];
+function Fl32_Leana_Front_Desk_Widget_Action_Item(spec) {
+    /** @type {typeof Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
+    const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];  // class constructor
 
     return {
         template,
@@ -30,3 +31,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Action_Item(spec) {
         },
     };
 }
+
+// We should place function separately to allow JSDoc & IDEA hints & navigation.
+export default Fl32_Leana_Front_Desk_Widget_Action_Item;

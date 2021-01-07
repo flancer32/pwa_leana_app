@@ -4,14 +4,14 @@ const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
-
 const EVENT_SAVE = 'actionSave';
 
-i18next.addResources('lv', 'previewAct', {});
+i18next.addResources('lv', 'previewAct', {
+    removeConfirm: 'Vai tiešām vēlaties dzēst ierakstu?',
+});
 i18next.addResources('ru', 'previewAct', {
     removeConfirm: 'Вы действительно хотите удалить запись?',
 });
-
 
 const template = `
 <div class="task_preview_action_bar">
@@ -26,13 +26,15 @@ const template = `
  */
 function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_Action_Bar} */
-    const actionBar = spec.Fl32_Leana_Front_Desk_Widget_Action_Bar$$;   // new instance
+    const actionBar = spec['Fl32_Leana_Front_Desk_Widget_Action_Bar$$'];   // new instance
+    /** @type {typeof Fl32_Leana_Front_Desk_Widget_Action_Api_Bar} */
     const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar'];    // class constructor
+    /** @type {typeof Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
     const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];  // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
-    // const popupYesNo = spec.Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions_Remove$$;  // new instance
     /** @type {Fl32_Leana_Front_Shared_Widget_Dialog_YesNo} */
-    const dialogYesNo = spec.Fl32_Leana_Front_Shared_Widget_Dialog_YesNo$;  // singleton
+    const dialogYesNo = spec['Fl32_Leana_Front_Shared_Widget_Dialog_YesNo$'];  // singleton instance
 
     // add components being used in overlay to application
     app.component('popupYesNo', dialogYesNo);    // rewrite component's name with 'popupYesNo'
@@ -42,13 +44,13 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) {
         components: {
             actionBar
         },
-        emits: ['actionSave', 'actionRemove'],
+        emits: [EVENT_SAVE],
         computed: {
             actions() {
                 /** @type {Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
                 const remove = new Item();
                 remove.code = 'remove';
-                remove.func = this.actionRemove;
+                remove.func = this.actionCancel;
                 remove.icon = 'far fa-calendar-minus';
                 remove.title = 'removeTitle';
                 /** @type {Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
@@ -64,16 +66,16 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) {
                 return result;
             },
             ...mapState({
-                dateSelected: state => state.calendar.dateSelected,
-                taskSelected: state => state.calendar.taskSelected,
+                stateCalendarDateSelected: state => state.calendar.dateSelected,
+                stateCalendarTaskSelected: state => state.calendar.taskSelected,
             })
         },
         methods: {
-            actionRemove() {
+            actionCancel() {
                 const me = this;
-                // data from Vuex is not transmitted into handlers, pin it here.
-                const storedTask = this.taskSelected;
-                const storedDate = this.dateSelected;
+                // data from Vuex is not transmitted into 'onYes' handler, close it here.
+                const storedTask = this.stateCalendarTaskSelected;
+                const storedDate = this.stateCalendarDateSelected;
 
                 async function onNo() {
                     me.resetOverlay();
@@ -85,7 +87,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) {
                      * @return {Promise<any>}
                      */
                     async function removeTask(taskId) {
-                        const res = await fetch('../api/task/remove', {
+                        const res = await fetch('../api/task/cancel', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'

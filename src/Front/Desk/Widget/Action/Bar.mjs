@@ -7,10 +7,11 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Desk_Widget_Action_Bar(spec) {
+function Fl32_Leana_Front_Desk_Widget_Action_Bar(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_Action_Item} */
-    const action = spec.Fl32_Leana_Front_Desk_Widget_Action_Item$;   // singleton
-    const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar']; // class
+    const action = spec['Fl32_Leana_Front_Desk_Widget_Action_Item$'];   // singleton
+    /** @type {typeof Fl32_Leana_Front_Desk_Widget_Action_Api_Bar} */
+    const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar']; // class constructor
 
     return {
         template,
@@ -32,3 +33,6 @@ export default function Fl32_Leana_Front_Desk_Widget_Action_Bar(spec) {
         }
     };
 }
+
+// We should place function separately to allow JSDoc & IDEA hints & navigation.
+export default Fl32_Leana_Front_Desk_Widget_Action_Bar;

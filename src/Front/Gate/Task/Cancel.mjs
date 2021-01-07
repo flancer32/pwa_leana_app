@@ -1,22 +1,22 @@
 /**
- * Frontend gate to 'task/remove' service.
+ * Frontend gate to 'task/cancel' service.
  */
 export default function (spec) {
     const config = spec.config; // named singleton
-    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Remove_Response} */
-    const Response = spec['Fl32_Leana_Shared_Service_Route_Task_Remove#Response'];
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Cancel_Response} */
+    const Response = spec['Fl32_Leana_Shared_Service_Route_Task_Cancel#Response'];
     /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
     const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     // TODO: we need to map gate to API URI
-    const URL = `https://${config.web.urlBase}/api/task/remove`;
+    const URL = `https://${config.web.urlBase}/api/task/cancel`;
 
     /**
-     * @param {Fl32_Leana_Shared_Service_Route_Task_Remove_Request} data
-     * @return {Promise<Fl32_Leana_Shared_Service_Route_Task_Remove_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
-     * @exports Fl32_Leana_Front_Gate_Task_Remove
+     * @param {Fl32_Leana_Shared_Service_Route_Task_Cancel_Request} data
+     * @return {Promise<Fl32_Leana_Shared_Service_Route_Task_Cancel_Response|TeqFw_Core_App_Front_Gate_Response_Error>}
+     * @exports Fl32_Leana_Front_Gate_Task_Cancel
      */
-    async function Fl32_Leana_Front_Gate_Task_Remove(data) {
+    async function Fl32_Leana_Front_Gate_Task_Cancel(data) {
         try {
             const res = await fetch(URL, {
                 method: 'POST',
@@ -26,7 +26,7 @@ export default function (spec) {
                 body: JSON.stringify({data})
             });
             const json = await res.json();
-            /** @type {Fl32_Leana_Shared_Service_Route_Task_Remove_Response} */
+            /** @type {Fl32_Leana_Shared_Service_Route_Task_Cancel_Response} */
             const result = new Response();
             Object.assign(result, json);
             return result;
@@ -40,6 +40,6 @@ export default function (spec) {
     }
 
     // We should place function separately to allow JSDoc & IDEA hints & navigation.
-    return Fl32_Leana_Front_Gate_Task_Remove;
+    return Fl32_Leana_Front_Gate_Task_Cancel;
 }
 
