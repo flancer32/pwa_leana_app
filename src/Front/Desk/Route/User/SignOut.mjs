@@ -17,7 +17,7 @@ const template = `
 </div>
 `;
 
-function Fl32_Leana_Front_Pub_Route_SignOut(spec) {
+function Fl32_Leana_Front_Desk_Route_User_SignOut(spec) {
     /** @type {Fl32_Teq_User_Defaults} */
     const DEF_USER = spec['Fl32_Teq_User_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_Acl_Front_App_Session} */
@@ -39,4 +39,4 @@ function Fl32_Leana_Front_Pub_Route_SignOut(spec) {
 }
 
 // We should place function separately to allow JSDoc & IDEA hints & navigation.
-export default Fl32_Leana_Front_Pub_Route_SignOut;
+export default Fl32_Leana_Front_Desk_Route_User_SignOut;

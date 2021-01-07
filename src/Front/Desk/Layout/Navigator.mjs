@@ -47,7 +47,7 @@ const template = `
                 <router-link to="/settings">{{$t("navig:settings")}}</router-link>
             </div>
             <div>
-                <router-link to="/signOut">{{$t("navig:signOut")}}</router-link>
+                <router-link to="/user/signOut">{{$t("navig:signOut")}}</router-link>
             </div>
         </div>  
     </div>

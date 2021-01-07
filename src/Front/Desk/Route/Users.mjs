@@ -6,16 +6,16 @@ const I18N_BUNDLE_RU = {
     name: 'Имя',
 };
 
-i18next.addResourceBundle('lv', 'routeClients', {}, true);
-i18next.addResourceBundle('ru', 'routeClients', I18N_BUNDLE_RU, true);
+i18next.addResourceBundle('lv', 'routeUsers', {}, true);
+i18next.addResourceBundle('ru', 'routeUsers', I18N_BUNDLE_RU, true);
 
 const template = `
 <div>
     <div class="table">
         <div class="table-head" :style="colspan">
-            <div class="headCell">{{ $t('routeClients:id') }}</div>
-            <div class="headCell">{{ $t('routeClients:login') }}</div>
-            <div class="headCell">{{ $t('routeClients:name') }}</div>
+            <div class="headCell">{{ $t('routeUsers:id') }}</div>
+            <div class="headCell">{{ $t('routeUsers:login') }}</div>
+            <div class="headCell">{{ $t('routeUsers:name') }}</div>
         </div>
         <div v-for="item in items" class="table-row" :style="colspan">
             <div class="dataCell">{{ item.id }}</div>
@@ -27,9 +27,9 @@ const template = `
 `;
 
 /**
- * @exports Fl32_Leana_Front_Desk_Route_Clients
+ * @exports Fl32_Leana_Front_Desk_Route_Users
  */
-function Fl32_Leana_Front_Desk_Route_Clients(spec) {
+function Fl32_Leana_Front_Desk_Route_Users(spec) {
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec.Fl32_Leana_Defaults$;
     /** @type {Fl32_Teq_User_Defaults} */
@@ -64,4 +64,4 @@ function Fl32_Leana_Front_Desk_Route_Clients(spec) {
     };
 }
 
-export default Fl32_Leana_Front_Desk_Route_Clients;
+export default Fl32_Leana_Front_Desk_Route_Users;
