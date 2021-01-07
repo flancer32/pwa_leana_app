@@ -5,9 +5,9 @@ export default class Fl32_Leana_Back_Service_Task_Remove {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
-        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton class instance
+        const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Back_Process_Book_Remove} */
-        const procRemove = spec['Fl32_Leana_Back_Process_Book_Remove$'];    // singleton class instance
+        const procRemove = spec['Fl32_Leana_Back_Process_Book_Remove$'];    // singleton instance
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Remove_Request} */
         const Request = spec['Fl32_Leana_Shared_Service_Route_Task_Remove#Request']; // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Remove_Response} */

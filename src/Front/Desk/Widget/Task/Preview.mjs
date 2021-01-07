@@ -19,13 +19,11 @@ i18next.addResources('ru', 'taskPreview', {
 });
 
 const template = `
-<div class="">
-    <actions
-            @actionSave="onTaskSave"
-    ></actions>
+<div>
+    <actions @actionSave="onTaskSave"></actions>
     <h1>{{ params.customer.name }}</h1>
     <form class="preview" onsubmit="return false">
-        <div class="row" v-show="customer.email">
+        <div class="id-email row" v-show="customer.email">
             <div class="label">
                 <span>{{ $t('taskPreview:email') }}:</span>
             </div>
@@ -33,7 +31,7 @@ const template = `
                 <a href="mailto:{{ customer.email }}">{{ customer.email }}</a>
             </div>
         </div>
-        <div class="row" v-show="customer.phone">
+        <div class="id-phone row" v-show="customer.phone">
             <div class="label">
                 <span>{{ $t('taskPreview:phone') }}:</span>
             </div>
@@ -41,7 +39,7 @@ const template = `
                 <a href="tel:{{ customer.phone }}">{{ customer.phone }}</a>
             </div>
         </div>
-        <div class="row">
+        <div class="id-date row">
             <div class="label">
                 <span>{{ $t('taskPreview:date') }}:</span>
             </div>
@@ -52,7 +50,7 @@ const template = `
                 </div>
             </div>
         </div>
-        <div class="row" v-show="employee.code">
+        <div class="id-employee row" v-show="employee.code">
             <div class="label">
                 <span>{{ $t('taskPreview:employee') }}:</span>
             </div>
@@ -60,7 +58,7 @@ const template = `
                 <span>{{ employee.name }}</span>
             </div>
         </div>
-        <div class="row" v-show="service.code">
+        <div class="id-service row" v-show="service.code">
             <div class="label">
                 <span>{{ $t('taskPreview:service') }}:</span>
             </div>
@@ -72,7 +70,7 @@ const template = `
                 </select>
             </div>
         </div>
-        <div class="row">
+        <div class="id-duration row">
             <div class="label">
                 <span>{{ $t('taskPreview:duration') }}:</span>
             </div>
@@ -84,7 +82,7 @@ const template = `
                 </select>
             </div>
         </div>
-        <div class="row">
+        <div class="id-madeBy row">
             <div class="label">
                 <span>{{ $t('taskPreview:madeBy') }}:</span>
             </div>
@@ -93,7 +91,7 @@ const template = `
                 <span v-show="item.madeOnFront">{{ $t('taskPreview:madeByCustomer') }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="id-notes row">
             <div class="label">
                 <span>{{ $t('taskPreview:notes') }}:</span>
             </div>
@@ -125,9 +123,9 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions} */
     const actions = spec['Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions$$'];    // new instance
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton class instance
+    const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton instance
     /** @type {Fl32_Leana_Front_Shared_Widget_DateTimePicker} */
-    const dateTimePicker = spec['Fl32_Leana_Front_Shared_Widget_DateTimePicker$']; // singleton class instance
+    const dateTimePicker = spec['Fl32_Leana_Front_Shared_Widget_DateTimePicker$']; // singleton instance
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
     const SaveReq = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request']; // class constructor
     /** @type {typeof Fl32_Leana_Front_Desk_Widget_Api_Task} */

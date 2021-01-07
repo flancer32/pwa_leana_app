@@ -140,7 +140,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     const gateTaskSave = spec['Fl32_Leana_Front_Gate_Task_Save$'];  //singleton function
     const gateTimeWork = spec['Fl32_Leana_Front_Gate_Employee_TimeWork_List$']; // singleton function
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton class instance
+    const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton instance
     const actions = spec['Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$']; // singleton component
     const dateTimePicker = spec['Fl32_Leana_Front_Shared_Widget_DateTimePicker$']; // singleton component
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
