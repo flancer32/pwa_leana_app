@@ -12,6 +12,8 @@ export default class Fl32_Leana_Plugin_Store_RDb_Setup {
         const createTblTask = spec['Fl32_Leana_Plugin_Store_RDb_Setup_Create_Table_Task$']; // singleton function
         /** @type {Fl32_Leana_Plugin_Store_RDb_Setup_Create_Table_Task_Detail} */
         const createTblTaskDet = spec['Fl32_Leana_Plugin_Store_RDb_Setup_Create_Table_Task_Detail$'];   // singleton function
+        /** @type {Fl32_Leana_Plugin_Store_RDb_Setup_Create_Table_Task_State_Trans} */
+        const createTblTaskStateTrans = spec['Fl32_Leana_Plugin_Store_RDb_Setup_Create_Table_Task_State_Trans$']; // singleton function
 
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
         const eEmployee = spec['Fl32_Leana_Store_RDb_Schema_Employee$'];    // singleton instance
@@ -25,6 +27,8 @@ export default class Fl32_Leana_Plugin_Store_RDb_Setup {
         const eTask = spec['Fl32_Leana_Store_RDb_Schema_Task$'];    // singleton instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
         const eTaskDet = spec['Fl32_Leana_Store_RDb_Schema_Task_Detail$'];  // singleton instance
+        /** @type {Fl32_Leana_Store_RDb_Schema_Task_State_Trans} */
+        const eTaskStateTrans = spec['Fl32_Leana_Store_RDb_Schema_Task_State_Trans$'];  // singleton instance
 
 
         /**
@@ -45,6 +49,7 @@ export default class Fl32_Leana_Plugin_Store_RDb_Setup {
             schema.dropTableIfExists(eEmplSrv.ENTITY);
             schema.dropTableIfExists(eEmplTimeWork.ENTITY);
             schema.dropTableIfExists(eTaskDet.ENTITY);
+            schema.dropTableIfExists(eTaskStateTrans.ENTITY);
         };
 
         /**
@@ -62,6 +67,7 @@ export default class Fl32_Leana_Plugin_Store_RDb_Setup {
             createTblEmplSrv(knex, schema);
             createTblEmplTimeWork(knex, schema);
             createTblTaskDet(knex, schema);
+            createTblTaskStateTrans(knex, schema);
         };
     }
 }

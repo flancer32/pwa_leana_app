@@ -31,10 +31,14 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) {
     const Bar = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Bar'];    // class constructor
     /** @type {typeof Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
     const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];  // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Cancel_Request} */
+    const TaskCancelRequest = spec['Fl32_Leana_Shared_Service_Route_Task_Cancel#Request']; // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
     /** @type {Fl32_Leana_Front_Shared_Widget_Dialog_YesNo} */
     const dialogYesNo = spec['Fl32_Leana_Front_Shared_Widget_Dialog_YesNo$'];  // singleton instance
+    /** @type {Fl32_Leana_Front_Gate_Task_Cancel} */
+    const gateCancel = spec['Fl32_Leana_Front_Gate_Task_Cancel$'];    // singleton function
 
     // add components being used in overlay to application
     app.component('popupYesNo', dialogYesNo);    // rewrite component's name with 'popupYesNo'
@@ -87,19 +91,13 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions(spec) {
                      * @return {Promise<any>}
                      */
                     async function removeTask(taskId) {
-                        const res = await fetch('../api/task/cancel', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({data: {taskId}})
-                        });
-                        return await res.json();
+                        const req = new TaskCancelRequest();
+                        req.taskId = taskId;
+                        return await gateCancel(req);
                     }
 
-                    // we cannot use 'me.taskSelected.id' here, we need to pin stored task before
-                    const taskId = storedTask.id;
-                    const res = await removeTask(taskId);
+                    // we cannot use 'me.taskSelected.id' here, we need to close stored task before
+                    const res = await removeTask(storedTask.id);
                     console.log(`Remove task operation is completed: ${JSON.stringify(res)}`);
                     me.resetOverlay();
                     /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */

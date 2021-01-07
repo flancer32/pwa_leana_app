@@ -4,6 +4,8 @@
 export default class Fl32_Leana_Back_Service_Task_OnDate {
 
     constructor(spec) {
+        /** @type {Fl32_Leana_Defaults} */
+        const DEF = spec['Fl32_Leana_Defaults$'];   // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Shared_Util_DateTime} */
@@ -128,6 +130,7 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
                     // WHERE
                     const datestamp = utilDate.stampDateUtc(date);
                     query.where(`d.${eTaskDet.A_DATE}`, datestamp);
+                    query.where(`t.${eTask.A_STATE}`, DEF.E_TASK_STATE_ACTIVE);
                     // perform query
                     const rs = await query;
                     for (const one of rs) {

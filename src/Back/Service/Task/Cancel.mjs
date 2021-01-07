@@ -6,8 +6,8 @@ export default class Fl32_Leana_Back_Service_Task_Cancel {
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
-        /** @type {Fl32_Leana_Back_Process_Book_Remove} */
-        const procRemove = spec['Fl32_Leana_Back_Process_Book_Remove$'];    // singleton instance
+        /** @type {Fl32_Leana_Back_Process_Task_Cancel} */
+        const procCancel = spec['Fl32_Leana_Back_Process_Task_Cancel$'];    // singleton instance
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Cancel_Request} */
         const Request = spec['Fl32_Leana_Shared_Service_Route_Task_Cancel#Request']; // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Cancel_Response} */
@@ -61,7 +61,7 @@ export default class Fl32_Leana_Back_Service_Task_Cancel {
                 const result = new Response();
                 const trx = await rdb.startTransaction();
                 try {
-                    const {removed} = await procRemove.exec({trx, taskId: apiReq.taskId});
+                    const {removed} = await procCancel.exec({trx, taskId: apiReq.taskId});
                     result.removed = (removed >= 1);
                     trx.commit();
                 } catch (error) {
