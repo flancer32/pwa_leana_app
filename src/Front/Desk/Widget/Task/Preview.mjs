@@ -101,11 +101,11 @@ const template = `
         </div>
         <div class="controls dtp_widget">
             <date-time-picker
-                    :yearMin="2020"
-                    :yearMax="2021"
-                    :hourMin="9"
-                    :hourMax="20"
-                    :minsStep="30"
+                    :yearMin="dtpGetYearMin"
+                    :yearMax="dtpGetYearMax"
+                    :hourMin="dtpGetHourMin"
+                    :hourMax="dtpGetHourMax"
+                    :minsStep="dtpGetStep"
                     :initDate="item.dateBook"
                     @cancelled="onDtpCancelled"
                     @selected="onDtpSelected"
@@ -120,10 +120,12 @@ const template = `
  * @param {TeqFw_Di_SpecProxy} spec
  */
 function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
     /** @type {Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions} */
     const actions = spec['Fl32_Leana_Front_Desk_Widget_Task_Preview_Actions$$'];    // new instance
-    /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton instance
+    /** @type {Fl32_Leana_Front_Desk_Util_Options} */
+    const utilOpts = spec['Fl32_Leana_Front_Desk_Util_Options$'];   // singleton instance
     /** @type {Fl32_Leana_Front_Shared_Widget_DateTimePicker} */
     const dateTimePicker = spec['Fl32_Leana_Front_Shared_Widget_DateTimePicker$']; // singleton instance
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
@@ -178,6 +180,27 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 }
                 return result;
             },
+            dtpGetStep() {
+                return DEF.TIME_STEP_MINUTES;
+            },
+            dtpGetHourMax() {
+                const date = new Date();
+                date.setUTCHours(DEF.DAY_END_HOUR_UTC);
+                return date.getHours();
+            },
+            dtpGetHourMin() {
+                const date = new Date();
+                date.setUTCHours(DEF.DAY_START_HOUR_UTC);
+                return date.getHours();
+            },
+            dtpGetYearMax() {
+                const date = new Date();
+                date.setMonth(date.getMonth() + DEF.SCHEDULE_FORECAST_MONTHS);
+                return date.getFullYear();
+            },
+            dtpGetYearMin() {
+                return (new Date()).getFullYear();
+            },
             /**
              * @return {{}|Fl32_Leana_Front_Desk_Widget_Api_Employee}
              */
@@ -203,11 +226,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 }
             },
             optsDuration() {
-                const result = [];
-                for (let i = 30; i <= 240; i += 30) {
-                    result.push({id: i, value: utilDate.convertMinsToHrsMins(i)});
-                }
-                return result;
+                return utilOpts.getDurationValues();
             },
             optsServices() {
                 const result = [];

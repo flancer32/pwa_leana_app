@@ -10,7 +10,7 @@ export default class Fl32_Leana_Defaults {
     DAY_START_HOUR_UTC = 7; // start of the working day
     DI_SESSION = 'appSession';  // DI container
     SCHEDULE_FORECAST_MONTHS = 3; // time pickers
-    TIME_STEP_MINUTES = 10; // time pickers
+    TIME_STEP_MINUTES = 15; // time pickers
 
     constructor() {
         Object.freeze(this);
