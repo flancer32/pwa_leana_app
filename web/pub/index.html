@@ -86,6 +86,9 @@
                 // setup session (load user permissions from server)
                 /** @type {Fl32_Teq_Acl_Front_App_Session} */
                 const session = await container.get('Fl32_Teq_Acl_Front_App_Session$'); // singleton instance
+                /** @type {Fl32_Leana_Front_Pub_Defaults} */
+                const DEF_PUB = await container.get('Fl32_Leana_Front_Pub_Defaults$');
+                session.setRouteToSignIn(DEF_PUB.ROUTE_SIGN_IN);
                 /** @type {Fl32_Teq_User_Defaults} */
                 const DEF_USER = await container.get('Fl32_Teq_User_Defaults$');
                 container.set(DEF_USER.DI_SESSION, session);    // TMP: put into container as singleton

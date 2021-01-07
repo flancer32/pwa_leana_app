@@ -407,11 +407,9 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             }),
         },
         async mounted() {
-            if (!session.hasPermission(DEF.ACL_IS_CUSTOMER)) {
-                const route = this.$router.currentRoute.value.path;
-                session.setRouteToRedirect(route);
-                await this.$router.push('/signIn');
-            } else {
+            // validate user's permissions
+            if (await session.redirectOnFail(this.$router, DEF.ACL_IS_CUSTOMER)) {
+                // continue if not redirected
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
                 const reqEmpl = new EmployeeRequest();
                 reqEmpl.locale = i18next.language;
