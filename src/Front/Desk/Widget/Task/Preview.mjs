@@ -134,8 +134,8 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
     const TaskOnDateReq = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
-    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */
-    const TimeWorkReq = spec['Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List#Request'];   // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
+    const TimeWorkReq = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request'];   // class constructor
 
     return {
         name: 'CalendarTaskPreview',
@@ -277,7 +277,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
             onDtpSelected(data) {
                 this.item.dateBook = data;
                 // load time work & switch employee
-                /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
                 const timeReq = new TimeWorkReq();
                 timeReq.dateBegin = data;
                 timeReq.dateEnd = data;

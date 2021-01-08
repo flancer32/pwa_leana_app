@@ -1,7 +1,7 @@
 /**
  * Request and response for 'employee/timeWork/list' service.
  */
-class Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request {
+class Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request {
     /**
      * Employee ID to get working time for. If missed - working time for all employees will be selected.
      * @type {Number}
@@ -19,12 +19,12 @@ class Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request {
     dateEnd
 }
 
-class Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response {
+class Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response {
     /** @type {Array.<Fl32_Leana_Shared_Service_Data_Employee_TimeWork>} */
     items
 }
 
 export {
-    Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request as Request,
-    Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response as Response,
+    Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request as Request,
+    Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response as Response,
 };

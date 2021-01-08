@@ -5,9 +5,9 @@ i18next.addResources('lv', 'navig', {
     services: 'Услуги',
     settings: 'Настройки',
     signOut: 'Выход',
-    timeWork: 'Рабочее время',
     title: 'Leana Frizētava',
     users: 'Пользователи',
+    workTime: 'Рабочее время',
 });
 i18next.addResources('ru', 'navig', {
     calendar: 'Расписание',
@@ -15,9 +15,9 @@ i18next.addResources('ru', 'navig', {
     services: 'Услуги',
     settings: 'Настройки',
     signOut: 'Выход',
-    timeWork: 'Рабочее время',
     title: 'Leana Frizētava',
     users: 'Пользователи',
+    workTime: 'Рабочее время',
 });
 
 const template = `
@@ -32,7 +32,7 @@ const template = `
                 <router-link to="/calendar">{{$t("navig:calendar")}}</router-link>
             </div>
             <div>
-                <router-link to="/timeWork">{{$t("navig:timeWork")}}</router-link>
+                <router-link to="/workTime">{{$t("navig:workTime")}}</router-link>
             </div>
             <div>
                 <router-link to="/users">{{$t("navig:users")}}</router-link>

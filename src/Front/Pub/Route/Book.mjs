@@ -139,7 +139,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
     const SaveRequest = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request']; // class constructor
     const ServiceRequest = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request']; // class constructor
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
-    const TimeWorkRequest = spec['Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List#Request']; // class constructor
+    const TimeWorkRequest = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
 
     return {
         name: 'RouteBook',
@@ -419,7 +419,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 reqSrv.locale = i18next.language;
                 reqSrv.publicOnly = true;
                 await this.loadServices(reqSrv);
-                /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
                 const reqTimeWork = new TimeWorkRequest();
                 reqTimeWork.dateBegin = new Date(Date.now()); // UTC
                 await this.loadTimeWork(reqTimeWork);

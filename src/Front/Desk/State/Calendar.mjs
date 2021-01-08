@@ -8,7 +8,7 @@ function Fl32_Leana_Front_Desk_State_Calendar(spec) {
     const gateEmployeeList = spec.Fl32_Leana_Front_Gate_Employee_List$;
     const gateServiceList = spec.Fl32_Leana_Front_Gate_Service_List$;
     const gateTaskOnDate = spec.Fl32_Leana_Front_Gate_Task_OnDate$;
-    const gateTimeWorkList = spec.Fl32_Leana_Front_Gate_Employee_TimeWork_List$;
+    const gateTimeWorkList = spec.Fl32_Leana_Front_Gate_Employee_WorkTime_List$;
     const Task = spec['Fl32_Leana_Front_Desk_Widget_Api_Task#'];    // class constructor
 
     return {
@@ -75,11 +75,11 @@ function Fl32_Leana_Front_Desk_State_Calendar(spec) {
             },
             /**
              * @param commit
-             * @param {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} req
+             * @param {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} req
              * @return {Promise<void>}
              */
             async loadTimeWork({commit}, req) {
-                /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
                 const res = await gateTimeWorkList(req);
                 commit('setTimeWork', res.items);
             },

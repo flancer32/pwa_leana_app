@@ -59,7 +59,7 @@ export default class Fl32_Leana_Server {
         await this.addApiRoute('/api/app/sw/files_to_cache/pub', 'Fl32_Leana_Back_Service_App_Sw_FilesToCache_Pub$');
         // new style
         await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Employee_List$');
-        await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Employee_TimeWork_List$');
+        await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Employee_WorkTime_List$');
         await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Service_List$');
         await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Task_OnDate$');
         await this._handlerFactory.registerService(this._server, '', 'Fl32_Leana_Back_Service_Task_Cancel$');

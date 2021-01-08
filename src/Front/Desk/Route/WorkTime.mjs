@@ -10,7 +10,7 @@ const template = `
 </div>
 `;
 
-function Fl32_Leana_Front_Desk_Route_TimeWork(spec) {
+function Fl32_Leana_Front_Desk_Route_WorkTime(spec) {
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec['Fl32_Leana_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_User_Defaults} */
@@ -19,7 +19,7 @@ function Fl32_Leana_Front_Desk_Route_TimeWork(spec) {
     const session = spec[DEF_USER.DI_SESSION];  // named singleton
 
     return {
-        name: 'RouteTimeWork',
+        name: 'RouteWorkTime',
         template,
         data() {
             return {};
@@ -33,4 +33,4 @@ function Fl32_Leana_Front_Desk_Route_TimeWork(spec) {
 }
 
 // We should place function separately to allow JSDoc & IDEA hints & navigation.
-export default Fl32_Leana_Front_Desk_Route_TimeWork;
+export default Fl32_Leana_Front_Desk_Route_WorkTime;

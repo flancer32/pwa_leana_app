@@ -1,7 +1,7 @@
 /**
- * Service to get all working time data for employees  ("/api/employee/timeWork/list").
+ * Service to get all working time data for employees  ("/api/employee/workTime/list").
  */
-export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
+export default class Fl32_Leana_Back_Service_Employee_WorkTime_List {
 
     constructor(spec) {
         /** @type {TeqFw_Core_App_Db_Connector} */
@@ -12,10 +12,10 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
         const eTimeWork = spec['Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$']; // singleton instance
         /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
         const TimeWork = spec['Fl32_Leana_Shared_Service_Data_Employee_TimeWork#']; // class constructor
-        /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} */
-        const Request = spec['Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List#Request']; // class constructor
-        /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response} */
-        const Response = spec['Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List#Response'];   // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
+        const Request = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
+        const Response = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Response'];   // class constructor
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
 
@@ -26,7 +26,7 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
          * @return {string}
          */
         this.getRoute = function () {
-            return 'employee/timeWork/list';
+            return 'employee/workTime/list';
         };
 
         /**
@@ -36,10 +36,10 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
         this.createParser = function () {
             /**
              * @param {IncomingMessage} httpReq
-             * @return {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request}
-             * @exports Fl32_Leana_Back_Service_Employee_TimeWork_List$parse
+             * @return {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request}
+             * @exports Fl32_Leana_Back_Service_Employee_WorkTime_List$parse
              */
-            function Fl32_Leana_Back_Service_Employee_TimeWork_List$parse(httpReq) {
+            function Fl32_Leana_Back_Service_Employee_WorkTime_List$parse(httpReq) {
                 const body = httpReq.body;
                 // clone HTTP body into API request object
                 const result = Object.assign(new Request(), body.data);
@@ -48,7 +48,7 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
                 return result;
             }
 
-            return Fl32_Leana_Back_Service_Employee_TimeWork_List$parse;
+            return Fl32_Leana_Back_Service_Employee_WorkTime_List$parse;
         };
 
         /**
@@ -58,16 +58,16 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
         this.createProcessor = function () {
 
             /**
-             * @param {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} apiReq
-             * @return {Promise<Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response>}
-             * @exports Fl32_Leana_Back_Service_Employee_TimeWork_List$process
+             * @param {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} apiReq
+             * @return {Promise<Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response>}
+             * @exports Fl32_Leana_Back_Service_Employee_WorkTime_List$process
              */
-            async function Fl32_Leana_Back_Service_Employee_TimeWork_List$process(apiReq) {
+            async function Fl32_Leana_Back_Service_Employee_WorkTime_List$process(apiReq) {
                 // DEFINE INNER FUNCTIONS (AVAILABLE FOR CURRENT INSTANCE ONLY)
                 /**
                  * Get working time for employees.
                  * @param trx
-                 * @param {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} dataIn
+                 * @param {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} dataIn
                  * @return {Promise<Fl32_Leana_Shared_Service_Data_Employee_TimeWork[]>}
                  */
                 async function selectData(trx, dataIn) {
@@ -107,7 +107,7 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
                 }
 
                 // MAIN FUNCTIONALITY
-                /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
                 const result = new Response();
                 const trx = await rdb.startTransaction();
                 try {
@@ -121,7 +121,7 @@ export default class Fl32_Leana_Back_Service_Employee_TimeWork_List {
             }
 
             // We should place function separately to allow JSDoc & IDEA hints & navigation.
-            return Fl32_Leana_Back_Service_Employee_TimeWork_List$process;
+            return Fl32_Leana_Back_Service_Employee_WorkTime_List$process;
         };
     }
 }

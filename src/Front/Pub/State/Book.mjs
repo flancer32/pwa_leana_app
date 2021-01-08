@@ -8,7 +8,7 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
     const gateEmployeeList = spec['Fl32_Leana_Front_Gate_Employee_List$'];  // singleton function
     const gateServiceList = spec['Fl32_Leana_Front_Gate_Service_List$'];   // singleton function
     const gateTaskOnDate = spec['Fl32_Leana_Front_Gate_Task_OnDate$']; // singleton function
-    const gateTimeWorkList = spec['Fl32_Leana_Front_Gate_Employee_TimeWork_List$'];    // singleton function
+    const gateTimeWorkList = spec['Fl32_Leana_Front_Gate_Employee_WorkTime_List$'];    // singleton function
     /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
     const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
@@ -73,11 +73,11 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
 
             /**
              * @param commit
-             * @param {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Request} req
+             * @param {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} req
              * @return {Promise<void>}
              */
             async loadTimeWork({commit}, req) {
-                /** @type {Fl32_Leana_Shared_Service_Route_Employee_TimeWork_List_Response} */
+                /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
                 const res = await gateTimeWorkList(req);
                 if (!(res instanceof GateError)) {
                     commit('setTimeWork', res.items);

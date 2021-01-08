@@ -36,8 +36,8 @@ function Fl32_Leana_Front_Desk_App(spec) {
     const routeServices = spec['Fl32_Leana_Front_Desk_Route_Services$'];   // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Settings} */
     const routeSettings = spec['Fl32_Leana_Front_Desk_Route_Settings$'];   // singleton component
-    /** @type {Fl32_Leana_Front_Desk_Route_TimeWork} */
-    const routeTimeWork = spec['Fl32_Leana_Front_Desk_Route_TimeWork$'];   // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Route_WorkTime} */
+    const routeWorkTime = spec['Fl32_Leana_Front_Desk_Route_WorkTime$'];   // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Users} */
     const routeUsers = spec['Fl32_Leana_Front_Desk_Route_Users$']; // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_User_SignIn} */
@@ -55,7 +55,7 @@ function Fl32_Leana_Front_Desk_App(spec) {
     router.addRoute({path: '/profile', component: routeProfile});
     router.addRoute({path: '/services', component: routeServices});
     router.addRoute({path: '/settings', component: routeSettings});
-    router.addRoute({path: '/timeWork', component: routeTimeWork});
+    router.addRoute({path: '/workTime', component: routeWorkTime});
     router.addRoute({path: '/user/signIn', component: routeUserSignIn});
     router.addRoute({path: '/user/signOut', component: routeUserSignOut});
     router.addRoute({path: '/users', component: routeUsers});
