@@ -17,6 +17,7 @@ function Fl32_Leana_Front_Desk_Widget_WorkTime_Actions(spec) {
     const Item = spec['Fl32_Leana_Front_Desk_Widget_Action_Api#Item'];  // class constructor
 
     return {
+        name: 'WorkTimeActions',
         template,
         components: {
             actionBar
@@ -50,7 +51,7 @@ function Fl32_Leana_Front_Desk_Widget_WorkTime_Actions(spec) {
             actionNext() {
                 this.$emit(EVENT_NEXT);
             },
-            actionPrevious() {
+            async actionPrevious() {
                 this.$emit(EVENT_PREVIOUS);
             },
             actionSetTime() {

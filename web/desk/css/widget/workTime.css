@@ -1,0 +1,51 @@
+.work_time_widget {
+    display: grid;
+    grid-template-columns: auto repeat(7, 1fr);
+    gap: var(--grid-gap);
+    max-width: 600px;
+}
+
+.work_time_widget > .grid_head {
+    background-color: var(--color-back-top);
+    text-align: center;
+}
+
+.work_time_widget > .grid_cell {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.work_time_widget > .grid_cell.disabled {
+    color: var(--color-back-top-dark);
+}
+
+.work_time_widget > .grid_cell.week {
+    background-color: var(--color-back-top);
+}
+
+.work_time_widget > .grid_cell.user_lena:not(.disabled) {
+    background-color: cornflowerblue;
+}
+
+.work_time_widget > .grid_cell.user_nata:not(.disabled) {
+    background-color: darksalmon;
+}
+
+.work_time_widget > .grid_cell > .wt_cell_date {
+    font-weight: bold;
+}
+
+.work_time_widget > .grid_cell.week > .wt_cell_date {
+    grid-column: 1 / span 2;
+    text-align: right;
+}
+
+.work_time_widget > .grid_cell > .wt_cell_empl {
+    text-align: right;
+}
+
+.work_time_widget > .grid_cell > .wt_cell_time {
+    font-size: small;
+    grid-column: 1 / span 2;
+    text-align: center;
+}

@@ -34,6 +34,7 @@ export default function (spec) {
             for (const one of json.data.items) {
                 /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
                 const item = Object.assign(new TimeWork(), one);
+                item.start = new Date(item.start);
                 result.items.push(item);
             }
             return result;

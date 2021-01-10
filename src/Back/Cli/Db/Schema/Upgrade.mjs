@@ -7,8 +7,7 @@ const ROLE_ID_CUST = 2;
 const ROLE_ID_EMPL = 1;
 const USER_ID_ALEX = 1;
 const USER_ID_CUST = 4;
-const USER_ID_LENA = 2;
-const USER_ID_NATA = 3;
+
 
 /**
  * CLI action to upgrade RDB schema.
@@ -19,6 +18,7 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
     description = 'Upgrade RDB schema.'
     name = 'upgrade'
     namespace = 'db-schema'
+
 
     constructor(spec) {
         // INJECT DEPENDENCIES INTO THIS INSTANCE (PROPS AND VARS IN THE CLOSURE OF THE CONSTRUCTOR)
@@ -44,10 +44,6 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         const eEmplTimeWork = spec.Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
         const eService = spec.Fl32_Leana_Store_RDb_Schema_Service$;
-        /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
-        const eTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
-        /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
-        const eTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
         /** @type {Fl32_Teq_Acl_Store_RDb_Schema_Permission} */
         const ePerm = spec.Fl32_Teq_Acl_Store_RDb_Schema_Permission$;
         /** @type {Fl32_Teq_Acl_Store_RDb_Schema_Perm_User} */
@@ -78,6 +74,10 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         const setupTeqUser = spec.Fl32_Teq_User_Plugin_Store_RDb_Setup$;
         /** @type {Fl32_Leana_Plugin_Store_RDb_Setup} */
         const setupApp = spec.Fl32_Leana_Plugin_Store_RDb_Setup$;
+
+
+        const USER_ID_LENA = DEF.USER_ID_LENA;
+        const USER_ID_NATA = DEF.USER_ID_NATA;
 
         // POPULATE CURRENT INSTANCE WITH BASE CLASSES METHODS (COMPOSITION INSTEAD OF INHERITANCE)
         objFactory.assignPrototypeMethods(this, base);
@@ -232,155 +232,6 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                         [eService.A_NAME_LV]: 'Sčīpsnās krāsošana',
                         [eService.A_NAME_RU]: 'Мелирование',
                     },]);
-                }
-
-                async function insertTasks(trx) {
-                    await trx(eTask.ENTITY).insert([
-                        {[eTask.A_ID]: 1},
-                        {[eTask.A_ID]: 2},
-                        {[eTask.A_ID]: 3},
-                        {[eTask.A_ID]: 4},
-                        {[eTask.A_ID]: 5},
-                        {[eTask.A_ID]: 6},
-                        {[eTask.A_ID]: 7},
-                        {[eTask.A_ID]: 8},
-                        {[eTask.A_ID]: 9},
-                        {[eTask.A_ID]: 10},
-                    ]);
-                }
-
-                async function insertTasksDetails(trx) {
-                    const d0 = util.forwardDate(0);
-                    const d1 = util.forwardDate(1);
-                    const d2 = util.forwardDate(2);
-                    const d3 = util.forwardDate(3);
-                    const date0 = util.formatDate(d0);
-                    const date1 = util.formatDate(d1);
-                    const date2 = util.formatDate(d2);
-                    const date3 = util.formatDate(d3);
-                    await trx(eTaskDet.ENTITY).insert([
-                        {
-                            [eTaskDet.A_TASK_REF]: 1,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_LENA,
-                            [eTaskDet.A_SERVICE_REF]: 1,
-                            [eTaskDet.A_DATE]: date0,
-                            [eTaskDet.A_FROM]: '0900',
-                            [eTaskDet.A_TO]: '1130',
-                            [eTaskDet.A_CUSTOMER]: 'John Doe',
-                            [eTaskDet.A_EMAIL]: 'john@inter.net',
-                            [eTaskDet.A_PHONE]: '2912312312',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        }, {
-                            [eTaskDet.A_TASK_REF]: 2,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_LENA,
-                            [eTaskDet.A_SERVICE_REF]: 2,
-                            [eTaskDet.A_DATE]: date0,
-                            [eTaskDet.A_FROM]: '0930',
-                            [eTaskDet.A_TO]: '1030',
-                            [eTaskDet.A_CUSTOMER]: 'John Doe',
-                            [eTaskDet.A_EMAIL]: 'john@inter.net',
-                            [eTaskDet.A_PHONE]: '2912312312',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        }, {
-                            [eTaskDet.A_TASK_REF]: 3,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_LENA,
-                            [eTaskDet.A_SERVICE_REF]: 3,
-                            [eTaskDet.A_DATE]: date0,
-                            [eTaskDet.A_FROM]: '1030',
-                            [eTaskDet.A_TO]: '1130',
-                            [eTaskDet.A_CUSTOMER]: 'John Doe',
-                            [eTaskDet.A_EMAIL]: 'john@inter.net',
-                            [eTaskDet.A_PHONE]: '2912312312',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        }, {
-                            [eTaskDet.A_TASK_REF]: 4,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_LENA,
-                            [eTaskDet.A_SERVICE_REF]: 4,
-                            [eTaskDet.A_DATE]: date0,
-                            [eTaskDet.A_FROM]: '1200',
-                            [eTaskDet.A_TO]: '1330',
-                            [eTaskDet.A_CUSTOMER]: 'Jane Doe',
-                            [eTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        }, {
-                            [eTaskDet.A_TASK_REF]: 5,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_LENA,
-                            [eTaskDet.A_SERVICE_REF]: 5,
-                            [eTaskDet.A_DATE]: date0,
-                            [eTaskDet.A_FROM]: '1630',
-                            [eTaskDet.A_TO]: '1730',
-                            [eTaskDet.A_CUSTOMER]: 'Jane Doe',
-                            [eTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        }, {
-                            [eTaskDet.A_TASK_REF]: 6,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_LENA,
-                            [eTaskDet.A_SERVICE_REF]: 5,
-                            [eTaskDet.A_DATE]: date2,
-                            [eTaskDet.A_FROM]: '0930',
-                            [eTaskDet.A_TO]: '1130',
-                            [eTaskDet.A_CUSTOMER]: 'Jane Doe',
-                            [eTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        }, {
-                            [eTaskDet.A_TASK_REF]: 7,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_LENA,
-                            [eTaskDet.A_SERVICE_REF]: 5,
-                            [eTaskDet.A_DATE]: date2,
-                            [eTaskDet.A_FROM]: '1230',
-                            [eTaskDet.A_TO]: '1730',
-                            [eTaskDet.A_CUSTOMER]: 'Jane Doe',
-                            [eTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        }, {
-                            [eTaskDet.A_TASK_REF]: 8,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_NATA,
-                            [eTaskDet.A_SERVICE_REF]: 5,
-                            [eTaskDet.A_DATE]: date1,
-                            [eTaskDet.A_FROM]: '0900',
-                            [eTaskDet.A_TO]: '1030',
-                            [eTaskDet.A_CUSTOMER]: 'Jane Doe',
-                            [eTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        }, {
-                            [eTaskDet.A_TASK_REF]: 9,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_NATA,
-                            [eTaskDet.A_SERVICE_REF]: 5,
-                            [eTaskDet.A_DATE]: date1,
-                            [eTaskDet.A_FROM]: '1030',
-                            [eTaskDet.A_TO]: '1130',
-                            [eTaskDet.A_CUSTOMER]: 'Jane Doe',
-                            [eTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        }, {
-                            [eTaskDet.A_TASK_REF]: 10,
-                            [eTaskDet.A_EMPLOYEE_REF]: USER_ID_NATA,
-                            [eTaskDet.A_SERVICE_REF]: 5,
-                            [eTaskDet.A_DATE]: date3,
-                            [eTaskDet.A_FROM]: '1030',
-                            [eTaskDet.A_TO]: '1730',
-                            [eTaskDet.A_CUSTOMER]: 'Jane Doe',
-                            [eTaskDet.A_EMAIL]: 'jane@inter.net',
-                            [eTaskDet.A_PHONE]: '2932132132',
-                            [eTaskDet.A_LOCALE]: 'es-ES',
-                            [eTaskDet.A_NOTE]: 'some notes related to the task.',
-                        },
-                    ]);
                 }
 
                 async function insertUsers(trx) {

@@ -13,6 +13,8 @@ export default class Fl32_Leana_Defaults {
     E_TASK_STATE_CANCELLED = 'cancelled';   // state for Task entity
     SCHEDULE_FORECAST_MONTHS = 3; // time pickers
     TIME_STEP_MINUTES = 15; // time pickers
+    USER_ID_LENA = 2;
+    USER_ID_NATA = 3;
 
     constructor() {
         Object.freeze(this);
