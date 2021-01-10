@@ -30,13 +30,11 @@ export default function Fl32_Leana_Front_Desk_Widget_Calendar_ActionBar(spec) {
                 add.code = 'add';
                 add.func = this.actionAddTask;
                 add.icon = 'far fa-calendar-plus';
-                add.title = 'addTitle';
                 /** @type {Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
                 const setDate = new Item();
                 setDate.code = 'setDate';
                 setDate.func = this.actionSetDate;
                 setDate.icon = 'fas fa-calendar-day';
-                setDate.title = 'setDateTitle';
                 // compose result
                 /** @type {Fl32_Leana_Front_Desk_Widget_Action_Api_Bar} */
                 const result = new Bar();

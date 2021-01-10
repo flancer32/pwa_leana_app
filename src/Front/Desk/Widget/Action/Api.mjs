@@ -1,14 +1,17 @@
 class Fl32_Leana_Front_Desk_Widget_Action_Api_Item {
-    code
-    disabled
-    func
-    icon
-    title
-    weight
+    /** @type {String} action code (for devs only) */
+    code;
+    /** @type {Boolean} */
+    disabled;
+    /** @type {Function} */
+    func;
+    /** @type {String} "far fa-calendar-plus" */
+    icon;
 }
 
 class Fl32_Leana_Front_Desk_Widget_Action_Api_Bar {
-    items
+    /** @type {Object.<String, Fl32_Leana_Front_Desk_Widget_Action_Api_Item>} */
+    items;
 }
 
 export {

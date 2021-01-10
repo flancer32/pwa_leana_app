@@ -23,7 +23,7 @@ i18next.addResources('ru', 'taskEdit', {
 });
 
 const template = `
-<div class="">
+<div>
     <actions
         @actionAdd="onTaskAdd"
     ></actions>
@@ -143,6 +143,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton instance
     /** @type {Fl32_Leana_Front_Desk_Util_Options} */
     const utilOpts = spec['Fl32_Leana_Front_Desk_Util_Options$'];   // singleton instance
+    /** @type {Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions} */
     const actions = spec['Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions$']; // singleton component
     const dateTimePicker = spec['Fl32_Leana_Front_Shared_Widget_DateTimePicker$']; // singleton component
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
@@ -162,10 +163,6 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
         name: 'CalendarTaskEdit',
         template,
         components: {actions, dateTimePicker},
-        props: {
-            /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
-            params: new Task()
-        },
         data: function () {
             return {
                 customer: null,
@@ -177,6 +174,10 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
                 phone: null,
                 serviceId: null,
             };
+        },
+        props: {
+            /** @type {Fl32_Leana_Front_Desk_Widget_Api_Task} */
+            params: new Task()
         },
         computed: {
             dateSchedule() {

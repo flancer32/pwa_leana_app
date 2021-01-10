@@ -4,12 +4,12 @@ const mapState = self.teqfw.lib.Vuex.mapState;
 const EVENT_ADD = 'actionAdd';
 
 const template = `
-<div class="task_edit_action_bar">
+<div>
     <action-bar :params="actions"></action-bar>
 </div>
 `;
 
-export default function Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions(spec) {
+function Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_Action_Bar} */
     const actionBar = spec['Fl32_Leana_Front_Desk_Widget_Action_Bar$$'];   // new instance
     /** @type {typeof Fl32_Leana_Front_Desk_Widget_Action_Api_Bar} */
@@ -22,7 +22,7 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions(spec) {
         components: {
             actionBar
         },
-        emits: ['actionAdd'],
+        emits: [EVENT_ADD],
         computed: {
             actions() {
                 /** @type {Fl32_Leana_Front_Desk_Widget_Action_Api_Item} */
@@ -52,3 +52,5 @@ export default function Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions(spec) {
         }
     };
 }
+
+export default Fl32_Leana_Front_Desk_Widget_Task_Edit_Actions;
