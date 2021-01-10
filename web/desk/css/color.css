@@ -1,5 +1,18 @@
-/* Filter generator: https://codepen.io/sosuke/pen/Pjoqqp */
+/* Main color variables (https://www.w3schools.com/colors/colors_monochromatic.asp) */
+:root {
+    --color-base: #66b032;
+    --color-darker: #375f1b;
+    --color-darkest: #1b3409;
+    --color-lighter: #9bd770;
+    --color-lightest: #ebf7e3;
+}
 
+/* reset icons color to apply filters right */
+SVG {
+    color: black;
+}
+
+/* Filter generator: https://codepen.io/sosuke/pen/Pjoqqp */
 /* #EBF7E3 */
 .filter-lightest {
     filter: invert(88%) sepia(8%) saturate(100%) hue-rotate(64deg) brightness(0%) contrast(94%);
@@ -25,7 +38,3 @@
     filter: invert(14%) sepia(17%) saturate(3958%) hue-rotate(60deg) brightness(92%) contrast(93%);
 }
 
-/* reset icons color to apply filters right */
-SVG {
-    color: black;
-}

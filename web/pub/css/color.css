@@ -1,71 +1,41 @@
-/* Main color variables (by intensity) */
+/* Main color variables (https://www.w3schools.com/colors/colors_monochromatic.asp) */
 :root {
-    --color-back-dark: #422c2a;
-    --color-back-light: #c1433b;
-    --color-back-main: #f9efed;
-    --color-back-top-dark: #e6d6d3;
-    --color-back-top: #f1e7e4;
-    --color-front-light: #f1e7e4;
-    --color-front-main: #422c2a;
-    --color-front-placeholder: #c1807c;
-    --color-front-top: #c1433b;
+    --color-base: #d61a46;
+    --color-darker: #7b0f28;
+    --color-darkest: #340913;
+    --color-lighter: #ec6988;
+    --color-lightest: #fbdfe6;
+}
+
+/* reset icons color to apply filters right */
+SVG {
+    color: black;
 }
 
 /* Filter generator: https://codepen.io/sosuke/pen/Pjoqqp */
 
-.filter-dark {
-    filter: invert(11%) sepia(5%) saturate(4687%) hue-rotate(316deg) brightness(108%) contrast(81%);
+
+/* #fbdfe6 */
+.filter-lightest {
+    filter: invert(79%) sepia(15%) saturate(267%) hue-rotate(298deg) brightness(113%) contrast(97%);
 }
 
-.filter-light {
-    filter: invert(35%) sepia(47%) saturate(2223%) hue-rotate(335deg) brightness(81%) contrast(85%);
+/* #ec6988 */
+.filter-lighter {
+    filter: invert(60%) sepia(87%) saturate(1750%) hue-rotate(305deg) brightness(94%) contrast(96%);
 }
 
-.filter-main {
-    filter: invert(93%) sepia(2%) saturate(1601%) hue-rotate(317deg) brightness(104%) contrast(89%);
+/* #d61a46 */
+.filter-base {
+    filter: invert(22%) sepia(79%) saturate(4949%) hue-rotate(336deg) brightness(85%) contrast(96%);
 }
 
-.filter-top-fg {
-    filter: invert(52%) sepia(3%) saturate(2695%) hue-rotate(315deg) brightness(102%) contrast(81%);
+/* #7b0f28 */
+.filter-darker {
+    filter: invert(12%) sepia(83%) saturate(2977%) hue-rotate(331deg) brightness(82%) contrast(100%);
 }
 
-HTML, BODY {
-    background-color: var(--color-back-main);
-    color: var(--color-front-main);
-}
-
-HEADER {
-    background-color: var(--color-back-dark);
-    color: var(--color-front-light);
-}
-
-A, A:visited {
-    color: var(--color-front-main);
-}
-
-#breadcrumb {
-    background-color: var(--color-back-dark);
-}
-
-#menu_system {
-    background-color: var(--color-back-dark);
-}
-
-.btn {
-    background-color: var(--color-back-dark);
-    color: var(--color-front-light);
-}
-
-::placeholder {
-    color: var(--color-front-placeholder);
-}
-
-BUTTON {
-    background-color: var(--color-back-light);
-    color: var(--color-front-light);
-}
-
-INPUT, SELECT, TEXTAREA {
-    background-color: var(--color-back-main);
-    color: var(--color-front-main);
+/* #340913 */
+.filter-darkest {
+    filter: invert(5%) sepia(34%) saturate(7468%) hue-rotate(333deg) brightness(83%) contrast(97%);
 }

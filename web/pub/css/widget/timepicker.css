@@ -21,7 +21,7 @@
 }
 
 .timepicker .entries DIV {
-    border: 2px solid var(--color-back-light);
+    border: 2px solid var(--color-base);
     border-radius: 5px;
     /*background-color: #fff4e6;*/
 

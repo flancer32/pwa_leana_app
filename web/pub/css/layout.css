@@ -19,12 +19,13 @@
 }
 
 #layer_nav_bar {
-    position: fixed;
-    background-color: var(--color-back-top);
-    top: 0;
-    z-index: 1000;
-    width: 100%;
+    background-color: var(--color-darker);
+    border-bottom: 1px solid var(--color-darkest);
     height: var(--layout-navbar-height);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 #layer_overlay {

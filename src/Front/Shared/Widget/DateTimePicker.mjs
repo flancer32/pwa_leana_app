@@ -2,10 +2,10 @@ const template = `
 <div class="teq_ui_dtp">
     <div class="teq_ui_dtp_actions">
         <div v-on:click="actionCancel()">
-            <i class="far fa-times-circle fa-2x filter-top-fg"></i>
+            <i class="far fa-times-circle fa-2x filter-lightest"></i>
         </div>
         <div v-on:click="actionDateSelected()">
-            <i class="far fa-check-circle fa-2x filter-top-fg"></i>
+            <i class="far fa-check-circle fa-2x filter-lightest"></i>
         </div>
     </div>
     <div class="teq_ui_dtp_content">

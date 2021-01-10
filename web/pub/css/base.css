@@ -1,0 +1,42 @@
+HTML, BODY {
+    background-color: var(--color-lightest);
+    box-sizing: border-box;
+    color: var(--color-darkest);
+    height: 100%;
+    margin: 0;
+    width: 100%;
+}
+
+HEADER {
+    background-color: var(--color-darkest);
+    color: var(--color-lightest);
+}
+
+A, A:visited {
+    color: var(--color-lightest);
+    text-decoration: none;
+}
+
+MAIN {
+    padding: 5px;
+}
+
+::placeholder {
+    color: var(--color-lighter);
+}
+
+INPUT, TEXTAREA, BUTTON {
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+}
+
+BUTTON {
+    background-color: var(--color-base);
+    color: var(--color-lightest);
+}
+
+INPUT, SELECT, TEXTAREA {
+    background-color: var(--color-lightest);
+    color: var(--color-darkest);
+}

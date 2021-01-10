@@ -27,7 +27,7 @@ i18next.addResources('ru', 'app-navBar', {
 const template = `
 <div id="nav_bar" v-on:click="controlMenus">
     <div id="nav_bar_left">
-        <span class="icon i-list-s filter-top-fg "></span>
+        <span class="icon i-list-s filter-lightest "></span>
         <div id="menu_left" v-show="menuLeftOpened">
             <div>
                 <router-link to="/about">{{$t("app-navBar:about")}}</router-link>
