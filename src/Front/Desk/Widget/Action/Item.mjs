@@ -1,7 +1,7 @@
 const template = `
 <div class="action_bar_item">
     <div v-on:click="onClick">
-        <i :class="item.icon + ' fa-2x filter-top-fg'"></i>  
+        <i :class="item.icon + ' fa-2x filter-darkest'"></i>  
     </div>
 </div>
 `;

@@ -1,11 +1,31 @@
 /* Filter generator: https://codepen.io/sosuke/pen/Pjoqqp */
 
-/* #A0807E */
-.filter-top-fg {
-    filter: invert(52%) sepia(3%) saturate(2695%) hue-rotate(315deg) brightness(102%) contrast(81%);
+/* #EBF7E3 */
+.filter-lightest {
+    filter: invert(88%) sepia(8%) saturate(100%) hue-rotate(64deg) brightness(0%) contrast(94%);
 }
 
-BUTTON {
-    background-color: var(--color-bright);
-    color: var(--color-front-light);
+/* #9BD770 */
+.filter-lighter {
+    filter: invert(94%) sepia(8%) saturate(100%) hue-rotate(38deg) brightness(0%) contrast(99%);
+}
+
+/* #66B032 */
+.filter-base {
+    filter: invert(54%) sepia(97%) saturate(343%) hue-rotate(52deg) brightness(94%) contrast(85%);
+}
+
+/* #375F1B */
+.filter-darker {
+    filter: invert(27%) sepia(94%) saturate(366%) hue-rotate(52deg) brightness(92%) contrast(90%);
+}
+
+/* #1B3409 */
+.filter-darkest {
+    filter: invert(14%) sepia(17%) saturate(3958%) hue-rotate(60deg) brightness(92%) contrast(93%);
+}
+
+/* reset icons color to apply filters right */
+SVG {
+    color: black;
 }

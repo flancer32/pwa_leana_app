@@ -26,7 +26,7 @@ const template = `
         <div>{{$t('navig:title')}}</div>
     </div>
     <div class="nav_right">
-        <i class="fas fa-bars fa-2x filter-top-fg"></i>
+        <i class="fas fa-bars fa-2x filter-darkest"></i>
         <div class="nav_menu" v-show="menuOpened">
             <div>
                 <router-link to="/calendar">{{$t("navig:calendar")}}</router-link>

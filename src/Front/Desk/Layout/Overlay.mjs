@@ -3,7 +3,7 @@ const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const template = `
 <div id="layer_overlay">
     <div class="layer_overlay_close" v-on:click="resetOverlay">
-        <i class="far fa-times-circle fa-2x filter-top-fg"></i>  
+        <i class="far fa-times-circle fa-2x filter-darkest"></i>  
     </div>
     <div class="layer_overlay_content">
         <component :is="currentComponent" :params="params"></component>

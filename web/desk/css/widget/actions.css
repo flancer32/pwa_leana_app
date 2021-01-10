@@ -1,7 +1,7 @@
 .action_bar {
     /*width: 100%;*/
     /*height: var(--layout-actions-bar-height);*/
-    background-color: var(--color-back-main);
+    background-color: var(--color-lightest);
     /* grid */
     display: grid;
     grid-template-rows:  var(--layout-actions-bar-height);

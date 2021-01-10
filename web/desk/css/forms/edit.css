@@ -24,7 +24,7 @@
 
 .edit .controls {
     /*z-index: 5000;*/
-    background-color: var(--color-back-main);
+    background-color: var(--color-lightest);
     height: 50%;
     left: 0;
     opacity: 0;

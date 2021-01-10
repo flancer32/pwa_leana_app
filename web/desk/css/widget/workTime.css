@@ -1,12 +1,12 @@
 .work_time_widget {
     display: grid;
     grid-template-columns: auto repeat(7, 1fr);
-    gap: var(--grid-gap);
+    gap: var(--grid-gap-small);
     max-width: 600px;
 }
 
 .work_time_widget > .grid_head {
-    background-color: var(--color-back-top);
+    background-color: var(--color-lighter);
     text-align: center;
 }
 
@@ -16,19 +16,21 @@
 }
 
 .work_time_widget > .grid_cell.disabled {
-    color: var(--color-back-top-dark);
+    color: var(--color-base);
 }
 
 .work_time_widget > .grid_cell.week {
-    background-color: var(--color-back-top);
+    background-color: var(--color-lighter);
 }
 
 .work_time_widget > .grid_cell.user_lena:not(.disabled) {
-    background-color: cornflowerblue;
+    background-color: var(--color-lighter);
+    color: var(--color-darkest);
 }
 
 .work_time_widget > .grid_cell.user_nata:not(.disabled) {
-    background-color: darksalmon;
+    background-color: var(--color-darker);
+    color: var(--color-lightest);
 }
 
 .work_time_widget > .grid_cell > .wt_cell_date {

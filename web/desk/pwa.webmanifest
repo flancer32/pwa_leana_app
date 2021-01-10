@@ -1,8 +1,8 @@
 {
   "name": "Leana Frizētava Desk",
   "short_name": "Leana Desk",
-  "theme_color": "#C1433B",
-  "background_color": "#C1433B",
+  "theme_color": "#66B032",
+  "background_color": "#66B032",
   "display": "minimal-ui",
   "scope": "./",
   "start_url": "./",

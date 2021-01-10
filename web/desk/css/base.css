@@ -1,8 +1,8 @@
 /* base rules according to SMACSS (http://smacss.com/) */
 HTML, BODY {
-    background-color: var(--color-back-main);
+    background-color: var(--color-lightest);
     box-sizing: border-box;
-    color: var(--color-front-main);
+    color: var(--color-darkest);
     height: 100%;
     margin: 0;
     width: 100%;
@@ -15,10 +15,11 @@ INPUT, TEXTAREA, BUTTON {
 }
 
 BUTTON {
+    background-color: var(--color-base);
+    color: var(--color-lightest);
     min-height: var(--input-height);
     min-width: var(--input-height);
 }
-
 
 INPUT, SELECT {
     height: var(--input-height);
@@ -31,5 +32,5 @@ TEXTAREA {
 }
 
 A, A:visited {
-    color: var(--color-front-main);
+    color: var(--color-darkest);
 }
