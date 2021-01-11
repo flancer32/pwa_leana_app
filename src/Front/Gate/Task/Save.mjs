@@ -2,7 +2,11 @@
  * Frontend gate to 'task/save' service.
  */
 export default function (spec) {
-    const config = spec.config; // named singleton
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec['Fl32_Leana_Defaults$'];   // singleton instance
+    const config = spec[DEF.DI_CONFIG]; // named singleton
+    /** @type {TeqFw_Di_Container} */
+    const container = spec['TeqFw_Di_Container$'];  // singleton instance
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Response} */
     const Response = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Response'];
     /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
@@ -18,6 +22,8 @@ export default function (spec) {
      */
     async function Fl32_Leana_Front_Gate_Task_Save(data) {
         try {
+            const store = await container.get(DEF.DI_STORE); // named singleton
+            store.commit('app/startLoader');
             const res = await fetch(URL, {
                 method: 'POST',
                 headers: {
@@ -25,6 +31,7 @@ export default function (spec) {
                 },
                 body: JSON.stringify({data})
             });
+            store.commit('app/stopLoader');
             const json = await res.json();
             /** @type {Fl32_Leana_Shared_Service_Route_Task_Save_Response} */
             const result = new Response();

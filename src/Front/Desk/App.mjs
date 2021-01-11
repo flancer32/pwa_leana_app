@@ -16,8 +16,6 @@ function Fl32_Leana_Front_Desk_App(spec) {
     const DEF_USER = spec['Fl32_Teq_User_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_Acl_Front_App_Session} */
     const session = spec[DEF_USER.DI_SESSION];  // named singleton
-    /** @type {Fl32_Leana_Front_Desk_State} */
-    const state = spec['Fl32_Leana_Front_Desk_State$']; // singleton object
     /** @type {Fl32_Leana_Front_Desk_Layout_Main} */
     const layoutMain = spec['Fl32_Leana_Front_Desk_Layout_Main$']; // singleton component
     /** @type {Fl32_Leana_Front_Desk_Layout_Centered} */
@@ -62,10 +60,6 @@ function Fl32_Leana_Front_Desk_App(spec) {
 
     // mount router here to enable routing on the first load of the page
     app.use(router);
-
-    // setup Vuex store and place it into DI container.
-    const store = self.Vuex.createStore(state);
-    app.use(store);
 
     // add globally used components (accessible from other components)
     app.component('appOverlay', layoutOverlay);

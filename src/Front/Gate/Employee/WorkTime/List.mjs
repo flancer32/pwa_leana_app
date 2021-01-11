@@ -2,7 +2,11 @@
  * Frontend gate to 'employee/timeWork/list' service.
  */
 export default function (spec) {
-    const config = spec.config;
+    /** @type {Fl32_Leana_Defaults} */
+    const DEF = spec['Fl32_Leana_Defaults$'];   // singleton instance
+    const config = spec[DEF.DI_CONFIG]; // named singleton
+    /** @type {TeqFw_Di_Container} */
+    const container = spec['TeqFw_Di_Container$'];  // singleton instance
     /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
     const TimeWork = spec['Fl32_Leana_Shared_Service_Data_Employee_TimeWork#']; // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
@@ -20,6 +24,8 @@ export default function (spec) {
      */
     async function Fl32_Leana_Front_Gate_Employee_WorkTime_List(data) {
         try {
+            const store = await container.get(DEF.DI_STORE); // named singleton
+            store.commit('app/startLoader');
             const res = await fetch(URL, {
                 method: 'POST',
                 headers: {
@@ -27,6 +33,7 @@ export default function (spec) {
                 },
                 body: JSON.stringify({data})
             });
+            store.commit('app/stopLoader');
             const json = await res.json();
             /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
             const result = new Response();

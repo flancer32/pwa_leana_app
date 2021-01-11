@@ -23,6 +23,9 @@ i18next.addResources('ru', 'navig', {
 const template = `
 <div class="navigator" v-on:click="controlMenus">
     <div class="nav_left">
+        <loader></loader>
+    </div>
+    <div class="nav_center">
         <div>{{$t('navig:title')}}</div>
     </div>
     <div class="nav_right">
@@ -57,12 +60,16 @@ const template = `
 /**
  * Right side navigator (main).
  */
-function Fl32_Leana_Front_Desk_Layout_Navigator() {
+function Fl32_Leana_Front_Desk_Layout_Navigator(spec) {
+    /** @type {Fl32_Leana_Front_Shared_Widget_Loader} */
+    const loader = spec['Fl32_Leana_Front_Shared_Widget_Loader$'];  // singleton component
+
     const CSS_BAR = '.nav_right';
     const CSS_MENU = '.nav_menu';
     return {
         name: 'Navigator',
         template,
+        components: {loader},
         data: function () {
             return {
                 menuOpened: false,
