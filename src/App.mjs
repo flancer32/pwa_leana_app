@@ -4,7 +4,6 @@
 // NODE.JS IMPORTS
 import $commander from 'commander';
 import $path from 'path';
-import $fs from 'fs';
 
 /**
  * Define data structure.
@@ -63,18 +62,6 @@ export default class Fl32_Leana_App {
         const me = this;
 
         // DEFINE INNER FUNCTIONS
-        function loadConfig() {
-            const pathToLocalCfg = $path.join(me._bootCfg.root, './cfg', 'local.json');
-            me._logger.info(`Local configuration is read from '${pathToLocalCfg}'.`);
-            const data = $fs.readFileSync(pathToLocalCfg);
-            const local = JSON.parse(data.toString());
-            // save local configuration to 'local' node
-            const json = {local};
-            // add path to app root folder
-            json.path = {root: me._bootCfg.root};
-            me._config.init(json);
-        }
-
         async function addCliActions() {
             await me.addCommand('Fl32_Leana_Back_Cli_Db_Schema_Upgrade$');
             await me.addCommand('Fl32_Leana_Back_Cli_Start$');
@@ -91,7 +78,7 @@ export default class Fl32_Leana_App {
         }
 
         // MAIN FUNCTIONALITY
-        loadConfig();
+        this._config.load({rootPath: this._bootCfg.root});
         setupDiContainer();
         await this._db.init();
         await addCliActions();

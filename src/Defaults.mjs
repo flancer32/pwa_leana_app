@@ -7,6 +7,7 @@ export default class Fl32_Leana_Defaults {
     ACL_IS_DEVELOPER = 'is_developer';
     ACL_IS_EMPLOYEE = 'is_employee';
     DAY_END_HOUR_UTC = 18;  // end of the working day
+    DAY_END_HOUR_UTC_SAT = 16;  // end of the working day for Saturday
     DAY_START_HOUR_UTC = 7; // start of the working day
     DI_CONFIG = 'config';  // DI key
     DI_SESSION = 'appSession';  // DI key

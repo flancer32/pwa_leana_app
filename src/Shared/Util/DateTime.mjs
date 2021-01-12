@@ -229,9 +229,11 @@ export default class Fl32_Leana_Shared_Util_DateTime {
     }
 
     /**
+     * Convert datestamp to UTC date.
      *
      * @param {string} formatted 'YYYYMMDD'
      * @param {string} time 'HHMM' | 'HH:MM'
+     * @return {Date}
      */
     unformatDate(formatted, time = null) {
         const result = new Date();

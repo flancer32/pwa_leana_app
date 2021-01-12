@@ -30,8 +30,6 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         const logger = spec.TeqFw_Core_App_Logger$;
         /** @type {TeqFw_Core_App_Db_Connector} */
         const connector = spec.TeqFw_Core_App_Db_Connector$;
-        /** @type {Fl32_Leana_Shared_Util_DateTime} */
-        const util = spec.Fl32_Leana_Shared_Util_DateTime$;
         /** @type {TeqFw_Core_App_Obj_Factory} */
         const objFactory = spec.TeqFw_Core_App_Obj_Factory$;
         /** @type {TeqFw_Core_App_Cli_Command} */
@@ -40,8 +38,6 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
         const eEmployee = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Service} */
         const eEmplSrv = spec.Fl32_Leana_Store_RDb_Schema_Employee_Service$;
-        /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Time_Work} */
-        const eEmplTimeWork = spec.Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$;
         /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
         const eService = spec.Fl32_Leana_Store_RDb_Schema_Service$;
         /** @type {Fl32_Teq_Acl_Store_RDb_Schema_Permission} */
@@ -175,21 +171,6 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     ]);
                 }
 
-                async function insertEmployeeTimeWork(trx) {
-                    const timeWorkItems = [];
-                    for (let i = 0; i < 20; i++) {
-                        const tail = i % 2 + 1;
-                        const ref = (tail === 1) ? USER_ID_LENA : USER_ID_NATA;
-                        const dt = util.forwardDate(i - 10);
-                        const date = util.formatDate(dt);
-                        const from = '0700';
-                        const to = '1800';
-                        timeWorkItems.push({employee_ref: ref, date, from, to});
-
-                    }
-                    await trx(eEmplTimeWork.ENTITY).insert(timeWorkItems);
-                }
-
                 async function insertServices(trx) {
                     await trx(eService.ENTITY).insert([{
                         [eService.A_ID]: 1, [eService.A_CODE]: 'haircut_man',
@@ -307,9 +288,6 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 await insertEmployees(trx);
                 await insertServices(trx);
                 await insertEmployeeServices(trx);
-                await insertEmployeeTimeWork(trx);
-                // await insertTasks(trx);
-                // await insertTasksDetails(trx);
             }
 
             // MAIN FUNCTIONALITY

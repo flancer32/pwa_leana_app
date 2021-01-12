@@ -29,16 +29,30 @@ container.addSourceMapping('TeqFw_Di', srcTeqFwDi, true, 'mjs');
  * @returns {Promise<TeqFw_Di_Container>}
  */
 export default async function init() {
-    /** @type {TeqFw_Core_App_Config} */
-    const config = await container.get('TeqFw_Core_App_Config$');
-    if (!config.get()) {
-        // load local configuration if has not been loaded before
-        config.load({rootPath: pathPrj});
+    // DEFINE INNER FUNCTIONS
+
+    async function initDb(container) {
+        /** @type {TeqFw_Core_App_Db_Connector} */
+        const rdb = await container.get('TeqFw_Core_App_Db_Connector$');  // singleton instance
+        await rdb.init();
+    }
+
+    async function initLogger(container) {
         /** @type {TeqFw_Core_App_Logger} */
         const logger = await container.get('TeqFw_Core_App_Logger$');
         /** @type {TeqFw_Core_App_Logger_Transport_Console} */
         const logTransport = await container.get('TeqFw_Core_App_Logger_Transport_Console$');
         logger.addTransport(logTransport);
+    }
+
+    // MAIN FUNCTIONALITY
+    /** @type {TeqFw_Core_App_Config} */
+    const config = await container.get('TeqFw_Core_App_Config$');
+    if (!config.get()) {
+        // load local configuration if has not been loaded before
+        config.load({rootPath: pathPrj});
+        await initLogger(container);
+        await initDb(container);
     }
     return container;
 }
