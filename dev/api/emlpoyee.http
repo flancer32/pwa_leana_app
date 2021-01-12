@@ -1,3 +1,4 @@
+###
 POST https://{{host}}/api/employee/list
 Accept: application/json
 Content-Type: application/json
@@ -6,15 +7,22 @@ Content-Type: application/json
 
 
 ###
-POST https://{{host}}/api/employee/timeWork/list
+POST https://{{host}}/api/employee/workTime/generate
+Accept: application/json
+Content-Type: application/json
+
+{"data": {}}
+
+### Boo
+POST https://{{host}}/api/employee/workTime/list
 Accept: application/json
 Content-Type: application/json
 
 {
   "data": {
-    "employeeRef": 1,
-    "dateBegin": "2020-12-10T09:00:00Z",
-    "dateEnd": "2021-01-10T20:00:00Z"
+    "employeeRef": 2,
+    "dateBegin": "2021-01-01T00:00:00Z",
+    "dateEnd": "2021-12-31T23:59:59Z"
   }
 }
 

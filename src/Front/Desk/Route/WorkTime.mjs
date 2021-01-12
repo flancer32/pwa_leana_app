@@ -33,8 +33,12 @@ function Fl32_Leana_Front_Desk_Route_WorkTime(spec) {
     const actions = spec['Fl32_Leana_Front_Desk_Widget_WorkTime_Actions$']; // singleton component
     /** @type {Fl32_Leana_Front_Desk_Widget_WorkTime} */
     const workTime = spec['Fl32_Leana_Front_Desk_Widget_WorkTime$']; // singleton instance
+    /** @type {Fl32_Leana_Front_Gate_Employee_WorkTime_Generate} */
+    const gateTimeGenerate = spec['Fl32_Leana_Front_Gate_Employee_WorkTime_Generate$']; // singleton function
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
     const WorkTimeListReq = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Generate_Request} */
+    const WorkTimeGenReq = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Generate#Request'];  // class constructor
 
 
     return {
@@ -79,7 +83,9 @@ function Fl32_Leana_Front_Desk_Route_WorkTime(spec) {
                 await this.requestWorkTime();
             },
             async onTimeSet() {
-                console.log('Ask server to generate schedule for the next unscheduled week.');
+                const req = new WorkTimeGenReq();
+                await gateTimeGenerate(req);
+                await this.requestWorkTime();
             },
             async requestWorkTime() {
                 try {
