@@ -2,8 +2,8 @@ const EVENT_NEXT = 'actionNext';
 
 const template = `
 <div :class="cssClass">
-    <div class="wt_cell_date">{{item.date}}</div>
     <div class="wt_cell_empl" v-show="item.employeeId">{{employee}}</div>
+    <div class="wt_cell_date">{{item.date}}</div>
     <div class="wt_cell_time" v-show="item.employeeId">{{timeFrom}}-{{timeTo}}</div>
 </div>
 `;
@@ -46,6 +46,7 @@ function Fl32_Leana_Front_Desk_Widget_WorkTime_Cell(spec) {
                 const item = this.item;
                 if ((item.timeFrom) && (item.timeFrom instanceof Date)) {
                     result = utilDate.stampTime(item.timeFrom, true);
+                    result = result.substring(0, 2);
                 }
                 return result;
             },
@@ -53,9 +54,10 @@ function Fl32_Leana_Front_Desk_Widget_WorkTime_Cell(spec) {
                 let result = '';
                 /** @type {Fl32_Leana_Front_Desk_Widget_WorkTime_Api_Item} */
                 const item = this.item;
-                if (
-                    (item.timeTo) && (item.timeTo instanceof Date)
-                ) result = utilDate.stampTime(item.timeTo, true);
+                if ((item.timeTo) && (item.timeTo instanceof Date)) {
+                    result = utilDate.stampTime(item.timeTo, true);
+                    result = result.substring(0, 2);
+                }
                 return result;
             },
         },

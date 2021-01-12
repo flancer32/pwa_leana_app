@@ -161,7 +161,7 @@ export default class Fl32_Leana_Shared_Util_DateTime {
             : 6;    // sunday
         dateFirst.setUTCDate(1 - diff); // to get date for monday
         const dateLast = new Date(dateFirst.getTime());
-        dateLast.setUTCDate(dateFirst.getUTCDate() + 35);
+        dateLast.setUTCDate(dateFirst.getUTCDate() + 42);
         return {year, week, dateFirst, dateLast};
     }
 

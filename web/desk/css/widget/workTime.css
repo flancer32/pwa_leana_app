@@ -13,6 +13,7 @@
 .work_time_widget > .grid_cell {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    padding: var(--padding-cell);
 }
 
 .work_time_widget > .grid_cell.disabled {
@@ -35,15 +36,15 @@
 
 .work_time_widget > .grid_cell > .wt_cell_date {
     font-weight: bold;
+    text-align: right;
 }
 
 .work_time_widget > .grid_cell.week > .wt_cell_date {
     grid-column: 1 / span 2;
-    text-align: right;
 }
 
 .work_time_widget > .grid_cell > .wt_cell_empl {
-    text-align: right;
+    text-align: left;
 }
 
 .work_time_widget > .grid_cell > .wt_cell_time {
