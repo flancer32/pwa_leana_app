@@ -11,7 +11,7 @@ function Fl32_Leana_Front_Desk_State_WorkTime(spec) {
     return {
         namespaced: true,
         state: {
-            dbItems: Array,
+            dbItems: Array,// Fl32_Leana_Shared_Service_Data_Employee_TimeWork[]
             monthCurrent: Date,
         },
         getters: {},

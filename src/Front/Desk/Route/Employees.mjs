@@ -22,11 +22,7 @@ function Fl32_Leana_Front_Desk_Route_Employees(spec) {
             return {};
         },
         async mounted() {
-            if (!session.hasPermission(DEF.ACL_IS_EMPLOYEE)) {
-                const route = this.$router.currentRoute.value.path;
-                session.setRouteToRedirect(route);
-                await this.$router.push('/user/signIn');
-            }
+            await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE);
         }
     };
 }

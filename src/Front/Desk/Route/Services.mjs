@@ -51,11 +51,7 @@ function Fl32_Leana_Front_Desk_Route_Services(spec) {
             }
         },
         async mounted() {
-            if (!session.hasPermission(DEF.ACL_IS_EMPLOYEE)) {
-                const route = this.$router.currentRoute.value.path;
-                session.setRouteToRedirect(route);
-                await this.$router.push('/user/signIn');
-            } else {
+            if (await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE)) {
                 const req = new ListReq();
                 req.locale = i18next.language;
                 /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Response} */

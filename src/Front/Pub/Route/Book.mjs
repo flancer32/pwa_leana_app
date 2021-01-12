@@ -408,7 +408,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
         },
         async mounted() {
             // validate user's permissions
-            if (await session.redirectOnFail(this.$router, DEF.ACL_IS_CUSTOMER)) {
+            if (await session.isAccessGranted(this.$router, DEF.ACL_IS_CUSTOMER)) {
                 // continue if not redirected
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
                 const reqEmpl = new EmployeeRequest();

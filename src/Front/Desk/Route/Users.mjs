@@ -50,11 +50,7 @@ function Fl32_Leana_Front_Desk_Route_Users(spec) {
             };
         },
         async mounted() {
-            if (!session.hasPermission(DEF.ACL_IS_EMPLOYEE)) {
-                const route = this.$router.currentRoute.value.path;
-                session.setRouteToRedirect(route);
-                await this.$router.push('/user/signIn');
-            } else {
+            if (await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE)) {
                 const req = new UsersListReq();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_List_Response} */
                 const res = await gateUsersList(req);

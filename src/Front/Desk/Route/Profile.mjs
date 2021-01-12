@@ -27,7 +27,7 @@ function Fl32_Leana_Front_Desk_Route_Profile(spec) {
         computed: {},
         methods: {},
         async mounted() {
-            await session.redirectOnFail(this.$router, DEF.ACL_IS_EMPLOYEE);
+            await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE);
         }
     };
 }

@@ -24,8 +24,6 @@ function Fl32_Leana_Front_Desk_App(spec) {
     const layoutOverlay = spec['Fl32_Leana_Front_Desk_Layout_Overlay$'];    // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Calendar} */
     const routeCalendar = spec['Fl32_Leana_Front_Desk_Route_Calendar$'];   // singleton component
-    /** @type {Fl32_Leana_Front_Desk_Route_Dev} */
-    const routeDev = spec['Fl32_Leana_Front_Desk_Route_Dev$']; // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Employees} */
     const routeEmployees = spec['Fl32_Leana_Front_Desk_Route_Employees$']; // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Profile} */
@@ -36,6 +34,8 @@ function Fl32_Leana_Front_Desk_App(spec) {
     const routeSettings = spec['Fl32_Leana_Front_Desk_Route_Settings$'];   // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_WorkTime} */
     const routeWorkTime = spec['Fl32_Leana_Front_Desk_Route_WorkTime$'];   // singleton component
+    /** @type {Fl32_Leana_Front_Desk_Route_WorkTime_Edit} */
+    const routeWorkTimeEdit = spec['Fl32_Leana_Front_Desk_Route_WorkTime_Edit$'];   // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Users} */
     const routeUsers = spec['Fl32_Leana_Front_Desk_Route_Users$']; // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_User_SignIn} */
@@ -48,12 +48,12 @@ function Fl32_Leana_Front_Desk_App(spec) {
     // add frontend routes and bound components
     router.addRoute({path: '/', component: routeCalendar});
     router.addRoute({path: '/calendar', component: routeCalendar});
-    router.addRoute({path: '/dev', component: routeDev});
     router.addRoute({path: '/employees', component: routeEmployees});
     router.addRoute({path: '/profile', component: routeProfile});
     router.addRoute({path: '/services', component: routeServices});
     router.addRoute({path: '/settings', component: routeSettings});
     router.addRoute({path: '/workTime', component: routeWorkTime});
+    router.addRoute({path: '/workTime/edit/:datestamp', component: routeWorkTimeEdit, props: true});
     router.addRoute({path: '/user/signIn', component: routeUserSignIn});
     router.addRoute({path: '/user/signOut', component: routeUserSignOut});
     router.addRoute({path: '/users', component: routeUsers});

@@ -88,6 +88,7 @@ export default class Fl32_Leana_Shared_Util_DateTime {
      *
      * @param {Date|string|null} dateIn
      * @returns {string}
+     * TODO: rename to stampDate (@see stampDateUtc)
      */
     formatDate(dateIn = null) {
         /** @type {Date} */
@@ -98,6 +99,22 @@ export default class Fl32_Leana_Shared_Util_DateTime {
         const m = `${date.getMonth() + 1}`.padStart(2, '0');
         const d = `${date.getDate()}`.padStart(2, '0');
         return `${y}${m}${d}`;
+    }
+
+    /**
+     * Convert local date to YYYY/MM/DD.
+     * @param dateIn
+     * @return {string}
+     */
+    formatDateNew(dateIn = null) {
+        /** @type {Date} */
+        const date = (dateIn) ?
+            (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
+            new Date();
+        const y = date.getFullYear();
+        const m = `${date.getMonth() + 1}`.padStart(2, '0');
+        const d = `${date.getDate()}`.padStart(2, '0');
+        return `${y}/${m}/${d}`;
     }
 
     /**

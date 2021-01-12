@@ -107,7 +107,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime(spec) {
             }),
         },
         async mounted() {
-            if (await session.redirectOnFail(this.$router, DEF.ACL_IS_EMPLOYEE)) {
+            if (await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE)) {
                 await this.requestWorkTime();
             }
         }
