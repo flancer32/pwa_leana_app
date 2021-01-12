@@ -32,7 +32,6 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     const routeSignIn = spec.Fl32_Leana_Front_Pub_Route_SignIn$;
     const routeSignOut = spec.Fl32_Leana_Front_Pub_Route_SignOut$;
     const routeSignUp = spec.Fl32_Leana_Front_Pub_Route_SignUp$;
-    const state = spec.Fl32_Leana_Front_Pub_State$;
 
     // add frontend routes and bound components
     router.addRoute({path: '/', component: routeAbout});
@@ -46,10 +45,6 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
 
     // mount router here to enable routing on the first load of the page
     app.use(router);
-
-    // setup Vuex store
-    const store = self.Vuex.createStore(state);
-    app.use(store);
 
     return {
         name: 'PubApp',

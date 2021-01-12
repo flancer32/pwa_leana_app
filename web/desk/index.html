@@ -84,6 +84,7 @@
                 // place application objects into DI-container
                 container.set('config', self.teqfw.config);
                 // setup Vuex store and place it into DI container.
+                /** @type {Fl32_Leana_Defaults} */
                 const DEF = await container.get('Fl32_Leana_Defaults$');  // singleton instance
                 /** @type {Fl32_Leana_Front_Desk_State} */
                 const state = await container.get('Fl32_Leana_Front_Desk_State$'); // singleton object

@@ -83,6 +83,14 @@
                 self.teqfw.i18next = await initI18n(self.teqfw.app);
                 // place application objects into DI-container
                 container.set('config', self.teqfw.config);
+                // setup Vuex store and place it into DI container.
+                /** @type {Fl32_Leana_Defaults} */
+                const DEF = await container.get('Fl32_Leana_Defaults$');  // singleton instance
+                /** @type {Fl32_Leana_Front_Pub_State} */
+                const state = await container.get('Fl32_Leana_Front_Pub_State$'); // singleton object
+                const store = self.Vuex.createStore(state);
+                container.set(DEF.DI_STORE, store);
+                self.teqfw.app.use(store);
                 // setup session (load user permissions from server)
                 /** @type {Fl32_Teq_Acl_Front_App_Session} */
                 const session = await container.get('Fl32_Teq_Acl_Front_App_Session$'); // singleton instance
