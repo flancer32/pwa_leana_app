@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {"data": {}}
 
-### Boo
+###
 POST https://{{host}}/api/employee/workTime/list
 Accept: application/json
 Content-Type: application/json
@@ -23,6 +23,21 @@ Content-Type: application/json
     "employeeRef": 2,
     "dateBegin": "2021-01-01T00:00:00Z",
     "dateEnd": "2021-12-31T23:59:59Z"
+  }
+}
+
+###
+POST https://{{host}}/api/employee/workTime/save
+Accept: application/json
+Content-Type: application/json
+
+{
+  "data": {
+    "item": {
+      "employeeRef": 2,
+      "start": "2021-01-13T07:00:00.000Z",
+      "duration": 660
+    }
   }
 }
 

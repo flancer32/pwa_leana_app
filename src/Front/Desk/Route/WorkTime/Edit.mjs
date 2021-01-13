@@ -80,11 +80,20 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
     /** @type {Fl32_Leana_Front_Desk_Widget_WorkTime_Edit_Actions} */
     const actions = spec['Fl32_Leana_Front_Desk_Widget_WorkTime_Edit_Actions$']; // singleton component
     /** @type {Fl32_Leana_Front_Gate_Employee_WorkTime_List} */
-    const gateTimeWorkList = spec['Fl32_Leana_Front_Gate_Employee_WorkTime_List$'];    // singleton function
+    const gateWorkTimeList = spec['Fl32_Leana_Front_Gate_Employee_WorkTime_List$'];    // singleton function
+    /** @type {Fl32_Leana_Front_Gate_Employee_WorkTime_Save} */
+    const gateWorkTimeSave = spec['Fl32_Leana_Front_Gate_Employee_WorkTime_Save$']; // singleton function
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
     const WorkTimeListReq = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Request} */
+    const WorkTimeSaveReq = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Response} */
+    const WorkTimeSaveRes = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save#Response'];    // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
     const EmplListReq = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Request'];  // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+    const WorkTime = spec['Fl32_Leana_Shared_Service_Data_Employee_TimeWork#']; // class constructor
+
 
     /**
      * Generated options for time selector. 'id' - UTC hour (7), value - local hour (09:00)
@@ -191,7 +200,17 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
         },
         methods: {
             async onSave() {
-                console.log('onSave event is fired');
+                const item = Object.assign(new WorkTime(), this.item);
+                item.employeeRef = this.employeeId;
+                item.start.setUTCHours(this.hourFrom);
+                item.duration = (this.hourTo - this.hourFrom) * 60;
+                const req = new WorkTimeSaveReq();
+                req.item = item;
+                const res = await gateWorkTimeSave(req);
+                if (res instanceof WorkTimeSaveRes) {
+                    // this is normal answer, not error
+                    this.$router.push('/workTime');
+                }
             },
             ...mapActions({
                 loadDbItems: 'workTime/loadDbItems',
@@ -238,7 +257,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
                     req.dateBegin = utilDate.unformatDate(ds);
                     req.dateEnd = req.dateBegin;
                     /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
-                    const res = await gateTimeWorkList(req);
+                    const res = await gateWorkTimeList(req);
                     result = Array.isArray(res.items) ? res.items[0] : null;
                 }
                 return result;
