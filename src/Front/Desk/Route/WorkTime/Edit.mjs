@@ -196,7 +196,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
             ...mapState({
                 stateCalendarEmployees: state => state.calendar.employees,
                 stateWorkTimeDbItems: state => state.workTime.dbItems,
-            })
+            }),
         },
         methods: {
             async onSave() {

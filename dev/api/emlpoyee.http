@@ -5,6 +5,22 @@ Content-Type: application/json
 
 {"data": {"locale": "ru_RU"}}
 
+###
+POST https://{{host}}/api/employee/profile/save
+Accept: application/json
+Content-Type: application/json
+
+{
+  "data": {
+    "user": {
+      "id": 1,
+      "name": "Alex Test",
+      "emails": ["alex1@flancer64.com"],
+      "phones": ["29171703"]
+    }
+  }
+}
+
 
 ###
 POST https://{{host}}/api/employee/workTime/generate

@@ -140,10 +140,10 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                 async function insertEmployees(trx) {
                     await trx(eEmployee.ENTITY).insert([
                         {
-                            [eEmployee.A_USER_REF]: USER_ID_LENA, [eEmployee.A_CODE]: 'elena',
+                            [eEmployee.A_USER_REF]: USER_ID_LENA,
                             [eEmployee.A_NAME_LV]: 'Helena', [eEmployee.A_NAME_RU]: 'Елена',
                         }, {
-                            [eEmployee.A_USER_REF]: USER_ID_NATA, [eEmployee.A_CODE]: 'natalie',
+                            [eEmployee.A_USER_REF]: USER_ID_NATA,
                             [eEmployee.A_NAME_LV]: 'Natalija', [eEmployee.A_NAME_RU]: 'Наталья',
                         }
                     ]);

@@ -8,11 +8,6 @@ export default class Fl32_Leana_Shared_Service_Data_Employee {
      */
     id
     /**
-     * Unique code of the employee.
-     * @type {String}
-     */
-    code
-    /**
      * Localized name of the employee.
      * @type {String}
      */

@@ -1,7 +1,7 @@
 export default function (spec) {
     /** @type {TeqFw_Core_App_Util_Store_RDb_NameForUniqueKey} */
     const utilUKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForUniqueKey'];
-    /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
+    /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
     const eService = spec.Fl32_Leana_Store_RDb_Schema_Service$;
 
     /**

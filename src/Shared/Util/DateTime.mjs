@@ -118,6 +118,25 @@ export default class Fl32_Leana_Shared_Util_DateTime {
     }
 
     /**
+     * Convert local date to YYYY/MM/DD HH:MM:SS.
+     * @param dateIn
+     * @return {string}
+     */
+    formatDateTime(dateIn = null) {
+        /** @type {Date} */
+        const date = (dateIn) ?
+            (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
+            new Date();
+        const y = date.getFullYear();
+        const m = `${date.getMonth() + 1}`.padStart(2, '0');
+        const d = `${date.getDate()}`.padStart(2, '0');
+        const h = `${date.getHours()}`.padStart(2, '0');
+        const i = `${date.getMinutes()}`.padStart(2, '0');
+        const s = `${date.getSeconds()}`.padStart(2, '0');
+        return `${y}/${m}/${d} ${h}:${i}:${s}`;
+    }
+
+    /**
      * Return `date` forwarded up to `days`.
      *
      * @param {number} days

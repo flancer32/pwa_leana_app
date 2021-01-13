@@ -65,7 +65,6 @@ export default class Fl32_Leana_Front_Desk_Util_Convert_Api2Ui {
             /** @type {Fl32_Leana_Front_Desk_Widget_Api_Employee} */
             const employee = new this.UiEmployee();
             employee.id = employeeApi.id;
-            employee.code = employeeApi.code;
             employee.name = employeeApi.name;
             result.employee = employee;
         }

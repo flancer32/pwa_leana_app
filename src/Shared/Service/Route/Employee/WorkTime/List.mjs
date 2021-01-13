@@ -1,5 +1,5 @@
 /**
- * Request and response for 'employee/timeWork/list' service.
+ * Request and response for 'employee/workTime/list' service.
  */
 class Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request {
     /**

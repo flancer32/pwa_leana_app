@@ -6,6 +6,12 @@
     grid-gap: var(--grid-gap);
 }
 
+.edit .section {
+    background-color: var(--color-darkest);
+    color: var(--color-lightest);
+    text-align: center;
+}
+
 .edit .row {
     display: grid;
     grid-template-columns: 1fr 3fr;
