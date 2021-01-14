@@ -28,7 +28,7 @@ i18next.addResources('ru', 'routeProfile', {
 const template = `
 <div>
     <actions
-        @actionSave="onSave"
+            @actionSave="onSave"
     ></actions>
     <div class="layout_centered">
         <form class="edit" onsubmit="return false">
@@ -76,38 +76,60 @@ const template = `
                     {{ dateLoggedInUi }}
                 </div>
             </div>
-            
+
             <div class="id-parentName row">
                 <div class="label">
                     <span>{{ $t('routeProfile:parentName') }}:</span>
                 </div>
                 <div class="field">
-                    {{parentName}}
+                    {{ parentName }}
                 </div>
             </div>
-            
+
             <div class="id-userLogin row">
                 <div class="label">
                     <span>{{ $t('routeProfile:userLogin') }}:</span>
                 </div>
                 <div class="field">
-                    <input v-model="userLogin"  autocomplete="username" disabled>
+                    <input v-model="userLogin" autocomplete="username" disabled>
                 </div>
             </div>
-            
+
             <div class="id-refCode row">
                 <div class="label">
                     <span>{{ $t('routeProfile:refCode') }}:</span>
                 </div>
                 <div class="field">
-                    {{refCode}}
+                    {{ refCode }}
                 </div>
             </div>
-            
+
+            <div class="id-auth section">
+                <div>{{ $t('routeProfile:sectionContact') }}</div>
+            </div>
+
+            <div class="id-email row">
+                <div class="label">
+                    <span>{{ $t('routeProfile:email') }}:</span>
+                </div>
+                <div class="field">
+                    <input v-model="email">
+                </div>
+            </div>
+
+            <div class="id-phone row">
+                <div class="label">
+                    <span>{{ $t('routeProfile:phone') }}:</span>
+                </div>
+                <div class="field">
+                    <input v-model="phone">
+                </div>
+            </div>
+
             <div class="id-password section">
                 <div>{{ $t('routeProfile:sectionPwd') }}</div>
             </div>
-            
+
             <div class="id-passwordCurrent row">
                 <div class="label">
                     <span>{{ $t('routeProfile:passwordCurrent') }}:</span>
@@ -131,35 +153,13 @@ const template = `
                     <span>{{ $t('routeProfile:passwordRepeat') }}:</span>
                 </div>
                 <div class="field editable">
+                    <div class="message" v-show="showMessage">{{ message }}</div>
                     <div class="value">
-                         <input type="password" autocomplete="new-password" v-model="passwordRepeat">
+                        <input type="password" autocomplete="new-password" v-model="passwordRepeat">
                     </div>
                     <div class="action">
                         <button v-on:click="actionChangePassword" :disabled="disabledChangePassword">...</button>
                     </div>
-                    <div class="message" v-show="showMessage">{{message}}</div>
-                </div>
-            </div>
-
-            <div class="id-auth section">
-                <div>{{ $t('routeProfile:sectionContact') }}</div>
-            </div>
-
-            <div class="id-email row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:email') }}:</span>
-                </div>
-                <div class="field">
-                    <input v-model="email">
-                </div>
-            </div>
-
-            <div class="id-phone row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:phone') }}:</span>
-                </div>
-                <div class="field">
-                    <input v-model="phone">
                 </div>
             </div>
 
@@ -244,6 +244,9 @@ function Fl32_Leana_Front_Desk_Route_Profile(spec) {
                     const res = await gateUserSetPwd(req);
                     if (res.success === true) {
                         this.message = this.$t('routeProfile:msgNewPassChanged');
+                        this.passwordCurrent = null;
+                        this.passwordNew = null;
+                        this.passwordRepeat = null;
                     } else {
                         this.message = this.$t('routeProfile:msgNewPassFailed');
                     }
