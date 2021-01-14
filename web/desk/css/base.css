@@ -21,6 +21,10 @@ BUTTON {
     min-width: var(--input-height);
 }
 
+BUTTON:disabled {
+    background-color: var(--color-darker);
+}
+
 INPUT, SELECT {
     height: var(--input-height);
     width: 100%;

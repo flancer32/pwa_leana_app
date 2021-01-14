@@ -6,21 +6,24 @@ i18next.addResources('ru', 'routeProfile', {
     deskColor: 'Цвет (код)',
     email: 'Почта',
     loggedIn: 'Последний вход',
+    msgNewPassChanged: 'Новый пароль установлен.',
+    msgNewPassDiff: 'Повторный пароль отличается.',
+    msgNewPassFailed: 'Новый пароль не установлен.',
+    parentName: 'Патрон',
     passwordCurrent: 'Текущий пароль',
     passwordNew: 'Новый пароль',
     passwordRepeat: 'Повтор пароля',
     phone: 'Телефон',
+    refCode: 'Код регистрации',
     sectionAuth: 'Аутентификация',
     sectionContact: 'Контакты',
+    sectionPwd: 'Пароль',
     sectionUser: 'Пользователь',
     sectionUserTree: 'Регистрация',
     userId: 'ID',
     userLogin: 'Login',
     userName: 'Имя',
-    parentName: 'Патрон',
-    refCode: 'Код регистрации',
 });
-
 
 const template = `
 <div>
@@ -101,6 +104,10 @@ const template = `
                 </div>
             </div>
             
+            <div class="id-password section">
+                <div>{{ $t('routeProfile:sectionPwd') }}</div>
+            </div>
+            
             <div class="id-passwordCurrent row">
                 <div class="label">
                     <span>{{ $t('routeProfile:passwordCurrent') }}:</span>
@@ -123,8 +130,14 @@ const template = `
                 <div class="label">
                     <span>{{ $t('routeProfile:passwordRepeat') }}:</span>
                 </div>
-                <div class="field">
-                    <input type="password" autocomplete="new-password" v-model="passwordRepeat">
+                <div class="field editable">
+                    <div class="value">
+                         <input type="password" autocomplete="new-password" v-model="passwordRepeat">
+                    </div>
+                    <div class="action">
+                        <button v-on:click="actionChangePassword" :disabled="disabledChangePassword">...</button>
+                    </div>
+                    <div class="message" v-show="showMessage">{{message}}</div>
                 </div>
             </div>
 
@@ -166,16 +179,20 @@ function Fl32_Leana_Front_Desk_Route_Profile(spec) {
     const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton instance
     /** @type {Fl32_Leana_Front_Desk_Widget_Profile_Actions} */
     const actions = spec['Fl32_Leana_Front_Desk_Widget_Profile_Actions$']; // singleton instance
-    /** @type {Fl32_Teq_User_Front_Gate_Current} */
-    const gateUserCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // singleton function
     /** @type {Fl32_Leana_Front_Gate_Employee_Profile_Save} */
     const gateProfileSave = spec['Fl32_Leana_Front_Gate_Employee_Profile_Save$'];   // singleton function
-    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Request} */
-    const UserCurrentReq = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request']; // class constructor
+    /** @type {Fl32_Teq_User_Front_Gate_Current} */
+    const gateUserCurrent = spec['Fl32_Teq_User_Front_Gate_Current$']; // singleton function
+    /** @type {Fl32_Teq_User_Front_Gate_ChangePassword} */
+    const gateUserSetPwd = spec['Fl32_Teq_User_Front_Gate_ChangePassword$'];    // singleton function
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_Profile_Save_Request} */
     const ProfileSaveReq = spec['Fl32_Leana_Shared_Service_Route_Employee_Profile_Save#Request']; // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_Profile_Save_Response} */
     const ProfileSaveRes = spec['Fl32_Leana_Shared_Service_Route_Employee_Profile_Save#Response']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_Current_Request} */
+    const UserCurrentReq = spec['Fl32_Teq_User_Shared_Service_Route_Current#Request']; // class constructor
+    /** @type {typeof Fl32_Teq_User_Shared_Service_Route_ChangePassword_Request} */
+    const UserSetPws = spec['Fl32_Teq_User_Shared_Service_Route_ChangePassword#Request'];   // class constructor
     /** @type {typeof Fl32_Teq_User_Shared_Service_Data_User} */
     const DProfile = spec['Fl32_Teq_User_Shared_Service_Data_User#'];   // class constructor
 
@@ -189,12 +206,14 @@ function Fl32_Leana_Front_Desk_Route_Profile(spec) {
                 dateLoggedIn: null,
                 deskColor: null,
                 email: null,
+                message: null,
                 parentName: null,
                 passwordCurrent: null,
                 passwordNew: null,
                 passwordRepeat: null,
                 phone: null,
                 refCode: null,
+                showMessage: false,
                 userId: null,
                 userLogin: null,
                 userName: null,
@@ -207,8 +226,37 @@ function Fl32_Leana_Front_Desk_Route_Profile(spec) {
             dateLoggedInUi() {
                 return utilDate.formatDateTime(this.dateLoggedIn);
             },
+            disabledChangePassword() {
+                return !(this.passwordCurrent && this.passwordNew && this.passwordRepeat);
+            }
         },
         methods: {
+            async actionChangePassword() {
+                this.showMessage = false;
+                if (this.passwordNew !== this.passwordRepeat) {
+                    this.showMessage = true;
+                    this.message = this.$t('routeProfile:msgNewPassDiff');
+                } else {
+                    const req = new UserSetPws();
+                    req.passwordCurrent = this.passwordCurrent;
+                    req.passwordNew = this.passwordNew;
+                    /** @type {Fl32_Teq_User_Shared_Service_Route_ChangePassword_Response} */
+                    const res = await gateUserSetPwd(req);
+                    if (res.success === true) {
+                        this.message = this.$t('routeProfile:msgNewPassChanged');
+                    } else {
+                        this.message = this.$t('routeProfile:msgNewPassFailed');
+                    }
+                    this.showMessage = true;
+                }
+                this.hideMessage();
+            },
+            hideMessage() {
+                setTimeout(() => {
+                    this.message = '';
+                    this.showMessage = false;
+                }, 2000);
+            },
             async loadUser() {
                 const req = new UserCurrentReq();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_Current_Response} */

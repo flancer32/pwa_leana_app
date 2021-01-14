@@ -28,6 +28,10 @@
     /*justify-items: center;*/
 }
 
+.field.editable > .message {
+    grid-column: 1 / span 2;
+}
+
 .edit .controls {
     /*z-index: 5000;*/
     background-color: var(--color-lightest);
