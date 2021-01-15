@@ -63,7 +63,7 @@ function Fl32_Leana_Front_Desk_Widget_WorkTime_Cell(spec) {
                 /** @type {Fl32_Leana_Front_Desk_Widget_WorkTime_Api_Item} */
                 const item = this.item;
                 if (item && item.employeeId) {
-                    const ds = utilDate.formatDate(item.timeFrom);
+                    const ds = utilDate.stampDate(item.timeFrom);
                     this.$router.push(`/workTime/edit/${ds}`);
                 }
             },

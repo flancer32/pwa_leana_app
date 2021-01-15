@@ -58,7 +58,7 @@ function Fl32_Leana_Front_Desk_Widget_WorkTime(spec) {
                             /** @param {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} one */
                             (one) => {
                                 const start = new Date(one.start);
-                                const ds = utilDate.formatDate(start);
+                                const ds = utilDate.stampDate(start);
                                 result[ds] = one;
                             });
                     }
@@ -84,7 +84,7 @@ function Fl32_Leana_Front_Desk_Widget_WorkTime(spec) {
                         } else {
                             cell.typeIsDate = true;
                             cell.date = date.getUTCDate();
-                            const ds = utilDate.formatDate(date);
+                            const ds = utilDate.stampDate(date);
                             if (items[ds]) {
                                 /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
                                 const wt = items[ds];

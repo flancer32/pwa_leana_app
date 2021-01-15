@@ -85,7 +85,7 @@ class Fl32_Leana_Back_Process_WorkTime_Generate {
                     const weekday = current.getUTCDay();
                     if (weekday !== 0) {
                         // from Monday to Saturday
-                        const date = utiDate.formatDate(current);
+                        const date = utiDate.stampDate(current);
                         const employeeId = ((weekday === 1) || (weekday === 3) || (weekday === 5))
                             ? DEF.USER_ID_LENA : DEF.USER_ID_NATA;
                         const from = `0${DEF.DAY_START_HOUR_UTC}00`;

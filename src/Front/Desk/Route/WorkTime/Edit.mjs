@@ -245,7 +245,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
                 let result;
                 if (Array.isArray(items)) {
                     for (const one of items) {
-                        if (utilDate.formatDate(one.start) === ds) {
+                        if (utilDate.stampDate(one.start) === ds) {
                             result = one;
                             break;
                         }

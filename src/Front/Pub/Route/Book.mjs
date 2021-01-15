@@ -203,14 +203,14 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                         const one of this.apiWorkTime) {
                         if (one.employeeRef === this.employeeId) {
                             const dateStart = one.start;
-                            const formatted = utilDate.formatDate(dateStart);
+                            const formatted = utilDate.stampDate(dateStart);
                             workDays.push(formatted);
                         }
                     }
                     let date = new Date(this.dpDateMin);
                     let dateMax = new Date(this.dpDateMax);
                     while (date < dateMax) {
-                        const formatted = utilDate.formatDate(date);
+                        const formatted = utilDate.stampDate(date);
                         if (!workDays.includes(formatted)) {
                             const disabled = utilDate.unformatDate(formatted);
                             result.push(disabled);

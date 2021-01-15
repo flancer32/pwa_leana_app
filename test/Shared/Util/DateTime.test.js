@@ -93,17 +93,17 @@ describe('Fl32_Leana_Shared_Util_DateTime:', () => {
                 const today = `${y}${m}${d}`;
 
                 it('format null', async () => {
-                    const res = obj.formatDate();
+                    const res = obj.stampDate();
                     assert.deepStrictEqual(res, today);
                 });
 
                 it('format Date', async () => {
-                    const res = obj.formatDate(new Date());
+                    const res = obj.stampDate(new Date());
                     assert.deepStrictEqual(res, today);
                 });
 
                 it('format String', async () => {
-                    const res = obj.formatDate('2020-11-01T07:30:00.000Z');
+                    const res = obj.stampDate('2020-11-01T07:30:00.000Z');
                     assert.deepStrictEqual(res, '20201101');
                 });
 

@@ -84,24 +84,6 @@ export default class Fl32_Leana_Shared_Util_DateTime {
     }
 
     /**
-     * Convert `dateIn` into 'YYYYMMDD'. `new Date()` is used if `dateIn` is null.
-     *
-     * @param {Date|string|null} dateIn
-     * @returns {string}
-     * TODO: rename to stampDate (@see stampDateUtc)
-     */
-    formatDate(dateIn = null) {
-        /** @type {Date} */
-        const date = (dateIn) ?
-            (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
-            new Date();
-        const y = date.getFullYear();
-        const m = `${date.getMonth() + 1}`.padStart(2, '0');
-        const d = `${date.getDate()}`.padStart(2, '0');
-        return `${y}${m}${d}`;
-    }
-
-    /**
      * Convert local date to YYYY/MM/DD.
      * @param dateIn
      * @return {string}
@@ -195,6 +177,24 @@ export default class Fl32_Leana_Shared_Util_DateTime {
      */
     minutesToMilliseconds(minutes) {
         return Number.parseInt(minutes) * 60 * 1000;
+    }
+
+    /**
+     * Convert `dateIn` into 'YYYYMMDD'. `new Date()` is used if `dateIn` is null.
+     *
+     * @param {Date|string|null} dateIn
+     * @returns {string}
+     * TODO: rename to stampDate (@see stampDateUtc)
+     */
+    stampDate(dateIn = null) {
+        /** @type {Date} */
+        const date = (dateIn) ?
+            (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
+            new Date();
+        const y = date.getFullYear();
+        const m = `${date.getMonth() + 1}`.padStart(2, '0');
+        const d = `${date.getDate()}`.padStart(2, '0');
+        return `${y}${m}${d}`;
     }
 
     /**
