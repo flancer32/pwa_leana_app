@@ -158,12 +158,14 @@ function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                 /** @type {Fl32_Leana_Front_Desk_Util_Swipe} */
                 const swipe = new Swipe('#calendar_entries');
                 swipe.setOnLeft(function () {
-                    const dayAfter = utilDate.forwardDate(1, me.calendarDateSelected);
+                    const dayAfter = new Date(me.calendarDateSelected.getTime());
+                    dayAfter.setDate(dayAfter.getDate() + 1);
                     me.setDateSelected(dayAfter);
                     me.apiLoadTasks();
                 });
                 swipe.setOnRight(function () {
-                    const dayBefore = utilDate.forwardDate(-1, me.calendarDateSelected);
+                    const dayBefore = new Date(me.calendarDateSelected.getTime());
+                    dayBefore.setDate(dayBefore.getDate() - 1);
                     me.setDateSelected(dayBefore);
                     me.apiLoadTasks();
                 });

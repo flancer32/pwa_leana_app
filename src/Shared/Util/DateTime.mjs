@@ -137,19 +137,6 @@ export default class Fl32_Leana_Shared_Util_DateTime {
     }
 
     /**
-     * Return `date` forwarded up to `days`.
-     *
-     * @param {number} days
-     * @param {Date|null} date
-     * @returns {Date}
-     */
-    forwardDate(days, date = null) {
-        let result = (date) ? new Date(date.getTime()) : new Date();
-        result.setDate(result.getDate() + days);
-        return result;
-    }
-
-    /**
      * Thanks to https://stackoverflow.com/a/6117889/4073821:
      *
      * For a given date, get the ISO week number

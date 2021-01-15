@@ -186,10 +186,12 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 return result;
             },
             dpDateMax() {
-                return utilDate.forwardDate(21, new Date(Date.now()));
+                const result = new Date();
+                result.setDate(result.getDate() + 21);
+                return result;
             },
             dpDateMin() {
-                return new Date(Date.now());
+                return new Date();
             },
             dpDatesDisabled() {
                 const result = [];
@@ -205,15 +207,15 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                             workDays.push(formatted);
                         }
                     }
-                    let date = this.dpDateMin;
-                    let dateMax = this.dpDateMax;
+                    let date = new Date(this.dpDateMin);
+                    let dateMax = new Date(this.dpDateMax);
                     while (date < dateMax) {
                         const formatted = utilDate.formatDate(date);
                         if (!workDays.includes(formatted)) {
                             const disabled = utilDate.unformatDate(formatted);
                             result.push(disabled);
                         }
-                        date = utilDate.forwardDate(1, date);
+                        date.setDate(date.getDate() + 1);
                     }
                 }
                 return result;
@@ -421,7 +423,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 await this.loadServices(reqSrv);
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
                 const reqWorkTime = new WorkTimeRequest();
-                reqWorkTime.dateBegin = new Date(Date.now()); // UTC
+                reqWorkTime.dateBegin = new Date(Date.now());
                 await this.loadWorkTime(reqWorkTime);
             }
         }
