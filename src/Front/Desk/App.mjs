@@ -24,8 +24,6 @@ function Fl32_Leana_Front_Desk_App(spec) {
     const layoutOverlay = spec['Fl32_Leana_Front_Desk_Layout_Overlay$'];    // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Calendar} */
     const routeCalendar = spec['Fl32_Leana_Front_Desk_Route_Calendar$'];   // singleton component
-    /** @type {Fl32_Leana_Front_Desk_Route_Employees} */
-    const routeEmployees = spec['Fl32_Leana_Front_Desk_Route_Employees$']; // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Profile} */
     const routeProfile = spec['Fl32_Leana_Front_Desk_Route_Profile$'];   // singleton component
     /** @type {Fl32_Leana_Front_Desk_Route_Services} */
@@ -48,7 +46,6 @@ function Fl32_Leana_Front_Desk_App(spec) {
     // add frontend routes and bound components
     router.addRoute({path: '/', component: routeCalendar});
     router.addRoute({path: '/calendar', component: routeCalendar});
-    router.addRoute({path: '/employees', component: routeEmployees});
     router.addRoute({path: '/profile', component: routeProfile});
     router.addRoute({path: '/services', component: routeServices});
     router.addRoute({path: '/settings', component: routeSettings});

@@ -1,8 +1,9 @@
 /* folders */
 @import "widget/lib.css";
-@import "widget/route.css";
 /* files */
 @import "widget/actions.css";
 @import "widget/booking.css";
 @import "widget/calendar.css";
+@import "widget/settings.css";
+@import "widget/signIn.css";
 @import "widget/workTime.css";

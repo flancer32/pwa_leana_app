@@ -6,11 +6,15 @@
 'use strict';
 
 const API_STATIC_FILES = '/api/app/sw/files_to_cache/desk'; // route to get list of files to cache on startup
+const AREA_API = 'api';            // marker for API routes (don't cache)
+const AREA_STATIC = 'static';      // marker for static resources (to be cached)
+const AREA_WORKER = 'sw';          // marker for Service Worker commands
 const CACHE_STATIC = 'desk-cache-v1'; // store name to cache static resources
-const ROUTE_API = 'api';            // marker for API routes (don't cache)
-const ROUTE_STATIC = 'static';      // marker for static resources (to be cached)
-const ROUTE_WORKER = 'sw';          // marker for Service Worker commands
-
+const ROUTE_CACHE_CLEAN = `/${AREA_WORKER}/cache/clean`;   // SW control route to enable SW cache
+const ROUTE_CACHE_DISABLE = `/${AREA_WORKER}/cache/disable`;   // SW control route to enable SW cache
+const ROUTE_CACHE_ENABLE = `/${AREA_WORKER}/cache/enable`;   // SW control route to enable SW cache
+const ROUTE_CACHE_STATE = `/${AREA_WORKER}/cache/state`;   // SW control route to get cache state
+const VERSION = '0.1.0';    // SW version to trace app consistency on the client side
 /**
  * Service worker flag to use cache to process fetch requests (disabled by default).
  *
@@ -82,11 +86,11 @@ function hndlEventFetch(evt) {
             req.url.match(API) &&
             !req.url.match(API_APP)
         ) {
-            return ROUTE_API;
+            return AREA_API;
         } else if (req.url.match(SW)) {
-            return ROUTE_WORKER;
+            return AREA_WORKER;
         }
-        return ROUTE_STATIC;
+        return AREA_STATIC;
     }
 
     /**
@@ -121,24 +125,28 @@ function hndlEventFetch(evt) {
     async function processWorkerCommand(evt) {
         try {
             const url = evt.request.url;
-            const dataOut = {};
-            if (url.includes('/cache/clean')) {
+            const data = {};
+            if (url.includes(ROUTE_CACHE_CLEAN)) {
                 await self.caches.delete(CACHE_STATIC);
                 _cacheEnabled = true;
-                dataOut.message = 'Cache is cleaned and enabled.';
-            } else if (url.includes('/cache/disable')) {
+                data.message = 'Cache is cleaned and enabled.';
+                data.success = true;
+            } else if (url.includes(ROUTE_CACHE_DISABLE)) {
                 _cacheEnabled = false;
-                dataOut.message = 'Cache is disabled.';
-            } else if (url.includes('/cache/enable')) {
+                data.message = 'Cache is disabled.';
+                data.success = true;
+            } else if (url.includes(ROUTE_CACHE_ENABLE)) {
                 _cacheEnabled = true;
-                dataOut.message = 'Cache is enabled.';
-            } else if (url.includes('/cache/status')) {
-                const status = (_cacheEnabled) ? 'enabled' : 'disabled';
-                dataOut.message = `Cache status: ${status}`;
+                data.message = 'Cache is enabled.';
+                data.success = true;
+            } else if (url.includes(ROUTE_CACHE_STATE)) {
+                const state = (_cacheEnabled) ? 'enabled' : 'disabled';
+                data.message = `Cache state: ${state}`;
+                data.state = _cacheEnabled;
             } else {
-                dataOut.message = 'Unknown command.';
+                data.message = 'Unknown command.';
             }
-            return new Response(JSON.stringify({data: dataOut}), {
+            return new Response(JSON.stringify(data), {
                 headers: {'Content-Type': 'application/json'}
             });
         } catch (e) {
@@ -150,9 +158,9 @@ function hndlEventFetch(evt) {
 
     // const url = evt.request.url;
     const routeType = getRouteType(evt.request);
-    if (routeType === ROUTE_API) {
+    if (routeType === AREA_API) {
         // just pass the request to server
-    } else if (routeType === ROUTE_WORKER) {
+    } else if (routeType === AREA_WORKER) {
         // perform any service routines with service worker
         evt.respondWith(processWorkerCommand(evt));
     } else {

@@ -1,0 +1,26 @@
+.wgSettings > .layout_centered .section {
+    /*min-width: 300px;*/
+}
+
+.wgSettings INPUT[type="radio"] {
+    height: var(--radio-size);
+    width: var(--radio-size);
+}
+
+.wgSettings .radioLine {
+    float: left;
+}
+
+.wgSettings .fieldRadio,
+.wgSettings .radioLine {
+    align-items: center;
+    display: grid;
+    grid-auto-flow: column;
+    text-align: left;
+}
+
+.wgSettings .radioLine > INPUT,
+.wgSettings .radioLine > LABEL {
+    float: left;
+    vertical-align: bottom;
+}
