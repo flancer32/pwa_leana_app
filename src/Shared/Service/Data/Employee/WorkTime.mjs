@@ -1,7 +1,7 @@
 /**
  * Employee working time data for API.
  */
-export default class Fl32_Leana_Shared_Service_Data_Employee_TimeWork {
+export default class Fl32_Leana_Shared_Service_Data_Employee_WorkTime {
     /**
      * Employee reference.
      * @type {Number}

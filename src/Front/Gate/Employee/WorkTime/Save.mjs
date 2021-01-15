@@ -1,5 +1,5 @@
 /**
- * Frontend gate to 'employee/timeWork/save' service.
+ * Frontend gate to 'employee/workTime/save' service.
  */
 export default function (spec) {
     /** @type {Fl32_Leana_Defaults} */

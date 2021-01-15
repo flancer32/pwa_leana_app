@@ -138,7 +138,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     /** @type {Fl32_Leana_Defaults} */
     const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
     const gateTaskSave = spec['Fl32_Leana_Front_Gate_Task_Save$'];  //singleton function
-    const gateTimeWork = spec['Fl32_Leana_Front_Gate_Employee_WorkTime_List$']; // singleton function
+    const gateWorkTime = spec['Fl32_Leana_Front_Gate_Employee_WorkTime_List$']; // singleton function
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
     const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$']; // singleton instance
     /** @type {Fl32_Leana_Front_Desk_Util_Options} */
@@ -157,7 +157,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
     const TaskSaveReq = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request'];  // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
-    const TimeWorkReq = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
+    const WorkTimeReq = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
 
     return {
         name: 'CalendarTaskEdit',
@@ -309,14 +309,14 @@ function Fl32_Leana_Front_Desk_Widget_Task_Edit(spec) {
             async date(val) {
                 if (val instanceof Date) {
                     /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
-                    const req = new TimeWorkReq();
+                    const req = new WorkTimeReq();
                     req.dateBegin = val;
                     req.dateEnd = val;
                     /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
-                    const res = await gateTimeWork(req);
+                    const res = await gateWorkTime(req);
                     if (Array.isArray(res.items)) {
                         // there is one ony employee on the date in the app
-                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
                         const item = res.items.find(() => true);    // get first element from array
                         this.employeeId = item.employeeRef;
                     } else {

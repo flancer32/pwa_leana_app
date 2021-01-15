@@ -135,7 +135,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
     const TaskOnDateReq = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
-    const TimeWorkReq = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request'];   // class constructor
+    const WorkTimeReq = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request'];   // class constructor
 
     return {
         name: 'CalendarTaskPreview',
@@ -257,7 +257,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 calendarDateSelected: state => state.calendar.dateSelected,
                 calendarEmployees: state => state.calendar.employees,
                 calendarServices: state => state.calendar.services,
-                calendarTimeWork: state => state.calendar.timeWork,
+                calendarWorkTime: state => state.calendar.workTime,
             })
         },
         methods: {
@@ -278,16 +278,16 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
                 this.item.dateBook = data;
                 // load time work & switch employee
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
-                const timeReq = new TimeWorkReq();
+                const timeReq = new WorkTimeReq();
                 timeReq.dateBegin = data;
                 timeReq.dateEnd = data;
-                this.loadTimeWork(timeReq).then(() => {
+                this.loadWorkTime(timeReq).then(() => {
                     const employeeId = this.employee.id;
                     let changeId = null;
-                    if (this.calendarTimeWork) {
+                    if (this.calendarWorkTime) {
                         for (
-                            /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-                            const one of Object.values(this.calendarTimeWork)) {
+                            /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
+                            const one of Object.values(this.calendarWorkTime)) {
                             if (one.employeeRef === employeeId) {
                                 changeId = null;
                                 break;
@@ -340,7 +340,7 @@ function Fl32_Leana_Front_Desk_Widget_Task_Preview(spec) {
             }),
             ...mapActions({
                 loadTasksOnDate: 'calendar/loadTasksOnDate',
-                loadTimeWork: 'calendar/loadTimeWork',
+                loadWorkTime: 'calendar/loadWorkTime',
             }),
         },
     };

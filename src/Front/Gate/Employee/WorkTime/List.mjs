@@ -1,5 +1,5 @@
 /**
- * Frontend gate to 'employee/timeWork/list' service.
+ * Frontend gate to 'employee/workTime/list' service.
  */
 export default function (spec) {
     /** @type {Fl32_Leana_Defaults} */
@@ -7,8 +7,8 @@ export default function (spec) {
     const config = spec[DEF.DI_CONFIG]; // named singleton
     /** @type {TeqFw_Di_Container} */
     const container = spec['TeqFw_Di_Container$'];  // singleton instance
-    /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-    const TimeWork = spec['Fl32_Leana_Shared_Service_Data_Employee_TimeWork#']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
+    const WorkTime = spec['Fl32_Leana_Shared_Service_Data_Employee_WorkTime#']; // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
     const Response = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Response'];   // class constructor
     /** @type {typeof TeqFw_Core_App_Front_Gate_Response_Error} */
@@ -39,8 +39,8 @@ export default function (spec) {
             const result = new Response();
             result.items = [];
             for (const one of json.data.items) {
-                /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-                const item = Object.assign(new TimeWork(), one);
+                /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
+                const item = Object.assign(new WorkTime(), one);
                 item.start = new Date(item.start);
                 result.items.push(item);
             }

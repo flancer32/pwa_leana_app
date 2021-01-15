@@ -6,12 +6,12 @@
  */
 function Fl32_Leana_Front_Desk_State_WorkTime(spec) {
     /** @type {Fl32_Leana_Front_Gate_Employee_WorkTime_List} */
-    const gateTimeWorkList = spec['Fl32_Leana_Front_Gate_Employee_WorkTime_List$'];    // singleton function
+    const gateWorkTimeList = spec['Fl32_Leana_Front_Gate_Employee_WorkTime_List$'];    // singleton function
 
     return {
         namespaced: true,
         state: {
-            dbItems: Array,// Fl32_Leana_Shared_Service_Data_Employee_TimeWork[]
+            dbItems: Array,// Fl32_Leana_Shared_Service_Data_Employee_WorkTime[]
             monthCurrent: Date,
         },
         getters: {},
@@ -31,7 +31,7 @@ function Fl32_Leana_Front_Desk_State_WorkTime(spec) {
              */
             async loadDbItems({commit}, req) {
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
-                const res = await gateTimeWorkList(req);
+                const res = await gateWorkTimeList(req);
                 commit('setDbItems', res.items);
             },
         },

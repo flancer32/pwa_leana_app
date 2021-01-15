@@ -10,8 +10,8 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_Save {
         const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$'];   // singleton instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Time_Work} */
         const eWorkTime = spec['Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$'];  // singleton instance
-        /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-        const TimeWork = spec['Fl32_Leana_Shared_Service_Data_Employee_TimeWork#'];  // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
+        const WorkTime = spec['Fl32_Leana_Shared_Service_Data_Employee_WorkTime#'];  // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Request} */
         const Request = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save#Request']; // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Response} */
@@ -43,7 +43,7 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_Save {
                 const body = httpReq.body;
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Request} */
                 const result = Object.assign(new Request(), body.data); // clone HTTP body into API request object
-                result.item = Object.assign(new TimeWork(), result.item);
+                result.item = Object.assign(new WorkTime(), result.item);
                 result.item.start = new Date(result.item.start);
                 return result;
             }
@@ -66,7 +66,7 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_Save {
                 // DEFINE INNER FUNCTIONS (AVAILABLE FOR CURRENT INSTANCE ONLY)
                 /**
                  * @param trx
-                 * @param {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} item
+                 * @param {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} item
                  * @return {Promise<void>}
                  */
                 async function process(trx, item) {

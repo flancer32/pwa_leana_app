@@ -10,8 +10,8 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_List {
         const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$'];  // singleton instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee_Time_Work} */
         const eTimeWork = spec['Fl32_Leana_Store_RDb_Schema_Employee_Time_Work$']; // singleton instance
-        /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-        const TimeWork = spec['Fl32_Leana_Shared_Service_Data_Employee_TimeWork#']; // class constructor
+        /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
+        const WorkTime = spec['Fl32_Leana_Shared_Service_Data_Employee_WorkTime#']; // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
         const Request = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Response} */
@@ -68,7 +68,7 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_List {
                  * Get working time for employees.
                  * @param trx
                  * @param {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} dataIn
-                 * @return {Promise<Fl32_Leana_Shared_Service_Data_Employee_TimeWork[]>}
+                 * @return {Promise<Fl32_Leana_Shared_Service_Data_Employee_WorkTime[]>}
                  */
                 async function selectData(trx, dataIn) {
                     const result = [];
@@ -90,8 +90,8 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_List {
                     // perform query and get data
                     const rs = await query;
                     for (const one of rs) {
-                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-                        const item = new TimeWork();
+                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
+                        const item = new WorkTime();
                         item.employeeRef = one[eTimeWork.A_EMPLOYEE_REF];
                         const ds = one[eTimeWork.A_DATE];
                         const tsFrom = one[eTimeWork.A_FROM];

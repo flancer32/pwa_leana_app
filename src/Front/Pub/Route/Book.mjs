@@ -139,7 +139,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
     const SaveRequest = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request']; // class constructor
     const ServiceRequest = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request']; // class constructor
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
-    const TimeWorkRequest = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
+    const WorkTimeRequest = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
 
     return {
         name: 'RouteBook',
@@ -193,12 +193,12 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             },
             dpDatesDisabled() {
                 const result = [];
-                if (this.employeeId && Array.isArray(this.apiTimeWork)) {
+                if (this.employeeId && Array.isArray(this.apiWorkTime)) {
                     // get working days
                     const workDays = [];
                     for (
-                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-                        const one of this.apiTimeWork) {
+                        /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
+                        const one of this.apiWorkTime) {
                         if (one.employeeRef === this.employeeId) {
                             const dateStart = one.start;
                             const formatted = utilDate.formatDate(dateStart);
@@ -316,9 +316,9 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
             workTimeForEmployeeOnDate() {
                 const result = {};
                 const stampSelected = utilDate.stampDateUtc(this.dateSelected);
-                for (const key in this.apiTimeWork) {
-                    /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-                    const one = this.apiTimeWork[key];
+                for (const key in this.apiWorkTime) {
+                    /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
+                    const one = this.apiWorkTime[key];
                     if (one.employeeRef === this.employeeId) {
                         const stampWork = utilDate.stampDateUtc(one.start);
                         if (stampSelected === stampWork) {
@@ -335,7 +335,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 apiEmployees: state => state.book.employees,
                 apiServices: state => state.book.services,
                 apiTasksOnDate: state => state.book.tasksOnDate,
-                apiTimeWork: state => state.book.timeWork,
+                apiWorkTime: state => state.book.workTime,
                 dateSelected: state => state.book.dateSelected,
             })
         },
@@ -403,7 +403,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 loadEmployees: 'book/loadEmployees',
                 loadServices: 'book/loadServices',
                 loadTasksOnDate: 'book/loadTasksOnDate',
-                loadTimeWork: 'book/loadTimeWork',
+                loadWorkTime: 'book/loadWorkTime',
             }),
         },
         async mounted() {
@@ -420,9 +420,9 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 reqSrv.publicOnly = true;
                 await this.loadServices(reqSrv);
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
-                const reqTimeWork = new TimeWorkRequest();
-                reqTimeWork.dateBegin = new Date(Date.now()); // UTC
-                await this.loadTimeWork(reqTimeWork);
+                const reqWorkTime = new WorkTimeRequest();
+                reqWorkTime.dateBegin = new Date(Date.now()); // UTC
+                await this.loadWorkTime(reqWorkTime);
             }
         }
     };

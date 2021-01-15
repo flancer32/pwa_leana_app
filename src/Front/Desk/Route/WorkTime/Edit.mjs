@@ -91,8 +91,8 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
     const WorkTimeSaveRes = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save#Response'];    // class constructor
     /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
     const EmplListReq = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Request'];  // class constructor
-    /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
-    const WorkTime = spec['Fl32_Leana_Shared_Service_Data_Employee_TimeWork#']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
+    const WorkTime = spec['Fl32_Leana_Shared_Service_Data_Employee_WorkTime#']; // class constructor
 
 
     /**
@@ -125,7 +125,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
                 employeeId: null,
                 hourFrom: null,
                 hourTo: null,
-                item: null,  // Fl32_Leana_Shared_Service_Data_Employee_TimeWork
+                item: null,  // Fl32_Leana_Shared_Service_Data_Employee_WorkTime
             };
         },
         props: {
@@ -134,7 +134,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
         computed: {
             date() {
                 let result = '';
-                /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+                /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
                 const item = this.item;
                 if (item && item.start) {
                     result = utilDate.formatDateNew(item.start);
@@ -143,7 +143,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
             },
             employeeName() {
                 let result = '';
-                /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+                /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
                 const item = this.item;
                 const empls = this.stateCalendarEmployees;
                 if (item && item.employeeRef && empls && empls[item.employeeRef]) {
@@ -166,7 +166,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
                     result.sort((a, b) => (a.name > b.name) ? 1 : -1);
                 }
                 // set initial value
-                /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+                /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
                 const item = this.item;
                 if (item && item.employeeRef) {
                     this.employeeId = item.employeeRef;
@@ -175,7 +175,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
             },
             optsTimeFrom() {
                 const result = generateTimeOpts();
-                /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+                /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
                 const item = this.item;
                 if (item && (item.start instanceof Date)) {
                     this.hourFrom = item.start.getUTCHours();
@@ -184,7 +184,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
             },
             optsTimeTo() {
                 const result = generateTimeOpts();
-                /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+                /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
                 const item = this.item;
                 if (item && (item.start instanceof Date)) {
                     const end = new Date(item.start.getTime());
@@ -237,10 +237,10 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
             /**
              * Get data from vuex if exists or load it from the server.
              * @param ds
-             * @return {Promise<Fl32_Leana_Shared_Service_Data_Employee_TimeWork>}
+             * @return {Promise<Fl32_Leana_Shared_Service_Data_Employee_WorkTime>}
              */
             async function loadItem(ds) {
-                /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork[]} */
+                /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime[]} */
                 const items = me.stateWorkTimeDbItems;
                 let result;
                 if (Array.isArray(items)) {

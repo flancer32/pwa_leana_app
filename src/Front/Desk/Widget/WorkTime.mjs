@@ -48,14 +48,14 @@ function Fl32_Leana_Front_Desk_Widget_WorkTime(spec) {
                 // DEFINE INNER FUNCTIONS
                 /**
                  *
-                 * @param {Fl32_Leana_Shared_Service_Data_Employee_TimeWork[]} dbItems
-                 * @return {Object.<String, Fl32_Leana_Shared_Service_Data_Employee_TimeWork>}
+                 * @param {Fl32_Leana_Shared_Service_Data_Employee_WorkTime[]} dbItems
+                 * @return {Object.<String, Fl32_Leana_Shared_Service_Data_Employee_WorkTime>}
                  */
                 function prepareEmlpoyees(dbItems) {
                     const result = {};
                     if (Array.isArray(dbItems)) {
                         dbItems.forEach(
-                            /** @param {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} one */
+                            /** @param {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} one */
                             (one) => {
                                 const start = new Date(one.start);
                                 const ds = utilDate.formatDate(start);
@@ -86,7 +86,7 @@ function Fl32_Leana_Front_Desk_Widget_WorkTime(spec) {
                             cell.date = date.getUTCDate();
                             const ds = utilDate.formatDate(date);
                             if (items[ds]) {
-                                /** @type {Fl32_Leana_Shared_Service_Data_Employee_TimeWork} */
+                                /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
                                 const wt = items[ds];
                                 cell.employeeId = wt.employeeRef;
                                 cell.timeFrom = new Date(wt.start.getTime());
