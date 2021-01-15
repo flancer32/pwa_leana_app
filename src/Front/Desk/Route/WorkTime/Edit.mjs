@@ -137,7 +137,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
                 /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} */
                 const item = this.item;
                 if (item && item.start) {
-                    result = utilDate.formatDateNew(item.start);
+                    result = utilDate.formatDate(item.start);
                 }
                 return result;
             },

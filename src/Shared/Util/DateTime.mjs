@@ -88,7 +88,7 @@ export default class Fl32_Leana_Shared_Util_DateTime {
      * @param dateIn
      * @return {string}
      */
-    formatDateNew(dateIn = null) {
+    formatDate(dateIn = null) {
         /** @type {Date} */
         const date = (dateIn) ?
             (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
