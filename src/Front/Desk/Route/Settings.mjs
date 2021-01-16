@@ -1,6 +1,17 @@
 const i18next = self.teqfw.i18next;
 
-i18next.addResources('lv', 'routeSettings', {});
+i18next.addResources('lv', 'routeSettings', {
+    btnExecute: 'Izpildīt',
+    lang: 'Vāloda',
+    msgCacheCleanFailed: 'Kešatmiņa tīrīšana neizdevās.',
+    msgCacheCleanSuccess: 'Kešatmiņa ir notīrīta.',
+    sectionLang: 'Valodas izvēle',
+    sectionSw: 'Service Worker iestatījumi',
+    swCacheClean: 'Kešatmiņa tīrīšana',
+    swCacheState: 'Kešatmiņas stāvoklis',
+    swCacheStateDisabled: 'Atspējots',
+    swCacheStateEnabled: 'Iespējots',
+});
 i18next.addResources('ru', 'routeSettings', {
     btnExecute: 'Выполнить',
     lang: 'Язык',

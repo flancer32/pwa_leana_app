@@ -1,7 +1,15 @@
 const i18next = self.teqfw.i18next;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
-i18next.addResources('lv', 'wgWorkTime', {});
+i18next.addResources('lv', 'wgWorkTime', {
+    wdMon: 'Pr.',
+    wdTue: 'Ot.',
+    wdWed: 'Tr.',
+    wdThu: 'Če.',
+    wdFri: 'Pk.',
+    wdSat: 'Se.',
+    wdSun: 'Sv.',
+});
 i18next.addResources('ru', 'wgWorkTime', {
     wdMon: 'Пн.',
     wdTue: 'Вт.',

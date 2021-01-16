@@ -1,11 +1,6 @@
-const i18next = self.teqfw.i18next;
 const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
-
-i18next.addResources('lv', 'routeWorkTime', {});
-i18next.addResources('ru', 'routeWorkTime', {});
-
 
 const template = `
 <div>

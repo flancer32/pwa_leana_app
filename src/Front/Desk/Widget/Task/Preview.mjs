@@ -3,10 +3,24 @@ const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
-i18next.addResources('lv', 'taskPreview', {});
+i18next.addResources('lv', 'taskPreview', {
+    customer: 'Klients',
+    date: 'Datums',
+    duration: 'Ilgums',
+    email: 'E-pasts',
+    employee: 'Darbinieks',
+    madeBy: 'Izveidoja',
+    madeByAdmin: 'Vadītāju',
+    madeByCustomer: 'Klienti',
+    notes: 'Piezīmes',
+    phone: 'Tālrunis',
+    service: 'Pakalpojums',
+    task: 'Uzdevums',
+});
 i18next.addResources('ru', 'taskPreview', {
     customer: 'Клиент',
     date: 'Дата',
+    duration: 'Продолжительность',
     email: 'Email',
     employee: 'Мастер',
     madeBy: 'Создан',
@@ -14,7 +28,7 @@ i18next.addResources('ru', 'taskPreview', {
     madeByCustomer: 'Клиентом',
     notes: 'Заметки',
     phone: 'Телефон',
-    service: 'Задача',
+    service: 'Услуга',
     task: 'Задача',
 });
 

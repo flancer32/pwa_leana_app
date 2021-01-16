@@ -1,5 +1,8 @@
 const i18next = self.teqfw.i18next;
-i18next.addResources('lv', 'dialog', {});
+i18next.addResources('lv', 'dialog', {
+    no: 'Nē',
+    yes: 'Jā',
+});
 i18next.addResources('ru', 'dialog', {
     no: 'Нет',
     yes: 'Да',

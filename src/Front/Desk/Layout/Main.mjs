@@ -1,7 +1,3 @@
-const i18next = self.teqfw.i18next;
-i18next.addResources('lv', 'navig', {});
-i18next.addResources('ru', 'navig', {});
-
 const template = `
 <div class="layout_main">
     <div class="layer_base">

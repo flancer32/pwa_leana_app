@@ -1,9 +1,29 @@
 const i18next = self.teqfw.i18next;
 
-i18next.addResources('lv', 'routeProfile', {});
+i18next.addResources('lv', 'routeProfile', {
+    created: 'Izveidots',
+    email: 'E-pasts',
+    loggedIn: 'Pēdējā ieeja',
+    msgNewPassChanged: 'Jaunā parole ir iestatīta.',
+    msgNewPassDiff: 'Atkārtotā parole is atšķirīga.',
+    msgNewPassFailed: 'Jauna parole nav iestatīta',
+    parentName: 'Mecenāts',
+    passwordCurrent: 'Pašreizējā parole',
+    passwordNew: 'Jaunā parole',
+    passwordRepeat: 'Paroles atkārtojums',
+    phone: 'Tālrunis',
+    refCode: 'Reģistrācijas kods',
+    sectionAuth: 'Autentifikācija',
+    sectionContact: 'Kontakti',
+    sectionPwd: 'Parole',
+    sectionUser: 'Lietotās',
+    sectionUserTree: 'Reģistrācija',
+    userId: 'ID',
+    userLogin: 'Login',
+    userName: 'Vārds',
+});
 i18next.addResources('ru', 'routeProfile', {
     created: 'Создан',
-    deskColor: 'Цвет (код)',
     email: 'Почта',
     loggedIn: 'Последний вход',
     msgNewPassChanged: 'Новый пароль установлен.',
@@ -204,7 +224,6 @@ function Fl32_Leana_Front_Desk_Route_Profile(spec) {
             return {
                 dateCreated: null,
                 dateLoggedIn: null,
-                deskColor: null,
                 email: null,
                 message: null,
                 parentName: null,

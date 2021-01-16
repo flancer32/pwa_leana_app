@@ -1,5 +1,9 @@
 const i18next = self.teqfw.i18next;
-i18next.addResources('lv', 'routeServices', {});
+i18next.addResources('lv', 'routeServices', {
+    id: '#',
+    name: 'Nosaukums',
+    duration: 'Ilgums',
+});
 i18next.addResources('ru', 'routeServices', {
     id: '#',
     name: 'Название',

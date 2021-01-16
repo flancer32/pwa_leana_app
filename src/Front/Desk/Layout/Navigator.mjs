@@ -1,13 +1,13 @@
 const i18next = self.teqfw.i18next;
 i18next.addResources('lv', 'navig', {
-    calendar: 'Расписание',
-    profile: 'Профиль',
-    services: 'Услуги',
-    settings: 'Настройки',
-    signOut: 'Выход',
+    calendar: 'Saraksts',
+    profile: 'Profils',
+    services: 'Pakalpojumi',
+    settings: 'Iestatījumi',
+    signOut: 'Izrakstīties',
     title: 'Leana Frizētava',
-    users: 'Пользователи',
-    workTime: 'Рабочее время',
+    users: 'Lietotāji',
+    workTime: 'Darba laiks',
 });
 i18next.addResources('ru', 'navig', {
     calendar: 'Расписание',

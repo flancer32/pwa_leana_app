@@ -1,12 +1,17 @@
 const i18next = self.teqfw.i18next;
 
+const I18N_BUNDLE_LV = {
+    id: '#',
+    login: 'Lietotājvārds',
+    name: 'Vārds',
+};
 const I18N_BUNDLE_RU = {
     id: '#',
-    login: 'Код',
+    login: 'Login',
     name: 'Имя',
 };
 
-i18next.addResourceBundle('lv', 'routeUsers', {}, true);
+i18next.addResourceBundle('lv', 'routeUsers', I18N_BUNDLE_LV, true);
 i18next.addResourceBundle('ru', 'routeUsers', I18N_BUNDLE_RU, true);
 
 const template = `

@@ -3,7 +3,9 @@ const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
 const i18next = self.teqfw.i18next;
-i18next.addResources('lv', 'calendarSetDate', {});
+i18next.addResources('lv', 'calendarSetDate', {
+    actionSave: 'Saglabāt',
+});
 i18next.addResources('ru', 'calendarSetDate', {
     actionSave: 'Сохранить',
 });

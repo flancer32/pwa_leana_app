@@ -2,7 +2,12 @@ const i18next = self.teqfw.i18next;
 const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
-i18next.addResources('lv', 'wtEdit', {});
+i18next.addResources('lv', 'wtEdit', {
+    date: 'Datums',
+    employee: 'Darbinieks',
+    timeFrom: 'Sākums',
+    timeTo: 'Beigas',
+});
 i18next.addResources('ru', 'wtEdit', {
     date: 'Дата',
     employee: 'Сотрудник',

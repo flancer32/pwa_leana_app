@@ -6,11 +6,24 @@ const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
-i18next.addResources('lv', 'taskEdit', {});
+i18next.addResources('lv', 'taskEdit', {
+    customer: 'Klients',
+    duration: 'Ilgums',
+    email: 'E-pasts',
+    employee: 'Darbinieks',
+    employeeSelect: 'Atlasiet darbinieku',
+    note: 'Piezīmes',
+    phone: 'Tālrunis',
+    service: 'Pakalpojums',
+    serviceSelect: 'Atlasiet pakalpojumu',
+    task: 'Uzdevums',
+    time: 'Laiks',
+    title: 'Jauns ieraksts',
+});
 i18next.addResources('ru', 'taskEdit', {
     customer: 'Клиент',
-    email: 'Email',
     duration: 'Продолжительность',
+    email: 'Email',
     employee: 'Мастер',
     employeeSelect: 'Выберите мастера',
     note: 'Заметки',
