@@ -2,27 +2,29 @@ const i18next = self.teqfw.i18next;
 i18next.addResources('lv', 'routeServices', {
     id: '#',
     name: 'Nosaukums',
+    isPublic: 'Publ.',
     duration: 'Ilgums',
 });
 i18next.addResources('ru', 'routeServices', {
     id: '#',
     name: 'Название',
+    isPublic: 'Публ.',
     duration: 'Время',
 });
 
 const template = `
-<div>
-    <div class="table">
-        <div class="table-head" :style="colspan">
-            <div class="headCell">{{ $t('routeServices:id') }}</div>
-            <div class="headCell">{{ $t('routeServices:name') }}</div>
-            <div class="headCell">{{ $t('routeServices:duration') }}</div>
-        </div>
-        <div v-for="item in items" class="table-row" :style="colspan">
+<div class="layout_centered">
+    <div class="grid gridSerivces">
+        <div class="headCell">{{ $t('routeServices:id') }}</div>
+        <div class="headCell">{{ $t('routeServices:name') }}</div>
+        <div class="headCell">{{ $t('routeServices:isPublic') }}</div>
+        <div class="headCell">{{ $t('routeServices:duration') }}</div>
+        <template v-for="item in items">
             <div class="dataCell">{{ item.id }}</div>
             <div class="dataCell">{{ item.name }}</div>
-            <div class="dataCell">{{ formatDuration(item.duration) }}</div>
-        </div>
+            <div class="dataCell center">{{ formatBool(item.public) }}</div>
+            <div class="dataCell center">{{ formatDuration(item.duration) }}</div>
+        </template>
     </div>
 </div>
 `;
@@ -50,6 +52,7 @@ function Fl32_Leana_Front_Desk_Route_Services(spec) {
             };
         },
         methods: {
+            formatBool: (data) => (data) ? '+' : '',
             formatDuration(mins) {
                 return utilDate.convertMinsToHrsMins(mins);
             }
