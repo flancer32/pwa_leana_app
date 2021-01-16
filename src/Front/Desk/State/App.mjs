@@ -8,11 +8,15 @@ function Fl32_Leana_Front_Desk_State_App() {
     return {
         namespaced: true,
         state: {
+            lang: 'lv-LV',
             loader: {active: Boolean},
             overlay: {name: String, params: Object},
         },
         getters: {},
         mutations: {
+            setLang(state, {active}) {
+                state.lang = {active};
+            },
             setLoader(state, {active}) {
                 state.loader = {active};
             },

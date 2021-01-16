@@ -1,4 +1,5 @@
 const i18next = self.teqfw.i18next;
+
 i18next.addResources('lv', 'navig', {
     calendar: 'Saraksts',
     profile: 'Profils',
@@ -75,11 +76,7 @@ function Fl32_Leana_Front_Desk_Layout_Navigator(spec) {
                 menuOpened: false,
             };
         },
-        computed: {
-            isAuthenticated() {
-                return true;
-            }
-        },
+        computed: {},
         methods: {
             controlMenus(evt) {
                 const path = evt.path || (evt.composedPath && evt.composedPath());

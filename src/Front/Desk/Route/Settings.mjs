@@ -1,4 +1,6 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
+const mapState = self.teqfw.lib.Vuex.mapState;
 
 i18next.addResources('lv', 'routeSettings', {
     btnExecute: 'Izpildīt',
@@ -128,7 +130,11 @@ function Fl32_Leana_Front_Desk_Route_Settings(spec) {
                 cacheState: null,
             };
         },
-        computed: {},
+        computed: {
+            ...mapState({
+                stateAppLang: state => state.app.lang,
+            }),
+        },
         methods: {
             hideMessage() {
                 setTimeout(() => {
@@ -138,11 +144,11 @@ function Fl32_Leana_Front_Desk_Route_Settings(spec) {
             },
             async langSetLv() {
                 await i18next.changeLanguage('lv-LV');
-                this.$forceUpdate();
+                this.setStateAppLang('lv-LV');  // refresh navigator
             },
             async langSetRu() {
                 await i18next.changeLanguage('ru-RU');
-                this.$forceUpdate();
+                this.setStateAppLang('ru-RU');  // refresh navigator
             },
             async swCacheClean() {
                 /** @type {Fl32_Leana_Shared_Service_Route_Sw_Cache_Clean_Response} */
@@ -171,6 +177,9 @@ function Fl32_Leana_Front_Desk_Route_Settings(spec) {
                 const res = await gateCacheState(new CacheStateReq());
                 this.cacheState = res.state;
             },
+            ...mapMutations({
+                setStateAppLang: 'app/setLang'
+            }),
         },
         async mounted() {
             if (await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE)) {
