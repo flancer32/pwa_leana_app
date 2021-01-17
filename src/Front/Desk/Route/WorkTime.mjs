@@ -1,6 +1,14 @@
+const i18next = self.teqfw.i18next;
 const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
+
+i18next.addResources('lv', 'routeWorkTime', {
+    title: 'Darba laiks: {{date}}',
+});
+i18next.addResources('ru', 'routeWorkTime', {
+    title: 'Рабочее время: {{date}}',
+});
 
 const template = `
 <div>
@@ -83,8 +91,20 @@ function Fl32_Leana_Front_Desk_Route_WorkTime(spec) {
                 await this.requestWorkTime();
             },
             async requestWorkTime() {
+                const me = this;
+
+                // DEFINE INNER FUNCTIONS
+                function setTitle(month) {
+                    const y = `${month.getFullYear()}`;
+                    const m = `${(month.getMonth() + 1)}`.padStart(2, '0');
+                    const date = `${y}-${m}`; // don't use '/' in title (HTML safe transformation will be applied)
+                    me.setStateAppTitle(me.$t('routeWorkTime:title', {date}));
+                }
+
+                // MAIN FUNCTIONALITY
                 try {
                     const month = this.getMonth();
+                    setTitle(month);
                     const {dateFirst, dateLast} = utilDate.getMonthWidgetData(month);
                     const req = new WorkTimeListReq();
                     req.dateBegin = dateFirst;
@@ -95,6 +115,7 @@ function Fl32_Leana_Front_Desk_Route_WorkTime(spec) {
                 }
             },
             ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
                 setStateWorkTimeMonthCurrent: 'workTime/setMonthCurrent',
             }),
             ...mapActions({

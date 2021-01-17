@@ -86,12 +86,14 @@ function Fl32_Leana_Front_Desk_App(spec) {
         },
         methods: {
             ...mapMutations({
-                setUserAuthenticated: 'user/setAuthenticated'
+                setStateAppTitle: 'app/setTitle',
+                setStateUserAuthenticated: 'user/setAuthenticated',
             }),
         },
         mounted() {
             const user = session.getUser();
-            this.setUserAuthenticated(user);
+            this.setStateAppTitle('Leana Desk');
+            this.setStateUserAuthenticated(user);
         }
     };
 }

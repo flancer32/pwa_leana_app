@@ -1,4 +1,5 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 
 i18next.addResources('lv', 'routeProfile', {
     created: 'Izveidots',
@@ -18,6 +19,7 @@ i18next.addResources('lv', 'routeProfile', {
     sectionPwd: 'Parole',
     sectionUser: 'Lietotās',
     sectionUserTree: 'Reģistrācija',
+    title: 'Profils',
     userId: 'ID',
     userLogin: 'Login',
     userName: 'Vārds',
@@ -40,6 +42,7 @@ i18next.addResources('ru', 'routeProfile', {
     sectionPwd: 'Пароль',
     sectionUser: 'Пользователь',
     sectionUserTree: 'Регистрация',
+    title: 'Профиль',
     userId: 'ID',
     userLogin: 'Login',
     userName: 'Имя',
@@ -309,9 +312,13 @@ function Fl32_Leana_Front_Desk_Route_Profile(spec) {
                     console.log('Some error is occurred on profile save.');
                 }
             },
+            ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
+            }),
         },
         async mounted() {
             if (await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE)) {
+                this.setStateAppTitle(this.$t('routeProfile:title'));
                 await this.loadUser();
             }
         }

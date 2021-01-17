@@ -13,6 +13,7 @@ i18next.addResources('lv', 'routeSettings', {
     swCacheState: 'Kešatmiņas stāvoklis',
     swCacheStateDisabled: 'Atspējots',
     swCacheStateEnabled: 'Iespējots',
+    title: 'Iestatījumi',
 });
 i18next.addResources('ru', 'routeSettings', {
     btnExecute: 'Выполнить',
@@ -25,6 +26,7 @@ i18next.addResources('ru', 'routeSettings', {
     swCacheState: 'Состояние кэша',
     swCacheStateDisabled: 'Отключен',
     swCacheStateEnabled: 'Включен',
+    title: 'Настройки',
 });
 
 
@@ -178,13 +180,15 @@ function Fl32_Leana_Front_Desk_Route_Settings(spec) {
                 this.cacheState = res.state;
             },
             ...mapMutations({
-                setStateAppLang: 'app/setLang'
+                setStateAppLang: 'app/setLang',
+                setStateAppTitle: 'app/setTitle',
             }),
         },
         async mounted() {
             if (await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE)) {
                 this.lang = (i18next.language === 'ru-RU') ? 'ru-RU' : 'lv-LV';
                 await this.swCacheState();
+                this.setStateAppTitle(this.$t('routeSettings:title'));
             }
         }
     };

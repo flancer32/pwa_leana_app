@@ -1,15 +1,19 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
+
 i18next.addResources('lv', 'routeServices', {
-    id: '#',
-    name: 'Nosaukums',
-    isPublic: 'Publ.',
     duration: 'Ilgums',
+    id: '#',
+    isPublic: 'Publ.',
+    name: 'Nosaukums',
+    title: 'Pakalpojumi',
 });
 i18next.addResources('ru', 'routeServices', {
-    id: '#',
-    name: 'Название',
-    isPublic: 'Публ.',
     duration: 'Время',
+    id: '#',
+    isPublic: 'Публ.',
+    name: 'Название',
+    title: 'Услуги',
 });
 
 const template = `
@@ -55,10 +59,14 @@ function Fl32_Leana_Front_Desk_Route_Services(spec) {
             formatBool: (data) => (data) ? '+' : '',
             formatDuration(mins) {
                 return utilDate.convertMinsToHrsMins(mins);
-            }
+            },
+            ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
+            }),
         },
         async mounted() {
             if (await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE)) {
+                this.setStateAppTitle(this.$t('routeServices:title'));
                 const req = new ListReq();
                 req.locale = i18next.language;
                 /** @type {Fl32_Leana_Shared_Service_Route_Service_List_Response} */

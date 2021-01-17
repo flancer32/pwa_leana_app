@@ -66,15 +66,25 @@ export default function Fl32_Leana_Front_Desk_Widget_Calendar_SetDate(spec) {
                 const d = this.dateSelected;
                 const utc = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0));
                 this.saveDateSelected(utc);
+                this.setTitle(this.dateSelected);
                 /** @type {Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
                 const req = new TaskOnDateRequest();
                 req.date = utc;
                 this.loadTasksOnDate(req);
                 this.resetOverlay();
             },
+            setTitle(date) {
+                const y = `${date.getFullYear()}`;
+                const m = `${(date.getMonth() + 1)}`.padStart(2, '0');
+                const d = `${(date.getDate())}`.padStart(2, '0');
+                // don't use '/' in title (HTML safe transformation will be applied)
+                const formatted = `${y}-${m}-${d}`;
+                this.setStateAppTitle(this.$t('routeSchedule:title', {date: formatted}));
+            },
             ...mapMutations({
                 resetOverlay: 'app/resetOverlay',
                 saveDateSelected: 'calendar/setDateSelected',
+                setStateAppTitle: 'app/setTitle',
             }),
             ...mapActions({
                 loadTasksOnDate: 'calendar/loadTasksOnDate',

@@ -3,6 +3,13 @@ const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapState = self.teqfw.lib.Vuex.mapState;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 
+i18next.addResources('lv', 'routeSchedule', {
+    title: 'Saraksts: {{date}}',
+});
+i18next.addResources('ru', 'routeSchedule', {
+    title: 'Расписание: {{date}}',
+});
+
 const template = `
 <div>
     <action-bar></action-bar>
@@ -141,8 +148,17 @@ function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
             ...mapMutations({
                 setDateSelected: 'calendar/setDateSelected',
                 setSignInRedirect: 'app/setSignInRedirect',
+                setStateAppTitle: 'app/setTitle',
                 setTasksOnDate: 'calendar/setTasksOnDate',
             }),
+            setTitle(date) {
+                const y = `${date.getFullYear()}`;
+                const m = `${(date.getMonth() + 1)}`.padStart(2, '0');
+                const d = `${(date.getDate())}`.padStart(2, '0');
+                // don't use '/' in title (HTML safe transformation will be applied)
+                const formatted = `${y}-${m}-${d}`;
+                this.setStateAppTitle(this.$t('routeSchedule:title', {date: formatted}));
+            },
             ...mapActions({
                 loadEmployees: 'calendar/loadEmployees',
                 loadServices: 'calendar/loadServices',
@@ -161,12 +177,14 @@ function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                     const dayAfter = new Date(me.calendarDateSelected.getTime());
                     dayAfter.setDate(dayAfter.getDate() + 1);
                     me.setDateSelected(dayAfter);
+                    me.setTitle(dayAfter);
                     me.apiLoadTasks();
                 });
                 swipe.setOnRight(function () {
                     const dayBefore = new Date(me.calendarDateSelected.getTime());
                     dayBefore.setDate(dayBefore.getDate() - 1);
                     me.setDateSelected(dayBefore);
+                    me.setTitle(dayBefore);
                     me.apiLoadTasks();
                 });
             }
@@ -180,6 +198,7 @@ function Fl32_Leana_Front_Desk_Route_Calendar(spec) {
                     now.setUTCHours(0, 0, 0, 0);
                     this.setDateSelected(now);
                 }
+                this.setTitle(this.calendarDateSelected);
                 await this.apiLoadCodifiers();
                 await this.apiLoadTasks();
             }

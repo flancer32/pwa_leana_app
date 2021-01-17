@@ -1,16 +1,19 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 
 const I18N_BUNDLE_LV = {
     created: 'Izveidots',
     id: '#',
     login: 'Lietotājvārds',
     name: 'Vārds',
+    title: 'Lietotāji',
 };
 const I18N_BUNDLE_RU = {
     created: 'Создан',
     id: '#',
     login: 'Login',
     name: 'Имя',
+    title: 'Пользователи',
 };
 
 i18next.addResourceBundle('lv', 'routeUsers', I18N_BUNDLE_LV, true);
@@ -62,14 +65,19 @@ function Fl32_Leana_Front_Desk_Route_Users(spec) {
         methods: {
             formatDate(date) {
                 return utilDate.formatDate(date);
-            }
+            },
+            ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
+            }),
         },
         async mounted() {
             if (await session.isAccessGranted(this.$router, DEF.ACL_IS_EMPLOYEE)) {
+                this.setStateAppTitle(this.$t('routeUsers:title'));
                 const req = new UsersListReq();
                 /** @type {Fl32_Teq_User_Shared_Service_Route_List_Response} */
                 const res = await gateUsersList(req);
                 this.items = Object.values(res.items).reverse();
+
             }
         }
     };

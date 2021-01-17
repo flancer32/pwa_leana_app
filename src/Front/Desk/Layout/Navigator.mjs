@@ -1,4 +1,6 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
+const mapState = self.teqfw.lib.Vuex.mapState;
 
 i18next.addResources('lv', 'navig', {
     calendar: 'Saraksts',
@@ -6,7 +8,6 @@ i18next.addResources('lv', 'navig', {
     services: 'Pakalpojumi',
     settings: 'Iestatījumi',
     signOut: 'Izrakstīties',
-    title: 'Leana Frizētava',
     users: 'Lietotāji',
     workTime: 'Darba laiks',
 });
@@ -16,7 +17,6 @@ i18next.addResources('ru', 'navig', {
     services: 'Услуги',
     settings: 'Настройки',
     signOut: 'Выход',
-    title: 'Leana Frizētava',
     users: 'Пользователи',
     workTime: 'Рабочее время',
 });
@@ -27,7 +27,7 @@ const template = `
         <loader></loader>
     </div>
     <div class="nav_center">
-        <div>{{$t('navig:title')}}</div>
+        <div>{{stateAppTitle}}</div>
     </div>
     <div class="nav_right">
         <i class="fas fa-bars fa-2x filter-darkest"></i>
@@ -67,6 +67,7 @@ function Fl32_Leana_Front_Desk_Layout_Navigator(spec) {
 
     const CSS_BAR = '.nav_right';
     const CSS_MENU = '.nav_menu';
+
     return {
         name: 'Navigator',
         template,
@@ -76,7 +77,12 @@ function Fl32_Leana_Front_Desk_Layout_Navigator(spec) {
                 menuOpened: false,
             };
         },
-        computed: {},
+        computed: {
+            ...mapState({
+                stateAppLang: state => state.app.lang,
+                stateAppTitle: state => state.app.title,
+            }),
+        },
         methods: {
             controlMenus(evt) {
                 const path = evt.path || (evt.composedPath && evt.composedPath());
@@ -87,6 +93,14 @@ function Fl32_Leana_Front_Desk_Layout_Navigator(spec) {
                 } else {
                     this.menuOpened = false;
                 }
+            },
+            ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
+            }),
+        },
+        watch: {
+            stateAppLang() {
+                this.setStateAppTitle('');  // remove title cause we have no source for translation
             }
         },
     };

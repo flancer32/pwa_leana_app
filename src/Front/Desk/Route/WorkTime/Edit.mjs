@@ -1,5 +1,6 @@
 const i18next = self.teqfw.i18next;
 const mapActions = self.teqfw.lib.Vuex.mapActions;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
 i18next.addResources('lv', 'wtEdit', {
@@ -7,12 +8,14 @@ i18next.addResources('lv', 'wtEdit', {
     employee: 'Darbinieks',
     timeFrom: 'Sākums',
     timeTo: 'Beigas',
+    title: 'Darba laiks: {{date}}',
 });
 i18next.addResources('ru', 'wtEdit', {
     date: 'Дата',
     employee: 'Сотрудник',
     timeFrom: 'Начало',
     timeTo: 'Конец',
+    title: 'Рабочее время: {{date}}',
 });
 
 const template = `
@@ -217,6 +220,9 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
                     this.$router.push('/workTime');
                 }
             },
+            ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
+            }),
             ...mapActions({
                 loadDbItems: 'workTime/loadDbItems',
                 loadEmployees: 'calendar/loadEmployees',
@@ -245,6 +251,17 @@ function Fl32_Leana_Front_Desk_Route_WorkTime_Edit(spec) {
              * @return {Promise<Fl32_Leana_Shared_Service_Data_Employee_WorkTime>}
              */
             async function loadItem(ds) {
+                // DEFINE INNER FUNCTIONS
+                function setTitle(ds) {
+                    const y = ds.substring(0, 4);
+                    const m = ds.substring(4, 6);
+                    const d = ds.substring(6, 8);
+                    const date = `${y}-${m}-${d}`; // don't use '/' in title (HTML safe transformation will be applied)
+                    me.setStateAppTitle(me.$t('routeWorkTime:title', {date}));
+                }
+
+                // MAIN FUNCTIONALITY
+                setTitle(ds);
                 /** @type {Fl32_Leana_Shared_Service_Data_Employee_WorkTime[]} */
                 const items = me.stateWorkTimeDbItems;
                 let result;

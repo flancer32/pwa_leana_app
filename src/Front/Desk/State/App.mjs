@@ -11,14 +11,21 @@ function Fl32_Leana_Front_Desk_State_App() {
             lang: 'lv-LV',
             loader: {active: Boolean},
             overlay: {name: String, params: Object},
+            title: 'Leana Desk',
         },
         getters: {},
         mutations: {
+            resetOverlay(state) {
+                state.overlay = {name: null, params: {}};
+            },
             setLang(state, {active}) {
                 state.lang = {active};
             },
             setLoader(state, {active}) {
                 state.loader = {active};
+            },
+            setOverlay(state, {name, params}) {
+                state.overlay = {name, params};
             },
             startLoader(state) {
                 state.loader.active = true;
@@ -26,11 +33,9 @@ function Fl32_Leana_Front_Desk_State_App() {
             stopLoader(state) {
                 state.loader.active = false;
             },
-            setOverlay(state, {name, params}) {
-                state.overlay = {name, params};
-            },
-            resetOverlay(state) {
-                state.overlay = {name: null, params: {}};
+            setTitle(state, payload) {
+                self.document.title = payload;
+                state.title = payload;
             },
         },
         actions: {},
