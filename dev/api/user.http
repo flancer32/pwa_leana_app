@@ -7,3 +7,10 @@ Authorization: Bearer {{sessionId}}
 {"data": {"passwordCurrent": "other", "passwordNew": "test"}}
 
 ###
+POST https://{{host}}/api/user/check/existence
+Accept: application/json
+Content-Type: application/json
+
+{"data": {"type": "phone", "value": "(371)29181801"}}
+
+###
