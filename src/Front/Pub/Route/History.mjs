@@ -80,13 +80,21 @@ export default function Fl32_Leana_Front_Pub_Route_History(spec) {
              * @param {Fl32_Leana_Shared_Service_Data_Task} item
              */
             outMaster(item) {
-                return this.masters[item.employeeRef];
+                let result = '';
+                if (this.masters && this.masters[item.employeeRef]) {
+                    result = this.masters[item.employeeRef];
+                }
+                return result;
             },
             /**
              * @param {Fl32_Leana_Shared_Service_Data_Task} item
              */
             outService(item) {
-                return this.services[item.serviceRef];
+                let result = '';
+                if (this.services && this.services[item.serviceRef]) {
+                    result = this.services[item.serviceRef];
+                }
+                return result;
             },
             /**
              * @param {Fl32_Leana_Shared_Service_Data_Task} item
