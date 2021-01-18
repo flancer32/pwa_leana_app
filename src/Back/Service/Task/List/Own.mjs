@@ -4,6 +4,8 @@
 export default class Fl32_Leana_Back_Service_Task_List_Own {
 
     constructor(spec) {
+        /** @type {Fl32_Leana_Defaults} */
+        const DEF = spec['Fl32_Leana_Defaults$'];   // singleton instance
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF_USER = spec['Fl32_Teq_User_Defaults$'];  // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
@@ -104,6 +106,8 @@ export default class Fl32_Leana_Back_Service_Task_List_Own {
                         {[AS_TO]: `${D}.${eTaskDet.A_TO}`},
                     ]);
                     // WHERE
+                    query.where(`${T}.${eTask.A_STATE}`, DEF.E_TASK_STATE_ACTIVE);
+                    query.where(`${D}.${eTaskDet.A_MADE_ON_FRONT}`, true);
                     query.where(`${D}.${eTaskDet.A_USER_REF}`, userId);
                     // compose result
                     const rs = await query;
