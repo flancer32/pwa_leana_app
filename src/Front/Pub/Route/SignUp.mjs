@@ -7,6 +7,30 @@ i18next.addResources('ru', 'routeSignIn', {
     registered: 'Новый пользователь "{{user}}" зарегистрирован.',
 });
 
+const I18N_BUNDLE_USER_LV = {
+    email: 'E-pasts',
+    login: 'Login',
+    name: 'Vārds',
+    password2: 'Paroles atkārtojums',
+    password: 'Parole',
+    phone: 'Tālrunis',
+    refCode: 'Reģistrācijas kods',
+    submit: 'Nosūtīt',
+};
+const I18N_BUNDLE_USER_RU = {
+    email: 'Почта',
+    login: 'Login',
+    name: 'Имя',
+    password2: 'Повтор пароля',
+    password: 'Пароль',
+    phone: 'Телефон',
+    refCode: 'Код регистрации',
+    submit: 'Отправить',
+};
+
+i18next.addResources('lv', 'teqUser', I18N_BUNDLE_USER_LV);
+i18next.addResources('ru', 'teqUser', I18N_BUNDLE_USER_RU);
+
 const template = `
 <div>
     <user-sign-up v-show="showForm"
@@ -34,14 +58,13 @@ export default function Fl32_Leana_Front_Pub_Route_SignUp(spec) {
                 showForm: true,
             };
         },
+        props: {
+            refCode: String, // "/signUp/:refCode" - referral code to compose users tree
+        },
         computed: {
             signUp() {
                 const result = new SignUpProps();
-                result.email = 'alex@flancer64.com';
-                result.login = 'alex';
-                result.name = 'Alex Gusev';
-                result.password = 'LetMeIn';
-                result.phone = '29181801';
+                result.refCode = this.refCode;
                 return result;
             }
         },

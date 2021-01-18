@@ -97,7 +97,7 @@
                 session.setRouteToSignIn();
                 /** @type {Fl32_Teq_User_Defaults} */
                 const DEF_USER = await container.get('Fl32_Teq_User_Defaults$');
-                session.setRouteToSignIn(DEF_USER.ROUTE_SIGN_IN);
+                session.setRouteToSignIn(`/user${DEF_USER.ROUTE_SIGN_IN}`);
                 container.set(DEF_USER.DI_SESSION, session);    // TMP: put into container as singleton
                 await session.init();
                 // load root component and mount frontend application to DOM

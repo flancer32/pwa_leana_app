@@ -43,7 +43,7 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     router.addRoute({path: '/services', component: routeServices});
     router.addRoute({path: '/signIn', component: routeSignIn});
     router.addRoute({path: '/signOut', component: routeSignOut});
-    router.addRoute({path: '/signUp', component: routeSignUp});
+    router.addRoute({path: '/signUp/:refCode?', component: routeSignUp, props: true});
 
     // mount router here to enable routing on the first load of the page
     app.use(router);
