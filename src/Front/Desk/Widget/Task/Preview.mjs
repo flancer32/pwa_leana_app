@@ -8,7 +8,7 @@ i18next.addResources('lv', 'taskPreview', {
     date: 'Datums',
     duration: 'Ilgums',
     email: 'E-pasts',
-    employee: 'Darbinieks',
+    employee: 'Meistars',
     madeBy: 'Izveidoja',
     madeByAdmin: 'Vadītāju',
     madeByCustomer: 'Klienti',

@@ -10,7 +10,7 @@ i18next.addResources('lv', 'taskEdit', {
     customer: 'Klients',
     duration: 'Ilgums',
     email: 'E-pasts',
-    employee: 'Darbinieks',
+    employee: 'Meistars',
     employeeSelect: 'Atlasiet darbinieku',
     note: 'Piezīmes',
     phone: 'Tālrunis',

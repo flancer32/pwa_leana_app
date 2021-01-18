@@ -1,22 +1,26 @@
 const i18next = self.teqfw.i18next;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
-i18next.addResources('lv', 'app-navBar', {
+i18next.addResources('lv', 'navBar', {
     about: 'Par mums',
     book: 'Pierakstīties',
     contacts: 'Kontakti',
+    history: 'Mani ieraksti',
     lv: 'LV',
+    profile: 'Profils',
     ru: 'RU',
     services: 'Pakalpojumi un cenas',
     signIn: 'Ielogoties',
-    signOut: 'Izrakstīties',
+    signOut: 'Izlogoties',
     signUp: 'Pierakstīties',
 });
-i18next.addResources('ru', 'app-navBar', {
+i18next.addResources('ru', 'navBar', {
     about: 'О нас',
     book: 'Записаться',
     contacts: 'Контакты',
+    history: 'Мои записи',
     lv: 'LV',
+    profile: 'Профиль',
     ru: 'RU',
     services: 'Услуги и цены',
     signIn: 'Вход',
@@ -30,25 +34,31 @@ const template = `
         <span class="icon i-list-s filter-lightest "></span>
         <div id="menu_left" v-show="menuLeftOpened">
             <div>
-                <router-link to="/about">{{$t("app-navBar:about")}}</router-link>
+                <router-link to="/about">{{$t("navBar:about")}}</router-link>
             </div>
             <div>
-                <router-link to="/contacts">{{$t("app-navBar:contacts")}}</router-link>
+                <router-link to="/contacts">{{$t("navBar:contacts")}}</router-link>
             </div>
             <div>
-                <router-link to="/services">{{$t("app-navBar:services")}}</router-link>
+                <router-link to="/services">{{$t("navBar:services")}}</router-link>
             </div>
             <div v-if="isAuthenticated">
-                <router-link to="/book">{{$t("app-navBar:book")}}</router-link>
+                <router-link to="/book">{{$t("navBar:book")}}</router-link>
+            </div>
+            <div v-if="isAuthenticated">
+                <router-link to="/history">{{$t("navBar:history")}}</router-link>
+            </div>
+            <div v-if="isAuthenticated">
+                <router-link to="/profile">{{$t("navBar:profile")}}</router-link>
             </div>
             <div  v-if="!isAuthenticated">
-                <router-link to="/signIn">{{$t("app-navBar:signIn")}}</router-link>
+                <router-link to="/signIn">{{$t("navBar:signIn")}}</router-link>
             </div>
             <div v-if="!isAuthenticated">
-                <router-link to="/signUp">{{$t("app-navBar:signUp")}}</router-link>
+                <router-link to="/signUp">{{$t("navBar:signUp")}}</router-link>
             </div>
             <div v-if="isAuthenticated">
-                <router-link to="/signOut">{{$t("app-navBar:signOut")}}</router-link>
+                <router-link to="/signOut">{{$t("navBar:signOut")}}</router-link>
             </div>
         </div>
     </div>
@@ -59,10 +69,10 @@ const template = `
         <span style="text-transform: uppercase">{{lang}}</span>
         <div id="menu_right" v-show="menuRightOpened">
             <div>
-                <span v-on:click="changeLang('lv-LV')">{{$t("app-navBar:lv")}}</span>
+                <span v-on:click="changeLang('lv-LV')">{{$t("navBar:lv")}}</span>
             </div>
             <div>
-                <span v-on:click="changeLang('ru-RU')">{{$t("app-navBar:ru")}}</span>
+                <span v-on:click="changeLang('ru-RU')">{{$t("navBar:ru")}}</span>
             </div>
         </div>
     </div>

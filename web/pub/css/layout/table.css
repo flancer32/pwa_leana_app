@@ -1,0 +1,40 @@
+/* Table/grid related styles */
+
+/* Vertical alignment for DIVs:  https://stackoverflow.com/questions/9249359/vertically-align-text-within-a-div */
+
+.grid {
+    align-content: center;
+    display: grid;
+    gap: var(--grid-gap-small);
+    grid-gap: var(--table-gap);
+}
+
+.headCell {
+    background-color: var(--color-darkest);
+    color: var(--color-lightest);
+    line-height: var(--table-row-height);
+    text-align: center;
+    vertical-align: middle;
+}
+
+.dataCell {
+    line-height: var(--table-row-height);
+}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+/* Concrete grids details */
+
+.gridHistory {
+    grid-template-columns:  1fr 1fr 2fr 2fr;
+}

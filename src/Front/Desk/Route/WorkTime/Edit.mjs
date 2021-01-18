@@ -5,14 +5,14 @@ const mapState = self.teqfw.lib.Vuex.mapState;
 
 i18next.addResources('lv', 'wtEdit', {
     date: 'Datums',
-    employee: 'Darbinieks',
+    employee: 'Meistars',
     timeFrom: 'Sākums',
     timeTo: 'Beigas',
     title: 'Darba laiks: {{date}}',
 });
 i18next.addResources('ru', 'wtEdit', {
     date: 'Дата',
-    employee: 'Сотрудник',
+    employee: 'Мастер',
     timeFrom: 'Начало',
     timeTo: 'Конец',
     title: 'Рабочее время: {{date}}',

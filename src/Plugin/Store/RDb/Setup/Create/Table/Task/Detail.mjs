@@ -1,14 +1,16 @@
 export default function (spec) {
     /** @type {TeqFw_Core_App_Util_Store_RDb_NameForForeignKey} */
-    const utilFKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForForeignKey'];
+    const utilFKName = spec['TeqFw_Core_App_Util_Store_RDb#NameForForeignKey']; // singleton instance
     /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
-    const eEmployee = spec.Fl32_Leana_Store_RDb_Schema_Employee$;
+    const eEmployee = spec['Fl32_Leana_Store_RDb_Schema_Employee$'];    // singleton instance
     /** @type {Fl32_Leana_Store_RDb_Schema_Service} */
-    const eService = spec.Fl32_Leana_Store_RDb_Schema_Service$;
+    const eService = spec['Fl32_Leana_Store_RDb_Schema_Service$'];  // singleton instance
     /** @type {Fl32_Leana_Store_RDb_Schema_Task} */
-    const eTask = spec.Fl32_Leana_Store_RDb_Schema_Task$;
+    const eTask = spec['Fl32_Leana_Store_RDb_Schema_Task$'];    // singleton instance
     /** @type {Fl32_Leana_Store_RDb_Schema_Task_Detail} */
-    const eTaskDet = spec.Fl32_Leana_Store_RDb_Schema_Task_Detail$;
+    const eTaskDet = spec['Fl32_Leana_Store_RDb_Schema_Task_Detail$'];  // singleton instance
+    /** @type {Fl32_Teq_User_Store_RDb_Schema_User} */
+    const eUser = spec['Fl32_Teq_User_Store_RDb_Schema_User$'];    // singleton instance
 
     /**
      * @param knex
@@ -18,6 +20,7 @@ export default function (spec) {
     function Fl32_Leana_Plugin_Store_RDb_Setup_Create_Table_Task_Detail(knex, schema) {
         schema.createTable(eTaskDet.ENTITY, (table) => {
             table.integer(eTaskDet.A_TASK_REF).unsigned().notNullable();
+            table.integer(eTaskDet.A_USER_REF).unsigned().nullable();
             table.integer(eTaskDet.A_EMPLOYEE_REF).unsigned().notNullable();
             table.integer(eTaskDet.A_SERVICE_REF).unsigned().notNullable();
             table.string(eTaskDet.A_DATE, 8).comment('Date as "YYYYMMDD".');
@@ -35,6 +38,9 @@ export default function (spec) {
             table.foreign(eTaskDet.A_TASK_REF).references(eTask.A_ID).inTable(eTask.ENTITY)
                 .onDelete('CASCADE').onUpdate('CASCADE')
                 .withKeyName(utilFKName(eTaskDet.ENTITY, eTaskDet.A_TASK_REF, eTask.ENTITY, eTask.A_ID));
+            table.foreign(eTaskDet.A_USER_REF).references(eUser.A_ID).inTable(eUser.ENTITY)
+                .onDelete('CASCADE').onUpdate('CASCADE')
+                .withKeyName(utilFKName(eTaskDet.ENTITY, eTaskDet.A_TASK_REF, eUser.ENTITY, eUser.A_ID));
             table.foreign(eTaskDet.A_EMPLOYEE_REF).references(eEmployee.A_USER_REF).inTable(eEmployee.ENTITY)
                 .onDelete('CASCADE').onUpdate('CASCADE')
                 .withKeyName(utilFKName(eTaskDet.ENTITY, eTaskDet.A_EMPLOYEE_REF, eEmployee.ENTITY, eEmployee.A_USER_REF));

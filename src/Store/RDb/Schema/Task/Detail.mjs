@@ -15,6 +15,7 @@ export default class Fl32_Leana_Store_RDb_Schema_Task_Detail {
     A_SERVICE_REF = 'service_ref'
     A_TASK_REF = 'task_ref'
     A_TO = 'to'
+    A_USER_REF = 'user_ref'
 
     ENTITY = 'task_detail'
 
