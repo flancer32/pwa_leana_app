@@ -85,7 +85,7 @@ export default class Fl32_Leana_Shared_Util_DateTime {
 
     /**
      * Convert local date to YYYY/MM/DD.
-     * @param dateIn
+     * @param {Date|string|null} dateIn
      * @return {string}
      */
     formatDate(dateIn = null) {
@@ -101,7 +101,7 @@ export default class Fl32_Leana_Shared_Util_DateTime {
 
     /**
      * Convert local date to YYYY/MM/DD HH:MM:SS.
-     * @param dateIn
+     * @param {Date|string|null} dateIn
      * @return {string}
      */
     formatDateTime(dateIn = null) {
@@ -116,6 +116,26 @@ export default class Fl32_Leana_Shared_Util_DateTime {
         const i = `${date.getMinutes()}`.padStart(2, '0');
         const s = `${date.getSeconds()}`.padStart(2, '0');
         return `${y}/${m}/${d} ${h}:${i}:${s}`;
+    }
+
+    /**
+     * Convert local date to HH:MM[:SS].
+     * @param {Date|string|null} dateIn
+     * @return {string}
+     */
+    formatTime(dateIn = null, withSeconds = false) {
+        /** @type {Date} */
+        const date = (dateIn) ?
+            (dateIn instanceof Date) ? dateIn : new Date(dateIn) :
+            new Date();
+        const h = `${date.getHours()}`.padStart(2, '0');
+        const i = `${date.getMinutes()}`.padStart(2, '0');
+        let result = `${h}:${i}`;
+        if (withSeconds) {
+            const s = `${date.getSeconds()}`.padStart(2, '0');
+            result = `${result}:${s}`;
+        }
+        return result;
     }
 
     /**

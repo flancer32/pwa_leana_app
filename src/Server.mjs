@@ -54,6 +54,7 @@ export default class Fl32_Leana_Server {
             await handlerFactory.registerService(server, '', 'Fl32_Leana_Back_Service_Employee_WorkTime_Save$');
             await handlerFactory.registerService(server, '', 'Fl32_Leana_Back_Service_Service_List$');
             await handlerFactory.registerService(server, '', 'Fl32_Leana_Back_Service_Task_Cancel$');
+            await handlerFactory.registerService(server, '', 'Fl32_Leana_Back_Service_Task_List_Own$');
             await handlerFactory.registerService(server, '', 'Fl32_Leana_Back_Service_Task_OnDate$');
             await handlerFactory.registerService(server, '', 'Fl32_Leana_Back_Service_Task_Save$');
             await handlerFactory.registerService(server, 'user', 'Fl32_Teq_User_Back_Service_ChangePassword$');

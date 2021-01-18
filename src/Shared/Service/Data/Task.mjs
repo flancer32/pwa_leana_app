@@ -2,59 +2,77 @@
  * Task data.
  */
 export default class Fl32_Leana_Shared_Service_Data_Task {
+    static A_CUSTOMER_EMAIL = 'customerEmail';
+    static A_CUSTOMER_NAME = 'customerName';
+    static A_CUSTOMER_PHONE = 'customerPhone';
+    static A_DATE_BOOK = 'dateBook';
+    static A_DATE_CREATED = 'dateCreated';
+    static A_DURATION = 'duration';
+    static A_EMPLOYEE_REF = 'employeeRef';
+    static A_ID = 'id';
+    static A_LOCALE = 'locale';
+    static A_MADE_ON_FRONT = 'madeOnFront';
+    static A_NOTE = 'note';
+    static A_SERVICE_REF = 'serviceRef';
+    static A_USER_REF = 'userRef';
+
     /**
      *  @type {String}
      */
-    customerEmail
+    customerEmail;
     /**
      *  @type {String}
      */
-    customerName
+    customerName;
     /**
      *  @type {String}
      */
-    customerPhone
+    customerPhone;
     /**
      * UTC date for task beginning.
      *  @type {Date}
      */
-    dateBook
+    dateBook;
     /**
      * UTC date when task was created.
      *  @type {Date}
      */
-    dateCreated
+    dateCreated;
     /**
      * Task duration in minutes.
      *  @type {Number}
      */
-    duration
+    duration;
     /**
      *  @type {Number}
      */
-    employeeRef
+    employeeRef;
     /**
      * Internal id.
      *
      * @type {Number}
      */
-    id
+    id;
     /**
      *  @type {String}
      */
-    locale
+    locale;
     /**
      * 'true' if task is scheduled from the front by customer.
      *  @type {Boolean}
      */
-    madeOnFront
+    madeOnFront;
     /**
      *  @type {String}
      */
-    note
+    note;
     /**
      *  @type {Number}
      */
-    serviceRef
+    serviceRef;
+    /**
+     *  @type {Number}
+     */
+    userRef;
 
 }

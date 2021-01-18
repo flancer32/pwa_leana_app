@@ -4,6 +4,8 @@
 export default class Fl32_Leana_Back_Service_Task_Save {
 
     constructor(spec) {
+        /** @type {Fl32_Teq_User_Defaults} */
+        const DEF_USER = spec['Fl32_Teq_User_Defaults$'];  // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Back_Process_Task_Save} */
@@ -12,6 +14,8 @@ export default class Fl32_Leana_Back_Service_Task_Save {
         const Request = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request'];  // class constructor
         /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Response} */
         const Response = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Response'];  // class constructor
+        /** @type {typeof Fl32_Teq_Acl_Shared_Service_Data_UserAcl} */
+        const DUser = spec['Fl32_Teq_Acl_Shared_Service_Data_UserAcl#'];  // class constructor
 
         // DEFINE THIS INSTANCE METHODS (NOT IN PROTOTYPE)
 
@@ -53,10 +57,11 @@ export default class Fl32_Leana_Back_Service_Task_Save {
         this.createProcessor = function () {
             /**
              * @param {Fl32_Leana_Shared_Service_Route_Task_Save_Request} apiReq
+             * @param {IncomingMessage} httpReq
              * @return {Promise<Fl32_Leana_Shared_Service_Route_Task_Save_Response>}
              * @exports Fl32_Leana_Back_Service_Task_Save$process
              */
-            async function Fl32_Leana_Back_Service_Task_Save$process(apiReq) {
+            async function Fl32_Leana_Back_Service_Task_Save$process(apiReq, httpReq) {
                 // DEFINE INNER FUNCTIONS
 
                 // MAIN FUNCTIONALITY
@@ -64,7 +69,10 @@ export default class Fl32_Leana_Back_Service_Task_Save {
                 const result = new Response();
                 const trx = await rdb.startTransaction();
                 try {
-                    result.id = await procSave.exec({trx, req: apiReq});
+                    /** @type {Fl32_Teq_Acl_Shared_Service_Data_UserAcl} */
+                    const user = httpReq[DEF_USER.HTTP_REQ_USER];
+                    const userId = (user && (user instanceof DUser)) ? user.id : null;
+                    result.id = await procSave.exec({trx, req: apiReq, userId});
                     trx.commit();
                 } catch (error) {
                     trx.rollback();

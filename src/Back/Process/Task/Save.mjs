@@ -18,9 +18,10 @@ export default class Fl32_Leana_Back_Process_Task_Save {
          *
          * @param {Function} trx
          * @param {Fl32_Leana_Shared_Service_Route_Task_Save_Request} req
+         * @param {Number} userId if request is received from public realm
          * @returns {Promise<Number>}
          */
-        this.exec = async function ({trx, req}) {
+        this.exec = async function ({trx, req, userId}) {
             // PARSE INPUT & DEFINE WORKING VARS
             let result = null;
             const apiDate = new Date(req.date);
@@ -58,6 +59,7 @@ export default class Fl32_Leana_Back_Process_Task_Save {
                     [eTaskDet.A_SERVICE_REF]: req.serviceId,
                     [eTaskDet.A_TASK_REF]: taskId,
                     [eTaskDet.A_TO]: to,
+                    [eTaskDet.A_USER_REF]: userId,
                 });
                 // register state transition
                 await trx(eStateTrans.ENTITY).insert({
