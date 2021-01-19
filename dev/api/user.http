@@ -14,3 +14,19 @@ Content-Type: application/json
 {"data": {"type": "phone", "value": "(371)29181801"}}
 
 ###
+POST https://{{host}}/api/user/signUp
+Accept: application/json
+Content-Type: application/json
+
+{
+  "data": {
+    "email": "alex@flancer64.comqw",
+    "login": "gusev",
+    "name": "Alex Gusev",
+    "password": "test",
+    "phone": "2918180121",
+    "referralCode": "dev"
+  }
+}
+
+###

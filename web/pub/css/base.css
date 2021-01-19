@@ -40,3 +40,7 @@ INPUT, SELECT, TEXTAREA {
     background-color: var(--color-lightest);
     color: var(--color-darkest);
 }
+
+BUTTON:disabled {
+    background-color: var(--color-darker);
+}

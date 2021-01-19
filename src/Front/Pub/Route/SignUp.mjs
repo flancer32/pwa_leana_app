@@ -10,6 +10,7 @@ i18next.addResources('ru', 'routeSignIn', {
 const I18N_BUNDLE_USER_LV = {
     email: 'E-pasts',
     login: 'Login',
+    msgErrUnknownRefCode: 'Unknown referral code.',
     name: 'Vārds',
     password2: 'Paroles atkārtojums',
     password: 'Parole',
@@ -20,6 +21,7 @@ const I18N_BUNDLE_USER_LV = {
 const I18N_BUNDLE_USER_RU = {
     email: 'Почта',
     login: 'Login',
+    msgErrUnknownRefCode: 'Unknown referral code.',
     name: 'Имя',
     password2: 'Повтор пароля',
     password: 'Пароль',
@@ -34,7 +36,7 @@ i18next.addResources('ru', 'teqUser', I18N_BUNDLE_USER_RU);
 const template = `
 <div>
     <user-sign-up v-show="showForm"
-        :data="signUp"
+        :input="signUp"
         @onSuccess="onSuccess($event)"
         @onFailure="onFailure($event)"
     ></user-sign-up>
@@ -84,6 +86,7 @@ export default function Fl32_Leana_Front_Pub_Route_SignUp(spec) {
                 this.showForm = false;
                 this.message = this.$t('routeSignIn:registered', {user: data.login});
                 this.reset();
+                this.$router.push('/signIn');
             },
             reset() {
                 setTimeout(() => {
