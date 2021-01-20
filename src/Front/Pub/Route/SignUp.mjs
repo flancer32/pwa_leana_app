@@ -9,7 +9,7 @@ i18next.addResources('ru', 'routeSignIn', {
 
 const I18N_BUNDLE_USER_LV = {
     email: 'E-pasts',
-    login: 'Login',
+    login: 'Lietotājs',
     msgErrUnknownRefCode: 'Unknown referral code.',
     name: 'Vārds',
     password2: 'Paroles atkārtojums',

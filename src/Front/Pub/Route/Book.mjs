@@ -13,8 +13,8 @@ i18next.addResourceBundle('lv', 'route-book', {
     masterSelect: 'Izvēlieties meistaru',
     name: 'Jūsu vārds',
     namePH: 'vārds: Līga Ozola',
-    phone: 'Jūsu telefons',
-    phonePH: 'telefons: 29101010',
+    phone: 'Jūsu tālrunis',
+    phonePH: 'tālrunis: 29101010',
     service: 'Pakalpojums',
     serviceSelect: 'Izvēlieties pakalpojumu',
     title: 'Pierakstīties',
@@ -396,6 +396,7 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                     this.setDateSelected(null);
                     this.$refs['timePicker'].idSelected = null;
                     this.$refs['datePicker'].cleanSelected();
+                    this.$router.push('/history');
                 }
             },
             ...mapMutations({
