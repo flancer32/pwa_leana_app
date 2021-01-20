@@ -41,3 +41,6 @@ function Fl32_Leana_Front_Pub_State_App() {
         actions: {},
     };
 }
+
+// We should place function separately to allow JSDoc & IDEA hints & navigation.
+export default Fl32_Leana_Front_Pub_State_App;
