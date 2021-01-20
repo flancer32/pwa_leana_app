@@ -1,5 +1,7 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
+
 
 i18next.addResources('lv', 'navBar', {
     about: 'Par mums',
@@ -79,15 +81,16 @@ const template = `
 </div>
 `;
 
-export default function Fl32_Leana_Front_Pub_App_NavBar(spec) {
+export default function Fl32_Leana_Front_Pub_Layout_Navigator(spec) {
     /** @type {Fl32_Leana_Defaults} */
-    const DEF = spec.Fl32_Leana_Defaults$;
+    const DEF = spec['Fl32_Leana_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_User_Defaults} */
-    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    const DEF_USER = spec['Fl32_Teq_User_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_Acl_Front_App_Session} */
-    const session = spec[DEF_USER.DI_SESSION];
+    const session = spec[DEF_USER.DI_SESSION];  // named singleton
 
     return {
+        name: 'Navigator',
         template,
         data: function () {
             return {
@@ -99,19 +102,21 @@ export default function Fl32_Leana_Front_Pub_App_NavBar(spec) {
         computed: {
             isAuthenticated() {
                 let result = false;
-                if (this.userAuthenticated) {
+                if (this.stateUserAuthenticated) {
                     result = session.hasPermission(DEF.ACL_IS_CUSTOMER);
                 }
                 return result;
             },
             ...mapState({
-                userAuthenticated: state => state.user.authenticated,
+                stateAppLang: state => state.app.lang,
+                stateUserAuthenticated: state => state.user.authenticated,
             })
         },
         methods: {
             async changeLang(lang) {
                 this.lang = lang.substr(0, 2);
                 await i18next.changeLanguage(lang);
+                this.setStateAppLang(lang);
             },
             controlMenus(evt) {
                 const path = evt.path || (evt.composedPath && evt.composedPath());
@@ -129,11 +134,15 @@ export default function Fl32_Leana_Front_Pub_App_NavBar(spec) {
                 } else {
                     this.menuRightOpened = false;
                 }
-            }
+            },
+            ...mapMutations({
+                setStateAppLang: 'app/setLang',
+            }),
         },
-        created() {
-            const savedLang = i18next.language;
+        async mounted() {
+            const savedLang = (i18next.language === 'ru-RU') ? 'ru-RU' : 'lv-LV';
             this.lang = (savedLang.substring(0, 2) === 'ru') ? 'ru' : 'lv';
+            this.setStateAppLang(savedLang);
         },
     };
 }

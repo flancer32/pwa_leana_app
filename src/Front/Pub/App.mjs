@@ -1,5 +1,6 @@
 const app = self.teqfw.app;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
+const mapState = self.teqfw.lib.Vuex.mapState;
 const router = self.teqfw.router;
 
 const template = `
@@ -7,11 +8,11 @@ const template = `
     <div id='app'>
         <div id='layer_base'>
             <main>
-                <router-view></router-view>
+                <router-view :key="langChange"></router-view>
             </main>
         </div>
         <div id="layer_nav_bar">
-            <app-nav-bar></app-nav-bar>
+            <navigator :key="langChange"></navigator>
         </div>
         <div id="layer_overlay"></div>
         <div id="layer_notification"></div>
@@ -24,7 +25,7 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     const DEF_USER = spec['Fl32_Teq_User_Defaults$'];   // singleton instance
     /** @type {Fl32_Teq_Acl_Front_App_Session} */
     const session = spec[DEF_USER.DI_SESSION];
-    const appNavBar = spec['Fl32_Leana_Front_Pub_App_NavBar$']; // singleton component
+    const navigator = spec['Fl32_Leana_Front_Pub_Layout_Navigator$']; // singleton component
     const routeAbout = spec['Fl32_Leana_Front_Pub_Route_About$'];   // singleton component
     const routeBook = spec['Fl32_Leana_Front_Pub_Route_Book$']; // singleton component
     const routeContacts = spec['Fl32_Leana_Front_Pub_Route_Contacts$']; // singleton component
@@ -51,13 +52,26 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     return {
         name: 'PubApp',
         template,
-        components: {
-            appNavBar
+        components: {navigator},
+        data: function () {
+            return {
+                langChange: 0,
+            };
+        },
+        computed: {
+            ...mapState({
+                stateAppLang: state => state.app.lang,
+            }),
         },
         methods: {
             ...mapMutations({
                 setUserAuthenticated: 'user/setAuthenticated'
             }),
+        },
+        watch: {
+            stateAppLang() {
+                this.langChange++;
+            }
         },
         mounted() {
             const user = session.getUser();

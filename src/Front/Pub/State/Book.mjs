@@ -4,7 +4,7 @@
  * @return {Object}
  * @constructor
  */
-export default function Fl32_Leana_Front_Pub_State_Book(spec) {
+function Fl32_Leana_Front_Pub_State_Book(spec) {
     const gateEmployeeList = spec['Fl32_Leana_Front_Gate_Employee_List$'];  // singleton function
     const gateServiceList = spec['Fl32_Leana_Front_Gate_Service_List$'];   // singleton function
     const gateTaskOnDate = spec['Fl32_Leana_Front_Gate_Task_OnDate$']; // singleton function
@@ -103,3 +103,6 @@ export default function Fl32_Leana_Front_Pub_State_Book(spec) {
         },
     };
 }
+
+// We should place function separately to allow JSDoc & IDEA hints & navigation.
+export default Fl32_Leana_Front_Pub_State_Book;

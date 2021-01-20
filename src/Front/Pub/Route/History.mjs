@@ -57,6 +57,7 @@ export default function Fl32_Leana_Front_Pub_Route_History(spec) {
         components: {},
         data: function () {
             return {
+                langChange: 0,
                 masters: null,
                 services: null,
                 tasks: [],

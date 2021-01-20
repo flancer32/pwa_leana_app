@@ -18,8 +18,8 @@ function Fl32_Leana_Front_Desk_State_App() {
             resetOverlay(state) {
                 state.overlay = {name: null, params: {}};
             },
-            setLang(state, {active}) {
-                state.lang = {active};
+            setLang(state, payload) {
+                state.lang = payload;
             },
             setLoader(state, {active}) {
                 state.loader = {active};

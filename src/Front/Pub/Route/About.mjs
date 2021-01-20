@@ -15,7 +15,7 @@ export default function Fl32_Leana_Front_Pub_Route_About() {
                 content: ''
             };
         },
-        created() {
+        mounted() {
             const me = this;
 
             async function loadContent(lang) {
@@ -25,9 +25,9 @@ export default function Fl32_Leana_Front_Pub_Route_About() {
             }
 
             // subscribe to 'change language' event
-            i18next.on('languageChanged', async function (lang) {
-                me.content = await loadContent(lang);
-            });
+            // i18next.on('languageChanged', async function (lang) {
+            //     me.content = await loadContent(lang);
+            // });
 
             const lang = i18next.language;
             loadContent(lang).then(res => me.content = res);
