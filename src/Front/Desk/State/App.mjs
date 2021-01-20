@@ -27,15 +27,15 @@ function Fl32_Leana_Front_Desk_State_App() {
             setOverlay(state, {name, params}) {
                 state.overlay = {name, params};
             },
+            setTitle(state, payload) {
+                self.document.title = payload;
+                state.title = payload;
+            },
             startLoader(state) {
                 state.loader.active = true;
             },
             stopLoader(state) {
                 state.loader.active = false;
-            },
-            setTitle(state, payload) {
-                self.document.title = payload;
-                state.title = payload;
             },
         },
         actions: {},

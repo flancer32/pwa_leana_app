@@ -11,6 +11,7 @@ function Fl32_Leana_Front_Pub_State_App() {
             lang: 'lv-LV',
             loader: {active: Boolean},
             overlay: {name: String, params: Object},
+            title: 'Leana Desk',
         },
         getters: {},
         mutations: {
@@ -26,16 +27,17 @@ function Fl32_Leana_Front_Pub_State_App() {
             setOverlay(state, {name, params}) {
                 state.overlay = {name, params};
             },
+            setTitle(state, payload) {
+                self.document.title = payload;
+                state.title = payload;
+            },
             startLoader(state) {
                 state.loader.active = true;
             },
             stopLoader(state) {
                 state.loader.active = false;
-            }
+            },
         },
         actions: {},
     };
 }
-
-// We should place function separately to allow JSDoc & IDEA hints & navigation.
-export default Fl32_Leana_Front_Pub_State_App;

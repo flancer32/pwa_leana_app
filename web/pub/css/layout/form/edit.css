@@ -1,0 +1,55 @@
+/* Data edit forms  */
+
+.edit {
+    display: grid;
+    grid-template-columns:  1fr;
+    grid-gap: var(--grid-gap);
+}
+
+.edit .section {
+    background-color: var(--color-darkest);
+    color: var(--color-lightest);
+    text-align: center;
+}
+
+.edit .row {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: var(--grid-gap);
+    align-items: center;
+    /*justify-items: center;*/
+}
+
+.edit .row .field.editable {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-gap: var(--grid-gap);
+    align-items: center;
+    /*justify-items: center;*/
+}
+
+.edit .row .field.indicator {
+    display: grid;
+    grid-template-columns:  1fr var(--table-row-height);
+    grid-gap: var(--grid-gap);
+    align-items: center;
+    /*justify-items: center;*/
+}
+
+.field.editable > .message {
+    grid-column: 1 / span 2;
+}
+
+.edit .controls {
+    /*z-index: 5000;*/
+    background-color: var(--color-lightest);
+    height: 50%;
+    left: 0;
+    opacity: 0;
+    position: fixed;
+    top: 50%;
+    transition: opacity 500ms;
+    visibility: hidden;
+    width: 100%;
+}
+

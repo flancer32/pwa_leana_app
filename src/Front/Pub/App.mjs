@@ -30,6 +30,7 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     const routeBook = spec['Fl32_Leana_Front_Pub_Route_Book$']; // singleton component
     const routeContacts = spec['Fl32_Leana_Front_Pub_Route_Contacts$']; // singleton component
     const routeHistory = spec['Fl32_Leana_Front_Pub_Route_History$'];   // singleton component
+    const routeProfile = spec['Fl32_Leana_Front_Pub_Route_Profile$'];   // singleton component
     const routeServices = spec['Fl32_Leana_Front_Pub_Route_Services$']; // singleton component
     const routeSignIn = spec['Fl32_Leana_Front_Pub_Route_SignIn$']; // singleton component
     const routeSignOut = spec['Fl32_Leana_Front_Pub_Route_SignOut$'];   // singleton component
@@ -41,6 +42,7 @@ export default function Fl32_Leana_Front_Pub_App(spec) {
     router.addRoute({path: '/book', component: routeBook});
     router.addRoute({path: '/contacts', component: routeContacts});
     router.addRoute({path: '/history', component: routeHistory});
+    router.addRoute({path: '/profile', component: routeProfile});
     router.addRoute({path: '/services', component: routeServices});
     router.addRoute({path: '/signIn', component: routeSignIn});
     router.addRoute({path: '/signOut', component: routeSignOut});
