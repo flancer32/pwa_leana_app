@@ -9,10 +9,10 @@ i18next.addResourceBundle('ru', 'widget_datePicker', {
 
 const template = `
 <div class="datepicker">
-    <div><button v-on:click="showHide">...</button></div>
     <div>
         <input type="text" id="bookDate" name="datePicker" disabled :placeholder="$t('widget_datePicker:datePicker')">
     </div>
+        <div><button v-on:click="showHide">...</button></div>
 </div>
 `;
 

@@ -3,32 +3,34 @@
  */
 class Fl32_Leana_Shared_Service_Route_Task_Save_Request {
     /** @type {Date} date-time of the appointment's beginning */
-    date
+    date;
     /** @type {Number} appointment duration in minutes */
-    duration
+    duration;
     /** @type {String} customer email */
-    email
+    email;
     /** @type {Number|null} */
-    id
+    id;
     /** @type {String} language code (lv-LV, ru-RU, ...) */
-    locale
+    locale;
     /** @type {Boolean} */
-    madeOnFront
+    madeOnFront;
     /** @type {Number} */
-    employeeId
+    employeeId;
     /** @type {String} customer name */
-    name
+    name;
     /** @type {String} */
-    note
+    note;
     /** @type {String} customer phone */
-    phone
+    phone;
     /** @type {Number} */
-    serviceId
+    serviceId;
+    /** @type {Number} */
+    userId;
 }
 
 class Fl32_Leana_Shared_Service_Route_Task_Save_Response {
     /** @type {Number} */
-    id
+    id;
 }
 
 export {

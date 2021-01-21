@@ -49,154 +49,152 @@ i18next.addResources('ru', 'routeProfile', {
 });
 
 const template = `
-<div>
-    <div class="layout_centered">
-        <form class="edit" onsubmit="return false">
+<div class="layout_centered">
+    <form class="edit" onsubmit="return false">
 
-            <div class="id-user section">
-                <div>{{ $t('routeProfile:sectionUser') }}</div>
+        <div class="id-user section">
+            <div>{{ $t('routeProfile:sectionUser') }}</div>
+        </div>
+
+        <div class="id-userId row">
+            <div class="label">
+                <span>{{ $t('routeProfile:userId') }}:</span>
             </div>
-
-            <div class="id-userId row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:userId') }}:</span>
-                </div>
-                <div class="field">
-                    {{ userId }}
-                </div>
+            <div class="field">
+                {{ userId }}
             </div>
+        </div>
 
-            <div class="id-dateCreated row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:created') }}:</span>
-                </div>
-                <div class="field">
-                    {{ dateCreatedUi }}
-                </div>
+        <div class="id-dateCreated row">
+            <div class="label">
+                <span>{{ $t('routeProfile:created') }}:</span>
             </div>
+            <div class="field">
+                {{ dateCreatedUi }}
+            </div>
+        </div>
 
-            <div class="id-userName row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:userName') }}:</span>
-                </div>
-                <div class="field indicator">
-                    <input v-model="userName">
-                    <div>
-                        <div v-show="userNameLoading"><i class="fas fa-spinner fa-1x filter-darkest"></i></div>
-                        <div v-show="userNameSucceed"><i class="fas fa-check fa-1x filter-darkest"></i></div>
-                    </div>
+        <div class="id-userName row">
+            <div class="label">
+                <span>{{ $t('routeProfile:userName') }}:</span>
+            </div>
+            <div class="field indicator">
+                <input v-model="userName">
+                <div>
+                    <div v-show="userNameLoading"><i class="fas fa-spinner fa-1x filter-darkest"></i></div>
+                    <div v-show="userNameSucceed"><i class="fas fa-check fa-1x filter-darkest"></i></div>
                 </div>
             </div>
+        </div>
 
-            <div class="id-auth section">
-                <div>{{ $t('routeProfile:sectionAuth') }}</div>
+        <div class="id-auth section">
+            <div>{{ $t('routeProfile:sectionAuth') }}</div>
+        </div>
+
+        <div class="id-dateLoggedIn row">
+            <div class="label">
+                <span>{{ $t('routeProfile:loggedIn') }}:</span>
             </div>
-
-            <div class="id-dateLoggedIn row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:loggedIn') }}:</span>
-                </div>
-                <div class="field">
-                    {{ dateLoggedInUi }}
-                </div>
+            <div class="field">
+                {{ dateLoggedInUi }}
             </div>
+        </div>
 
-            <div class="id-parentName row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:parentName') }}:</span>
-                </div>
-                <div class="field">
-                    {{ parentName }}
-                </div>
+        <div class="id-parentName row">
+            <div class="label">
+                <span>{{ $t('routeProfile:parentName') }}:</span>
             </div>
-
-            <div class="id-userLogin row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:userLogin') }}:</span>
-                </div>
-                <div class="field">
-                    <input v-model="userLogin" autocomplete="username" disabled>
-                </div>
+            <div class="field">
+                {{ parentName }}
             </div>
+        </div>
 
-            <div class="id-refCode row" v-show="refCode">
-                <div class="label">
-                    <span>{{ $t('routeProfile:refCode') }}:</span>
-                </div>
-                <div class="field">
-                    {{ refCode }}
-                </div>
+        <div class="id-userLogin row">
+            <div class="label">
+                <span>{{ $t('routeProfile:userLogin') }}:</span>
             </div>
-
-            <div class="id-auth section">
-                <div>{{ $t('routeProfile:sectionContact') }}</div>
+            <div class="field">
+                <input v-model="userLogin" autocomplete="username" disabled>
             </div>
+        </div>
 
-            <div class="id-email row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:email') }}:</span>
-                </div>
-                <div class="field indicator">
-                    <input v-model="email">
-                    <div>
-                        <div v-show="emailLoading"><i class="fas fa-spinner fa-1x filter-darkest"></i></div>
-                        <div v-show="emailSucceed"><i class="fas fa-check fa-1x filter-darkest"></i></div>
-                    </div>
-                </div>
+        <div class="id-refCode row" v-show="refCode">
+            <div class="label">
+                <span>{{ $t('routeProfile:refCode') }}:</span>
             </div>
+            <div class="field">
+                {{ refCode }}
+            </div>
+        </div>
 
-            <div class="id-phone row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:phone') }}:</span>
-                </div>
-                <div class="field indicator">
-                    <input v-model="phone">
-                    <div>
-                        <div v-show="phoneLoading"><i class="fas fa-spinner fa-1x filter-darkest"></i></div>
-                        <div v-show="phoneSucceed"><i class="fas fa-check fa-1x filter-darkest"></i></div>
-                    </div>                    
+        <div class="id-auth section">
+            <div>{{ $t('routeProfile:sectionContact') }}</div>
+        </div>
+
+        <div class="id-email row">
+            <div class="label">
+                <span>{{ $t('routeProfile:email') }}:</span>
+            </div>
+            <div class="field indicator">
+                <input v-model="email">
+                <div>
+                    <div v-show="emailLoading"><i class="fas fa-spinner fa-1x filter-darkest"></i></div>
+                    <div v-show="emailSucceed"><i class="fas fa-check fa-1x filter-darkest"></i></div>
                 </div>
             </div>
+        </div>
 
-            <div class="id-password section">
-                <div>{{ $t('routeProfile:sectionPwd') }}</div>
+        <div class="id-phone row">
+            <div class="label">
+                <span>{{ $t('routeProfile:phone') }}:</span>
             </div>
+            <div class="field indicator">
+                <input v-model="phone">
+                <div>
+                    <div v-show="phoneLoading"><i class="fas fa-spinner fa-1x filter-darkest"></i></div>
+                    <div v-show="phoneSucceed"><i class="fas fa-check fa-1x filter-darkest"></i></div>
+                </div>                    
+            </div>
+        </div>
 
-            <div class="id-passwordCurrent row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:passwordCurrent') }}:</span>
+        <div class="id-password section">
+            <div>{{ $t('routeProfile:sectionPwd') }}</div>
+        </div>
+
+        <div class="id-passwordCurrent row">
+            <div class="label">
+                <span>{{ $t('routeProfile:passwordCurrent') }}:</span>
+            </div>
+            <div class="field">
+                <input type="password" autocomplete="current-password" v-model="passwordCurrent">
+            </div>
+        </div>
+
+        <div class="id-passwordNew row">
+            <div class="label">
+                <span>{{ $t('routeProfile:passwordNew') }}:</span>
+            </div>
+            <div class="field">
+                <input type="password" autocomplete="new-password" v-model="passwordNew">
+            </div>
+        </div>
+
+        <div class="id-passwordRepeat row">
+            <div class="label">
+                <span>{{ $t('routeProfile:passwordRepeat') }}:</span>
+            </div>
+            <div class="field editable">
+                <div class="message" v-show="showMessage">{{ message }}</div>
+                <div class="value">
+                    <input type="password" autocomplete="new-password" v-model="passwordRepeat">
                 </div>
-                <div class="field">
-                    <input type="password" autocomplete="current-password" v-model="passwordCurrent">
+                <div class="action">
+                    <button v-on:click="actionChangePassword" :disabled="disabledChangePassword">...</button>
                 </div>
             </div>
+        </div>
 
-            <div class="id-passwordNew row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:passwordNew') }}:</span>
-                </div>
-                <div class="field">
-                    <input type="password" autocomplete="new-password" v-model="passwordNew">
-                </div>
-            </div>
-
-            <div class="id-passwordRepeat row">
-                <div class="label">
-                    <span>{{ $t('routeProfile:passwordRepeat') }}:</span>
-                </div>
-                <div class="field editable">
-                    <div class="message" v-show="showMessage">{{ message }}</div>
-                    <div class="value">
-                        <input type="password" autocomplete="new-password" v-model="passwordRepeat">
-                    </div>
-                    <div class="action">
-                        <button v-on:click="actionChangePassword" :disabled="disabledChangePassword">...</button>
-                    </div>
-                </div>
-            </div>
-
-        </form>
-    </div>
+    </form>
 </div>
 `;
 

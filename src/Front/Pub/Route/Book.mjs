@@ -3,106 +3,82 @@ const mapActions = self.teqfw.lib.Vuex.mapActions;
 const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 const mapState = self.teqfw.lib.Vuex.mapState;
 
-i18next.addResourceBundle('lv', 'route-book', {
+i18next.addResourceBundle('lv', 'routeBook', {
     action: {
         send: 'Nosūtīt'
     },
-    email: 'Jūsu e-pasts',
-    emailPH: 'e-pasts: user@domain.com',
-    master: 'Meistars',
-    masterSelect: 'Izvēlieties meistaru',
-    name: 'Jūsu vārds',
-    namePH: 'vārds: Līga Ozola',
-    phone: 'Jūsu tālrunis',
-    phonePH: 'tālrunis: 29101010',
+    date: 'Datums',
+    employee: 'Meistars',
+    employeeSelect: 'Izvēlieties meistaru',
     service: 'Pakalpojums',
     serviceSelect: 'Izvēlieties pakalpojumu',
+    time: 'Laiks',
     title: 'Pierakstīties',
 }, true);
-i18next.addResourceBundle('ru', 'route-book', {
+i18next.addResourceBundle('ru', 'routeBook', {
     action: {
         send: 'Отправить'
     },
-    email: 'Ваш email',
-    emailPH: 'email: user@domain.com',
-    master: 'Мастер',
-    masterSelect: 'Выберите мастера',
-    name: 'Ваше имя',
-    namePH: 'имя: Светлана Соколова',
-    phone: 'Ваш телефон',
-    phonePH: 'телефон: 29101010',
+    date: 'Дата',
+    employee: 'Мастер',
+    employeeSelect: 'Выберите мастера',
     service: 'Услуга',
     serviceSelect: 'Выберите услугу',
+    time: 'Время',
     title: 'Записаться',
 }, true);
 
 const template = `
-<div>
-    <h1>{{ $t('route-book:title') }}</h1>
-    <form class="form_c1" onsubmit="return false">
-        <div class="fld-name form_row">
-            <div class="form_label">
-                <span>{{ $t('route-book:name') }}:</span>
+<div class="layout_centered">
+    <form class="edit" onsubmit="return false">
+    
+        <div class="id-service row">
+            <div class="label">
+                <span>{{ $t('routeBook:service') }}:</span>
             </div>
-            <div class="form_field">
-                <input type="text" name="name" v-model="name" :placeholder="$t('route-book:namePH')">
-            </div>
-        </div>
-        <div class="fld-phone form_row">
-            <div class="form_label">
-                <span>{{ $t('route-book:phone') }}:</span>
-            </div>
-            <div class="form_field">
-                <input type="text" name="phone" v-model="phone" :placeholder="$t('route-book:phonePH')">
-            </div>
-        </div>
-        <div class="fld-email form_row">
-            <div class="form_label">
-                <span>{{ $t('route-book:email') }}:</span>
-            </div>
-            <div class="form_field">
-                <input type="text" name="email" v-model="email" :placeholder="$t('route-book:emailPH')">
-            </div>
-        </div>
-        <div class="fld-service form_row">
-            <div class="form_label">
-                <span>{{ $t('route-book:service') }}:</span>
-            </div>
-            <div class="form_field">
+            <div class="field">
                 <select name="service" v-model="service">
-                    <option disabled value="null">{{ $t('route-book:serviceSelect') }}</option>
+                    <option disabled value="null">{{ $t('routeBook:serviceSelect') }}</option>
                     <option v-for="(one) in serviceOptions" :value="one.id" :disabled="one.disabled">
                         {{ one.name }} ({{one.duration}})
                     </option>
                 </select>
             </div>
         </div>
-        <div class="fld-master form_row" v-show="service && name && (phone || email)">
-            <div class="form_label">
-                <span>{{ $t('route-book:master') }}:</span>
+        
+        <div class="id-employee row" v-show="service">
+            <div class="label">
+                <span>{{ $t('routeBook:employee') }}:</span>
             </div>
-            <div class="form_field">
+            <div class="field">
                 <select name="employeeId" v-model="employeeId">
-                    <option disabled value="null">{{ $t('route-book:masterSelect') }}</option>
-                    <option v-for="(one) in masterOptions" :value="one.id" :disabled="one.disabled">
+                    <option disabled value="null">{{ $t('routeBook:employeeSelect') }}</option>
+                    <option v-for="(one) in employeeOptions" :value="one.id" :disabled="one.disabled">
                         {{ one.name }}
                     </option>
                 </select>
             </div>
         </div>
-        <div class="fld-date form_row" v-show="employeeId">
-            <date-picker ref="datePicker"
-                         :min="dpDateMin"
-                         :max="dpDateMax"
-                         :dates-disabled="dpDatesDisabled"
-                         @selected="setDate"
-            ></date-picker>
-        </div>
-        <div class="fld-time form_row" v-show="showTime">
-            <div class="form_label">
-                <span>{{ $t('route-book:time') }}:</span>
+        
+        <div class="id-date row" v-show="employeeId">
+            <div class="label">
+                <span>{{ $t('routeBook:date') }}:</span>
             </div>
-            <div class="form_field">
+            <div class="field">
+                <date-picker ref="datePicker"
+                             :min="dpDateMin"
+                             :max="dpDateMax"
+                             :dates-disabled="dpDatesDisabled"
+                             @selected="setDate"
+                ></date-picker>
+            </div>
+        </div>
+        
+        <div class="id-time row" v-show="showTime">
+            <div class="label">
+                <span>{{ $t('routeBook:time') }}:</span>
+            </div>
+            <div class="field">
                 <time-picker ref="timePicker"
                              :entries="timeEntries"
                              @selected="setTime"
@@ -110,9 +86,9 @@ const template = `
             </div>
         </div>
 
-        <div class="form_actions">
+        <div class="actions">
             <div>
-                <button v-on:click="send" v-show="time">{{ $t('route-book:action.send') }}</button>
+                <button v-on:click="send" v-show="time">{{ $t('routeBook:action.send') }}</button>
             </div>
         </div>
     </form>
@@ -121,24 +97,29 @@ const template = `
 
 export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
     /** @type {Fl32_Leana_Defaults} */
-    const DEF = spec.Fl32_Leana_Defaults$;
+    const DEF = spec['Fl32_Leana_Defaults$'];
     /** @type {Fl32_Teq_User_Defaults} */
-    const DEF_USER = spec.Fl32_Teq_User_Defaults$;
+    const DEF_USER = spec['Fl32_Teq_User_Defaults$'];
     /** @type {Fl32_Teq_Acl_Front_App_Session} */
     const session = spec[DEF_USER.DI_SESSION];
     /** @type {Fl32_Leana_Front_Pub_Widget_DatePicker} */
-    const datePicker = spec.Fl32_Leana_Front_Pub_Widget_DatePicker$;
+    const datePicker = spec['Fl32_Leana_Front_Pub_Widget_DatePicker$'];
     /** @type {Fl32_Leana_Front_Pub_Widget_TimePicker} */
-    const timePicker = spec.Fl32_Leana_Front_Pub_Widget_TimePicker$;
+    const timePicker = spec['Fl32_Leana_Front_Pub_Widget_TimePicker$'];
     /** @type {Fl32_Leana_Shared_Util_DateTime} */
-    const utilDate = spec.Fl32_Leana_Shared_Util_DateTime$;
+    const utilDate = spec['Fl32_Leana_Shared_Util_DateTime$'];
     /** @type {Fl32_Leana_Shared_Util_Mix} */
-    const utilMix = spec.Fl32_Leana_Shared_Util_Mix$;
+    const utilMix = spec['Fl32_Leana_Shared_Util_Mix$'];
     // classes and functions
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_List_Request} */
     const EmployeeRequest = spec['Fl32_Leana_Shared_Service_Route_Employee_List#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_Save_Request} */
     const SaveRequest = spec['Fl32_Leana_Shared_Service_Route_Task_Save#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Service_List_Request} */
     const ServiceRequest = spec['Fl32_Leana_Shared_Service_Route_Service_List#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Task_OnDate_Request} */
     const TaskOnDateRequest = spec['Fl32_Leana_Shared_Service_Route_Task_OnDate#Request']; // class constructor
+    /** @type {typeof Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List_Request} */
     const WorkTimeRequest = spec['Fl32_Leana_Shared_Service_Route_Employee_WorkTime_List#Request']; // class constructor
 
     return {
@@ -150,16 +131,13 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
         },
         data: function () {
             return {
-                email: null,
                 employeeId: null,
-                name: null,
-                phone: null,
                 service: null,
                 time: null,
             };
         },
         computed: {
-            masterOptions() {
+            employeeOptions() {
                 let result = [];
                 if (this.apiEmployees) {
                     for (const key in this.apiEmployees) {
@@ -370,12 +348,9 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 const req = new SaveRequest();
                 req.date = date;
                 req.duration = this.duration;
-                req.email = this.email;
                 req.locale = i18next.language;
                 req.employeeId = this.employeeId;
                 req.madeOnFront = true;
-                req.name = this.name;
-                req.phone = this.phone;
                 req.serviceId = this.service;
                 const res = await fetch('../api/task/save', {
                     method: 'POST',
@@ -387,9 +362,6 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 const result = await res.json();
                 // there is task id in the response
                 if (typeof result.data.id === 'number') {
-                    this.name = null;
-                    this.email = null;
-                    this.phone = null;
                     this.service = null;
                     this.employeeId = null;
                     this.time = null;
@@ -426,6 +398,13 @@ export default function Fl32_Leana_Front_Pub_Route_Book(spec) {
                 const reqWorkTime = new WorkTimeRequest();
                 reqWorkTime.dateBegin = new Date(Date.now());
                 await this.loadWorkTime(reqWorkTime);
+                // get user data from profile
+                const user = session.getUser();
+                this.name = user.name;
+                const [email] = user.emails;
+                this.email = email;
+                const [phone] = user.phones;
+                this.phone = phone;
             }
         }
     };

@@ -109,6 +109,9 @@ export default class Fl32_Leana_Back_Service_Task_List_Own {
                     query.where(`${T}.${eTask.A_STATE}`, DEF.E_TASK_STATE_ACTIVE);
                     query.where(`${D}.${eTaskDet.A_MADE_ON_FRONT}`, true);
                     query.where(`${D}.${eTaskDet.A_USER_REF}`, userId);
+                    // ORDER
+                    query.orderBy(`${D}.${eTaskDet.A_DATE}`, 'desc');
+                    query.orderBy(`${D}.${eTaskDet.A_FROM}`, 'desc');
                     // compose result
                     const rs = await query;
                     const result = [];

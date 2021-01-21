@@ -12,11 +12,11 @@ const template = `
 <div class="timepicker">
     <div class="inputs">
         <div>
-            <button v-on:click="showEntries = !showEntries">...</button>
-        </div>
-        <div>
             <input type="text" name="timePicker" v-model="interval" disabled
                    :placeholder="$t('widget_timePicker:timePicker')">
+        </div>    
+        <div>
+            <button v-on:click="showEntries = !showEntries">...</button>
         </div>
     </div>
     <div v-show="showEntries">

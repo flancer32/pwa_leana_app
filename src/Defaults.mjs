@@ -5,6 +5,7 @@ export default class Fl32_Leana_Defaults {
     ACL_IS_CUSTOMER = 'is_customer';
     ACL_IS_DEVELOPER = 'is_developer';
     ACL_IS_EMPLOYEE = 'is_employee';
+    API_ROUTE_TASK_SAVE = 'task/save';
     API_ROUTE_USER_PROFILE_SAVE_FIELD = 'user/profile/saveField';
     DAY_END_HOUR_UTC = 18;  // end of the working day
     DAY_END_HOUR_UTC_SAT = 16;  // end of the working day for Saturday

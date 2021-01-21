@@ -1,5 +1,5 @@
 @import "layout/form/edit.css";
-@import "layout/form.css";
+/*@import "layout/form.css";*/
 @import "layout/navbar.css";
 @import "layout/table.css";
 
@@ -49,3 +49,12 @@
     height: 100%;
 }
 
+.actions {
+    align-items: center;
+    display: grid;
+    grid-auto-columns: auto;
+    grid-auto-flow: column;
+    grid-gap: var(--grid-gap);
+    grid-template-rows:  var(--layout-actions-bar-height);
+    justify-items: center;
+}

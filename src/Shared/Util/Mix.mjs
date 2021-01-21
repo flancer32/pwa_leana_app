@@ -34,4 +34,14 @@ export default class Fl32_Leana_Shared_Util_Mix {
         }
         return result;
     }
+
+    /**
+     * Return 'true' if 'val' contains no data.
+     *
+     * @param {String|null|undefined} val
+     * @return {boolean}
+     */
+    isEmpty(val) {
+        return (val === undefined) || (val === null) || (val === '');
+    }
 }
