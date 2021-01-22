@@ -1,4 +1,12 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
+
+i18next.addResources('lv', 'routeServices', {
+    title: 'Pakalpojumi un cenas',
+});
+i18next.addResources('ru', 'routeServices', {
+    title: 'Услуги и цены',
+});
 
 const template = `
 <div>
@@ -15,6 +23,11 @@ export default function Fl32_Leana_Front_Pub_Route_Services() {
                 content: ''
             };
         },
+        methods: {
+            ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
+            }),
+        },
         mounted() {
             const me = this;
 
@@ -29,6 +42,7 @@ export default function Fl32_Leana_Front_Pub_Route_Services() {
             //     me.content = await loadContent(lang);
             // });
 
+            this.setStateAppTitle(this.$t('routeServices:title'));
             const lang = i18next.language;
             loadContent(lang).then(res => me.content = res);
         }

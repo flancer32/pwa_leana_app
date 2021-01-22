@@ -1,16 +1,23 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 
-i18next.addResources('lv', 'routeSignIn', {
-    about: 'Jauns lietotājs "{{user}}" ir reģistrēts.',
+i18next.addResources('lv', 'routeSignUp', {
+    registered: 'Jauns lietotājs "{{user}}" ir reģistrēts.',
+    title: 'Pierakstīties',
 });
-i18next.addResources('ru', 'routeSignIn', {
+i18next.addResources('ru', 'routeSignUp', {
     registered: 'Новый пользователь "{{user}}" зарегистрирован.',
+    title: 'Регистрация',
 });
 
 const I18N_BUNDLE_USER_LV = {
     email: 'E-pasts',
+    errEmailExists: 'E-pasts eksistē.',
+    errLoginExists: 'Lietotājs eksistē.',
+    errPasswordDiffs: 'Paroles ir atšķirīgas.',
+    errPhoneExists: 'Tālrunispasts eksistē.',
+    errUnknownRefCode: 'Nezināms кeģistrācijas kods.',
     login: 'Lietotājs',
-    msgErrUnknownRefCode: 'Unknown referral code.',
     name: 'Vārds',
     password2: 'Paroles atkārtojums',
     password: 'Parole',
@@ -20,8 +27,12 @@ const I18N_BUNDLE_USER_LV = {
 };
 const I18N_BUNDLE_USER_RU = {
     email: 'Почта',
+    errEmailExists: 'Такая почта существует.',
+    errLoginExists: 'Такой login существует.',
+    errPasswordDiffs: 'Пароли отличаются.',
+    errPhoneExists: 'Такой телефон существует.',
+    errUnknownRefCode: 'Неизвестный реферальный код.',
     login: 'Login',
-    msgErrUnknownRefCode: 'Unknown referral code.',
     name: 'Имя',
     password2: 'Повтор пароля',
     password: 'Пароль',
@@ -85,7 +96,7 @@ export default function Fl32_Leana_Front_Pub_Route_SignUp(spec) {
              */
             onSuccess(data) {
                 this.showForm = false;
-                this.message = this.$t('routeSignIn:registered', {user: data.login});
+                this.message = this.$t('routeSignUp:registered', {user: data.login});
                 this.reset();
                 this.$router.push('/signIn');
             },
@@ -94,7 +105,13 @@ export default function Fl32_Leana_Front_Pub_Route_SignUp(spec) {
                     this.message = '';
                     this.showForm = true;
                 }, 5000);
-            }
+            },
+            ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
+            }),
+        },
+        mounted() {
+            this.setStateAppTitle(this.$t('routeSignUp:title'));
         }
     };
 }

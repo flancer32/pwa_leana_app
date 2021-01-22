@@ -6,12 +6,14 @@ i18next.addResources('lv', 'routeHistory', {
     employee: 'Meistars',
     service: 'Pakalpojums',
     time: 'Laiks',
+    title: 'Mani ieraksti',
 });
 i18next.addResources('ru', 'routeHistory', {
     date: 'Дата',
     employee: 'Мастер',
     service: 'Услуга',
     time: 'Время',
+    title: 'Мои записи',
 });
 
 const template = `
@@ -102,7 +104,8 @@ export default function Fl32_Leana_Front_Pub_Route_History(spec) {
              */
             outTime: (item) => utilDate.formatTime(item.dateBook),
             ...mapMutations({
-                setStateUserAuthenticated: 'user/setAuthenticated'
+                setStateAppTitle: 'app/setTitle',
+                setStateUserAuthenticated: 'user/setAuthenticated',
             }),
         },
         async mounted() {
@@ -153,6 +156,7 @@ export default function Fl32_Leana_Front_Pub_Route_History(spec) {
             // MAIN FUNCTIONALITY
             // validate user's permissions
             if (await session.isAccessGranted(this.$router, DEF.ACL_IS_CUSTOMER)) {
+                this.setStateAppTitle(this.$t('routeHistory:title'));
                 await Promise.all([loadMasters(), loadHistory(), loadServices(),]);
             }
         },

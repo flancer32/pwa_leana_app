@@ -1,4 +1,12 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
+
+i18next.addResources('lv', 'routeAbout', {
+    title: 'Par mums',
+});
+i18next.addResources('ru', 'routeAbout', {
+    title: 'О нас',
+});
 
 const template = `
 <div>
@@ -15,6 +23,11 @@ export default function Fl32_Leana_Front_Pub_Route_About() {
                 content: ''
             };
         },
+        methods: {
+            ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
+            }),
+        },
         mounted() {
             const me = this;
 
@@ -29,8 +42,10 @@ export default function Fl32_Leana_Front_Pub_Route_About() {
             //     me.content = await loadContent(lang);
             // });
 
+            this.setStateAppTitle(this.$t('routeAbout:title'));
             const lang = i18next.language;
             loadContent(lang).then(res => me.content = res);
+
         }
     };
 }

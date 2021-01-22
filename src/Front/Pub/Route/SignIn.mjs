@@ -3,9 +3,11 @@ const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 
 i18next.addResources('lv', 'routeSignIn', {
     message: 'Izveidota jauna sesija: {{sessionId}}.',
+    title: 'Ieeja',
 });
 i18next.addResources('ru', 'routeSignIn', {
     message: 'Новая сессия установлена: "{{sessionId}}".',
+    title: 'Вход',
 });
 
 i18next.addResourceBundle('lv', 'teqUserSignIn', {
@@ -75,7 +77,7 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
                 const user = session.getUser();
                 this.setStateUserAuthenticated(user);
                 // redirect to booking
-                await this.$router.push('/book');
+                await this.$router.push('/profile');
             },
             reset() {
                 setTimeout(() => {
@@ -84,8 +86,12 @@ export default function Fl32_Leana_Front_Pub_Route_SignIn(spec) {
                 }, 2000);
             },
             ...mapMutations({
-                setStateUserAuthenticated: 'user/setAuthenticated'
+                setStateAppTitle: 'app/setTitle',
+                setStateUserAuthenticated: 'user/setAuthenticated',
             }),
         },
+        mounted() {
+            this.setStateAppTitle(this.$t('routeSignIn:title'));
+        }
     };
 }

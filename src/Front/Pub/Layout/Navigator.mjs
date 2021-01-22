@@ -65,7 +65,7 @@ const template = `
         </div>
     </div>
     <div id="nav_bar_center">
-        <img alt="Beauty salon" width="100" src="../img/logo.png">
+        <div>{{stateAppTitle}}</div>
     </div>
     <div id="nav_bar_right">
         <span style="text-transform: uppercase">{{lang}}</span>
@@ -109,6 +109,7 @@ export default function Fl32_Leana_Front_Pub_Layout_Navigator(spec) {
             },
             ...mapState({
                 stateAppLang: state => state.app.lang,
+                stateAppTitle: state => state.app.title,
                 stateUserAuthenticated: state => state.user.authenticated,
             })
         },

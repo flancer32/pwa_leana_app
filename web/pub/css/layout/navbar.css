@@ -2,6 +2,7 @@
 
 #nav_bar {
     align-items: center;
+    color: var(--color-lightest);
     display: grid;
     font-size: var(--font-size-large);
     grid-template-areas: "left" "center" "right";

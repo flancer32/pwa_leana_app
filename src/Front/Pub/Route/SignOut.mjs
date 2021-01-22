@@ -3,9 +3,11 @@ const mapMutations = self.teqfw.lib.Vuex.mapMutations;
 
 i18next.addResources('lv', 'routeSignOut', {
     message: 'Gaida sesijas beigas.',
+    title: 'Izeja',
 });
 i18next.addResources('ru', 'routeSignOut', {
     message: 'Ожидание завершения сессии.',
+    title: 'Выход',
 });
 
 
@@ -27,10 +29,12 @@ function Fl32_Leana_Front_Pub_Route_SignOut(spec) {
         template,
         methods: {
             ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
                 setUserAuthenticated: 'user/setAuthenticated'
             }),
         },
         async mounted() {
+            this.setStateAppTitle(this.$t('routeSignOut:title'));
             await session.close();
             this.setUserAuthenticated(session.getUser());
             await this.$router.push('/');

@@ -1,4 +1,12 @@
 const i18next = self.teqfw.i18next;
+const mapMutations = self.teqfw.lib.Vuex.mapMutations;
+
+i18next.addResources('lv', 'routeContacts', {
+    title: 'Kontakti',
+});
+i18next.addResources('ru', 'routeContacts', {
+    title: 'Контакты',
+});
 
 const template = `
 <div>
@@ -14,6 +22,11 @@ export default function Fl32_Leana_Front_Pub_Route_Contacts() {
             return {
                 content: ''
             };
+        },
+        methods: {
+            ...mapMutations({
+                setStateAppTitle: 'app/setTitle',
+            }),
         },
         mounted() {
             const me = this;
@@ -31,6 +44,7 @@ export default function Fl32_Leana_Front_Pub_Route_Contacts() {
 
             const lang = i18next.language;
             loadContent(lang).then(res => me.content = res);
+            this.setStateAppTitle(this.$t('routeContacts:title'));
         }
     };
 }
