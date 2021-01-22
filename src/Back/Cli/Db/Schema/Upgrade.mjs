@@ -113,8 +113,8 @@ export default class Fl32_Leana_Back_Cli_Db_Schema_Upgrade {
                     ]);
                     // roles
                     await trx(eRole.ENTITY).insert([
-                        {[eRole.A_ID]: ROLE_ID_CUST, [eRole.A_CODE]: 'customer'},
-                        {[eRole.A_ID]: ROLE_ID_EMPL, [eRole.A_CODE]: 'employee'},
+                        {[eRole.A_ID]: ROLE_ID_CUST, [eRole.A_CODE]: DEF.ACL_ROLE_CUSTOMER},
+                        {[eRole.A_ID]: ROLE_ID_EMPL, [eRole.A_CODE]: DEF.ACL_ROLE_EMPLOYEE},
                     ]);
                     // permissions for roles
                     await trx(eRolePerm.ENTITY).insert([

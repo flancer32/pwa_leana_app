@@ -64,7 +64,7 @@ export default class Fl32_Leana_Server {
             await handlerFactory.registerService(server, 'user', 'Fl32_Teq_User_Back_Service_List$');
             await handlerFactory.registerService(server, 'user', 'Fl32_Teq_User_Back_Service_SignIn$');
             await handlerFactory.registerService(server, 'user', 'Fl32_Teq_User_Back_Service_SignOut$');
-            await handlerFactory.registerService(server, 'user', 'Fl32_Teq_User_Back_Service_SignUp$');
+            await handlerFactory.registerService(server, 'user', 'Fl32_Leana_Back_Service_User_SignUp$');
 
             // static resources in project
             const pathRoot = config.get('path/root');

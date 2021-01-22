@@ -57,7 +57,7 @@ const template = `
                 <router-link to="/signIn">{{$t("navBar:signIn")}}</router-link>
             </div>
             <div v-if="!isAuthenticated">
-                <router-link to="/signUp">{{$t("navBar:signUp")}}</router-link>
+                <router-link to="/signUp/dev">{{$t("navBar:signUp")}}</router-link>
             </div>
             <div v-if="isAuthenticated">
                 <router-link to="/signOut">{{$t("navBar:signOut")}}</router-link>

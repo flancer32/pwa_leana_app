@@ -47,9 +47,10 @@ const template = `
 `;
 
 export default function Fl32_Leana_Front_Pub_Route_SignUp(spec) {
-    const userSignUp = spec.Fl32_Teq_User_Front_Widget_SignUp$;
+    /** @type {Fl32_Teq_User_Front_Widget_SignUp} */
+    const userSignUp = spec['Fl32_Teq_User_Front_Widget_SignUp$'];  // singleton instance
     /** @type {typeof Fl32_Teq_User_Front_Widget_SignUp_Props} */
-    const SignUpProps = spec['Fl32_Teq_User_Front_Widget_SignUp#Props'];
+    const SignUpProps = spec['Fl32_Teq_User_Front_Widget_SignUp#Props'];    // class constructor
 
     return {
         template,
