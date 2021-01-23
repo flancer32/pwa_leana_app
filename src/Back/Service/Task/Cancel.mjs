@@ -6,6 +6,8 @@ export default class Fl32_Leana_Back_Service_Task_Cancel {
     constructor(spec) {
         /** @type {Fl32_Leana_Defaults} */
         const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
+        /** @type {Fl32_Teq_User_Defaults} */
+        const DEF_USER = spec['Fl32_Teq_User_Defaults$'];  // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Back_Process_Task_Cancel} */
@@ -55,20 +57,43 @@ export default class Fl32_Leana_Back_Service_Task_Cancel {
         this.createProcessor = function () {
             /**
              * @param {Fl32_Leana_Shared_Service_Route_Task_Cancel_Request} apiReq
+             * @param {IncomingMessage} httpReq
              * @return {Promise<Fl32_Leana_Shared_Service_Route_Task_Cancel_Response>}
              * @exports Fl32_Leana_Back_Service_Task_Cancel$process
              */
-            async function Fl32_Leana_Back_Service_Task_Cancel$process(apiReq) {
+            async function Fl32_Leana_Back_Service_Task_Cancel$process(apiReq, httpReq) {
+                // DEFINE INNER FUNCTIONS (AVAILABLE FOR CURRENT INSTANCE ONLY)
+                /**
+                 * Return 'true' if user is authenticated and has required permission.
+                 * @param httpReq
+                 * @param {String} perm
+                 * @return {boolean}
+                 */
+                function hasPermissions(httpReq, perm) {
+                    let result = false;
+                    /** @type {Fl32_Teq_Acl_Shared_Service_Data_UserAcl} */
+                    const user = httpReq[DEF_USER.HTTP_REQ_USER];
+                    if (user && user.permissions) {
+                        const perms = Object.values(user.permissions);
+                        if (Array.isArray(perms) && perms.includes(perm)) {
+                            result = true;
+                        }
+                    }
+                    return result;
+                }
+
                 /** @type {Fl32_Leana_Shared_Service_Route_Task_Cancel_Response} */
                 const result = new Response();
-                const trx = await rdb.startTransaction();
-                try {
-                    const {removed} = await procCancel.exec({trx, taskId: apiReq.taskId});
-                    result.removed = (removed >= 1);
-                    trx.commit();
-                } catch (error) {
-                    trx.rollback();
-                    throw error;
+                if (hasPermissions(httpReq, DEF.ACL_IS_EMPLOYEE)) {
+                    const trx = await rdb.startTransaction();
+                    try {
+                        const {removed} = await procCancel.exec({trx, taskId: apiReq.taskId});
+                        result.removed = (removed >= 1);
+                        trx.commit();
+                    } catch (error) {
+                        trx.rollback();
+                        throw error;
+                    }
                 }
                 return result;
             }

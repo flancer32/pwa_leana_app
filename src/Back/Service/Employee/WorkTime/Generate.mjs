@@ -6,6 +6,8 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_Generate {
     constructor(spec) {
         /** @type {Fl32_Leana_Defaults} */
         const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
+        /** @type {Fl32_Teq_User_Defaults} */
+        const DEF_USER = spec['Fl32_Teq_User_Defaults$'];  // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Back_Process_WorkTime_Generate} */
@@ -52,21 +54,48 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_Generate {
         this.createProcessor = function () {
 
             /**
+             * @param {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Request} apiReq
+             * @param {IncomingMessage} httpReq
              * @return {Promise<Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Generate_Response>}
              * @exports Fl32_Leana_Back_Service_Employee_WorkTime_Generate$process
              */
-            async function Fl32_Leana_Back_Service_Employee_WorkTime_Generate$process() {
+            async function Fl32_Leana_Back_Service_Employee_WorkTime_Generate$process(apiReq, httpReq, httpRes) {
                 // DEFINE INNER FUNCTIONS (AVAILABLE FOR CURRENT INSTANCE ONLY)
+
+                /**
+                 * Return 'true' if user is authenticated and has required permission.
+                 * @param httpReq
+                 * @param {String} perm
+                 * @return {boolean}
+                 */
+                function hasPermissions(httpReq, perm) {
+                    let result = false;
+                    /** @type {Fl32_Teq_Acl_Shared_Service_Data_UserAcl} */
+                    const user = httpReq[DEF_USER.HTTP_REQ_USER];
+                    if (user && user.permissions) {
+                        const perms = Object.values(user.permissions);
+                        if (Array.isArray(perms) && perms.includes(perm)) {
+                            result = true;
+                        }
+                    }
+                    return result;
+                }
+
                 // MAIN FUNCTIONALITY
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Generate_Response} */
                 const result = new Response();
-                const trx = await rdb.startTransaction();
-                try {
-                    result.totalInserted = await proc.exec({trx});
-                    await trx.commit();
-                } catch (error) {
-                    await trx.rollback();
-                    throw error;
+                if (hasPermissions(httpReq, DEF.ACL_IS_EMPLOYEE)) {
+                    const trx = await rdb.startTransaction();
+                    try {
+                        result.totalInserted = await proc.exec({trx});
+                        await trx.commit();
+                    } catch (error) {
+                        await trx.rollback();
+                        throw error;
+                    }
+                } else {
+                    // HTTP 401
+                    httpRes.status(401);
                 }
                 return result;
             }

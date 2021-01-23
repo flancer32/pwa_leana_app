@@ -6,6 +6,8 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_Save {
     constructor(spec) {
         /** @type {Fl32_Leana_Defaults} */
         const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
+        /** @type {Fl32_Teq_User_Defaults} */
+        const DEF_USER = spec['Fl32_Teq_User_Defaults$'];  // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Shared_Util_DateTime} */
@@ -61,11 +63,31 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_Save {
 
             /**
              * @param {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Request} apiReq
+             * @param {IncomingMessage} httpReq
              * @return {Promise<Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Response>}
              * @exports Fl32_Leana_Back_Service_Employee_WorkTime_Save$process
              */
-            async function Fl32_Leana_Back_Service_Employee_WorkTime_Save$process(apiReq) {
+            async function Fl32_Leana_Back_Service_Employee_WorkTime_Save$process(apiReq, httpReq) {
                 // DEFINE INNER FUNCTIONS (AVAILABLE FOR CURRENT INSTANCE ONLY)
+                /**
+                 * Return 'true' if user is authenticated and has required permission.
+                 * @param httpReq
+                 * @param {String} perm
+                 * @return {boolean}
+                 */
+                function hasPermissions(httpReq, perm) {
+                    let result = false;
+                    /** @type {Fl32_Teq_Acl_Shared_Service_Data_UserAcl} */
+                    const user = httpReq[DEF_USER.HTTP_REQ_USER];
+                    if (user && user.permissions) {
+                        const perms = Object.values(user.permissions);
+                        if (Array.isArray(perms) && perms.includes(perm)) {
+                            result = true;
+                        }
+                    }
+                    return result;
+                }
+
                 /**
                  * @param trx
                  * @param {Fl32_Leana_Shared_Service_Data_Employee_WorkTime} item
@@ -133,13 +155,15 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_Save {
                 // MAIN FUNCTIONALITY
                 /** @type {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Response} */
                 const result = new Response();
-                const trx = await rdb.startTransaction();
-                try {
-                    await process(trx, apiReq.item);
-                    await trx.commit();
-                } catch (error) {
-                    await trx.rollback();
-                    throw error;
+                if (hasPermissions(httpReq, DEF.ACL_IS_EMPLOYEE)) {
+                    const trx = await rdb.startTransaction();
+                    try {
+                        await process(trx, apiReq.item);
+                        await trx.commit();
+                    } catch (error) {
+                        await trx.rollback();
+                        throw error;
+                    }
                 }
                 return result;
             }
