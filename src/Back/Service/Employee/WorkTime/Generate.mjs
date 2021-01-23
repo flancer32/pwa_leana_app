@@ -4,6 +4,8 @@
 export default class Fl32_Leana_Back_Service_Employee_WorkTime_Generate {
 
     constructor(spec) {
+        /** @type {Fl32_Leana_Defaults} */
+        const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Back_Process_WorkTime_Generate} */
@@ -22,7 +24,7 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_Generate {
          * @return {string}
          */
         this.getRoute = function () {
-            return 'employee/workTime/generate';
+            return DEF.API_ROUTE_EMPL_WTIME_GENERATE;
         };
 
         /**

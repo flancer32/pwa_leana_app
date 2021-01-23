@@ -4,6 +4,8 @@
 export default class Fl32_Leana_Back_Service_Employee_Profile_Save {
 
     constructor(spec) {
+        /** @type {Fl32_Leana_Defaults} */
+        const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
         /** @type {Fl32_Teq_User_Defaults} */
         const DEF_USER = spec['Fl32_Teq_User_Defaults$'];   // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
@@ -28,7 +30,7 @@ export default class Fl32_Leana_Back_Service_Employee_Profile_Save {
          * @return {string}
          */
         this.getRoute = function () {
-            return 'employee/profile/save';
+            return DEF.API_ROUTE_EMPL_PROFILE_SAVE;
         };
 
         /**

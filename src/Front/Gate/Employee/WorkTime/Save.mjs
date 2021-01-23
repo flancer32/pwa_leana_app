@@ -13,7 +13,7 @@ export default function (spec) {
     const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     // TODO: we need to map gate to API URI
-    const URL = `https://${config.web.urlBase}/api/employee/workTime/save`;
+    const URL = `https://${config.web.urlBase}/api/${DEF.API_ROUTE_EMPL_WTIME_SAVE}`;
 
     /**
      * @param {Fl32_Leana_Shared_Service_Route_Employee_WorkTime_Save_Request} data

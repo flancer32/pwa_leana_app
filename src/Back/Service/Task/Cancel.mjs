@@ -4,6 +4,8 @@
 export default class Fl32_Leana_Back_Service_Task_Cancel {
 
     constructor(spec) {
+        /** @type {Fl32_Leana_Defaults} */
+        const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Back_Process_Task_Cancel} */
@@ -22,7 +24,7 @@ export default class Fl32_Leana_Back_Service_Task_Cancel {
          * @return {string}
          */
         this.getRoute = function () {
-            return 'task/cancel';
+            return DEF.API_ROUTE_TASK_CANCEL;
         };
 
         /**

@@ -30,7 +30,7 @@ export default class Fl32_Leana_Back_Service_Task_OnDate {
          * @return {string}
          */
         this.getRoute = function () {
-            return 'task/onDate';
+            return DEF.API_ROUTE_TASK_ONDATE;
         };
 
         /**

@@ -4,6 +4,8 @@
 export default class Fl32_Leana_Back_Service_Employee_WorkTime_List {
 
     constructor(spec) {
+        /** @type {Fl32_Leana_Defaults} */
+        const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];  // singleton instance
         /** @type {Fl32_Leana_Shared_Util_DateTime} */
@@ -26,7 +28,7 @@ export default class Fl32_Leana_Back_Service_Employee_WorkTime_List {
          * @return {string}
          */
         this.getRoute = function () {
-            return 'employee/workTime/list';
+            return DEF.API_ROUTE_EMPL_WTIME_LIST;
         };
 
         /**

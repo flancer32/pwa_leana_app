@@ -13,7 +13,7 @@ export default function (spec) {
     const GateError = spec['TeqFw_Core_App_Front_Gate_Response_Error#'];    // class constructor
 
     // TODO: we need to map gate to API URI
-    const URL = `https://${config.web.urlBase}/sw/cache/clean`;
+    const URL = `https://${config.web.urlBase}/sw/${DEF.SW_ROUTE_CACHE_CLEAN}`;
 
     /**
      * @param {Fl32_Leana_Shared_Service_Route_Sw_Cache_Clean_Request} data

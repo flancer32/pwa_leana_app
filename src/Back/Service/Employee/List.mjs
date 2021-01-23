@@ -4,6 +4,8 @@
 export default class Fl32_Leana_Back_Service_Employee_List {
 
     constructor(spec) {
+        /** @type {Fl32_Leana_Defaults} */
+        const DEF = spec['Fl32_Leana_Defaults$']; // singleton instance
         /** @type {TeqFw_Core_App_Db_Connector} */
         const rdb = spec['TeqFw_Core_App_Db_Connector$'];   // singleton instance
         /** @type {Fl32_Leana_Store_RDb_Schema_Employee} */
@@ -26,7 +28,7 @@ export default class Fl32_Leana_Back_Service_Employee_List {
          * @return {string}
          */
         this.getRoute = function () {
-            return 'employee/list'; // route w/o module starts w/o slash
+            return DEF.API_ROUTE_EMPL_LIST; // route w/o module starts w/o slash
         };
 
         /**

@@ -34,7 +34,7 @@ export default class Fl32_Leana_Back_Service_Task_List_Own {
          * @return {string}
          */
         this.getRoute = function () {
-            return 'task/list/own';
+            return DEF.API_ROUTE_TASK_LIST_OWN;
         };
 
         /**
