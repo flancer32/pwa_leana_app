@@ -1,13 +1,14 @@
 /* Define default values for CSS variables */
 :root {
     --font-size-large: 20px;
+    --grid-gap-small: 1px;
     --grid-gap: 10px;
     --icon-size-l: 128px;
     --icon-size-m: 64px;
     --icon-size-s: 32px;
     --input-height: 40px;
     --layout-navbar-height: 70px;
-    --table-row-height: 40px;
-    --grid-gap-small: 1px;
+    --size-layout-tablet: 600px;
     --table-gap: 5px;
+    --table-row-height: 40px;
 }

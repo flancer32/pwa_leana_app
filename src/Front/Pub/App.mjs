@@ -11,7 +11,7 @@ const template = `
                 <router-view :key="langChange"></router-view>
             </main>
         </div>
-        <div id="layer_nav_bar">
+        <div id="layer_navigation">
             <navigator :key="langChange"></navigator>
         </div>
         <div id="layer_overlay"></div>

@@ -1,5 +1,4 @@
 @import "layout/form/edit.css";
-/*@import "layout/form.css";*/
 @import "layout/navbar.css";
 @import "layout/table.css";
 
@@ -20,7 +19,7 @@
     width: 100%;
 }
 
-#layer_nav_bar {
+#layer_navigation {
     background-color: var(--color-darker);
     border-bottom: 1px solid var(--color-darkest);
     height: var(--layout-navbar-height);
@@ -57,4 +56,12 @@
     grid-gap: var(--grid-gap);
     grid-template-rows:  var(--layout-actions-bar-height);
     justify-items: center;
+}
+
+@media screen and (min-width: 600px) {
+
+    #layer_base, #layer_navigation, #layer_overlay {
+        width: var(--size-layout-tablet);
+        left: calc(50% - (var(--size-layout-tablet) / 2));
+    }
 }

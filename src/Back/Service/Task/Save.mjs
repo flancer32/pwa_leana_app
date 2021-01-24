@@ -63,39 +63,19 @@ export default class Fl32_Leana_Back_Service_Task_Save {
              */
             async function Fl32_Leana_Back_Service_Task_Save$process(apiReq, httpReq) {
                 // DEFINE INNER FUNCTIONS
-                /**
-                 * Return 'true' if user is authenticated and has required permission.
-                 * @param httpReq
-                 * @param {String} perm
-                 * @return {boolean}
-                 */
-                function hasPermissions(httpReq, perm) {
-                    let result = false;
-                    /** @type {Fl32_Teq_Acl_Shared_Service_Data_UserAcl} */
-                    const user = httpReq[DEF_USER.HTTP_REQ_USER];
-                    if (user && user.permissions) {
-                        const perms = Object.values(user.permissions);
-                        if (Array.isArray(perms) && perms.includes(perm)) {
-                            result = true;
-                        }
-                    }
-                    return result;
-                }
 
                 // MAIN FUNCTIONALITY
                 /** @type {Fl32_Leana_Shared_Service_Route_Task_Save_Response} */
                 const result = new Response();
-                if (hasPermissions(httpReq, DEF.ACL_IS_EMPLOYEE)) {
-                    const trx = await rdb.startTransaction();
-                    try {
-                        /** @type {Fl32_Teq_Acl_Shared_Service_Data_UserAcl} */
-                        const user = httpReq[DEF_USER.HTTP_REQ_USER];
-                        result.id = await procSave.exec({trx, req: apiReq, user});
-                        trx.commit();
-                    } catch (error) {
-                        trx.rollback();
-                        throw error;
-                    }
+                const trx = await rdb.startTransaction();
+                try {
+                    /** @type {Fl32_Teq_Acl_Shared_Service_Data_UserAcl} */
+                    const user = httpReq[DEF_USER.HTTP_REQ_USER];
+                    result.id = await procSave.exec({trx, req: apiReq, user});
+                    trx.commit();
+                } catch (error) {
+                    trx.rollback();
+                    throw error;
                 }
                 return result;
             }

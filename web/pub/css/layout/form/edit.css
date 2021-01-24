@@ -53,3 +53,6 @@
     width: 100%;
 }
 
+.warn {
+    color: var(--color-base);
+}

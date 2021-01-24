@@ -42,3 +42,18 @@
 #menu_left DIV, #menu_right DIV {
     margin: 20px;
 }
+
+@media screen and (min-width: 600px) {
+
+    #menu_left, #menu_right {
+        max-width: calc(var(--size-layout-tablet) / 2);
+    }
+
+    #menu_left {
+        left: calc(50% - (var(--size-layout-tablet) / 2));
+    }
+
+    #menu_right {
+        right: calc(50% - (var(--size-layout-tablet) / 2));
+    }
+}

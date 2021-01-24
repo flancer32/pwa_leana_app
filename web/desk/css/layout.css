@@ -77,3 +77,11 @@
     justify-items: center;
     /*min-height: 400px;*/
 }
+
+@media screen and (min-width: 600px) {
+
+    .layer_base, .layer_navigation, #layer_overlay {
+        width: var(--size-layout-tablet);
+        left: calc(50% - (var(--size-layout-tablet) / 2));
+    }
+}
